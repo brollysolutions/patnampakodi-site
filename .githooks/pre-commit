@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Fast lint + format check only. Full suite runs in CI.
+set -euo pipefail
+
+branch="$(git symbolic-ref --quiet --short HEAD || true)"
+case "$branch" in
+  ""|main|master|prod)
+    echo "ERROR: commits require a task branch." >&2
+    exit 1
+    ;;
+esac
+
+echo "==> Feature tracking"
+uv --cache-dir .uv-cache run --no-project python scripts/check_feature_tracking.py --staged
+
+if [[ -f scripts/check_migration_rls.py ]]; then
+  echo "==> Migration RLS"
+  uv --cache-dir .uv-cache run --no-project python scripts/check_migration_rls.py --staged
+fi
+
+if [[ -f apps/api/pyproject.toml ]]; then
+  echo "==> API lint"
+  (cd apps/api && uv run ruff check . && uv run ruff format --check .)
+fi
+
+if [[ -f apps/web/package.json ]] && command -v pnpm &>/dev/null; then
+  echo "==> Web lint"
+  (cd apps/web && pnpm lint)
+fi

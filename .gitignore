@@ -216,3 +216,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Shared agent workflow: private state, secrets, and generated reports
+.env.*
+!.env.example
+!.env.*.example
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+.claude/settings.local.json
+.agent-workflow/
+/CLAUDE.local.md
+.uv-cache/
+.playwright-mcp/
+node_modules/
+.next/
+test-results/
+playwright-report/
+blob-report/
+.lighthouseci/
+.eslintcache
+*.tsbuildinfo

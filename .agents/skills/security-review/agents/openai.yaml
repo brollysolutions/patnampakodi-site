@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Review"
+  short_description: "Threat-model a diff"
+  default_prompt: "Use $security-review to threat-model the change and report evidence-backed findings by severity."

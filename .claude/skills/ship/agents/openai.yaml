@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ship"
+  short_description: "Verify, commit, push, open the PR"
+  default_prompt: "Use $ship to run fresh verification, commit, push to origin, and create or update the pull request."

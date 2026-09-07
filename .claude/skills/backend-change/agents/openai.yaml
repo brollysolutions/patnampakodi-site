@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Change"
+  short_description: "Server, data, and migration work"
+  default_prompt: "Use $backend-change to implement the server change with authorization and data isolation intact."

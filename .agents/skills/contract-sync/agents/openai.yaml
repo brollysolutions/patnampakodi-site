@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Sync"
+  short_description: "Regenerate the API contract and client"
+  default_prompt: "Use $contract-sync to regenerate the OpenAPI document and typed client, then reconcile every consumer."

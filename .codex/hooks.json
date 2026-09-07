@@ -1,0 +1,53 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/agent-hook.sh codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/agent-hook.sh codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|apply_patch|Edit|Write|Read|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/agent-hook.sh codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/agent-hook.sh codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

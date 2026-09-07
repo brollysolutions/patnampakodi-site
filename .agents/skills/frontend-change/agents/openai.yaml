@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Change"
+  short_description: "Client work against generated contracts"
+  default_prompt: "Use $frontend-change to implement the client change against the generated contract types."

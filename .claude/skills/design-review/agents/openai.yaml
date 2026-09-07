@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Review"
+  short_description: "Audit changed UI"
+  default_prompt: "Use $design-review to audit the changed UI for design divergence and accessibility defects."
