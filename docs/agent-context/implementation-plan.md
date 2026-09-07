@@ -9,7 +9,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | --- | --- | --- | --- |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope and choose stack | Not started | Select when scoped | Select when scoped |
-| 3. Adopt Astra workflow and verify delivery evidence | In progress on `chore/astra-workflow` | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+| 3. Adopt Astra workflow and verify delivery evidence | Delivered for review in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 
 ## Item 3 acceptance
 
@@ -34,8 +34,10 @@ readback after publication. Website scope/stack remains the next product task.
 Current evidence: the full PowerShell gate passed all 77 tests, config/parity
 validation (16 skills), and shell syntax checks. Security and PR self-review
 found no unresolved actionable defects. Windows process contention and crash
-release are exercised; Linux CI and live delivery readback are pending. See
-`feature-status.md` for the scope and environment limits.
+release are exercised. Initial delivery `c286031` passed the new helper's live
+open-PR/head-SHA readback for PR #2; the pushed fork branch tracks `origin`.
+GitHub had not reported CI results at that readback. See `feature-status.md` for
+the scope and environment limits. Item 2 remains the next product priority.
 
 ## Item 1 acceptance
 
@@ -64,5 +66,6 @@ the helper now uses GitHub's exact REST head/base filters to update the existing
 Initial implementation: `e239ce0`; subsequent delivery fixes are in this PR.
 All 59 tests pass. Fork CI passed for the initial implementation in
 [run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143).
-The workflow is available on `chore/shared-agent-workflow`; merge remains a human
-review action. The next product task is item 2 above.
+That setup is now merged into `upstream/main`. Further workflow adoption is in
+item 3 / PR #2 above; its merge remains a human review action. The next product
+task is item 2 above.

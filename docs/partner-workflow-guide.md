@@ -30,12 +30,13 @@ The shared repository is
 Mahan's contribution fork is
 [vamshisaideep9/patnampakodi-site](https://github.com/vamshisaideep9/patnampakodi-site).
 
-Before the workflow PR is merged, clone its branch to try this setup:
+The original setup is merged. To try the Astra delivery update before it merges,
+clone its review branch:
 
-Setup review: [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1).
+Current workflow review: [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2).
 
 ```bash
-git clone --branch chore/shared-agent-workflow https://github.com/vamshisaideep9/patnampakodi-site.git
+git clone --branch chore/astra-workflow https://github.com/vamshisaideep9/patnampakodi-site.git
 cd patnampakodi-site
 ```
 
@@ -43,8 +44,7 @@ This clone points to Mahan's fork. Reviewing and running checks needs read acces
 pushing there needs write access. For your own implementation work, prefer your
 own fork, or a clone of the shared repository if you have write access.
 
-After the workflow PR is merged, contributors with shared-repository write
-access can use:
+For the merged workflow, contributors with shared-repository write access can use:
 
 ```bash
 git clone https://github.com/brollysolutions/patnampakodi-site.git
@@ -153,8 +153,8 @@ read-only prompt; it should not cause a commit or PR without changes.
 
    If you have unfinished changes, finish that task or use a separate clone.
    If a fast-forward fails, inspect divergence before choosing a resolution.
-   Before the setup PR merges, branch from `chore/shared-agent-workflow` to
-   experiment; dependent work should wait for that PR before its own delivery.
+   To experiment with the pending Astra update, branch from
+   `chore/astra-workflow`; dependent work should wait for PR #2 before delivery.
 3. Give the agent an outcome and any boundaries. For example:
    "Read the project context, propose the website scope, and stop before coding."
    Or: "Implement the agreed menu page, verify it, update the records, and open
