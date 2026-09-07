@@ -31,8 +31,11 @@ recorded in `feature-status.md`.
 The setup was also checked from a fresh clone with both shell entry points.
 Delivery found a Windows Git-hook executable lookup issue; the corrected lookup
 now has regression coverage for terminal and internal Git-hook paths.
+Repeated delivery also exposed the CLI's unsupported owner-qualified head filter;
+the helper now uses GitHub's exact REST head/base filters to update the existing PR.
 
-Implementation commit: `e239ce0`. All 58 tests passed; fork CI passed in
+Initial implementation: `e239ce0`; subsequent delivery fixes are in this PR.
+All 59 tests pass. Fork CI passed for the initial implementation in
 [run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143).
 The workflow is available on `chore/shared-agent-workflow`; merge remains a human
 review action. The next product task is item 2 above.

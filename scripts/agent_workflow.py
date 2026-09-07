@@ -875,8 +875,11 @@ def cmd_finish(args: argparse.Namespace) -> int:
     )
 
     listed = run(
-        ["gh", "pr", "list", "--repo", target_slug, "--head", head_spec,
-         "--state", "open", "--json", "number,url", "--limit", "1"],
+        # gh pr list --head does not support owner:branch. The REST filter
+        # identifies the exact fork as well as the branch on repeated delivery.
+        ["gh", "api", "--method", "GET", f"repos/{target_slug}/pulls",
+         "-f", "state=open", "-f", f"head={origin_slug.split('/')[0]}:{branch}",
+         "-f", f"base={base_branch}", "--jq", "[.[] | {number, url: .html_url}]"],
         cwd=root,
     )
     existing = []

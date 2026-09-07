@@ -74,13 +74,14 @@ class SetupTests(unittest.TestCase):
 
 
 class DeliveryFailureTests(unittest.TestCase):
-    def exercise_failure(self, pending, failed_prefix):
+    def exercise_failure(self, pending, failed_prefix, existing_pr=None):
         commands = []
 
         def execute(args, **kwargs):
             commands.append(list(args))
             failed = list(args[:len(failed_prefix)]) == failed_prefix
-            return subprocess.CompletedProcess(args, 7 if failed else 0, "", "test failure" if failed else "")
+            output = existing_pr if existing_pr and list(args[:2]) == ["gh", "api"] else ""
+            return subprocess.CompletedProcess(args, 7 if failed else 0, output, "test failure" if failed else "")
 
         args = argparse.Namespace(cwd=None, title="chore: test delivery",
                                   commit_message="chore: test delivery",
@@ -103,8 +104,17 @@ class DeliveryFailureTests(unittest.TestCase):
         self.assertFalse(any(command[:2] in (["git", "commit"], ["git", "push"]) for command in commands))
 
     def test_pr_lookup_failure_never_creates_duplicate(self):
-        commands = self.exercise_failure([], ["gh", "pr", "list"])
+        commands = self.exercise_failure([], ["gh", "api"])
         self.assertTrue(any(command[:2] == ["git", "push"] for command in commands))
+        self.assertFalse(any(command[:3] == ["gh", "pr", "create"] for command in commands))
+
+    def test_existing_fork_pr_is_selected_for_update(self):
+        commands = self.exercise_failure([], ["gh", "pr", "edit"],
+            existing_pr='[{"number": 1, "url": "https://github.com/example/project/pull/1"}]')
+        lookup = next(command for command in commands if command[:2] == ["gh", "api"])
+        self.assertIn("head=example:chore/test", lookup)
+        self.assertIn("base=main", lookup)
+        self.assertTrue(any(command[:4] == ["gh", "pr", "edit", "1"] for command in commands))
         self.assertFalse(any(command[:3] == ["gh", "pr", "create"] for command in commands))
 
 

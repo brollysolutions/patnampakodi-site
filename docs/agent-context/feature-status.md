@@ -3,7 +3,8 @@
 ## Shared workflow — 2026-09-07
 
 Delivered for review in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1),
-branch `chore/shared-agent-workflow`, implementation commit `e239ce0`. Not merged.
+branch `chore/shared-agent-workflow`. Initial implementation `e239ce0` plus the
+delivery fixes in the same PR. Not merged.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
@@ -17,7 +18,7 @@ branch `chore/shared-agent-workflow`, implementation commit `e239ce0`. Not merge
 ## Fresh verification
 
 - PowerShell `scripts/setup-agent-workflow.ps1`: passed.
-- Git Bash `bash scripts/verify.sh --ci`: passed, **58 tests**, 16 matching skills,
+- Git Bash `bash scripts/verify.sh --ci`: passed, **59 tests**, 16 matching skills,
   and shell syntax checks. Tests cover note preservation, setup/staging failures,
   failed PR lookup, and the first modified path's secret detection.
 - Fresh staged-file snapshot cloned to a temporary directory: PowerShell and
@@ -30,6 +31,9 @@ template ignore rule and Git Bash discovery issue before publication.
 The first push was blocked by the pre-push gate because Git's internal executable
 path differed from its terminal path. Discovery now covers that location with a
 regression test; the subsequent pre-push gate and publication both passed.
+Repeated delivery now queries the exact fork head/base through the GitHub API;
+the original CLI filter missed the existing PR. GitHub refused the duplicate
+attempt, and the corrected lookup is covered by a regression test.
 
 ## Limits and next priority
 
