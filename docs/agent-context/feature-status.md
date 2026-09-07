@@ -16,7 +16,7 @@ Verified on `chore/shared-agent-workflow`; GitHub publication in progress.
 ## Fresh verification
 
 - PowerShell `scripts/setup-agent-workflow.ps1`: passed.
-- Git Bash `bash scripts/verify.sh --ci`: passed, **57 tests**, 16 matching skills,
+- Git Bash `bash scripts/verify.sh --ci`: **58 tests** in the current suite, 16 matching skills,
   and shell syntax checks. Tests cover note preservation, setup/staging failures,
   failed PR lookup, and the first modified path's secret detection.
 - Fresh staged-file snapshot cloned to a temporary directory: PowerShell and
@@ -26,6 +26,9 @@ Verified on `chore/shared-agent-workflow`; GitHub publication in progress.
 The first sandboxed test attempt failed because Windows denied temporary
 directories; the approved rerun passed. Fresh-clone testing found and resolved a
 template ignore rule and Git Bash discovery issue before publication.
+The first push was blocked by the pre-push gate because Git's internal executable
+path differed from its terminal path. Discovery now covers that location with a
+regression test; delivery will rerun the gate before pushing.
 
 ## Limits and next priority
 

@@ -16,6 +16,21 @@ import agent_workflow as workflow
 
 
 class SetupTests(unittest.TestCase):
+    def test_git_bash_found_from_terminal_and_hook_executable_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "Git"
+            bash = root / "bin/bash.exe"
+            bash.parent.mkdir(parents=True)
+            bash.touch()
+            entries = [root / "cmd/git.exe", root / "mingw64/bin/git.exe",
+                       root / "mingw64/libexec/git-core/git.exe"]
+            for entry in entries:
+                entry.parent.mkdir(parents=True, exist_ok=True)
+                entry.touch()
+            for entry in entries:
+                with self.subTest(entry=entry):
+                    self.assertEqual(setup.git_bash_near(str(entry)), str(bash.resolve()))
+
     def test_modified_first_path_keeps_first_character(self):
         with patch.object(workflow, "run", return_value=subprocess.CompletedProcess(
             [], 0, " M .env.local\n M README.md\n", ""

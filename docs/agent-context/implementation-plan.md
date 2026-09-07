@@ -27,3 +27,7 @@ permissions in CI; preserve existing files; setup failures return nonzero.
 Verification: setup twice, complete applicable gate, clean-clone setup, hook
 payload smoke tests, diff review, and GitHub PR/check readback. Results are
 recorded in `feature-status.md`.
+
+The setup was also checked from a fresh clone with both shell entry points.
+Delivery found a Windows Git-hook executable lookup issue; the corrected lookup
+now has regression coverage for terminal and internal Git-hook paths.

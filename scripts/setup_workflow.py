@@ -17,17 +17,24 @@ def run(*args: str) -> None:
     subprocess.run(args, cwd=ROOT, check=True)
 
 
+def git_bash_near(git_exe: str) -> str | None:
+    # Includes Git/cmd, Git/mingw64/bin, and Git/mingw64/libexec/git-core
+    # (the executable location exposed while Git itself runs a hook).
+    for parent in Path(git_exe).resolve().parents:
+        candidate = parent / "bin" / "bash.exe"
+        if candidate.is_file() and (parent / "cmd" / "git.exe").is_file():
+            return str(candidate)
+    return None
+
+
 def find_bash() -> str:
     # Windows' system32/bash.exe may launch WSL; Git hooks need Git Bash.
     if os.name == "nt":
         git_exe = shutil.which("git")
         if git_exe:
-            # PowerShell sees Git/cmd/git.exe; Git Bash may see
-            # Git/mingw64/bin/git.exe. Both belong to the same installation.
-            for parent in list(Path(git_exe).resolve().parents)[:3]:
-                candidate = parent / "bin" / "bash.exe"
-                if candidate.is_file():
-                    return str(candidate)
+            candidate = git_bash_near(git_exe)
+            if candidate:
+                return candidate
         raise RuntimeError("Install Git for Windows with Git Bash available.")
     candidate = shutil.which("bash")
     if not candidate:
