@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Reference"
+  short_description: "Pick a visual direction"
+  default_prompt: "Use $design-reference to propose at most three visual directions and recommend one for approval."

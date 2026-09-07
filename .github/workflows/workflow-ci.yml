@@ -1,0 +1,33 @@
+name: Workflow verification
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'chore/shared-agent-workflow']
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Configure clone-local hooks
+        run: git config --local core.hooksPath .githooks
+      - name: Run applicable verification
+        run: python scripts/verify_workflow.py --ci
+      - name: Require living records for product changes
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: python scripts/check_feature_tracking.py --base-ref "$BASE_SHA"

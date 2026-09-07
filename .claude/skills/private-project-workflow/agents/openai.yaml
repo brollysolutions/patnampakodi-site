@@ -1,0 +1,4 @@
+interface:
+  display_name: "Private Project Workflow"
+  short_description: "Maintain local working memory"
+  default_prompt: "Use $private-project-workflow to keep this checkout's DECISIONS, FLOW, and SESSION notes current."

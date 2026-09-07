@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ingest Context"
+  short_description: "Absorb supplied reference documents"
+  default_prompt: "Use $ingest-context to store the supplied documents under docs/agent-context and add an INDEX.md row."

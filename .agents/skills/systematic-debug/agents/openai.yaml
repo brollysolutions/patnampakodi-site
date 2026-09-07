@@ -1,0 +1,4 @@
+interface:
+  display_name: "Systematic Debug"
+  short_description: "Root-cause and regression-test a defect"
+  default_prompt: "Use $systematic-debug to reproduce the failure, prove the root cause, fix it, and ship the regression test."

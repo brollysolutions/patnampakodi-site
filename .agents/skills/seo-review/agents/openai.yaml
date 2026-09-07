@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEO Review"
+  short_description: "Audit public pages for search visibility"
+  default_prompt: "Use $seo-review to audit the changed public pages for indexability, metadata, structured data, internal links and speed regressions."

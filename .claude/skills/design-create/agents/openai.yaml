@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Create"
+  short_description: "Build approved public-facing UI"
+  default_prompt: "Use $design-create to implement the approved direction with the existing design system."

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+branch="$(git symbolic-ref --quiet --short HEAD || true)"
+case "$branch" in
+  main|master|prod)
+    echo "ERROR: direct pushes from protected branch '$branch' are blocked. Use a task branch and PR." >&2
+    exit 1
+    ;;
+esac
+
+# The shared gate runs locally and in CI.
+uv --cache-dir .uv-cache run --no-project python scripts/verify_workflow.py fast
+
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master|refs/heads/prod)
+      echo "ERROR: direct pushes to protected ref '$remote_ref' are blocked. Use a PR." >&2
+      exit 1
+      ;;
+  esac
+done

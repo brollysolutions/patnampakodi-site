@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./apps/api/.env)",
+      "Read(./apps/api/.env.local)",
+      "Read(./apps/web/.env)",
+      "Read(./apps/web/.env.local)",
+      "Read(./secrets/**)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
+      "Edit(./apps/api/.env)",
+      "Edit(./apps/api/.env.local)",
+      "Edit(./apps/web/.env)",
+      "Edit(./apps/web/.env.local)",
+      "Edit(./secrets/**)",
+      "Write(./.env)",
+      "Write(./.env.*)",
+      "Write(./apps/api/.env)",
+      "Write(./apps/api/.env.local)",
+      "Write(./apps/web/.env)",
+      "Write(./apps/web/.env.local)",
+      "Write(./secrets/**)",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_run_code_unsafe",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__upload_file",
+      "mcp__chrome-devtools__install_extension",
+      "mcp__chrome-devtools__uninstall_extension",
+      "mcp__chrome-devtools__reload_extension",
+      "mcp__chrome-devtools__trigger_extension_action",
+      "mcp__chrome-devtools__install_pwa",
+      "mcp__chrome-devtools__launch_pwa",
+      "mcp__chrome-devtools__uninstall_pwa",
+      "mcp__chrome-devtools__get_os_app_state",
+      "mcp__chrome-devtools__list_webmcp_tools",
+      "mcp__chrome-devtools__execute_webmcp_tool",
+      "mcp__claude_ai_Google_Drive",
+      "mcp__claude_ai_Canva",
+      "mcp__claude_ai_monday_com",
+      "mcp__claude_ai_Notion"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/agent-hook.sh\" claude",
+            "timeout": 30,
+            "statusMessage": "Loading the shared repository workflow"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/agent-hook.sh\" claude",
+            "timeout": 30,
+            "statusMessage": "Ensuring work is on a task branch"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Read|Edit|Write|MultiEdit|NotebookEdit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/agent-hook.sh\" claude",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/agent-hook.sh\" claude",
+            "timeout": 30,
+            "statusMessage": "Checking that the branch and PR are complete"
+          }
+        ]
+      }
+    ]
+  }
+}

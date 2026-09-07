@@ -1,0 +1,8 @@
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[features]
+hooks = true
+
+# Model and effort remain the user's selection.
+# External MCP servers are optional and require a task-specific review.
