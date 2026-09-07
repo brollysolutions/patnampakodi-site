@@ -1,6 +1,6 @@
 """Regression checks for per-clone setup and truthful verification results."""
 import argparse
-from contextlib import ExitStack, redirect_stderr
+from contextlib import ExitStack, nullcontext, redirect_stderr
 import io
 from pathlib import Path
 import subprocess
@@ -87,6 +87,7 @@ class DeliveryFailureTests(unittest.TestCase):
                                   commit_message="chore: test delivery",
                                   body_file=None, verification="tests", security="reviewed")
         with ExitStack() as stack:
+            stack.enter_context(patch.object(workflow, "delivery_lock", return_value=nullcontext()))
             values = {"repo_root": Path.cwd(), "ensure_hooks_path": None,
                       "current_branch": "chore/test", "working_tree_paths": pending,
                       "base_ref": "upstream/main", "commits_ahead": 1,

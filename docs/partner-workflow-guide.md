@@ -160,9 +160,12 @@ read-only prompt; it should not cause a commit or PR without changes.
    Or: "Implement the agreed menu page, verify it, update the records, and open
    a PR." Use "diagnose only" or "review only" when you want an explanation.
 4. The agent recommends effort without switching your model. The preference is
-   `gpt-6-astra` when available: Medium for routine tasks, High for cross-layer
-   work, Extra High for difficult debugging/security. Keep your selected model
-   and effort unless you choose to change them. No automatic subagent delegation.
+   `gpt-6-astra`, with a personal default of `xhigh`: Medium for routine tasks,
+   High for cross-layer work, Extra High for difficult debugging/security.
+   Keep your selected model and effort unless you choose to change them. If your
+   requested model is unavailable, the agent reports it instead of substituting.
+   Max or deeper modes and subagent delegation require your explicit choice.
+   The repository does not override your model or effort settings.
 5. Review the PR's changes and fresh verification evidence. One of us merges
    through GitHub after review. The workflow does not automatically merge or
    deploy. Then repeat from updated `main` for the next task.
@@ -216,10 +219,38 @@ all pending non-ignored files, so first check that every pending change belongs
 to this task. Use a conventional title such as `chore(workflow): update setup`.
 The PR includes Summary, Verification, and Security sections.
 
-The helper records its PR URL in local Git configuration. A stop hook notices
-dirty/unpushed work or a missing recorded PR and asks the agent to finish.
-If delivery fails, inspect the saved command result and current Git/PR state
-before retrying. Never start a second delivery process while one is running.
+The helper verifies the PR's current repository, base/head branches, open state,
+and head commit against local HEAD before recording its URL and reporting
+success. It also checks the final worktree and `origin` tracking branch. An OS
+lock prevents overlapping finish invocations across this clone's worktrees and
+releases when the process exits, including crashes. Keep the lock file in the
+Git directory; do not delete it while a process could still be running.
+
+A stop hook notices dirty/unpushed work, a missing recorded PR, or remote
+evidence that does not match the branch. An exact matching merged PR can end an
+old task; new delivery requires an open PR. GitHub reads have a 15-second timeout.
+Network/auth failures leave delivery unverified. The stop hook's existing
+recursion guard still limits repeat prompts; it is not a delivery certificate.
+
+Read local state without network access, or request a fresh remote check:
+
+```bash
+uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py state
+uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py state --remote
+```
+
+The remote command returns nonzero when PR evidence cannot be verified. A saved
+URL alone is not proof. Collect every command's terminal result before retrying;
+keep its session/job identifier, `session_id`, and `exit_code` when available.
+Report failed, skipped, running, and unverified checks separately from passes.
+Never start a second commit/push/PR process while the first is running.
+
+Explicitly local workflow tasks stay in already-ignored files such as
+`.agent-workflow/`. Review them and record local verification without a PR.
+The shared instructions, skills, hooks, tests, and CI remain tracked here; do
+not adopt another checkout's private-scaffolding exclusions. The
+[Astra workflow adaptation](agent-context/astra-workflow-reference.md) records
+the supplied reference and the differences that apply to this repository.
 
 ## Troubleshooting and limits
 

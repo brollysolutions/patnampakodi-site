@@ -7,6 +7,11 @@ description: Deliver a repository feature or behavior change from codebase study
 
 Own the change through a reviewable PR.
 
+For an explicitly local workflow task, keep changes in already-ignored files,
+record the plan and evidence in `.agent-workflow/`, and finish with local review
+and verification. Do not manufacture tracked plan/status changes or a PR.
+Tracked work follows the full procedure below.
+
 1. Run the root `AGENTS.md` orientation gate. Confirm the branch is not protected, inspect status/remotes/history, and preserve unrelated work.
 2. Read the closest nested instructions, `SECURITY.md`, indexed reference documents, and the full current path affected by the feature. Trace frontend, generated contract, backend, database/RLS, jobs, and tests as applicable.
 3. If user behavior, scope, or a material tradeoff is unresolved, invoke `$brainstorm`/`/brainstorm`. If assumptions need aggressive challenge, invoke `$grillme`/`/grillme`. Do not use clarification as a substitute for discoverable repository facts.
@@ -14,6 +19,6 @@ Own the change through a reviewable PR.
 5. Add or update a test that characterizes the behavior before or alongside the implementation whenever practical. Confirm a regression test fails for the intended reason before fixing a bug.
 6. Implement the smallest cohesive change using existing boundaries and patterns. Keep generated artifacts generated and migrations additive.
 7. Review the implementation for authorization, data isolation, PII, uploads, money movement, concurrency, failure modes, accessibility, and server/client exposure as relevant.
-8. Run targeted checks during iteration and the full applicable verification from `AGENTS.md` before completion. Regenerate contracts and check the single Alembic head when applicable.
+8. Run targeted checks during iteration and the full applicable verification from `AGENTS.md` before completion. Retain command session/job identifiers and collect terminal results before claiming success or retrying; preserve `session_id` and `exit_code` in code mode. Distinguish failed, skipped, running, and unverified checks. Regenerate contracts and check the single Alembic head when applicable.
 9. Update both living implementation records with fresh evidence, completion impact, PR linkage, and the next priority. Inspect `git diff`, `git diff --check`, and `git status`. Remove accidental debug output, secrets, unrelated files, and needless complexity.
 10. Invoke `$review-pr`/`/review-pr`, address valid findings, then invoke `$ship`/`/ship` without waiting for a separate user request.
