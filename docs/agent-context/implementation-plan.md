@@ -7,7 +7,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 1. Shared agent workflow and partner onboarding | Verified; publishing `chore/shared-agent-workflow` | User-selected model; High recommended | User-selected model; High recommended |
+| 1. Shared agent workflow and partner onboarding | Delivered for review in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1) | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope and choose stack | Not started | Select when scoped | Select when scoped |
 
 ## Item 1 acceptance
@@ -31,3 +31,8 @@ recorded in `feature-status.md`.
 The setup was also checked from a fresh clone with both shell entry points.
 Delivery found a Windows Git-hook executable lookup issue; the corrected lookup
 now has regression coverage for terminal and internal Git-hook paths.
+
+Implementation commit: `e239ce0`. All 58 tests passed; fork CI passed in
+[run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143).
+The workflow is available on `chore/shared-agent-workflow`; merge remains a human
+review action. The next product task is item 2 above.

@@ -32,6 +32,8 @@ Mahan's contribution fork is
 
 Before the workflow PR is merged, clone its branch to try this setup:
 
+Setup review: [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1).
+
 ```bash
 git clone --branch chore/shared-agent-workflow https://github.com/vamshisaideep9/patnampakodi-site.git
 cd patnampakodi-site
