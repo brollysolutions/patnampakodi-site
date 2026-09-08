@@ -5,8 +5,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash scripts/agent-hook.sh codex",
-            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "command": "bash \"$(git rev-parse --show-toplevel)/scripts/agent-hook.sh\" codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/agent-hook.ps1') codex\"",
             "timeout": 30
           }
         ]
@@ -17,8 +17,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash scripts/agent-hook.sh codex",
-            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "command": "bash \"$(git rev-parse --show-toplevel)/scripts/agent-hook.sh\" codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/agent-hook.ps1') codex\"",
             "timeout": 30
           }
         ]
@@ -30,8 +30,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash scripts/agent-hook.sh codex",
-            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "command": "bash \"$(git rev-parse --show-toplevel)/scripts/agent-hook.sh\" codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/agent-hook.ps1') codex\"",
             "timeout": 30
           }
         ]
@@ -42,8 +42,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash scripts/agent-hook.sh codex",
-            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-hook.ps1 codex",
+            "command": "bash \"$(git rev-parse --show-toplevel)/scripts/agent-hook.sh\" codex",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/agent-hook.ps1') codex\"",
             "timeout": 30
           }
         ]

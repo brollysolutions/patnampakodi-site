@@ -7,6 +7,8 @@ description: Build or redesign an approved public-facing or marketing web page a
 
 Implement an approved direction with the system that already exists.
 
+Use one visual reference when it helps: `design-taste-frontend` for marketing pages, or `frontend-design` for other interfaces. Follow `docs/agent-context/design-skills.md` for scope and source precedence. Existing user approval remains valid.
+
 1. Read `.agent-workflow/DESIGN.md`, the affected route end to end, and the existing tokens, fonts, spacing scale, and component primitives. Find the closest existing page and match it before inventing anything.
 2. State one design read before editing: page kind, audience, the trust constraint the page carries, and the visual language in use. If the direction is not settled, stop and invoke `$design-reference`/`/design-reference` instead.
 3. Reuse existing tokens, fonts, and primitives. Introducing a new token, font, animation library, or UI dependency is a reviewed decision, not a detail — raise it and justify it before adding it.

@@ -10,6 +10,8 @@ installation, day-to-day collaboration, and troubleshooting.
 - [Implementation plan](docs/agent-context/implementation-plan.md)
 - [Feature status and verification](docs/agent-context/feature-status.md)
 - [Security guidance](SECURITY.md)
+- [Workflow audit](docs/agent-context/workflow-audit.md)
+- [Design skills and research](docs/agent-context/design-skills.md)
 
 From a clone containing these files, run one setup command:
 

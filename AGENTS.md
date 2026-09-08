@@ -49,7 +49,7 @@ changes for a local-only task. Any tracked change follows the delivery contract.
 - Before claiming tracked delivery, inspect status, diff checks, commit,
   tracking branch, and the current remote PR repository, base/head branches,
   state, and head SHA. A cached PR URL is only a lookup hint. Use
-  `python scripts/agent_workflow.py state --remote` for a fresh readback;
+  `uv --cache-dir .uv-cache run --no-project --python ">=3.11" python scripts/agent_workflow.py state --remote` for a fresh readback;
   an unavailable GitHub check is unverified, not passed.
 
 ## Repository orientation gate
@@ -128,14 +128,22 @@ truthful structured data and the Lighthouse budgets are not negotiable inside a
 design change. Run `$seo-review` on every public page change. Incorporate later
 user corrections into these records so they need not repeat their preferences.
 
+Use `docs/agent-context/design-skills.md` to choose one supplementary visual
+skill: `design-taste-frontend` for marketing pages or `frontend-design` for other
+interfaces. The locally installed `apple-design` skill can support the review
+pass. These references do not select our stack or override the user's brief,
+existing design decisions, accessibility, SEO, performance, or dependency review.
+Their sample personas and business claims are not facts about this project.
+Do not run bundled install commands or fetch changing design rules automatically.
+
 ## Verification
 
 Run from the repository root:
 
 - Full applicable gate: `bash scripts/verify.sh --ci` (Git Bash on Windows).
-- Engine configuration/parity: `uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py validate`.
-- Workflow and SEO tests: `uv --cache-dir .uv-cache run --no-project python -m unittest discover -s scripts/tests -v`.
-- Inspect delivery state: `uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py state`.
+- Engine configuration/parity: `uv --cache-dir .uv-cache run --no-project --python ">=3.11" python scripts/agent_workflow.py validate`.
+- Workflow and SEO tests: `uv --cache-dir .uv-cache run --no-project --python ">=3.11" python -m unittest discover -s scripts/tests -v`.
+- Inspect delivery state: `uv --cache-dir .uv-cache run --no-project --python ">=3.11" python scripts/agent_workflow.py state`.
 
 On Windows the PowerShell equivalent of the full gate is
 `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`.

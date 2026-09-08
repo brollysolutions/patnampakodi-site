@@ -1,9 +1,35 @@
 # Feature status
 
+## PR #3 upstream integration — 2026-09-08
+
+Resolved [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3)
+against upstream `6b2fc7a`, the merged PR #2, on `fix/workflow-audit`.
+Preserved explicit task-file selection and outgoing-history checks together with
+the OS delivery lock, Git failure checks, and fresh remote PR verification.
+Reconciled both contributors' implementation records and removed stale staging
+instructions from the ship skill and partner/reference guides.
+
+- The combined suite initially failed because two sets of test fixtures assumed
+  the previous delivery interface. Corrected the fixtures without weakening the
+  safeguards and added a selected-file delivery test with fresh PR evidence.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`:
+  exit 0; **90 tests passed** on Windows/Python 3.13, **18 identical shared skills**,
+  configuration validation, and shell syntax checks.
+- Security and PR self-review covered the merged delivery engine, lock and remote
+  failure paths, staging/history guards, fixtures, and mirrored guidance; no
+  unresolved integration findings. No dependencies or integration permissions changed.
+- Evidence in the older sections below is historical; their test counts describe
+  the original separate deliveries. Current CI/remote state is recorded on PR #3.
+
+No application, API, database, browser, or migration layer exists. The next
+product priority is still item 2, website scope and stack. PR merging remains a
+separate user decision; this task updates only the contributor branch and PR.
+
 ## Astra workflow adoption — 2026-09-07
 
-Delivered for review in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2)
-on `chore/astra-workflow`. Initial implementation `c286031`; the helper returned
+Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2)
+from `chore/astra-workflow`. The evidence below records the original delivery,
+before the PR #3 integration. Initial implementation `c286031`; the helper returned
 exit 0 with fresh GitHub state OPEN and head SHA matching local HEAD and the
 pushed `origin` branch. The original setup PR #1 is merged. Application work
 remains unconfigured; next product priority is website scope and stack selection.
@@ -17,7 +43,7 @@ remains unconfigured; next product priority is website scope and stack selection
 | Failed Git/local evidence cannot claim success | Verified | Status/tracking failure and dirty/wrong-tracking finish tests |
 | Existing workflow behavior | Verified | Full gate: 77 tests, configuration/parity and shell syntax checks |
 
-Fresh commands for this task:
+Commands from the original PR #2 delivery:
 
 - `uv --cache-dir .uv-cache run --no-project python -m unittest discover -s scripts/tests -p test_workflow_delivery.py -v`: 17 passed on the approved rerun. The initial sandboxed run failed because Windows denied temporary directories; it was not counted as passing.
 - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`: passed, 77 tests; its terminal command result was collected (exit 0).
@@ -33,10 +59,10 @@ by terminal tests. No application/API/database/browser/SEO/migration gates apply
 
 ## Shared workflow — 2026-09-07
 
-Delivered for review in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1),
+Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1) on 2026-09-07,
 branch `chore/shared-agent-workflow`. Initial implementation `e239ce0` plus the
-delivery fixes in the same PR. This section preserves the original setup evidence;
-PR #1 was subsequently merged, confirmed by GitHub readback during Astra adoption.
+delivery fixes in the same PR. The table and verification below are historical
+evidence from that delivery; the audit section records current verification.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
@@ -45,9 +71,35 @@ PR #1 was subsequently merged, confirmed by GitHub readback during Astra adoptio
 | Local Git and agent lifecycle hooks | Verified by terminal smoke tests | Both shims; protected edit/secret-read denial; automatic branch; stop checks; real Git hooks reject protected commits/pushes |
 | Workflow verification and PR policy CI | Fork workflow CI passed; PR checks reported by GitHub | [Run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143); `.github/workflows/` |
 | Partner explanation and installation guide | Complete | `docs/partner-workflow-guide.md`, linked from `README.md` |
-| GitHub publication | Complete; awaiting human review | [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); fork branch pushed and tracking origin |
+| GitHub publication | Merged 2026-09-07 | [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); merge status read back from GitHub during the audit |
 
-## Fresh verification
+## Workflow audit and design additions — 2026-09-08
+
+Delivered in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3),
+initial implementation `90574b6`, branch `fix/workflow-audit` pushed to the user's
+fork and targeting shared `main`. Confirmed findings, mitigations, and remaining
+limits are in `workflow-audit.md`. Research and pinned installation sources are
+in `design-skills.md`.
+
+- Original 59-test suite passed; new regressions reproduced the identified gaps.
+- Expanded **71 tests** pass under Python 3.13, including actual configured Bash
+  and PowerShell hook commands invoked from a subdirectory.
+- PowerShell and Bash setup passed and enabled `.githooks`; a hash comparison
+  confirmed repeated setup preserved private notes. Templates remained ignored.
+  uv and Python 3.13 were installed locally. The real pre-push gate also passed.
+- **18 matching shared skills** validate. Taste and Anthropic entrypoints also
+  pass the system skill validator. Apple Design is installed locally for Codex
+  and Claude Code, outside the shared repository.
+- CI now runs for branch pushes and provisions Python 3.11/3.13 on Ubuntu/Windows.
+  All four jobs passed for `90574b6` in
+  [fork run 34197977296](https://github.com/tejalsharma2023/patnampakodi-site/actions/runs/34197977296).
+  PR #3 is open. At this readback, GitHub reported no upstream PR checks or
+  upstream branch workflow runs; fork success is not presented as upstream approval.
+
+Next priority remains item 2: agree website scope, content, and stack. These
+design references do not choose or install a website framework.
+
+## Original setup verification — 2026-09-07
 
 - PowerShell `scripts/setup-agent-workflow.ps1`: passed.
 - Git Bash `bash scripts/verify.sh --ci`: passed, **59 tests**, 16 matching skills,

@@ -229,6 +229,8 @@ def command_is_blocked(command: str, branch: str | None = None) -> str | None:
 
         # 5. Pushing to a protected ref, or pushing at all from a protected branch.
         if verb == "git" and rest[:1] == ["push"]:
+            if any(token.startswith(("--force", "+")) or token == "-f" for token in rest[1:]):
+                return "Force pushes rewrite remote history and require explicit user authorization."
             hit = _push_targets_protected(tokens)
             if hit:
                 return f"Direct pushes to protected ref '{hit}' are blocked. Open a PR."
@@ -273,9 +275,23 @@ def iter_input_strings(value: Any) -> Iterator[str]:
 def sensitive_tool_input(tool_input: Any) -> str | None:
     """Return the first sensitive path found anywhere in a tool payload.
 
-    Only whitespace-free leaves are considered: prose describing a file is not a
-    file reference, and treating it as one produces false denials.
+    Explicit path fields may contain spaces. For other leaves, only whitespace-
+    free strings are considered so prose about a file does not cause false denials.
     """
+    if isinstance(tool_input, dict):
+        for key, value in tool_input.items():
+            if key in {"file_path", "path", "source", "destination"} and isinstance(value, str):
+                if is_sensitive_path(value):
+                    return value
+            elif isinstance(value, (dict, list)):
+                hit = sensitive_tool_input(value)
+                if hit:
+                    return hit
+    elif isinstance(tool_input, list):
+        for value in tool_input:
+            hit = sensitive_tool_input(value)
+            if hit:
+                return hit
     for leaf in iter_input_strings(tool_input):
         candidate = leaf.strip()
         if candidate and not any(char.isspace() for char in candidate):
@@ -515,25 +531,31 @@ def ensure_hooks_path(root: Path) -> None:
 
 
 def changed_paths(root: Path, args: Sequence[str]) -> list[str]:
-    return [
-        line.strip()
-        for line in git(["diff", "--name-only", "--diff-filter=ACMR", *args], root).splitlines()
-        if line.strip()
-    ]
+    result = run(["git", "diff", "--name-only", "-z", "--no-renames",
+                  "--diff-filter=ACMRTD", *args], cwd=root, check=True)
+    return [path for path in result.stdout.split("\0") if path]
+
+
+def committed_paths(root: Path, base: str) -> list[str]:
+    """Paths in every outgoing commit, including files removed before HEAD."""
+    result = run(["git", "log", "--format=", "--name-only", "-z", "--no-renames",
+                  "--diff-filter=ACMRT", "--root", "-m", f"{base}..HEAD"],
+                 cwd=root, check=True)
+    return sorted({path for path in result.stdout.split("\0") if path})
 
 
 def working_tree_paths(root: Path) -> list[str]:
     """Every path with a pending change, including untracked files."""
     paths: list[str] = []
-    # Preserve the leading status column: git() strips it from the first row.
-    result = run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=root, check=True)
-    for line in result.stdout.splitlines():
-        entry = line[3:].strip() if len(line) > 3 else ""
-        if " -> " in entry:  # renames
-            entry = entry.split(" -> ", 1)[1]
-        entry = entry.strip('"')
-        if entry:
-            paths.append(entry)
+    result = run(["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
+                 cwd=root, check=True)
+    entries = iter(result.stdout.split("\0"))
+    for entry in entries:
+        if not entry:
+            continue
+        paths.append(entry[3:])
+        if "R" in entry[:2] or "C" in entry[:2]:
+            paths.append(next(entries))
     return paths
 
 
@@ -644,6 +666,14 @@ def handle_pre_tool_use(root: Path, payload: dict[str, Any], agent: str) -> dict
         )
 
     hit = sensitive_tool_input(tool_input)
+    if not hit and tool_name == "apply_patch":
+        patch_text = tool_input.get("command", "") if isinstance(tool_input, dict) else tool_input
+        if isinstance(patch_text, str):
+            for line in patch_text.splitlines():
+                match = re.match(r"^\*\*\* (?:(?:Add|Update|Delete) File: |Move to: )(.+)$", line)
+                if match and is_sensitive_path(match.group(1)):
+                    hit = match.group(1)
+                    break
     if hit:
         return deny_tool(
             f"'{hit}' is a secret, key, dump, or backup path. Reading, writing, or "
@@ -927,9 +957,17 @@ def finish_locked(args: argparse.Namespace, root: Path) -> int:
     if not conventional_ok(args.commit_message):
         return _fail(f"Commit message is not Conventional Commits format: {args.commit_message!r}")
 
-    # 4. Refuse to stage secrets, then stage and commit.
+    # 4. Require an explicit file selection; never absorb unrelated pending work.
     pending = working_tree_paths(root)
-    sensitive = sorted(path for path in pending if is_sensitive_path(path))
+    selected = args.paths or []
+    if pending and not selected:
+        return _fail("Pending changes require --paths with the exact task files; nothing was staged.")
+    if any(path not in pending for path in selected):
+        return _fail("--paths must name exact pending files relative to the repository root, not directories or globs.")
+    staged = changed_paths(root, ["--cached"])
+    if set(staged) - set(selected):
+        return _fail("The index contains files outside --paths. Preserve them and resolve task ownership before shipping.")
+    sensitive = sorted(path for path in selected if is_sensitive_path(path))
     if sensitive:
         return _fail(f"Refusing to stage sensitive files: {', '.join(sensitive)}")
 
@@ -937,8 +975,8 @@ def finish_locked(args: argparse.Namespace, root: Path) -> int:
     run(["git", "diff", "--cached", "--check"], cwd=root, check=True)
 
     commit_sha = ""
-    if pending:
-        result = run(["git", "add", "--all"], cwd=root)
+    if selected:
+        result = run(["git", "--literal-pathspecs", "add", "--", *selected], cwd=root)
         if result.returncode != 0:
             return _fail(f"git add failed: {(result.stderr or result.stdout).strip()}")
         result = run(["git", "commit", "-m", args.commit_message], cwd=root)
@@ -955,10 +993,10 @@ def finish_locked(args: argparse.Namespace, root: Path) -> int:
         return _fail(f"Branch '{branch}' has no commits ahead of '{base}'; there is nothing to ship.")
 
     # 6. Refuse to push secrets.
-    shipped = changed_paths(root, [f"{base}...HEAD"])
+    shipped = committed_paths(root, base)
     sensitive = sorted(path for path in shipped if is_sensitive_path(path))
     if sensitive:
-        return _fail(f"Refusing to push a diff containing sensitive files: {', '.join(sensitive)}")
+        return _fail(f"Refusing to push history containing sensitive files: {', '.join(sensitive)}")
 
     # 7. Push.
     result = run(["git", "push", "--set-upstream", "origin", branch], cwd=root)
@@ -1065,6 +1103,7 @@ def build_parser() -> argparse.ArgumentParser:
     finish.add_argument("--verification", required=True)
     finish.add_argument("--security", required=True)
     finish.add_argument("--body-file")
+    finish.add_argument("--paths", nargs="+", help="Exact pending task files to stage; never directories or globs.")
     finish.add_argument("--cwd")
     finish.set_defaults(func=cmd_finish)
 

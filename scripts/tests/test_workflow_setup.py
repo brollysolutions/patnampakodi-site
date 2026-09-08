@@ -33,7 +33,7 @@ class SetupTests(unittest.TestCase):
 
     def test_modified_first_path_keeps_first_character(self):
         with patch.object(workflow, "run", return_value=subprocess.CompletedProcess(
-            [], 0, " M .env.local\n M README.md\n", ""
+            [], 0, " M .env.local\0 M README.md\0", ""
         )):
             paths = workflow.working_tree_paths(Path.cwd())
         self.assertEqual(paths, [".env.local", "README.md"])
@@ -85,13 +85,13 @@ class DeliveryFailureTests(unittest.TestCase):
 
         args = argparse.Namespace(cwd=None, title="chore: test delivery",
                                   commit_message="chore: test delivery",
-                                  body_file=None, verification="tests", security="reviewed")
+                                  body_file=None, verification="tests", security="reviewed", paths=pending)
         with ExitStack() as stack:
             stack.enter_context(patch.object(workflow, "delivery_lock", return_value=nullcontext()))
             values = {"repo_root": Path.cwd(), "ensure_hooks_path": None,
                       "current_branch": "chore/test", "working_tree_paths": pending,
                       "base_ref": "upstream/main", "commits_ahead": 1,
-                      "changed_paths": [], "has_remote": True,
+                      "changed_paths": [], "committed_paths": [], "has_remote": True,
                       "git": "https://github.com/example/project.git"}
             for name, value in values.items():
                 stack.enter_context(patch.object(workflow, name, return_value=value))
@@ -101,7 +101,7 @@ class DeliveryFailureTests(unittest.TestCase):
         return commands
 
     def test_staging_failure_never_commits_or_pushes(self):
-        commands = self.exercise_failure(["README.md"], ["git", "add"])
+        commands = self.exercise_failure(["README.md"], ["git", "--literal-pathspecs", "add"])
         self.assertFalse(any(command[:2] in (["git", "commit"], ["git", "push"]) for command in commands))
 
     def test_pr_lookup_failure_never_creates_duplicate(self):

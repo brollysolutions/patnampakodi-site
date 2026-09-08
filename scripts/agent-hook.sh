@@ -58,7 +58,7 @@ run_engine() {
 }
 
 if UV_BIN="$(find_uv)"; then
-  if run_engine "$UV_BIN" --cache-dir "$REPO_ROOT/.uv-cache" run --no-project python; then
+  if run_engine "$UV_BIN" --cache-dir "$REPO_ROOT/.uv-cache" run --no-project --no-python-downloads --python '>=3.11' python; then
     exit 0
   fi
   echo "agent-hook: uv failed; trying a system Python" >&2

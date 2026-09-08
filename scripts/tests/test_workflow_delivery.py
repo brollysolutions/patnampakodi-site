@@ -147,10 +147,11 @@ class DeliveryLockTests(unittest.TestCase):
 
 
 class FinishEvidenceTests(unittest.TestCase):
-    def finish(self, *, remote_error=None, dirty=False, tracking="origin/chore/task", locked=False):
+    def finish(self, *, remote_error=None, dirty=False, tracking="origin/chore/task", locked=False,
+               pending=(), selected=None):
         output = io.StringIO()
         args = argparse.Namespace(cwd=None, title="chore: task", commit_message="chore: task",
-                                  body_file=None, verification="passed", security="reviewed")
+                                  body_file=None, verification="passed", security="reviewed", paths=selected)
         commands = []
 
         def run(command, **kwargs):
@@ -160,8 +161,8 @@ class FinishEvidenceTests(unittest.TestCase):
 
         with ExitStack() as stack:
             values = {"repo_root": ROOT, "ensure_hooks_path": None, "current_branch": "chore/task",
-                      "working_tree_paths": [], "base_ref": "upstream/main", "commits_ahead": 1,
-                      "changed_paths": [], "has_remote": True, "is_dirty": dirty,
+                      "working_tree_paths": list(pending), "base_ref": "upstream/main", "commits_ahead": 1,
+                      "changed_paths": [], "committed_paths": [], "has_remote": True, "is_dirty": dirty,
                       "upstream_of": tracking, "unpushed": False}
             for name, value in values.items():
                 stack.enter_context(patch.object(workflow, name, return_value=value))
@@ -190,6 +191,19 @@ class FinishEvidenceTests(unittest.TestCase):
         cache.assert_not_called()
         self.assertEqual(output, "")
 
+    def test_explicit_selection_completes_with_fresh_remote_evidence(self):
+        result, commands, remote, cache, output = self.finish(
+            pending=["README.md"], selected=["README.md"])
+        self.assertEqual(result, 0)
+        add = ["git", "--literal-pathspecs", "add", "--", "README.md"]
+        commit = next(command for command in commands if command[:2] == ["git", "commit"])
+        push = next(command for command in commands if command[:2] == ["git", "push"])
+        self.assertLess(commands.index(add), commands.index(commit))
+        self.assertLess(commands.index(commit), commands.index(push))
+        remote.assert_called_once_with(ROOT, "chore/task", "upstream/main", URL, require_open=True)
+        cache.assert_called_once_with(ROOT, "chore/task", URL)
+        self.assertEqual(json.loads(output)["remote_pr"]["head_sha"], SHA)
+
     def test_dirty_or_wrong_tracking_cannot_report_delivery(self):
         for changes in ({"dirty": True}, {"tracking": "upstream/main"}):
             with self.subTest(changes=changes):
@@ -198,7 +212,8 @@ class FinishEvidenceTests(unittest.TestCase):
                 cache.assert_not_called()
 
     def test_competing_finish_does_not_stage_commit_push_or_call_github(self):
-        result, commands, remote, cache, _ = self.finish(locked=True)
+        result, commands, remote, cache, _ = self.finish(
+            locked=True, pending=["README.md"], selected=["README.md"])
         self.assertEqual(result, 1)
         self.assertEqual(commands, [])
         remote.assert_not_called()

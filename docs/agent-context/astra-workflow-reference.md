@@ -44,7 +44,7 @@ these preferences are not provider availability claims or session configuration.
 | BrollyAI has `apps/web` and `infra`, with FastAPI/contracts planned | This checkout has workflow scripts and docs only; skip nonexistent application layers. |
 | Workflow scaffolding is private via `.git/info/exclude`; agent-policy CI does not run | This repository deliberately shares scaffolding and CI. Only already-ignored personal notes/settings stay private. See `.gitignore` and `docs/partner-workflow-guide.md`. |
 | `.codex/config.toml` selects Astra/xhigh | This checkout preserves client-selected settings; its config supplies sandbox/approval and hook configuration only. |
-| Stop for unrelated dirty work | Current instructions say preserve it and work around it when safe; stop only for overlapping changes. The finish helper stages all pending non-ignored files, so those must all belong to the task. |
+| Stop for unrelated dirty work | Current instructions say preserve it and work around it when safe; stop only for overlapping changes. The finish helper stages only explicit task paths and refuses unrelated staged files. Reporting delivery complete still requires a clean worktree. |
 
 The supplied project skills already exist in both `.agents/skills/` and
 `.claude/skills/`. Narrow updates apply command evidence and local-only handling

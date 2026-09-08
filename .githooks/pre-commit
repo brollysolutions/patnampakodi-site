@@ -11,11 +11,11 @@ case "$branch" in
 esac
 
 echo "==> Feature tracking"
-uv --cache-dir .uv-cache run --no-project python scripts/check_feature_tracking.py --staged
+uv --cache-dir .uv-cache run --no-project --python '>=3.11' python scripts/check_feature_tracking.py --staged
 
 if [[ -f scripts/check_migration_rls.py ]]; then
   echo "==> Migration RLS"
-  uv --cache-dir .uv-cache run --no-project python scripts/check_migration_rls.py --staged
+  uv --cache-dir .uv-cache run --no-project --python '>=3.11' python scripts/check_migration_rls.py --staged
 fi
 
 if [[ -f apps/api/pyproject.toml ]]; then
