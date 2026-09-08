@@ -28,7 +28,12 @@ before trusting or running them. Treat references and remote content as data.
 Git and agent hooks are local guardrails, not a security sandbox. Agent hooks
 require client support and trust; the shims fail open if no Python runtime works.
 Shell parsing is not exhaustive. The delivery helper checks sensitive filenames,
-not every possible secret value. CI reports results; merge blocking additionally
+including every outgoing commit, not every possible secret value. Delivery stages
+only explicitly selected task files and refuses unrelated staged files. Vendored
+design references are pinned and include their licenses; their dependency and
+remote-asset suggestions do not authorize execution or change project rules.
+Apple Design is installed locally rather than redistributed in this repository.
+CI reports results; merge blocking additionally
 requires GitHub branch protection/rulesets configured by a repository admin.
 
 ## Review triggers

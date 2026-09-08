@@ -61,7 +61,7 @@ if (-not $uv) {
     if (Test-Path $candidate) { $uv = $candidate }
 }
 if ($uv) {
-    if (Invoke-Engine @($uv, "--cache-dir", (Join-Path $repoRoot ".uv-cache"), "run", "--no-project", "python")) { exit 0 }
+    if (Invoke-Engine @($uv, "--cache-dir", (Join-Path $repoRoot ".uv-cache"), "run", "--no-project", "--no-python-downloads", "--python", ">=3.11", "python")) { exit 0 }
     [Console]::Error.WriteLine("agent-hook: uv failed; trying a system Python")
 }
 

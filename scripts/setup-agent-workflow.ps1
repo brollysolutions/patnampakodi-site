@@ -4,5 +4,5 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
     throw "uv is required. Install it using https://docs.astral.sh/uv/getting-started/installation/ and reopen the terminal."
 }
-& uv --cache-dir (Join-Path $repoRoot ".uv-cache") run --no-project python (Join-Path $PSScriptRoot "setup_workflow.py")
+& uv --cache-dir (Join-Path $repoRoot ".uv-cache") run --no-project --python ">=3.11" python (Join-Path $PSScriptRoot "setup_workflow.py")
 exit $LASTEXITCODE

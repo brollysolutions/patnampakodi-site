@@ -10,7 +10,7 @@ case "$branch" in
 esac
 
 # The shared gate runs locally and in CI.
-uv --cache-dir .uv-cache run --no-project python scripts/verify_workflow.py fast
+uv --cache-dir .uv-cache run --no-project --python '>=3.11' python scripts/verify_workflow.py fast
 
 while read -r _local_ref _local_sha remote_ref _remote_sha; do
   case "$remote_ref" in

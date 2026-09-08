@@ -28,3 +28,10 @@ The provided kit describes its source as BrollyAI commit `eaffc65`, captured
 2026-09-07. Its workflow engine, tests, skills, and SEO checker are adapted here.
 No source project's application, deployment credentials, personal instructions,
 account state, or reference documents are included.
+
+## Workflow audit and design skills — 2026-09-08
+
+Authority: user requested an audit with fixes, installation of Taste and Apple
+Design, and research into other established design skills. `workflow-audit.md`
+records confirmed gaps and verification; `design-skills.md` records the comparison,
+exact upstream revisions, licenses, installation scope, and routing decisions.

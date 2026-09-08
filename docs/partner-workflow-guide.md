@@ -30,21 +30,8 @@ The shared repository is
 Mahan's contribution fork is
 [vamshisaideep9/patnampakodi-site](https://github.com/vamshisaideep9/patnampakodi-site).
 
-Before the workflow PR is merged, clone its branch to try this setup:
-
-Setup review: [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1).
-
-```bash
-git clone --branch chore/shared-agent-workflow https://github.com/vamshisaideep9/patnampakodi-site.git
-cd patnampakodi-site
-```
-
-This clone points to Mahan's fork. Reviewing and running checks needs read access;
-pushing there needs write access. For your own implementation work, prefer your
-own fork, or a clone of the shared repository if you have write access.
-
-After the workflow PR is merged, contributors with shared-repository write
-access can use:
+The original setup [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1)
+was merged on 2026-09-07. Contributors with shared-repository write access can use:
 
 ```bash
 git clone https://github.com/brollysolutions/patnampakodi-site.git
@@ -74,8 +61,8 @@ preserved. Inspect `git remote -v` before publishing anything.
    git config user.email
    gh auth login
    gh auth status
-   uv python install 3.12
-   uv --cache-dir .uv-cache run --no-project python --version
+   uv python install 3.13
+   uv --cache-dir .uv-cache run --no-project --python ">=3.11" python --version
    ```
 
    Python must be 3.11 or newer. If identity is missing, set your own name/email
@@ -105,11 +92,11 @@ preserved. Inspect `git remote -v` before publishing anything.
 
    ```bash
    git config --get core.hooksPath
-   uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py validate
+   uv --cache-dir .uv-cache run --no-project --python ">=3.11" python scripts/agent_workflow.py validate
    git status --short --branch
    ```
 
-   Expect `.githooks`, `{"status": "valid", "skill_count": 16}`, and no new
+   Expect `.githooks`, `{"status": "valid", "skill_count": 18}`, and no new
    tracked changes from setup. Private notes should not appear in Git status.
 6. Open a fresh agent session in the repository. Review its hook configuration.
    In Codex CLI, `/hooks` shows hooks requiring trust; approve only the reviewed
@@ -129,7 +116,7 @@ read-only prompt; it should not cause a commit or PR without changes.
 1. Keep separate clones and separate task branches. Agree who owns each task,
    especially before touching the same files. Do not run two editing sessions
    in one working directory.
-2. Start from a clean working tree. After the setup PR is merged, update your
+2. Start from a clean working tree. Update your
    local `main` from the shared repository:
 
    Fork clone:
@@ -153,8 +140,6 @@ read-only prompt; it should not cause a commit or PR without changes.
 
    If you have unfinished changes, finish that task or use a separate clone.
    If a fast-forward fails, inspect divergence before choosing a resolution.
-   Before the setup PR merges, branch from `chore/shared-agent-workflow` to
-   experiment; dependent work should wait for that PR before its own delivery.
 3. Give the agent an outcome and any boundaries. For example:
    "Read the project context, propose the website scope, and stop before coding."
    Or: "Implement the agreed menu page, verify it, update the records, and open
@@ -191,6 +176,12 @@ Both skill trees must stay identical. When changing a skill, update both copies
 and run validation. Server, generated-contract, and design skills are included
 for later use; their stack-specific steps apply only after those layers exist.
 
+Taste (`design-taste-frontend`) and Anthropic (`frontend-design`) are shared design
+references. The router chooses the appropriate one for a task. Apple Design is
+an optional local HIG reference installed separately for each contributor; it is
+already installed for this checkout's user in Codex and Claude Code. See
+[design skill research and pinned sources](agent-context/design-skills.md).
+
 Our shared plan and feature-status records must accompany changes to scripts or
 product code. The co-change check proves the files were included, not that the
 claims in them are true; reviewers check the evidence.
@@ -211,9 +202,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci
 
 Ask the agent to ship after verification. The `ship` skill uses
 `scripts/agent_workflow.py finish` to commit, push to `origin`, and create/update
-a PR against `upstream/main` when configured, otherwise `origin/main`. It stages
-all pending non-ignored files, so first check that every pending change belongs
-to this task. Use a conventional title such as `chore(workflow): update setup`.
+a PR against `upstream/main` when configured, otherwise `origin/main`. For pending
+changes, pass `--paths` followed by exact reviewed task filenames relative to the
+repository root. Include both old and new paths for renames; do not pass directories
+or globs. Unselected working files remain untouched; unrelated staged files cause
+a refusal before staging. Omit `--paths` when retrying an already committed clean
+branch. The helper checks sensitive filenames across all outgoing commits,
+including files removed before the final diff. Use a conventional title such as
+`chore(workflow): update setup`.
 The PR includes Summary, Verification, and Security sections.
 
 The helper records its PR URL in local Git configuration. A stop hook notices

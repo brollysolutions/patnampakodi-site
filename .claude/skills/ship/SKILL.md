@@ -15,8 +15,10 @@ Convert verified work into a reviewable PR. Never merge it.
 6. Run the deterministic helper from the repository root:
 
    ```text
-   uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py finish --title "<type(scope): summary>" --commit-message "<type(scope): summary>" --verification "<commands and results>" --security "<review result or not applicable>"
+   uv --cache-dir .uv-cache run --no-project --python ">=3.11" python scripts/agent_workflow.py finish --title "<type(scope): summary>" --commit-message "<type(scope): summary>" --verification "<commands and results>" --security "<review result or not applicable>"
    ```
+
+   For pending changes, add `--paths <file> [<file> ...]` with the exact reviewed task files relative to the root, including both sides of renames. Directories and globs are refused. The helper preserves unselected working files and refuses an index containing unrelated staged files. Omit `--paths` when retrying delivery of an already clean, committed branch.
 
    Add `--body-file <path>` only when a richer prepared PR body is needed.
 7. If the helper fails, preserve its completed steps, diagnose the exact failure, and retry safely. Never use force push, bypass verification, or create a second PR for the same head branch.

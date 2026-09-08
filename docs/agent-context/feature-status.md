@@ -2,9 +2,10 @@
 
 ## Shared workflow — 2026-09-07
 
-Delivered for review in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1),
+Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1) on 2026-09-07,
 branch `chore/shared-agent-workflow`. Initial implementation `e239ce0` plus the
-delivery fixes in the same PR. Not merged.
+delivery fixes in the same PR. The table and verification below are historical
+evidence from that delivery; the audit section records current verification.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
@@ -13,7 +14,27 @@ delivery fixes in the same PR. Not merged.
 | Local Git and agent lifecycle hooks | Verified by terminal smoke tests | Both shims; protected edit/secret-read denial; automatic branch; stop checks; real Git hooks reject protected commits/pushes |
 | Workflow verification and PR policy CI | Fork workflow CI passed; PR checks reported by GitHub | [Run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143); `.github/workflows/` |
 | Partner explanation and installation guide | Complete | `docs/partner-workflow-guide.md`, linked from `README.md` |
-| GitHub publication | Complete; awaiting human review | [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); fork branch pushed and tracking origin |
+| GitHub publication | Merged 2026-09-07 | [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); merge status read back from GitHub during the audit |
+
+## Workflow audit and design additions — 2026-09-08
+
+Task branch: `fix/workflow-audit`. Confirmed findings, mitigations, and remaining
+limits are in `workflow-audit.md`. Research and pinned installation sources are
+in `design-skills.md`.
+
+- Original 59-test suite passed; new regressions reproduced the identified gaps.
+- Expanded **71 tests** pass under Python 3.13, including actual configured Bash
+  and PowerShell hook commands invoked from a subdirectory.
+- PowerShell setup passed and enabled `.githooks`; private templates were created
+  without entering the working tree. uv and Python 3.13 were installed locally.
+- **18 matching shared skills** validate. Taste and Anthropic entrypoints also
+  pass the system skill validator. Apple Design is installed locally for Codex
+  and Claude Code, outside the shared repository.
+- CI now runs for branch pushes and provisions Python 3.11/3.13 on Ubuntu/Windows.
+  Hosted execution and PR linkage will be recorded after delivery.
+
+Next priority remains item 2: agree website scope, content, and stack. These
+design references do not choose or install a website framework.
 
 ## Fresh verification
 

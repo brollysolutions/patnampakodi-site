@@ -7,8 +7,24 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 1. Shared agent workflow and partner onboarding | Delivered for review in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1) | User-selected model; High recommended | User-selected model; High recommended |
+| 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1), 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope and choose stack | Not started | Select when scoped | Select when scoped |
+| 3. Audit and repair workflow enforcement and onboarding | In progress on `fix/workflow-audit` | User-selected model; High recommended | User-selected model; High recommended |
+
+## Item 3 acceptance
+
+Audit setup, both agent hook shims, Git hooks, delivery, CI, and shared guidance.
+Include the user's follow-up: install Taste and Apple Design, research established
+alternatives, and integrate suitable design references with the existing router.
+Reproduce confirmed failures before fixing them. Select a supported Python even
+when an older system interpreter is first on PATH; preserve user files and
+private notes; prevent sensitive paths from entering delivery; keep hook commands
+working from nested directories. Verify with regression tests, both shell entry
+points, real temporary Git repositories, and the full applicable gate.
+
+Non-goals: website code, external plugins, personal model changes, repository
+ruleset changes, and PR merging. No application/API/database/contracts/jobs or
+browser layers exist. Delivery is a reviewed task-branch PR to `upstream/main`.
 
 ## Item 1 acceptance
 
@@ -35,7 +51,8 @@ Repeated delivery also exposed the CLI's unsupported owner-qualified head filter
 the helper now uses GitHub's exact REST head/base filters to update the existing PR.
 
 Initial implementation: `e239ce0`; subsequent delivery fixes are in this PR.
-All 59 tests pass. Fork CI passed for the initial implementation in
+At the original delivery, all 59 tests passed. Fork CI passed for that implementation in
 [run 34091277143](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34091277143).
-The workflow is available on `chore/shared-agent-workflow`; merge remains a human
-review action. The next product task is item 2 above.
+PR #1 was merged into shared `main` on 2026-09-07 (GitHub readback during the
+audit). The next product task is item 2 above. Current audit evidence is in
+`workflow-audit.md` and `feature-status.md`.

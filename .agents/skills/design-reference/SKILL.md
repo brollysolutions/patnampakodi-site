@@ -7,6 +7,8 @@ description: Choose a visual direction for a public or marketing web page before
 
 Settle the visual direction before code. This skill produces a decision, not an implementation.
 
+Use one visual reference when it helps: `design-taste-frontend` for marketing pages, or `frontend-design` for other interfaces. Follow `docs/agent-context/design-skills.md` for scope and source precedence. Existing user approval remains valid.
+
 1. Read `.agent-workflow/DESIGN.md` when it exists, the affected route, and the existing design tokens, fonts, spacing scale, and primitives. Establish what visual language already exists before proposing a new one.
 2. State the design read in one short paragraph: page kind (marketing, product, docs, transactional), audience, the trust constraint the page carries, and the visual language currently in use.
 3. Propose **at most three** directions. For each give a name, the principle behind it, the type and color treatment, layout rhythm, motion posture, and the kind of page it suits.
