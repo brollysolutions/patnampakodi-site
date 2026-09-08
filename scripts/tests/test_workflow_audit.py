@@ -1,5 +1,5 @@
 """Regression tests from the workflow audit; fixtures contain no real secrets."""
-from contextlib import redirect_stderr
+from contextlib import nullcontext, redirect_stderr
 import io
 import argparse
 import json
@@ -101,6 +101,7 @@ class DeliverySelectionTests(unittest.TestCase):
                 "base_ref": "origin/main", "commits_ahead": 1, "git": "fixture"}.items():
                 stack.enter_context(patch.object(workflow, name, return_value=value))
             stack.enter_context(patch.object(workflow, "run", side_effect=execute))
+            stack.enter_context(patch.object(workflow, "delivery_lock", return_value=nullcontext()))
             stack.enter_context(redirect_stderr(io.StringIO()))
             args = argparse.Namespace(cwd=None, title="fix: fixture", commit_message="fix: fixture",
                                       paths=selected, body_file=None, verification="tests", security="reviewed")

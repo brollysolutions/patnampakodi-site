@@ -24,6 +24,10 @@ evidence of a working website or an approved production domain.
 
 ## Provenance
 
+| Reference | Source / as of | Authority | Affected paths | Known differences |
+| --- | --- | --- | --- | --- |
+| [Astra workflow adaptation](astra-workflow-reference.md) | User-supplied BrollyAI workflow, 2026-09-07; derived summary | Advisory; current AGENTS.md and explicit user instructions prevail | AGENTS.md, delivery engine/tests, mirrored skills, partner guide | BrollyAI's private scaffolding, existing application, and model config are not this checkout's architecture or settings. |
+
 The provided kit describes its source as BrollyAI commit `eaffc65`, captured
 2026-09-07. Its workflow engine, tests, skills, and SEO checker are adapted here.
 No source project's application, deployment credentials, personal instructions,

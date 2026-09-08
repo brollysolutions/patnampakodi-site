@@ -1,5 +1,62 @@
 # Feature status
 
+## PR #3 upstream integration — 2026-09-08
+
+Resolved [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3)
+against upstream `6b2fc7a`, the merged PR #2, on `fix/workflow-audit`.
+Preserved explicit task-file selection and outgoing-history checks together with
+the OS delivery lock, Git failure checks, and fresh remote PR verification.
+Reconciled both contributors' implementation records and removed stale staging
+instructions from the ship skill and partner/reference guides.
+
+- The combined suite initially failed because two sets of test fixtures assumed
+  the previous delivery interface. Corrected the fixtures without weakening the
+  safeguards and added a selected-file delivery test with fresh PR evidence.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`:
+  exit 0; **90 tests passed** on Windows/Python 3.13, **18 identical shared skills**,
+  configuration validation, and shell syntax checks.
+- Security and PR self-review covered the merged delivery engine, lock and remote
+  failure paths, staging/history guards, fixtures, and mirrored guidance; no
+  unresolved integration findings. No dependencies or integration permissions changed.
+- Evidence in the older sections below is historical; their test counts describe
+  the original separate deliveries. Current CI/remote state is recorded on PR #3.
+
+No application, API, database, browser, or migration layer exists. The next
+product priority is still item 2, website scope and stack. PR merging remains a
+separate user decision; this task updates only the contributor branch and PR.
+
+## Astra workflow adoption — 2026-09-07
+
+Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2)
+from `chore/astra-workflow`. The evidence below records the original delivery,
+before the PR #3 integration. Initial implementation `c286031`; the helper returned
+exit 0 with fresh GitHub state OPEN and head SHA matching local HEAD and the
+pushed `origin` branch. The original setup PR #1 is merged. Application work
+remains unconfigured; next product priority is website scope and stack selection.
+
+| Requirement | Status | Fresh evidence |
+| --- | --- | --- |
+| Astra guidance adapted to this checkout | Verified by diff review | `AGENTS.md`, `astra-workflow-reference.md`, partner guide; no model/config changes |
+| Shared skills stay identical | Verified | Validation: 16 matching skills; narrow ship/work-feature/diagnosis updates in both trees |
+| One delivery process per clone and its worktrees | Verified on Windows | Separate-process contention, shared Git directory, and crash-release tests |
+| Current remote PR identity and head evidence | Regression tests and live delivery passed | Open/closed/merged PRs, wrong repo/branches/SHA, invalid metadata/URL, network timeout/failure; helper verified PR #2 against `c286031` |
+| Failed Git/local evidence cannot claim success | Verified | Status/tracking failure and dirty/wrong-tracking finish tests |
+| Existing workflow behavior | Verified | Full gate: 77 tests, configuration/parity and shell syntax checks |
+
+Commands from the original PR #2 delivery:
+
+- `uv --cache-dir .uv-cache run --no-project python -m unittest discover -s scripts/tests -p test_workflow_delivery.py -v`: 17 passed on the approved rerun. The initial sandboxed run failed because Windows denied temporary directories; it was not counted as passing.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`: passed, 77 tests; its terminal command result was collected (exit 0).
+- `git diff --check`: passed. Private `.agent-workflow/` notes remain ignored.
+- Security and PR self-review: no unresolved actionable findings in the changed delivery engine, adjacent hooks, tests, skills, and documentation. No dependencies, CI permissions, credentials, or integrations added.
+- The optional system skill-creator `quick_validate.py .agents/skills/ship` could not run: PyYAML is absent. No dependency was added. Repository validation passed, and all three edited skill frontmatters match the validated base.
+
+Limits: GitHub reported no CI results during initial PR readback, so Linux
+execution remains unverified. The finish lock coordinates this helper,
+not unrelated editors/Git commands. Remote PR evidence is a point-in-time read;
+network/auth failures remain unverified. Live client hook loading is not proven
+by terminal tests. No application/API/database/browser/SEO/migration gates apply.
+
 ## Shared workflow — 2026-09-07
 
 Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1) on 2026-09-07,
