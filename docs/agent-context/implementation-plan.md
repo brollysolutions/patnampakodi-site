@@ -9,7 +9,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | --- | --- | --- | --- |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1), 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope and choose stack | Not started | Select when scoped | Select when scoped |
-| 3. Audit and repair workflow enforcement and onboarding | In progress on `fix/workflow-audit` | User-selected model; High recommended | User-selected model; High recommended |
+| 3. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 
 ## Item 3 acceptance
 
@@ -25,6 +25,12 @@ points, real temporary Git repositories, and the full applicable gate.
 Non-goals: website code, external plugins, personal model changes, repository
 ruleset changes, and PR merging. No application/API/database/contracts/jobs or
 browser layers exist. Delivery is a reviewed task-branch PR to `upstream/main`.
+
+Implementation `90574b6` is pushed to `origin/fix/workflow-audit` with
+[PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) targeting the
+shared `main`. Local verification passed 71 tests, both setup entrypoints,
+18-skill parity, individual skill validation, and staged checks. Existing private
+notes survived repeated setup. The next priority is item 2, website scope and stack.
 
 ## Item 1 acceptance
 

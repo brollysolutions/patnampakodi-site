@@ -18,25 +18,31 @@ evidence from that delivery; the audit section records current verification.
 
 ## Workflow audit and design additions — 2026-09-08
 
-Task branch: `fix/workflow-audit`. Confirmed findings, mitigations, and remaining
+Delivered in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3),
+initial implementation `90574b6`, branch `fix/workflow-audit` pushed to the user's
+fork and targeting shared `main`. Confirmed findings, mitigations, and remaining
 limits are in `workflow-audit.md`. Research and pinned installation sources are
 in `design-skills.md`.
 
 - Original 59-test suite passed; new regressions reproduced the identified gaps.
 - Expanded **71 tests** pass under Python 3.13, including actual configured Bash
   and PowerShell hook commands invoked from a subdirectory.
-- PowerShell setup passed and enabled `.githooks`; private templates were created
-  without entering the working tree. uv and Python 3.13 were installed locally.
+- PowerShell and Bash setup passed and enabled `.githooks`; a hash comparison
+  confirmed repeated setup preserved private notes. Templates remained ignored.
+  uv and Python 3.13 were installed locally. The real pre-push gate also passed.
 - **18 matching shared skills** validate. Taste and Anthropic entrypoints also
   pass the system skill validator. Apple Design is installed locally for Codex
   and Claude Code, outside the shared repository.
 - CI now runs for branch pushes and provisions Python 3.11/3.13 on Ubuntu/Windows.
-  Hosted execution and PR linkage will be recorded after delivery.
+  All four jobs passed for `90574b6` in
+  [fork run 34197977296](https://github.com/tejalsharma2023/patnampakodi-site/actions/runs/34197977296).
+  PR #3 is open. At this readback, GitHub reported no upstream PR checks or
+  upstream branch workflow runs; fork success is not presented as upstream approval.
 
 Next priority remains item 2: agree website scope, content, and stack. These
 design references do not choose or install a website framework.
 
-## Fresh verification
+## Original setup verification — 2026-09-07
 
 - PowerShell `scripts/setup-agent-workflow.ps1`: passed.
 - Git Bash `bash scripts/verify.sh --ci`: passed, **59 tests**, 16 matching skills,
