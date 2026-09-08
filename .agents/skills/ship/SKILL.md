@@ -7,6 +7,12 @@ description: Finish a completed change by verifying it, reviewing the diff, comm
 
 Convert verified work into a reviewable PR. Never merge it.
 
+For an explicitly local task confined to already-ignored workflow files, review
+and verify locally, record evidence in `.agent-workflow/`, and finish without a
+commit or PR. Do not force-add private artifacts. Tracked changes use the steps
+below. Preserve unrelated work; the helper stages every pending non-ignored
+file, so use it only when every such change belongs to this task.
+
 1. Confirm the current branch is a non-protected task branch and that unrelated user changes are absent. Inspect `git status`, `git diff`, and `git diff --cached`.
 2. Run the full applicable checks from `AGENTS.md` with fresh output. Include contract generation, migration-head checks, browser verification, and security review when triggered by the change.
 3. Run `git diff --check`. Search the changed file list for env files, secrets, keys, dumps, generated caches, debug artifacts, or unrelated files.
@@ -19,6 +25,6 @@ Convert verified work into a reviewable PR. Never merge it.
    ```
 
    Add `--body-file <path>` only when a richer prepared PR body is needed.
-7. If the helper fails, preserve its completed steps, diagnose the exact failure, and retry safely. Never use force push, bypass verification, or create a second PR for the same head branch.
-8. Confirm the final worktree is clean, the branch tracks `origin`, no commits are ahead locally, and `branch.<name>.aiPrUrl` contains the PR URL.
+7. Retain the command's session/job identifier and collect its terminal result, including `session_id` and `exit_code` in code mode. Run only one delivery process at a time; the helper's OS lock spans this clone's worktrees and releases on process exit. If it fails, preserve completed steps, inspect current Git/PR state, and retry safely. Never force-push, bypass verification, or create a second PR for the same head branch.
+8. Confirm the final worktree is clean, the branch tracks `origin`, and no commits are ahead locally. Run `uv --cache-dir .uv-cache run --no-project python scripts/agent_workflow.py state --remote` to check the recorded PR's current repository, base/head branches, state, and head SHA against local HEAD. A cached URL alone is not delivery evidence. Report failed, skipped, running, and unverified checks distinctly.
 9. Return the PR URL, commit, base/head branches, checks run, and any residual risk.

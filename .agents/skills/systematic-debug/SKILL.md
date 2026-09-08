@@ -7,6 +7,11 @@ description: Diagnose and fix a reproducible bug, failing test, regression, race
 
 Prove the cause before choosing the fix.
 
+For a diagnose-only request, perform the read-only investigation and report the
+cause and evidence. Implementation, regression-test edits, and shipping require
+the user to request remediation. A request to fix the issue authorizes the full
+procedure below.
+
 1. Read the repository instructions and trace the failing path across all relevant layers.
 2. Reproduce the problem with the smallest reliable command or scenario. Capture the actual output, environment, inputs, and expected behavior. If reproduction is impossible, state what evidence is missing.
 3. Check recent related history and compare a working analogue. Follow data and control flow backward from the symptom.

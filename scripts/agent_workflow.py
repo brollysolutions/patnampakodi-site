@@ -25,6 +25,7 @@ import sys
 import tomllib
 import traceback
 from collections.abc import Iterable, Iterator, Sequence
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -323,7 +324,7 @@ class GitError(RuntimeError):
 
 
 def run(args: Sequence[str], cwd: Path | None = None, check: bool = False,
-        input_text: str | None = None) -> subprocess.CompletedProcess:
+        input_text: str | None = None, timeout: float | None = None) -> subprocess.CompletedProcess:
     argv = list(args)
     # Resolve bare names through PATHEXT so Windows shims (gh.cmd, pnpm.cmd) are
     # found. CreateProcess does not apply PATHEXT the way a shell does.
@@ -340,7 +341,10 @@ def run(args: Sequence[str], cwd: Path | None = None, check: bool = False,
             errors="replace",
             check=False,
             input=input_text,
+            timeout=timeout,
         )
+    except subprocess.TimeoutExpired:
+        result = subprocess.CompletedProcess(argv, 124, "", f"{argv[0]}: timed out after {timeout}s")
     except (FileNotFoundError, OSError) as exc:
         result = subprocess.CompletedProcess(argv, 127, "", f"{argv[0]}: not executable ({exc})")
     if check and result.returncode != 0:
@@ -367,7 +371,7 @@ def current_branch(root: Path) -> str | None:
 
 
 def is_dirty(root: Path) -> bool:
-    return bool(git(["status", "--porcelain"], root))
+    return bool(git(["status", "--porcelain"], root, check=True))
 
 
 def has_remote(root: Path, name: str) -> bool:
@@ -408,7 +412,7 @@ def unpushed(root: Path, branch: str) -> bool:
     tracking = upstream_of(root, branch)
     if not tracking:
         return True
-    result = run(["git", "rev-list", "--count", f"{tracking}..{branch}"], cwd=root)
+    result = run(["git", "rev-list", "--count", f"{tracking}..{branch}"], cwd=root, check=True)
     try:
         return int(result.stdout.strip() or 0) > 0
     except ValueError:
@@ -421,7 +425,88 @@ def pr_url_for(root: Path, branch: str) -> str | None:
 
 
 def set_pr_url(root: Path, branch: str, url: str) -> None:
-    run(["git", "config", f"branch.{branch}.aiPrUrl", url], cwd=root)
+    run(["git", "config", f"branch.{branch}.aiPrUrl", url], cwd=root, check=True)
+
+
+@contextmanager
+def exclusive_delivery_lock(path: Path) -> Iterator[None]:
+    """OS-owned lock: shared by worktrees and released even if the process dies.
+
+    Keep the file in place; unlinking it could let two processes lock different
+    files at the same path. No PID-based stale-lock deletion is needed.
+    """
+    with path.open("a+b") as handle:
+        if sys.platform == "win32":
+            import msvcrt
+            handle.seek(0, 2)
+            if handle.tell() == 0:
+                handle.write(b"0")
+                handle.flush()
+            handle.seek(0)
+            try:
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            except OSError as exc:
+                raise GitError("Another delivery is running; collect its terminal result before retrying.") from exc
+            try:
+                yield
+            finally:
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            try:
+                fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError as exc:
+                raise GitError("Another delivery is running; collect its terminal result before retrying.") from exc
+            try:
+                yield
+            finally:
+                fcntl.flock(handle, fcntl.LOCK_UN)
+
+
+@contextmanager
+def delivery_lock(root: Path) -> Iterator[None]:
+    common = git(["rev-parse", "--git-common-dir"], root, check=True)
+    if not common:
+        raise GitError("Could not locate the shared Git directory for the delivery lock.")
+    with exclusive_delivery_lock((root / common).resolve() / "agent-workflow-finish.lock"):
+        yield
+
+
+def verify_remote_pr(root: Path, branch: str, base: str | None, url: str | None,
+                     *, require_open: bool = False) -> dict[str, Any]:
+    """Read GitHub now; cached URLs and remote-tracking refs are not evidence."""
+    target_remote = "upstream" if has_remote(root, "upstream") else "origin"
+    target = remote_slug(git(["remote", "get-url", target_remote], root, check=True))
+    origin = remote_slug(git(["remote", "get-url", "origin"], root, check=True))
+    if not target or not origin or not base:
+        raise GitError("Cannot verify PR: GitHub remotes or base ref are missing.")
+    match = re.fullmatch(rf"https://github\.com/{re.escape(target)}/pull/([1-9][0-9]*)", url or "")
+    if not match:
+        raise GitError("No recorded PR URL for the configured base repository; run the ship helper.")
+    result = run(
+        ["gh", "api", f"repos/{target}/pulls/{match[1]}", "--jq",
+         "{url: .html_url, state, merged, head: {ref: .head.ref, sha: .head.sha, "
+         "repo: .head.repo.full_name}, base: {ref: .base.ref, repo: .base.repo.full_name}}"],
+        cwd=root, check=True, timeout=15,
+    )
+    try:
+        pr = json.loads(result.stdout)
+        expected_sha = git(["rev-parse", "HEAD"], root, check=True)
+        if not expected_sha:
+            raise GitError("Cannot verify PR: local HEAD is unavailable.")
+        if (pr["url"] != url or pr["head"]["repo"] != origin
+                or pr["head"]["ref"] != branch or pr["base"]["repo"] != target
+                or pr["base"]["ref"] != base.rsplit("/", 1)[-1]):
+            raise GitError("Remote PR repository or base/head branches do not match this task.")
+        if pr["head"]["sha"] != expected_sha:
+            raise GitError("Remote PR head SHA does not match local HEAD; delivery is incomplete.")
+        state = "MERGED" if pr["state"] == "closed" and pr["merged"] is True else str(pr["state"]).upper()
+        if state != "OPEN" and (require_open or state != "MERGED"):
+            raise GitError(f"Remote PR is {state}; an open PR is required for new delivery.")
+    except (ValueError, KeyError, TypeError) as exc:
+        raise GitError("Remote PR readback returned incomplete or invalid JSON.") from exc
+    return {"status": "verified", "state": state, "head_sha": expected_sha, "url": url}
 
 
 def ensure_hooks_path(root: Path) -> None:
@@ -616,6 +701,10 @@ def handle_stop(root: Path, payload: dict[str, Any], agent: str) -> dict[str, An
             "request; never merge it."
         )
 
+    try:
+        verify_remote_pr(root, branch, base, pr_url_for(root, branch))
+    except GitError as exc:
+        return block(f"Delivery is unverified: {exc} Inspect Git/PR state before retrying ship; never merge it.")
     return allow()
 
 
@@ -670,8 +759,16 @@ def cmd_hook(args: argparse.Namespace) -> int:
 
 def cmd_state(args: argparse.Namespace) -> int:
     root = repo_root(Path(args.cwd or Path.cwd()))
-    print(json.dumps(workflow_state(root), indent=2))
-    return 0
+    state = workflow_state(root)
+    status = 0
+    if args.remote:
+        try:
+            state["remote_pr"] = verify_remote_pr(root, state["branch"], state["base_ref"], state["pr_url"])
+        except GitError as exc:
+            state["remote_pr"] = {"status": "unverified", "error": str(exc)}
+            status = 1
+    print(json.dumps(state, indent=2))
+    return status
 
 
 def cmd_setup(args: argparse.Namespace) -> int:
@@ -802,6 +899,14 @@ def _fail(message: str) -> int:
 
 def cmd_finish(args: argparse.Namespace) -> int:
     root = repo_root(Path(args.cwd or Path.cwd()))
+    try:
+        with delivery_lock(root):
+            return finish_locked(args, root)
+    except (GitError, OSError) as exc:
+        return _fail(str(exc))
+
+
+def finish_locked(args: argparse.Namespace, root: Path) -> int:
 
     # 1. Tooling and hooks.
     for tool in ("git", "gh"):
@@ -827,6 +932,9 @@ def cmd_finish(args: argparse.Namespace) -> int:
     sensitive = sorted(path for path in pending if is_sensitive_path(path))
     if sensitive:
         return _fail(f"Refusing to stage sensitive files: {', '.join(sensitive)}")
+
+    run(["git", "diff", "--check"], cwd=root, check=True)
+    run(["git", "diff", "--cached", "--check"], cwd=root, check=True)
 
     commit_sha = ""
     if pending:
@@ -915,9 +1023,13 @@ def cmd_finish(args: argparse.Namespace) -> int:
         pr_url = result.stdout.strip().splitlines()[-1] if result.stdout.strip() else ""
         action = "created"
 
-    # 9. Record the URL the Stop hook reads.
-    if pr_url:
-        set_pr_url(root, branch, pr_url)
+    # 9. Verify remote and local evidence before caching a URL or reporting success.
+    evidence = verify_remote_pr(root, branch, base, pr_url, require_open=True)
+    if (current_branch(root) != branch or git(["rev-parse", "HEAD"], root, check=True) != commit_sha
+            or is_dirty(root) or upstream_of(root, branch) != f"origin/{branch}"
+            or unpushed(root, branch)):
+        return _fail("Local branch, HEAD, worktree, or origin tracking changed during delivery; inspect state before retrying.")
+    set_pr_url(root, branch, pr_url)
 
     # 10. Report.
     print(
@@ -929,8 +1041,9 @@ def cmd_finish(args: argparse.Namespace) -> int:
                 "head": branch,
                 "base": f"{target_slug}:{base_branch}",
                 "pr_url": pr_url,
-                "clean": not is_dirty(root),
-                "ahead_of_upstream": unpushed(root, branch),
+                "clean": True,
+                "ahead_of_upstream": False,
+                "remote_pr": evidence,
             },
             indent=2,
         )
@@ -962,6 +1075,8 @@ def build_parser() -> argparse.ArgumentParser:
     ):
         child = sub.add_parser(name, help=help_text)
         child.add_argument("--cwd")
+        if name == "state":
+            child.add_argument("--remote", action="store_true", help="Verify current GitHub PR identity, state, and HEAD.")
         child.set_defaults(func=func)
 
     return parser

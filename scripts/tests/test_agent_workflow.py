@@ -291,13 +291,14 @@ class UserPromptSubmitTests(unittest.TestCase):
 
 
 class StopTests(unittest.TestCase):
-    def call(self, *, branch="feat/x", dirty=False, ahead=0, unpushed=False, pr_url="https://pr"):
+    def call(self, *, branch="feat/x", dirty=False, ahead=0, unpushed=False, pr_url="https://pr", remote_error=None):
         with mock.patch.object(aw, "current_branch", return_value=branch), \
              mock.patch.object(aw, "is_dirty", return_value=dirty), \
              mock.patch.object(aw, "base_ref", return_value="upstream/main"), \
              mock.patch.object(aw, "commits_ahead", return_value=ahead), \
              mock.patch.object(aw, "unpushed", return_value=unpushed), \
-             mock.patch.object(aw, "pr_url_for", return_value=pr_url):
+             mock.patch.object(aw, "pr_url_for", return_value=pr_url), \
+             mock.patch.object(aw, "verify_remote_pr", side_effect=remote_error):
             return aw.handle_stop(ROOT, {}, "claude")
 
     def test_respects_stop_hook_active(self) -> None:
@@ -316,6 +317,11 @@ class StopTests(unittest.TestCase):
 
     def test_shipped_branch_ends_the_turn(self) -> None:
         self.assertEqual(self.call(ahead=2, unpushed=False, pr_url="https://pr"), {})
+
+    def test_cached_url_does_not_hide_failed_remote_verification(self) -> None:
+        decision = self.call(ahead=2, remote_error=aw.GitError("Remote PR head SHA differs"))
+        self.assertEqual(decision.get("decision"), "block")
+        self.assertIn("unverified", decision["reason"])
 
     def test_nothing_to_ship_ends_the_turn(self) -> None:
         self.assertEqual(self.call(ahead=0), {})
