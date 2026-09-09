@@ -12,7 +12,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
-| 6. Share advanced SEO, Lighthouse and the requested design workflow | Verified locally; publication in progress | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+| 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 
 ## Item 6 acceptance
 
@@ -47,7 +47,9 @@ and mobile/desktop Lighthouse smoke passed; npm audit found zero known issues.
 Generated-bytecode parity was reproduced and corrected without excluding source
 files. Design source hashes and personal installations match the pinned bundles.
 Security/PR self-review found no unresolved actionable defects. See feature status
-for scope limits and subsequent PR linkage. Item 2 remains the next product task.
+for scope limits. Initial implementation `c756df9` was pushed and verified against
+the open [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4).
+Item 2 remains the next product task.
 
 ## Item 3 acceptance
 
