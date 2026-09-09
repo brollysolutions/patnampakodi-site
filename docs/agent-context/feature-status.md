@@ -1,5 +1,24 @@
 # Feature status
 
+## Approved stack and SEO requirement - 2026-09-09
+
+Documented and verified: the user selected Next.js, Python/FastAPI,
+PostgreSQL, APScheduler, Redis and Docker and required an SEO-friendly site.
+`technology-stack.md` preserves the instruction and deployment question;
+the index, repository contract, partner guide and plan now reflect the decision.
+The stack is not implemented; hosting capabilities and SFTP/SSH access are
+unconfirmed. Next priority: define website scope and hosting under item 2.
+Fresh verification: full PowerShell CI gate passed (exit 0), with 104 tests,
+22 matching skills, configuration and shell syntax checks. Documentation/diff
+review found no actionable defects. Application/browser/deployment checks are
+not applicable; no credentials or infrastructure were added. Initial delivery
+`d1ec065` was pushed from `feat/advanced-seo-toolkit` to `origin`; the helper
+verified open [PR #5](https://github.com/brollysolutions/patnampakodi-site/pull/5)
+against shared `main`, matching head SHA and a clean worktree. The first helper
+attempt was blocked by sandbox access to its Git lock; the approved rerun passed.
+Older sections below retain
+their original evidence and describe the state at their respective deliveries.
+
 ## Advanced SEO and design workflow — 2026-09-09
 
 Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4)

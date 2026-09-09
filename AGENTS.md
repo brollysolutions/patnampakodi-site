@@ -91,7 +91,10 @@ package manager configuration yet. Do not treat kit examples as existing archite
 - `docs/partner-workflow-guide.md`: installation, daily use, and troubleshooting.
 - `tools/seo-audit-tools/`: optional pinned browser tools and local plugin preparation.
 
-Choose and document the website stack in a separate product task. Server,
+The user-approved stack is Next.js, Python/FastAPI, PostgreSQL, APScheduler,
+Redis and Docker; the site must be SEO friendly. Read
+`docs/agent-context/technology-stack.md` for the decision and open deployment
+question. The stack is selected but not implemented. Server,
 contract, migration, and framework-specific steps apply only once those layers
 exist. Authentication, customer/contact data, uploads, payments, integrations,
 dependencies, CI, and secrets require security review when introduced.
@@ -153,8 +156,9 @@ Run from the repository root:
 
 On Windows the PowerShell equivalent of the full gate is
 `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`.
-Python 3.11+ and `uv` are required; dependencies for the application are not
-selected yet. Web/API/build/browser/live SEO/migration checks are not applicable
+Python 3.11+ and `uv` are required for workflow tools; application dependency
+versions and package tooling are not selected yet.
+Web/API/build/browser/live SEO/migration checks are not applicable
 until their corresponding application layers exist. Add their gates with the
 application and update this document. Never report a skipped check as passed.
 

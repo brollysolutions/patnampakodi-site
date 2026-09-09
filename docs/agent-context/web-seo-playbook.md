@@ -11,6 +11,10 @@ before creating or revising a public page. `$seo-review` audits against it.
 
 ## Priorities
 
+The owner explicitly required an SEO-friendly site on 2026-09-09 and selected
+Next.js for the website. See [the approved stack](technology-stack.md).
+Apply this playbook during implementation; no live-site compliance is implied.
+
 Search visibility, qualified enquiries and speed govern design choices, in that
 order. A design change that costs a ranking URL, a server-rendered heading, a
 canonical, or a Lighthouse budget is not a design change; it is a regression.
