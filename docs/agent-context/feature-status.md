@@ -1,5 +1,55 @@
 # Feature status
 
+## Advanced SEO and design workflow — 2026-09-09
+
+Prepared on `feat/advanced-seo-toolkit` for publication to the contributor fork
+and a PR against `brollysolutions/patnampakodi-site:main`. PR linkage is recorded
+after the first successful remote creation/readback.
+
+The shared toolkit adds detailed SEO/AEO/GEO/LLMO, competitors, keywords,
+existing-content audits, natural writing, SEO/UI/UX and reporting procedures.
+The local-plugin builder reuses reviewed installed Lighthouse 13.4.1 and Chrome
+DevTools MCP 1.9.0, refuses existing output, and keeps machine paths and reports
+local. Exact dependency versions and the npm lockfile are tracked; no automatic
+installation or client configuration change occurs on checkout/setup/CI.
+
+The user's design workflow uses Taste, Impeccable and Kowalski for requested UI/UX,
+then Apple Design verification. Impeccable and Kowalski are installed personally
+and mirrored in the repository as pinned guidance adaptations with licenses,
+notices and source hashes. Existing Taste and Apple Design installs are retained.
+Upstream executable downloaders, hooks and agent configuration are excluded.
+
+Fresh verification:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`:
+  exit 0; **104 tests**, **22 matching shared skills**, configuration and shell
+  syntax checks. The new tests cover HTML extraction/preservation, plugin output
+  preservation, package/executable failures, cleanup boundaries and source parity.
+- Initial sandboxed tests failed because Windows denied temporary-directory
+  access; the approved rerun passed. The first full gate then exposed generated
+  Python bytecode being treated as skill source. A regression reproduced it;
+  parity now excludes interpreter caches while still detecting source changes.
+- Eight new/changed skill entrypoints passed the system skill validator. Design
+  source hashes, personal copies and adapter links matched. The SEO guide's local
+  links and Python syntax passed; the shared files contain no personal paths.
+- The generated plugin passed manifest validation and its complete synthetic
+  smoke test: MCP initialization (29 tools), browser snapshot, performance trace,
+  MCP Lighthouse, and CLI mobile/desktop HTML/JSON reports, all successful. The
+  harness's intentional MCP shutdown exit is recorded separately from test status.
+- `npm audit --prefix tools/seo-audit-tools --package-lock-only --omit=dev --json`:
+  exit 0, zero known vulnerabilities. Reviewed official source identity, engines,
+  licenses, exact versions, resolved registry URLs and integrity values.
+- Security and PR self-review covered the builder, browser ownership/cleanup,
+  failure propagation, dependency changes, instruction adapters, provenance,
+  generated-file exclusion and delivery impact; no unresolved actionable findings.
+
+No production website, application UI, account metrics, field Core Web Vitals or
+external AI-answer visibility was audited. Actual Apple Design verification of
+an interface occurs when that interface exists. Browser smoke evidence is Windows
+only; other operating systems and hosted CI are unverified until observed.
+The next product priority remains item 2: website scope and stack. No merge or
+deployment is part of this task.
+
 ## PR #3 upstream integration — 2026-09-08
 
 Resolved [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3)

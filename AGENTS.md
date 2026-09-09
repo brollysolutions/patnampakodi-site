@@ -80,8 +80,8 @@ user also requests remediation.
 ## Architecture
 
 This repository currently contains workflow scaffolding and documentation only.
-There is no application, API, database, generated contract, deployment, or package
-manager configuration yet. Do not treat kit examples as existing architecture.
+There is no application, API, database, generated contract, deployment, or application
+package manager configuration yet. Do not treat kit examples as existing architecture.
 
 - `scripts/`: standard-library Python workflow engine, setup, tests, SEO checker.
 - `.githooks/`: local commit/push checks.
@@ -89,6 +89,7 @@ manager configuration yet. Do not treat kit examples as existing architecture.
 - `.agents/skills/`, `.claude/skills/`: identical project procedures.
 - `docs/agent-context/`: shared implementation records and public website guidance.
 - `docs/partner-workflow-guide.md`: installation, daily use, and troubleshooting.
+- `tools/seo-audit-tools/`: optional pinned browser tools and local plugin preparation.
 
 Choose and document the website stack in a separate product task. Server,
 contract, migration, and framework-specific steps apply only once those layers
@@ -128,13 +129,18 @@ truthful structured data and the Lighthouse budgets are not negotiable inside a
 design change. Run `$seo-review` on every public page change. Incorporate later
 user corrections into these records so they need not repeat their preferences.
 
-Use `docs/agent-context/design-skills.md` to choose one supplementary visual
-skill: `design-taste-frontend` for marketing pages or `frontend-design` for other
-interfaces. The locally installed `apple-design` skill can support the review
-pass. These references do not select our stack or override the user's brief,
-existing design decisions, accessibility, SEO, performance, or dependency review.
-Their sample personas and business claims are not facts about this project.
-Do not run bundled install commands or fetch changing design rules automatically.
+For every requested UI/UX design or redesign, use all three installed skills in
+the roles recorded in `docs/agent-context/design-skills.md`: `design-taste-frontend`
+for visual direction, `impeccable` for structure/refinement, and `kowalski-animation`
+for the motion decision and implementation. Use the installed `apple-design` skill
+to verify the result in `design-review`. No added animation is a valid decision;
+using all three does not require decorative effects or replacing existing tokens.
+Read relevant sections only and label missing Apple/browser evidence unverified.
+These skills do not select our stack or override the brief, approved design,
+accessibility, SEO, performance, dependency review or selected model. Source
+examples are not business facts. Do not run upstream downloaders/hooks, fetch
+mutable design rules or spawn agents automatically. Existing authorization
+persists; do not request the same design approval at each pass.
 
 ## Verification
 
@@ -219,9 +225,10 @@ follow its chain to completion.
 | Review this / is it safe to merge | `review-pr` | add `security-review` when the diff touches a trigger area; no edits |
 | Is this secure / audit this | `security-review` | no edits unless remediation is explicitly requested |
 | Will this rank / is the SEO right / check search visibility | `seo-review` | no edits unless remediation is explicitly requested |
+| Competitors, keywords, content audit/writing, AEO/GEO/LLMO or SEO strategy | `seo-ai-optimization` | relevant detailed procedures → `lighthouse-audit` for measured browser checks; audit stays read-only, implementation follows the existing delivery chain |
 | Commit, push, open the PR, or a stop hook says delivery is incomplete | `ship` | — |
 | Here are specs, requirements, or reference documents | `ingest-context` | `INDEX.md` row → `ship` when tracked files changed |
-| Design or redesign a public page | `design-reference` when the direction is unsettled, else `design-create` | `design-review` → `seo-review` → `review-pr` → `ship` |
+| Design or redesign UI/UX, including public pages and product interfaces | `design-reference` when the direction is unsettled, else `design-create` | Taste + Impeccable + Kowalski → `design-review` with Apple Design → `seo-review` for public surfaces → `review-pr` → `ship` |
 
 Security-review triggers: authentication or session handling, authorization and
 role checks, tenancy/RLS, migrations, PII, uploads, money movement, webhooks,
@@ -254,12 +261,18 @@ Routing rules:
 - `$security-review`: threat-model and audit code or a diff.
 - `$seo-review`: audit public pages for indexability, metadata, structured data,
   links and speed before they ship.
+- `$seo-ai-optimization`: detailed search strategy, competitor/keyword research,
+  content audits/writing, SEO/UI/UX and AEO/GEO/LLMO evidence.
+- `$lighthouse-audit`: optional local mobile/desktop Lighthouse and browser traces;
+  follow `docs/seo-toolkit-guide.md` for reviewed setup, scope and limitations.
 - `$review-pr`: review for actionable defects, regressions, and missing tests.
 - `$ship`: verify, commit, push, and create/update the PR.
 - `$ingest-context`: add user-supplied reference documents and reconcile them
   with current code.
 - `$design-reference`, `$design-create`, `$design-review`: pick, build, and audit
-  public-facing web UI.
+  requested web UI/UX using Taste, Impeccable and Kowalski, then Apple verification.
+- `$impeccable`: pinned design structure/refinement guidance; no automatic CLI/hooks.
+- `$kowalski-animation`: pinned motion decisions, implementation and reduced-motion checks.
 - `$private-project-workflow`: maintain this checkout's local working memory.
 
 Use the native invocation syntax exposed by the active agent. Skill contents

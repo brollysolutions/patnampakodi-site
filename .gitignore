@@ -237,5 +237,8 @@ test-results/
 playwright-report/
 blob-report/
 .lighthouseci/
+/seo-audits/
+/tools/seo-audit-tools/toolchain.json
+/tools/seo-audit-tools/.mcp.json
 .eslintcache
 *.tsbuildinfo

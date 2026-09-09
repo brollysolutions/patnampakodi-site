@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lighthouse & Browser Audits"
+  short_description: "Measured mobile/desktop SEO, accessibility and performance"
+  default_prompt: "Use $lighthouse-audit to run mobile and desktop Lighthouse audits, inspect browser evidence and report prioritized fixes with saved reports."
+policy:
+  allow_implicit_invocation: true

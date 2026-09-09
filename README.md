@@ -12,6 +12,11 @@ installation, day-to-day collaboration, and troubleshooting.
 - [Security guidance](SECURITY.md)
 - [Workflow audit](docs/agent-context/workflow-audit.md)
 - [Design skills and research](docs/agent-context/design-skills.md)
+- [Advanced SEO, AEO, GEO, LLMO and Lighthouse toolkit](docs/seo-toolkit-guide.md)
+
+Requested UI/UX work uses Taste for direction, Impeccable for structure and
+refinement, Kowalski for motion, and the installed Apple Design skill for review.
+The design guide records the pinned sources and evidence requirements.
 
 From a clone containing these files, run one setup command:
 

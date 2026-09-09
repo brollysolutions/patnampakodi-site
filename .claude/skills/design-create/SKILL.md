@@ -1,13 +1,16 @@
 ---
 name: design-create
-description: Build or redesign an approved public-facing or marketing web page against the project's existing design system. Use when the visual direction is already settled and the user asks to create, build, or redesign a page, landing section, or marketing surface.
+description: Build or redesign requested web UI/UX against the approved direction and existing design system. Use for public pages, marketing surfaces, product interfaces and components when the direction is settled. Apply Taste, Impeccable and Kowalski, then Apple Design verification.
 ---
 
 # Design Create
 
 Implement an approved direction with the system that already exists.
 
-Use one visual reference when it helps: `design-taste-frontend` for marketing pages, or `frontend-design` for other interfaces. Follow `docs/agent-context/design-skills.md` for scope and source precedence. Existing user approval remains valid.
+Use all three requested skills: `design-taste-frontend` for direction,
+`impeccable` for structure/refinement, and `kowalski-animation` for the motion
+decision and behavior. Follow `docs/agent-context/design-skills.md`; use relevant
+sections and preserve existing user approval. No added motion is a valid outcome.
 
 1. Read `.agent-workflow/DESIGN.md`, the affected route end to end, and the existing tokens, fonts, spacing scale, and component primitives. Find the closest existing page and match it before inventing anything.
 2. State one design read before editing: page kind, audience, the trust constraint the page carries, and the visual language in use. If the direction is not settled, stop and invoke `$design-reference`/`/design-reference` instead.
@@ -17,4 +20,6 @@ Use one visual reference when it helps: `design-taste-frontend` for marketing pa
 6. Keep it accessible by construction: semantic landmarks and heading order, labelled controls, visible focus, adequate contrast, real alt text, and no meaning carried by color alone. Respect reduced-motion preferences.
 7. Do not expose secrets through public environment variables, and do not embed third-party trademarks, logos, or brand assets the project has no license to use.
 8. Inspect the result in a real browser at each verified width, then run the web gate from `AGENTS.md`: lint, typecheck, tests, and build.
-9. Invoke `$design-review`/`/design-review` before shipping, address valid findings, then continue the chain to `$review-pr` and `$ship`.
+9. Invoke `$design-review`/`/design-review` with the installed `apple-design` skill,
+   address supported findings, run `$seo-review` for public surfaces, then continue
+   to `$review-pr` and `$ship`. State browser/device or Apple evidence gaps.

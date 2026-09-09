@@ -1,0 +1,6 @@
+interface:
+  display_name: "Kowalski Animation"
+  short_description: "Purposeful motion, interruption and reduced-motion design"
+  default_prompt: "Use $kowalski-animation with Taste and Impeccable to design this UI's motion, then verify with Apple Design."
+policy:
+  allow_implicit_invocation: true

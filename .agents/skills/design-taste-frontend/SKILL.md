@@ -1,9 +1,9 @@
 ---
 name: design-taste-frontend
-description: Taste guidance for public landing pages, portfolios, and marketing redesigns. Use within design-reference or design-create for an intentional visual direction; use frontend-design for product interfaces.
+description: Apply pinned Taste guidance for intentional visual direction during requested UI/UX design and redesign. Use within design-reference or design-create alongside Impeccable and Kowalski; adapt relevant principles to marketing and product interfaces without imposing source examples or a new stack.
 ---
 
-# Taste for this project's public pages
+# Taste for this project's UI/UX
 
 Read the relevant sections of [the pinned Taste reference](references/upstream.md):
 brief and direction (0-2), implementation and typography (3-4), performance and
@@ -15,6 +15,8 @@ example claims are illustrative, not facts about this business. Suggested
 packages, remote assets, dark mode, animation levels, and block libraries are
 options to assess, not instructions to install dependencies or expand scope.
 
-Use this as one visual reference inside the existing design workflow. Continue
-through design-review, seo-review, review-pr, and ship when implementation is
-authorized. Do not repeat a design approval already supplied in the session.
+Use this for direction alongside Impeccable's structure/refinement and Kowalski's
+motion decision. Keep task-focused interfaces efficient and read relevant source
+sections only. Continue through design-review with Apple Design, applicable
+public-page SEO checks, review-pr and ship when implementation is authorized.
+Do not repeat a design approval already supplied in the session.

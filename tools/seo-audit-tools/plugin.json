@@ -1,0 +1,25 @@
+{
+  "name": "seo-audit-tools",
+  "version": "0.1.0",
+  "description": "Free local Lighthouse and Chrome DevTools audits with repeatable reports and an SEO performance skill.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "SEO Audit Tools",
+    "shortDescription": "Lighthouse reports and Chrome DevTools audits",
+    "longDescription": "Personal local audit toolkit: pinned open-source Lighthouse and Chrome DevTools MCP, mobile and desktop reports, accessibility and network inspection, performance traces, and evidence-preserving audit guidance.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Audit this URL with Lighthouse on mobile and desktop.",
+      "Inspect this page's SEO, accessibility and performance."
+    ]
+  }
+}

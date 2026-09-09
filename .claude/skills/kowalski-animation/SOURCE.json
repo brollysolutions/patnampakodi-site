@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/emilkowalski/skills",
+  "revision": "d23d7f88a2e21c9e4b1418c7abe420f5c1052ba7",
+  "source_path": "skills/animate",
+  "reviewed_at": "2026-09-09",
+  "scope": "Pinned design guidance with a project entrypoint; no upstream executables, hooks or agent configurations installed",
+  "sha256": {
+    "LICENSE": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+    "references/RECIPES.md": "21ff63d84391db8d96ecdf9170095f55a42c836ccc36fd3269c4772bab031ba2",
+    "references/upstream.md": "f6317335da2662e92270dc0a6128bea95d7216cd751f86628e3ac6b72804e805"
+  }
+}

@@ -9,6 +9,11 @@ Read-only audit of what a crawler will actually receive. Rankings cannot be
 verified from a checkout; indexability, metadata, content rendering, links and
 speed can.
 
+For competitor/keyword research, existing-content strategy, writing or
+AEO/GEO/LLMO analysis, use the shared `seo-ai-optimization` skill's relevant
+procedures. Use `lighthouse-audit` for measured browser checks when configured.
+These extend the audit; they do not replace this project's public-page gates.
+
 1. Read `docs/agent-context/web-seo-playbook.md`, the route manifest, the changed
    files, and the redirect table. List every public URL the diff touches, including
    pages that inherit the change through the layout or shared components.

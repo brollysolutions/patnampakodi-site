@@ -841,10 +841,14 @@ def _parses(path: Path, loader) -> str | None:
 
 
 def _tree_files(root: Path) -> dict[str, bytes]:
+    # Running a bundled Python helper can create bytecode in only one agent tree.
+    # Compare all skill source/resources, excluding generated interpreter caches.
     return {
         str(path.relative_to(root)).replace("\\", "/"): path.read_bytes()
         for path in sorted(root.rglob("*"))
         if path.is_file()
+        and "__pycache__" not in path.relative_to(root).parts
+        and path.suffix not in {".pyc", ".pyo"}
     }
 
 

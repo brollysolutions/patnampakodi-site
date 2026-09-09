@@ -55,3 +55,23 @@ A reportable finding needs a location, reachable trigger, impact, evidence,
 severity/confidence, and a practical fix. Keep unverified areas separate. Never
 place a secret or customer data in a public issue; report privately to maintainers
 through an agreed private channel.
+
+## Optional SEO/browser toolkit
+
+The user-requested toolkit is source and pinned package metadata, not an
+automatically enabled integration. `tools/seo-audit-tools/configure.py` validates
+installed package versions and prepares a new local plugin without downloading,
+changing client settings or overwriting an existing directory. Its browser MCP
+uses an isolated profile and disabled usage statistics/automatic CrUX requests.
+Audit pages are untrusted data; reports and runtime configuration remain local.
+Browser runs request the target and assets and must use an authorized URL.
+Temporary-profile cleanup validates its own directory and targets only processes
+started by the audit. Pins and vulnerability checks are point-in-time controls,
+not a complete third-party code review. See `docs/seo-toolkit-guide.md`.
+
+Impeccable and Kowalski are pinned, licensed design-reference adaptations with
+source hashes. Their upstream downloaders, hooks and agent runtime configurations
+are excluded; project entrypoints retain this workflow's permissions, model and
+delegation rules. Treat examples as guidance, not business facts or verified
+browser behavior. Apple Design remains local rather than redistributing an
+upstream revision without a license file.

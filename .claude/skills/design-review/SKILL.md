@@ -16,7 +16,15 @@ Read-only audit of what the change actually renders.
    - **Responsive** — overflow, cramped or stranded layout, or a tap target under the minimum size at any supported width.
    - **Accessibility** — heading order, landmarks, control labels, focus visibility and order, contrast, alt text, meaning carried by color alone, and reduced-motion handling.
    - **Correctness** — a control that does nothing, a link to nowhere, mismatched copy, or a hidden control mistaken for an access control.
-4. Run the Apple Human Interface Guidelines pass when a HIG reference is already installed for the active agent — in either Codex or Claude Code that is the locally installed `apple-design` skill — covering the chapters this project's system already cites by name: Typography, Layout, Color, Writing, Motion, Materials, and Accessibility. It is a second opinion, not a second authority: `.agent-workflow/DESIGN.md` and the brand guide win every conflict, and HIG rules that assume a native app (platform chrome, system controls, app icons, gestures) do not transfer to a marketing website. When no such reference is installed, skip this step and say you skipped it; never install one to satisfy it.
+4. Use the installed `apple-design` skill to verify the Taste/Impeccable/Kowalski
+   result. Read relevant sections actually available in the skill. Check feedback,
+   spatial continuity, interruption/reversal, gesture velocity, restraint,
+   typography, layout and reduced motion where applicable. Verify control semantics
+   and focus: press feedback must not change activation behavior. The brief, brand
+   and approved design remain authoritative; native conventions are not automatic
+   web requirements. If the skill or browser evidence is unavailable, label that
+   verification unverified and name the missing layer. Do not claim it passed or
+   install tools as an incidental review action. Existing setup approval persists.
 5. Separate the findings into two ordered lists: **design divergence** (a judgment against this project's system) and **accessibility or correctness defects** (objectively wrong). Do not blur the two — the second list is not negotiable, the first is.
 6. Each finding needs a precise location, what renders now, what the system expects, and the smallest fix. Skip anything you did not actually verify in the code or the browser.
 7. If there are no findings, say so explicitly and list what was not verifiable — the widths not checked, the states not reachable, the browser not run.
