@@ -36,9 +36,13 @@ Fresh checks in this session:
   and rendered design, accessibility, Lighthouse and live integrations:
   unverified, not presented as passed.
 
-Delivery branch: `feat/pakodi-commerce-briefs`; PR URL/head evidence will be
-recorded after publication. Existing production and provider accounts were not
-changed. Historical status sections below retain their original evidence.
+Initial delivery `54dc9ba` was pushed to `origin/feat/pakodi-commerce-briefs`.
+The helper returned exit 0 and verified open
+[PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6), targeting
+`brollysolutions/patnampakodi-site:main`, matching local/remote head SHA and a clean
+worktree. This documentation follow-up records that observed initial delivery;
+current remote state must be read again. Existing production and provider
+accounts were not changed. Historical sections retain their original evidence.
 
 ## Approved stack and SEO requirement - 2026-09-09
 

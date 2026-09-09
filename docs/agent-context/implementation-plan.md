@@ -8,7 +8,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
-| 2. Define website scope using the approved stack | Source reconciliation and phased decision brief prepared; first-delivery scope, visual choices and hosting remain pending | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+| 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); first-delivery scope, visual choices and hosting remain pending | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
@@ -47,8 +47,12 @@ application/provider/browser/design verification remains not applicable or
 unverified as specified in the records. Initial sandbox execution was denied;
 the approved verification rerun exited 0.
 
-Delivery: task branch `feat/pakodi-commerce-briefs`, PR linkage to be recorded
-after fresh remote creation/readback. Next priority: resolve the proposed
+Initial delivery `54dc9ba` was committed and pushed from task branch
+`feat/pakodi-commerce-briefs`; the helper verified open
+[PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6) against shared
+`main`, matching head SHA and a clean worktree. This follow-up records that
+point-in-time observation; the current head must be checked again.
+Next priority: resolve the proposed
 first slice and open visual/indexability decisions, then implement phase A
 with B's public design using the approved stack. Hosting, canonical content and
 vendor decisions can be prepared alongside the build; live operations wait for
