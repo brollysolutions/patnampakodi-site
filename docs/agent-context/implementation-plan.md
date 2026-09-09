@@ -8,12 +8,55 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
-| 2. Define website scope using the approved stack | Stack approved 2026-09-09; website scope and hosting pending | Select when remaining scope is defined | Select when scoped |
+| 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); first-delivery scope, visual choices and hosting remain pending | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
 | 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 7. Preserve the approved stack and SEO requirement | Delivered for review in [PR #5](https://github.com/brollysolutions/patnampakodi-site/pull/5) | `gpt-6-astra` / Medium recommended; selected settings preserved | `gpt-6-astra` / Medium recommended; selected settings preserved |
+
+## Item 2: supplied commerce briefs — 2026-09-09
+
+The user supplied Patnam Pakodi design v0.2, FRAB MVP v4.1 and the Razorpay/
+WhatsApp integration v1.0 documents with the live URL and requested action.
+Preserve all three sources byte-for-byte, index their authority, trace all
+50 features (45 P0 / 5 P1), reconcile the approved stack and prepare concrete
+phased acceptance and visual proposals. Read-only live retrieval establishes
+the homepage's noindex/nofollow and seven linked page paths; it does not prove
+a complete URL inventory. Both GitHub repositories were verified private.
+
+See [commerce reconciliation](pakodi-commerce-reconciliation.md),
+[visual proposal](website-design-decisions.md) and
+[live-site baseline](pakodi-live-site-baseline.md). Each future phase carries
+its own recommended planning/implementation model and effort. This session
+preserved selected settings and used no subagents.
+
+Completed scope: source ingestion and reviewable delivery/design proposals.
+No application, dependencies, database, provider setup or deployment was added.
+Source conflicts remain explicit, particularly public/private indexability,
+email fallback, TOTP, content facts and design assets. The first delivery scope
+and privacy clarification were requested and remain unanswered. No proposal
+is recorded as an approved product decision.
+
+Fresh verification: full PowerShell CI gate passed on Python 3.13 (104 tests,
+22 matching skills, configuration and shell checks). A local document check
+passed source byte/hash equality, complete nonduplicated feature mapping,
+priority totals and relative links. Diff whitespace check passed. Security and
+PR self-review found no actionable defects in the documentation delivery;
+application/provider/browser/design verification remains not applicable or
+unverified as specified in the records. Initial sandbox execution was denied;
+the approved verification rerun exited 0.
+
+Initial delivery `54dc9ba` was committed and pushed from task branch
+`feat/pakodi-commerce-briefs`; the helper verified open
+[PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6) against shared
+`main`, matching head SHA and a clean worktree. This follow-up records that
+point-in-time observation; the current head must be checked again.
+Next priority: resolve the proposed
+first slice and open visual/indexability decisions, then implement phase A
+with B's public design using the approved stack. Hosting, canonical content and
+vendor decisions can be prepared alongside the build; live operations wait for
+their own authorized acceptance checks.
 
 ## Item 7 acceptance
 

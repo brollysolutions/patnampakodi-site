@@ -1,5 +1,49 @@
 # Feature status
 
+## Commerce source ingestion and delivery proposal — 2026-09-09
+
+Three user-supplied documents are archived unchanged and indexed. The
+[reconciled delivery brief](pakodi-commerce-reconciliation.md) maps every one
+of the MVP's 50 requirements (45 P0, 5 P1) into six proposed phases, with
+acceptance tests and separate planning/implementation effort recommendations.
+The [visual proposal](website-design-decisions.md) retains the locked fonts,
+colors and button contrast rule; cream, imagery and layout remain proposals.
+
+The limited [live-site baseline](pakodi-live-site-baseline.md) confirms HTTP 200,
+homepage noindex/nofollow, its canonical and seven linked public page paths.
+Only the homepage was retrieved; full migration inventory, browser inspection
+and business-content verification remain outstanding. The Playwright attempt
+did not provide usable browser evidence; HTTP retrieval succeeded.
+
+No application features are implemented by this change. Celery/Valkey source
+assumptions do not replace approved APScheduler/Redis. Stale feature references,
+email/TOTP assumptions, blanket production indexability, business facts and
+external fee/legal claims are documented without silently accepting them.
+Next priority: confirm the first build slice and the proposed design/privacy
+decisions, then implement the stored-content storefront foundation.
+
+Fresh checks in this session:
+
+- Full `scripts/verify.ps1 --ci` gate: exit 0, **104 tests**, **22 matching
+  shared skills**, configuration and shell checks. The initial sandbox attempt
+  failed to execute uv; the approved rerun passed using the installed runtime.
+- Local source/traceability/link check: exit 0; three byte-identical source
+  archives, recorded SHA-256 values, all 50 IDs covered once, correct P0/P1
+  totals and resolving derived-document relative links.
+- `git diff --check`: passed after an approved rerun following sandbox Git
+  access failure. Documentation/security self-review: no actionable findings.
+- API/web/migration checks: not applicable, those layers do not exist. Apple
+  and rendered design, accessibility, Lighthouse and live integrations:
+  unverified, not presented as passed.
+
+Initial delivery `54dc9ba` was pushed to `origin/feat/pakodi-commerce-briefs`.
+The helper returned exit 0 and verified open
+[PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6), targeting
+`brollysolutions/patnampakodi-site:main`, matching local/remote head SHA and a clean
+worktree. This documentation follow-up records that observed initial delivery;
+current remote state must be read again. Existing production and provider
+accounts were not changed. Historical sections retain their original evidence.
+
 ## Approved stack and SEO requirement - 2026-09-09
 
 Documented and verified: the user selected Next.js, Python/FastAPI,
