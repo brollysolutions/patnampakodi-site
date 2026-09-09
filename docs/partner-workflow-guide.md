@@ -18,9 +18,12 @@ own GitHub and coding-assistant accounts.
 
 ## What is ready today
 
-The workflow is installed; the website itself has not been built. There is no
-chosen application stack, running development server, production domain, or
-deployment configuration. Website/browser/SEO checks will become applicable when
+The workflow is installed; the website itself has not been built. The approved
+stack is Next.js, Python/FastAPI, PostgreSQL, APScheduler, Redis and Docker, with
+SEO-friendly public pages. See the [stack decision](agent-context/technology-stack.md).
+There is no running development server, production domain or deployment
+configuration. Hosting and SFTP/SSH access remain unconfirmed.
+Website/browser/SEO checks will become applicable when
 the website is added. Passing workflow tests is not a website launch approval.
 
 ## Get the files

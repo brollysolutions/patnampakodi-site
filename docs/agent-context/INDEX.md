@@ -26,6 +26,7 @@ evidence of a working website or an approved production domain.
 
 | Reference | Source / as of | Authority | Affected paths | Known differences |
 | --- | --- | --- | --- | --- |
+| [Approved technology stack and SEO requirement](technology-stack.md) | User conversation, 2026-09-09; verbatim instruction and derived summary | Authoritative for selected stack and SEO requirement; deployment assessment advisory | AGENTS.md, future website/API/database/jobs/deployment, implementation plan, partner guide | Supersedes stack-unselected guidance; no application exists yet. SFTP hosting/access remains unconfirmed. |
 | [Astra workflow adaptation](astra-workflow-reference.md) | User-supplied BrollyAI workflow, 2026-09-07; derived summary | Advisory; current AGENTS.md and explicit user instructions prevail | AGENTS.md, delivery engine/tests, mirrored skills, partner guide | BrollyAI's private scaffolding, existing application, and model config are not this checkout's architecture or settings. |
 
 The provided kit describes its source as BrollyAI commit `eaffc65`, captured

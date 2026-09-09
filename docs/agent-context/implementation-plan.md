@@ -8,11 +8,28 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
-| 2. Define website scope and choose stack | Not started | Select when scoped | Select when scoped |
+| 2. Define website scope using the approved stack | Stack approved 2026-09-09; website scope and hosting pending | Select when remaining scope is defined | Select when scoped |
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
 | 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+| 7. Preserve the approved stack and SEO requirement | Documented and verified; PR delivery pending | `gpt-6-astra` / Medium recommended; selected settings preserved | `gpt-6-astra` / Medium recommended; selected settings preserved |
+
+## Item 7 acceptance
+
+Preserve the user's stack/SEO instruction in `technology-stack.md`, index its
+authority and reconcile current guidance. Distinguish selected technology from
+implemented services and retain the unresolved SFTP/hosting question.
+Non-goals: application scaffolding, dependency installation, credentials,
+deployment configuration or deployment. Verify documentation links, review the
+diff, run the full applicable workflow gate and deliver a documentation PR.
+Next priority: item 2, website scope and hosting capabilities using the approved
+Next.js, Python/FastAPI, PostgreSQL, APScheduler, Redis and Docker stack.
+
+Fresh verification: full PowerShell CI gate passed 104 tests, 22-skill parity,
+configuration and shell syntax checks. Documentation/diff review found no
+actionable defects. Application, browser and deployment checks are not
+applicable because those layers do not exist. PR delivery is pending.
 
 ## Item 6 acceptance
 
