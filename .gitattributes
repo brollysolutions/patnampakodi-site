@@ -8,3 +8,5 @@
 *.yaml text eol=lf
 *.yml text eol=lf
 .githooks/* text eol=lf
+.agents/skills/**/LICENSE text eol=lf
+.claude/skills/**/LICENSE text eol=lf

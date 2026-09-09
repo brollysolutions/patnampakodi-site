@@ -1,13 +1,16 @@
 ---
 name: design-reference
-description: Choose a visual direction for a public or marketing web page before any UI is built. Use when the look, feel, or visual language of a page is unsettled, when the user asks for design options or inspiration, or when a redesign has no agreed direction yet.
+description: Choose a visual direction for requested web UI/UX before implementation. Use for public pages, marketing surfaces or product interfaces when the direction is unsettled or options are requested. Coordinate Taste, Impeccable and Kowalski without repeating an already approved decision.
 ---
 
 # Design Reference
 
 Settle the visual direction before code. This skill produces a decision, not an implementation.
 
-Use one visual reference when it helps: `design-taste-frontend` for marketing pages, or `frontend-design` for other interfaces. Follow `docs/agent-context/design-skills.md` for scope and source precedence. Existing user approval remains valid.
+Use `design-taste-frontend` for visual direction, `impeccable` for structure and
+user-task fit, and `kowalski-animation` for motion/no-motion posture. Follow
+`docs/agent-context/design-skills.md`; retain the brief, actual product facts and
+approved decisions. Apple Design verifies the implemented result later.
 
 1. Read `.agent-workflow/DESIGN.md` when it exists, the affected route, and the existing design tokens, fonts, spacing scale, and primitives. Establish what visual language already exists before proposing a new one.
 2. State the design read in one short paragraph: page kind (marketing, product, docs, transactional), audience, the trust constraint the page carries, and the visual language currently in use.

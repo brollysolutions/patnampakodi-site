@@ -39,3 +39,17 @@ Authority: user requested an audit with fixes, installation of Taste and Apple
 Design, and research into other established design skills. `workflow-audit.md`
 records confirmed gaps and verification; `design-skills.md` records the comparison,
 exact upstream revisions, licenses, installation scope, and routing decisions.
+
+## Advanced SEO and Lighthouse toolkit — 2026-09-09
+
+Authority: user requested detailed SEO/AEO/GEO/LLMO, competitor/keyword research,
+content writing/audits, UI/UX and free browser tooling, then requested a PR.
+`../seo-toolkit-guide.md` describes the shared skills, pinned open-source packages,
+local plugin preparation, evidence rules and account/runtime limits. Personal
+client configuration and reports are not redistributed. This does not choose the
+website stack or establish a production audit.
+
+The same task includes the user's follow-up to use Taste, Impeccable and Emil
+Kowalski's animation guidance whenever UI/UX design is requested, then verify with
+Apple Design. `design-skills.md` records the active sequence, pinned official
+sources, licenses, installed scope and differences from upstream execution flows.

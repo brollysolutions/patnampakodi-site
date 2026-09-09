@@ -10,6 +10,7 @@ the guards themselves are what gets tested. Run directly:
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -19,6 +20,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import agent_workflow as aw  # noqa: E402
 
 ROOT = Path("/repo")
+
+
+class SkillSourceParityTests(unittest.TestCase):
+    def test_generated_bytecode_is_ignored_but_source_changes_are_visible(self):
+        with tempfile.TemporaryDirectory(prefix="skill-parity-test-") as directory:
+            root = Path(directory)
+            left, right = root / "agents", root / "claude"
+            for tree in (left, right):
+                (tree / "skill/scripts").mkdir(parents=True)
+                (tree / "skill/SKILL.md").write_text("same instructions", encoding="utf-8")
+                (tree / "skill/scripts/helper.py").write_text("print(1)", encoding="utf-8")
+            cache = left / "skill/scripts/__pycache__"
+            cache.mkdir()
+            (cache / "helper.cpython-312.pyc").write_bytes(b"generated")
+            (left / "skill/scripts/legacy.pyc").write_bytes(b"generated")
+            self.assertEqual(aw._tree_files(left), aw._tree_files(right))
+            (right / "skill/scripts/helper.py").write_text("print(2)", encoding="utf-8")
+            self.assertNotEqual(aw._tree_files(left), aw._tree_files(right))
 
 
 class SensitivePathTests(unittest.TestCase):

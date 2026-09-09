@@ -1,5 +1,53 @@
 # Design skills: selection and sources
 
+## Active design workflow — 2026-09-09
+
+The user's latest instruction supersedes the earlier one-reference selection:
+use **Taste + Impeccable + Kowalski** for requested UI/UX work, followed by the
+installed **Apple Design** skill to verify the result. This applies to public
+pages and product interfaces. It does not request a website design during setup.
+
+| Pass | Skill | Responsibility |
+| --- | --- | --- |
+| Direction | `design-taste-frontend` | Product-specific visual language, typography, composition and restraint |
+| Structure/refinement | `impeccable` | Task flow, hierarchy, responsive layout, copy, states and polish |
+| Motion | `kowalski-animation` | Whether to animate, purpose, implementation, interruption and reduced motion |
+| Verification | Local `apple-design` through `design-review` | Feedback, continuity, gestures, restraint and applicable design/accessibility guidance |
+
+Read relevant sections from all three. No added animation is a valid decision.
+Preserve the brief, confirmed facts, tokens, control semantics, SEO and performance
+budgets. References do not authorize new dependencies, downloads, hooks, model
+switches or delegation. Existing approval persists. Apple verification uses the
+sections actually installed; missing skill/browser/device evidence is unverified.
+Public surfaces continue through `seo-review` before review and delivery.
+
+### New pinned installations
+
+| Skill | Official revision | Scope and license |
+| --- | --- | --- |
+| Impeccable | [`cd12f8660e2dde57b9615c8a6b8ea674101f9cfc`](https://github.com/pbakaus/impeccable/tree/cd12f8660e2dde57b9615c8a6b8ea674101f9cfc/.agents/skills/impeccable) | Shared mirrored skills and personal Codex skill; Apache-2.0, LICENSE and NOTICE retained |
+| Kowalski animation | [`d23d7f88a2e21c9e4b1418c7abe420f5c1052ba7`](https://github.com/emilkowalski/skills/tree/d23d7f88a2e21c9e4b1418c7abe420f5c1052ba7/skills/animate) | Shared mirrored `kowalski-animation` and personal Codex skill; MIT license retained |
+
+Project entrypoint adaptations retain original references and `SOURCE.json`
+hashes. Impeccable's optional downloader, CLI, live-edit hooks and agent configs
+are not installed. Its original references describe that larger product; the
+adaptation applies design criteria through existing tools and never claims its
+detector or independent critiques ran. Kowalski's `animate` skill is retained as
+reference; the adaptation preserves stack, accessibility and measured performance
+over universal source claims.
+
+Taste's existing pinned source and personal installation are reused. Apple Design
+is already installed locally and remains the verification reference; its source
+is not redistributed because no license was present in the installed revision.
+The Anthropic `frontend-design` reference stays available as a supplementary
+reference; it does not replace this requested three-skill chain.
+
+New personal skills are available to Codex on the next turn. Shared copies become
+available when collaborators pull the PR and reload their client's skills. Actual
+UI browser verification happens when an interface exists and is changed.
+
+## Earlier candidate review — historical context
+
 Reviewed 2026-09-08 after the user requested Taste, Apple Design, and research
 into established additions. Counts below are repository stars observed through
 the GitHub API on that date, not per-skill usage or a measure of design quality.
@@ -17,7 +65,7 @@ These decisions are project-fit judgments based on the upstream instructions and
 READMEs. They are not comparative output-quality benchmarks. No website exists
 yet, so browser-based design evaluations have not been run.
 
-## How to use the installed skills
+## Earlier selection procedure — superseded by the active workflow above
 
 Keep `design-reference` or `design-create` as the entry workflow. Select **one**
 supplementary visual reference: Taste for a marketing page, or Anthropic for a

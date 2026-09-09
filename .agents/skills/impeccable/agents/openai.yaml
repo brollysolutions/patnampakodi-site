@@ -1,0 +1,6 @@
+interface:
+  display_name: "Impeccable Design"
+  short_description: "UI structure, typography, states and detailed refinement"
+  default_prompt: "Use $impeccable with Taste and Kowalski to improve this UI, then verify with Apple Design and project checks."
+policy:
+  allow_implicit_invocation: true

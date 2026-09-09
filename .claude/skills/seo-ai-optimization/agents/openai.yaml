@@ -1,0 +1,6 @@
+interface:
+  display_name: "Advanced SEO, Content & UX"
+  short_description: "SEO, AEO, GEO, LLMO, content, competitors and UX audits"
+  default_prompt: "Use $seo-ai-optimization for a detailed SEO, AEO, GEO and LLMO audit covering competitors, keywords, existing content and UI/UX, with cited evidence and prioritized fixes."
+policy:
+  allow_implicit_invocation: true

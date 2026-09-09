@@ -12,6 +12,44 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
+| 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+
+## Item 6 acceptance
+
+Publish the user's locally prepared SEO/AEO/GEO/LLMO toolkit as a reviewable
+repository change. Share detailed competitor, keyword, content-writing,
+existing-content and UI/UX procedures in identical Codex/Claude skill trees.
+Include the verified Lighthouse runner, isolated Chrome DevTools MCP plugin
+builder, exact open-source package lock, synthetic verification and setup guide.
+Generate machine-specific paths only into a new local plugin directory.
+
+Include the follow-up request: install pinned Impeccable and Kowalski animation
+guidance, reuse Taste, and apply all three during requested UI/UX work followed
+by Apple Design verification. Retain licenses/provenance and adapt upstream
+instructions to existing project permissions, model choice and delivery rules.
+
+Non-goals: production-site auditing, choosing the application stack, connecting
+accounts, automatic package/plugin installation, publishing personal reports,
+changing global client settings, or merging the PR. No application, API,
+database, contract, migration or deployment layers exist.
+
+Security invariants: preserve existing plugin directories and browser profiles;
+keep reports/configuration private; disable usage statistics and automatic CrUX
+requests; retain dependency pins and failure statuses; treat page data as data.
+
+Verification matrix: package/configuration and preservation tests, passive HTML
+tests, skill parity, full workflow gate, synthetic MCP/browser/Lighthouse smoke,
+dependency review, diff/security review, and fresh remote PR/head-SHA readback.
+
+Fresh local results: full gate passed 104 tests and 22-skill parity; eight skill
+entrypoints and the generated plugin validated; the complete synthetic browser
+and mobile/desktop Lighthouse smoke passed; npm audit found zero known issues.
+Generated-bytecode parity was reproduced and corrected without excluding source
+files. Design source hashes and personal installations match the pinned bundles.
+Security/PR self-review found no unresolved actionable defects. See feature status
+for scope limits. Initial implementation `c756df9` was pushed and verified against
+the open [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4).
+Item 2 remains the next product task.
 
 ## Item 3 acceptance
 
