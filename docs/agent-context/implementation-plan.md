@@ -13,7 +13,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
 | 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
-| 7. Preserve the approved stack and SEO requirement | Documented and verified; PR delivery pending | `gpt-6-astra` / Medium recommended; selected settings preserved | `gpt-6-astra` / Medium recommended; selected settings preserved |
+| 7. Preserve the approved stack and SEO requirement | Delivered for review in [PR #5](https://github.com/brollysolutions/patnampakodi-site/pull/5) | `gpt-6-astra` / Medium recommended; selected settings preserved | `gpt-6-astra` / Medium recommended; selected settings preserved |
 
 ## Item 7 acceptance
 
@@ -29,7 +29,8 @@ Next.js, Python/FastAPI, PostgreSQL, APScheduler, Redis and Docker stack.
 Fresh verification: full PowerShell CI gate passed 104 tests, 22-skill parity,
 configuration and shell syntax checks. Documentation/diff review found no
 actionable defects. Application, browser and deployment checks are not
-applicable because those layers do not exist. PR delivery is pending.
+applicable because those layers do not exist. Initial delivery `d1ec065` was
+pushed and verified against open [PR #5](https://github.com/brollysolutions/patnampakodi-site/pull/5).
 
 ## Item 6 acceptance
 
