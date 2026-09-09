@@ -26,9 +26,13 @@ crawlable links, sitemap/robots, truthful structured data, accessible responsive
 pages, and measured production-build performance. These are acceptance
 requirements, not evidence that a website currently passes them.
 
-Versions, application package managers, page scope, business content, domain,
-hosting provider, and deployment access remain undecided. Choosing this stack
-does not authorize installing dependencies or deploying services in this task.
+Versions, application package managers, approved business content, hosting
+provider and deployment access remain undecided. The later 2026-09-09 request
+supplies `https://patnampakodi.com/` and the MVP/design/integration briefs;
+[commerce reconciliation](pakodi-commerce-reconciliation.md) now records the
+requested feature inventory and pending first-delivery scope. The original
+stack-memory task did not authorize dependency installation or deployment.
+The new build request does not establish production access or cutover approval.
 
 ## Deployment question (unresolved)
 
