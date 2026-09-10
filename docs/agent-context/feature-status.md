@@ -1,5 +1,20 @@
 # Feature status
 
+## Commit-before-response correction — 2026-09-11
+
+CI exposed an order-approval refresh failure. A deterministic ASGI regression
+observed HTTP 200 while another database connection still read `requested`.
+The commerce dependency now uses function scope so commit/rollback completes
+before the response starts. The same regression then reads `approved`; all eight
+targeted transaction/admin tests pass on the stacked admin branch. Full checks
+on this branch follow. Planning/implementation/security recommendation remains
+gpt-6-astra / Extra High; selected settings are unchanged.
+
+The catalog branch's Ubuntu CI passes browser/SEO/container smoke, then its
+Lighthouse subprocess exits before producing scores. Remove quiet logging to
+retain the launch diagnosis; no browser flags or budgets are relaxed. PR #8
+remains draft until full verification passes.
+
 ## PR1 CI correction ? 2026-09-11
 
 Draft PR #8 is open at `efebb72`; its first fork CI passed all four workflow

@@ -69,7 +69,8 @@ from app.security import (
 )
 
 router = APIRouter(prefix="/v1")
-DB = Annotated[psycopg.AsyncConnection, Depends(database)]
+# Commit or roll back before exposing the response to a following customer/staff request.
+DB = Annotated[psycopg.AsyncConnection, Depends(database, scope="function")]
 Admin = Annotated[dict, Depends(admin)]
 
 

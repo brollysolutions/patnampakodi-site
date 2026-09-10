@@ -7,6 +7,11 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+PR #8 follow-up: commit the commerce transaction before HTTP success becomes
+visible, proven by a failing-then-passing ASGI/independent-connection regression.
+Retain Lighthouse launch diagnostics for the unresolved Ubuntu execution error;
+the existing performance thresholds remain mandatory.
+
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
 Fatface/Archivo fonts and orange/brown/cream palette. Each PR includes its own

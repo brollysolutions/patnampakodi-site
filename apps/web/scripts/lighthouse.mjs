@@ -28,7 +28,6 @@ for (const route of ["/", "/menu/", "/contact/"]) {
       const args = [
         "node_modules/lighthouse/cli/index.js",
         new URL(route, baseURL).href,
-        "--quiet",
         "--save-assets",
         "--output=json",
         "--output=html",
