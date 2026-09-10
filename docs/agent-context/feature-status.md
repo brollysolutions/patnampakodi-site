@@ -1,5 +1,8 @@
 # Feature status
 
+CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox. Lighthouse now supplies every pinned default explicitly while avoiding that implicit flag, so the installed companion helper can be used. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No budgets or throttling changed; new Linux runtime/performance acceptance is pending.
+
+
 ## Admin completion — 2026-09-11
 
 Item 12 is prepared for draft PR #10 on `feat/admin-completion`, stacked on PR #9. Acceptance:
