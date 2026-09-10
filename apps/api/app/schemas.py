@@ -1,9 +1,9 @@
 """Public wire models. Editorial provenance and publication flags stay private."""
 
-from typing import Literal
+from typing import Annotated, Literal
 from urllib.parse import urlsplit
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class PublicModel(BaseModel):
@@ -109,7 +109,26 @@ class FranchiseModel(PublicModel):
 
 
 class Product(PublicModel):
-    # Every field is required before a product can enter the public response.
+    # Optional discovery metadata never substitutes for the required food facts.
+    category: str = Field(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=80)
+    tags: list[Annotated[str, Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$", max_length=80)]] = Field(
+        default_factory=list, max_length=20
+    )
+    image: str = Field(default="", pattern=r"^(?:/images/live/[a-z0-9-]+\.webp)?$")
+    compare_at_price_paise: int | None = Field(default=None, gt=0, le=100000000)
+
+    @model_validator(mode="after")
+    def valid_reference_price(self):
+        if (
+            self.compare_at_price_paise is not None
+            and self.compare_at_price_paise < self.price_paise
+        ):
+            raise ValueError("Original price must be at least the current price")
+        if len(set(self.tags)) != len(self.tags):
+            raise ValueError("Product tags must be unique")
+        return self
+
+    # Every food/identity field is required before publication.
     slug: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     name: str = Field(min_length=1, max_length=200)
     description: str = Field(min_length=1, max_length=5000)

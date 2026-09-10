@@ -1229,9 +1229,16 @@ export interface components {
             quote_version: number;
         };
         /** Product */
-        Product: {
+        "Product-Input": {
             /** Allergens */
             allergens: string;
+            /**
+             * Category
+             * @default
+             */
+            category: string;
+            /** Compare At Price Paise */
+            compare_at_price_paise?: number | null;
             /** Consumer Care */
             consumer_care: string;
             /** Description */
@@ -1241,6 +1248,11 @@ export interface components {
              * @enum {string}
              */
             dietary: "veg" | "non-veg";
+            /**
+             * Image
+             * @default
+             */
+            image: string;
             /** Ingredients */
             ingredients: string;
             /** Manufacturer */
@@ -1257,6 +1269,52 @@ export interface components {
             shelf_life: string;
             /** Slug */
             slug: string;
+            /** Tags */
+            tags?: string[];
+        };
+        /** Product */
+        "Product-Output": {
+            /** Allergens */
+            allergens: string;
+            /**
+             * Category
+             * @default
+             */
+            category: string;
+            /** Compare At Price Paise */
+            compare_at_price_paise: number | null;
+            /** Consumer Care */
+            consumer_care: string;
+            /** Description */
+            description: string;
+            /**
+             * Dietary
+             * @enum {string}
+             */
+            dietary: "veg" | "non-veg";
+            /**
+             * Image
+             * @default
+             */
+            image: string;
+            /** Ingredients */
+            ingredients: string;
+            /** Manufacturer */
+            manufacturer: string;
+            /** Name */
+            name: string;
+            /** Net Quantity */
+            net_quantity: string;
+            /** Nutrition */
+            nutrition: string;
+            /** Price Paise */
+            price_paise: number;
+            /** Shelf Life */
+            shelf_life: string;
+            /** Slug */
+            slug: string;
+            /** Tags */
+            tags: string[];
         };
         /** QuickEnquiry */
         QuickEnquiry: {
@@ -1436,7 +1494,7 @@ export interface components {
             /** Pages */
             pages: components["schemas"]["Page"][];
             /** Products */
-            products: components["schemas"]["Product"][];
+            products: components["schemas"]["Product-Output"][];
             /** Revision */
             revision: string;
             /** Tagline */
@@ -1482,7 +1540,7 @@ export interface components {
             hsn: string;
             /** Media Id */
             media_id?: string | null;
-            product: components["schemas"]["Product"];
+            product: components["schemas"]["Product-Input"];
             /**
              * Published
              * @default false
@@ -1504,7 +1562,7 @@ export interface components {
             id: string;
             /** Media Id */
             media_id: string | null;
-            product: components["schemas"]["Product"];
+            product: components["schemas"]["Product-Output"];
             /**
              * Published
              * @default false
@@ -2403,7 +2461,14 @@ export interface operations {
     };
     catalog_v1_catalog_get: {
         parameters: {
-            query?: never;
+            query?: {
+                q?: string;
+                category?: string;
+                tag?: string;
+                dietary?: "" | "veg" | "non-veg";
+                max_price?: number | null;
+                sort?: "default" | "price-asc" | "price-desc" | "name";
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -2417,6 +2482,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["VariantView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -2714,7 +2788,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Product"];
+                    "application/json": components["schemas"]["Product-Output"];
                 };
             };
             /** @description Validation Error */

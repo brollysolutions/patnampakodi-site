@@ -32,7 +32,7 @@ test("customer request, staff approval, private access and cancellation", async 
     ).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      "https://patnampakodi.com/shop/fixture-mix/",
+      "https://patnampakodi.com/product/fixture-mix/",
     );
     expect(
       (

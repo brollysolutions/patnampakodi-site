@@ -184,5 +184,29 @@
     "sha256": "5ccb77f596c15d5c9dd1749da8091cad28df06f24d67b4436d3edde14526aac9",
     "width": 1104,
     "height": 1104
+  },
+  "chettinadu-pakodi-ready-mix.webp": {
+    "source": "https://patnampakodi.com/wp-content/uploads/2026/08/Chettinadu-Pakodi-Ready-Mix.png",
+    "sha256": "fd9d15dabed497156af6bc8a1c20754908d548b0b38b0acb91b36a0afef21cfd",
+    "width": 943,
+    "height": 757
+  },
+  "green-chilli-pakodi-ready-mix.webp": {
+    "source": "https://patnampakodi.com/wp-content/uploads/2026/08/Green-Chilli-Pakodi-Ready-Mix.png",
+    "sha256": "5e0f6527e898ef6ca040bea1942493a2d3d1498f23a562acdf1c6e31bd3ce752",
+    "width": 946,
+    "height": 757
+  },
+  "pepper-pakodi-ready-mix.webp": {
+    "source": "https://patnampakodi.com/wp-content/uploads/2026/08/Papper-Pakodi-Ready-Mix.png",
+    "sha256": "b2b95318bece44cc305793c57f280141a33bbc1784ebdfa0c8d14fbb6b34ff98",
+    "width": 942,
+    "height": 777
+  },
+  "red-chilli-pakodi-ready-mix.webp": {
+    "source": "https://patnampakodi.com/wp-content/uploads/2026/08/Red-Chilli-Pakodi-Ready-Mix.png",
+    "sha256": "d196ad2548cd130fa580e493cd3712f2ff94de54293235a96087ce8d5e9acda3",
+    "width": 947,
+    "height": 752
   }
 }

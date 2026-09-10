@@ -30,10 +30,30 @@ function saveCart(cart: Cart) {
 }
 export { Field, Notice } from "./FormFields";
 import { Field, Notice } from "./FormFields";
-export function AddToCart({ variant }: { variant: Schema["VariantView"] }) {
+export function AddToCart({
+  variant,
+  quantityInput = false,
+}: {
+  variant: Schema["VariantView"];
+  quantityInput?: boolean;
+}) {
+  const [quantity, setQuantity] = useState("1");
   const [message, setMessage] = useState("");
   return (
     <>
+      {quantityInput && (
+        <label className="field">
+          Quantity
+          <input
+            type="number"
+            min={1}
+            max={100}
+            step={1}
+            value={quantity}
+            onChange={(event) => setQuantity(event.target.value)}
+          />
+        </label>
+      )}
       <button
         className="button"
         disabled={variant.stock <= variant.reserved}
@@ -43,9 +63,22 @@ export function AddToCart({ variant }: { variant: Schema["VariantView"] }) {
             const existing = cart.find(
               (line) => line.variant_id === variant.id,
             );
-            if (existing)
-              existing.quantity = Math.min(100, existing.quantity + 1);
-            else cart.push({ variant_id: variant.id, quantity: 1 });
+            const count = quantityInput ? Number(quantity) : 1;
+            if (!Number.isInteger(count) || count < 1 || count > 100) {
+              setMessage("Choose a quantity from 1 to 100.");
+              return;
+            }
+            if (
+              (existing?.quantity ?? 0) + count > 100 ||
+              (!existing && cart.length >= 50)
+            ) {
+              setMessage(
+                "Cart limit reached. Adjust the quantities in your cart.",
+              );
+              return;
+            }
+            if (existing) existing.quantity += count;
+            else cart.push({ variant_id: variant.id, quantity: count });
             saveCart(cart);
             setMessage("Added to your cart.");
           } catch {

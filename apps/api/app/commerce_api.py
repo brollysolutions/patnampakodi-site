@@ -8,7 +8,7 @@ import json
 import os
 import uuid
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Literal
 
 import psycopg
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
@@ -50,7 +50,7 @@ from app.commerce_schemas import (
     VariantView,
 )
 from app.config import BRAND, media_root, origin, setting
-from app.schemas import FranchiseModel, MenuItem, Outlet, Page
+from app.schemas import FranchiseModel, MenuItem, Outlet, Page, Product
 from app.security import (
     DUMMY_PASSWORD_HASH,
     admin,
@@ -102,10 +102,22 @@ def variant_view(record):
 
 
 @router.get("/catalog", response_model=list[VariantView])
-async def catalog(conn: DB):
+async def catalog(
+    conn: DB,
+    q: str = Query(default="", max_length=100),
+    category: str = Query(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=80),
+    tag: str = Query(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=80),
+    dietary: Literal["", "veg", "non-veg"] = "",
+    max_price: int | None = Query(default=None, ge=0, le=100000000),
+    sort: Literal["default", "price-asc", "price-desc", "name"] = "default",
+):
+    from app.catalog import search_catalog
+
     return [
         variant_view(row)
-        for row in await rows(conn, "SELECT * FROM variants WHERE published ORDER BY slug")
+        for row in await search_catalog(
+            conn, q=q, category=category, tag=tag, dietary=dietary, max_price=max_price, sort=sort
+        )
     ]
 
 
@@ -530,7 +542,7 @@ RETURNING *
     return variant_view(record)
 
 
-CSV_FIELDS = [
+LEGACY_CSV_FIELDS = [
     "sku",
     "slug",
     "name",
@@ -550,6 +562,9 @@ CSV_FIELDS = [
 ]
 
 
+CSV_FIELDS = LEGACY_CSV_FIELDS + ["category", "tags", "image", "compare_at_price_paise"]
+
+
 @router.get("/admin/products.csv")
 async def export_products(conn: DB, actor: Admin):
     output = io.StringIO()
@@ -557,12 +572,13 @@ async def export_products(conn: DB, actor: Admin):
     writer.writeheader()
     for row in await rows(conn, "SELECT * FROM variants ORDER BY sku"):
         data = {
-            **row["product"],
+            **Product.model_validate(row["product"]).model_dump(),
             "sku": row["sku"],
             "gst_bps": row["gst_bps"],
             "hsn": row["hsn"],
             "published": str(row["published"]).lower(),
         }
+        data["tags"] = "|".join(data["tags"])
         writer.writerow(
             {
                 key: (
@@ -586,7 +602,7 @@ async def import_products(request: Request, conn: DB, actor: Admin):
     try:
         text = (await request.body()).decode("utf-8-sig")
         reader = csv.DictReader(io.StringIO(text))
-        if reader.fieldnames != CSV_FIELDS:
+        if reader.fieldnames not in (CSV_FIELDS, LEGACY_CSV_FIELDS):
             raise ValueError("Use the exported column headings")
         imported = list(reader)
         if not 1 <= len(imported) <= 1000:
@@ -603,19 +619,28 @@ async def import_products(request: Request, conn: DB, actor: Admin):
                 raise ValueError("published must be true or false")
             product = {
                 key: row[key]
-                for key in CSV_FIELDS
+                for key in reader.fieldnames
                 if key not in {"sku", "gst_bps", "hsn", "published"}
             }
             product["price_paise"] = int(product["price_paise"])
+            if "tags" in product:
+                product["tags"] = product["tags"].split("|") if product["tags"] else []
+                product["compare_at_price_paise"] = (
+                    int(product["compare_at_price_paise"])
+                    if product["compare_at_price_paise"]
+                    else None
+                )
+            existing = await one(
+                conn, "SELECT id,media_id,product FROM variants WHERE sku=%s", (row["sku"].strip(),)
+            )
+            if existing and reader.fieldnames == LEGACY_CSV_FIELDS:
+                product = {**existing["product"], **product}
             payload = VariantInput(
                 sku=row["sku"],
                 product=product,
                 gst_bps=int(row["gst_bps"]),
                 hsn=row["hsn"],
                 published=row["published"] == "true",
-            )
-            existing = await one(
-                conn, "SELECT id,media_id FROM variants WHERE sku=%s", (payload.sku,)
             )
             if existing:
                 payload.media_id = existing["media_id"]

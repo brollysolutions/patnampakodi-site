@@ -1,8 +1,30 @@
 # Feature status
 
+## Ecommerce completion ? 2026-09-11
+
+Item 11 is in progress on `feat/commerce-catalog`, stacked on draft PR #8.
+Acceptance: published-only original product/category/tag URLs and sitemap,
+bounded combined catalog search/sorting, quantity/cart flow and admin/CSV
+metadata round trips. Prices and stock remain server-authoritative. Incomplete
+source products stay unpublished; real food/tax/seller inputs remain outstanding.
+Fresh verification passes 65 API tests, one migration head, generated contracts,
+19 web unit tests, lint/types/build, all 48 browser/axe tests and technical SEO
+on 13 public routes. All 35 original asset hashes match. Docker build/migration,
+seed, API/web/worker and local TLS proxy smoke pass. Windows Lighthouse completed
+all 18 runs: desktop medians pass (94/96/97); mobile medians fail (71/70/74), with
+slow-CPU warnings. Budgets remain unchanged. Reports are retained locally at
+`lighthouse-1789067711968`. Ubuntu performance remains unverified: PR1 CI stopped
+at two menu load waits, whose DOM-ready correction now passes all three widths.
+
+Recommendation: gpt-6-astra / Extra High for planning, implementation and final
+security review; selected settings are unchanged. No new provider integration,
+customer accounts, courier, coupon or review system is included in this slice.
+
 ## Four-PR completion — 2026-09-10
 
-The user approved the full website/ecommerce/admin plan. Item 10 is in progress:
+The user approved the full website/ecommerce/admin plan. Item 10 is delivered
+as draft [PR #8](https://github.com/brollysolutions/patnampakodi-site/pull/8),
+commit `efebb72`; remote head and clean status verified. Its purpose:
 preserve the live-site content, original images, section order and URLs, while
 retaining Abril Fatface, Archivo and the project's orange/brown/cream tokens.
 The phone-only entry form now has a retry-safe backend and a stored admin lead.

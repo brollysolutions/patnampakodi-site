@@ -1255,13 +1255,33 @@
         "title": "PaymentStart",
         "type": "object"
       },
-      "Product": {
+      "Product-Input": {
         "additionalProperties": false,
         "properties": {
           "allergens": {
             "minLength": 1,
             "title": "Allergens",
             "type": "string"
+          },
+          "category": {
+            "default": "",
+            "maxLength": 80,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Category",
+            "type": "string"
+          },
+          "compare_at_price_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 100000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compare At Price Paise"
           },
           "consumer_care": {
             "minLength": 1,
@@ -1280,6 +1300,12 @@
               "non-veg"
             ],
             "title": "Dietary",
+            "type": "string"
+          },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
             "type": "string"
           },
           "ingredients": {
@@ -1323,9 +1349,146 @@
             "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
             "title": "Slug",
             "type": "string"
+          },
+          "tags": {
+            "items": {
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Tags",
+            "type": "array"
           }
         },
         "required": [
+          "slug",
+          "name",
+          "description",
+          "price_paise",
+          "dietary",
+          "ingredients",
+          "allergens",
+          "nutrition",
+          "net_quantity",
+          "shelf_life",
+          "manufacturer",
+          "consumer_care"
+        ],
+        "title": "Product",
+        "type": "object"
+      },
+      "Product-Output": {
+        "additionalProperties": false,
+        "properties": {
+          "allergens": {
+            "minLength": 1,
+            "title": "Allergens",
+            "type": "string"
+          },
+          "category": {
+            "default": "",
+            "maxLength": 80,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Category",
+            "type": "string"
+          },
+          "compare_at_price_paise": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 100000000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compare At Price Paise"
+          },
+          "consumer_care": {
+            "minLength": 1,
+            "title": "Consumer Care",
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "title": "Description",
+            "type": "string"
+          },
+          "dietary": {
+            "enum": [
+              "veg",
+              "non-veg"
+            ],
+            "title": "Dietary",
+            "type": "string"
+          },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
+            "type": "string"
+          },
+          "ingredients": {
+            "minLength": 1,
+            "title": "Ingredients",
+            "type": "string"
+          },
+          "manufacturer": {
+            "minLength": 1,
+            "title": "Manufacturer",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "net_quantity": {
+            "minLength": 1,
+            "title": "Net Quantity",
+            "type": "string"
+          },
+          "nutrition": {
+            "minLength": 1,
+            "title": "Nutrition",
+            "type": "string"
+          },
+          "price_paise": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 100000000.0,
+            "title": "Price Paise",
+            "type": "integer"
+          },
+          "shelf_life": {
+            "minLength": 1,
+            "title": "Shelf Life",
+            "type": "string"
+          },
+          "slug": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Slug",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "maxLength": 80,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "category",
+          "tags",
+          "image",
+          "compare_at_price_paise",
           "slug",
           "name",
           "description",
@@ -1781,7 +1944,7 @@
           },
           "products": {
             "items": {
-              "$ref": "#/components/schemas/Product"
+              "$ref": "#/components/schemas/Product-Output"
             },
             "title": "Products",
             "type": "array"
@@ -1923,7 +2086,7 @@
             "title": "Media Id"
           },
           "product": {
-            "$ref": "#/components/schemas/Product"
+            "$ref": "#/components/schemas/Product-Input"
           },
           "published": {
             "default": false,
@@ -1977,7 +2140,7 @@
             "title": "Media Id"
           },
           "product": {
-            "$ref": "#/components/schemas/Product"
+            "$ref": "#/components/schemas/Product-Output"
           },
           "published": {
             "default": false,
@@ -3129,6 +3292,92 @@
     "/v1/catalog": {
       "get": {
         "operationId": "catalog_v1_catalog_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 80,
+              "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+              "title": "Category",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 80,
+              "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+              "title": "Tag",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dietary",
+            "required": false,
+            "schema": {
+              "default": "",
+              "enum": [
+                "",
+                "veg",
+                "non-veg"
+              ],
+              "title": "Dietary",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "max_price",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 100000000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Max Price"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "default",
+              "enum": [
+                "default",
+                "price-asc",
+                "price-desc",
+                "name"
+              ],
+              "title": "Sort",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -3143,6 +3392,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Catalog"
@@ -3463,7 +3722,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/Product-Output"
                 }
               }
             },

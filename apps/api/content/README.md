@@ -8,6 +8,13 @@ The source facts are observational, not independent verification; no copied
 review/rating claims are promoted to aggregate-rating structured data. The
 publication gates for sellable products and approved seller settings remain.
 Original images are recorded under `apps/web/public/images/live/PROVENANCE.json`.
+
+`catalog-source-inventory.json` preserves the seven original product URLs and
+their category/tag paths, titles and artwork. It is an observation inventory,
+not seed data. The source's displayed prices and body tax notes conflict, and
+required food/seller information is incomplete. An operator must supply approved
+product and tax records before publication. Four original pack images are kept
+locally with hashes; adding an image does not approve its printed claims.
 Menu cards and branch sections bind to their published CMS records. The branch
 contact details displayed in the source are imported as editable editorial
 content; they do not establish verified locations and are not promoted to

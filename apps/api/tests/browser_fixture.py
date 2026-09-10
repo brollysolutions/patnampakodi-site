@@ -41,7 +41,19 @@ def main():
             """INSERT INTO variants(id,brand_id,sku,slug,product,price_paise,
           gst_bps,hsn,stock,published) VALUES(%s,%s,'BROWSER','fixture-mix',%s,11800,
           1800,'2106',10,true)""",
-            (identifier, BRAND, Jsonb(PRODUCT)),
+            (
+                identifier,
+                BRAND,
+                Jsonb(
+                    {
+                        **PRODUCT,
+                        "category": "fixture-mixes",
+                        "tags": ["fixture-pepper"],
+                        "image": "/images/live/pepper-pakodi-ready-mix.webp",
+                        "compare_at_price_paise": 15000,
+                    }
+                ),
+            ),
         )
     print(json.dumps({"recovery": recovery[0], "variant": str(identifier)}))
 

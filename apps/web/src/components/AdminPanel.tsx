@@ -484,7 +484,16 @@ function Products({ action }: { action: Action }) {
     const payload = {
       sku: form.get("sku"),
       product: {
+        ...editing?.product,
         ...product,
+        category: String(form.get("category") ?? "").trim(),
+        tags: String(form.get("tags") ?? "")
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+        compare_at_price_paise: form.get("compare")
+          ? Math.round(Number(form.get("compare")) * 100)
+          : null,
         price_paise: Math.round(Number(form.get("price")) * 100),
       },
       gst_bps: Math.round(Number(form.get("gst")) * 100),
@@ -597,6 +606,7 @@ function Products({ action }: { action: Action }) {
           name="slug"
           label="Permanent product URL slug"
           defaultValue={editing?.product.slug}
+          readOnly={Boolean(editing)}
           pattern="[a-z0-9]+(-[a-z0-9]+)*"
         />
         <Field
@@ -616,6 +626,33 @@ function Products({ action }: { action: Action }) {
           min="0.01"
           step="0.01"
           defaultValue={editing ? editing.product.price_paise / 100 : undefined}
+        />
+        <Field
+          name="category"
+          label="Category URL slug (optional)"
+          required={false}
+          defaultValue={editing?.product.category ?? ""}
+          pattern="[a-z0-9]+(-[a-z0-9]+)*"
+          maxLength={80}
+        />
+        <Field
+          name="tags"
+          label="Tag URL slugs, comma separated (optional)"
+          required={false}
+          defaultValue={editing?.product.tags?.join(", ") ?? ""}
+        />
+        <Field
+          name="compare"
+          label="Original price in INR (optional)"
+          type="number"
+          required={false}
+          min="0.01"
+          step="0.01"
+          defaultValue={
+            editing?.product.compare_at_price_paise
+              ? editing.product.compare_at_price_paise / 100
+              : ""
+          }
         />
         <label className="field">
           Dietary mark

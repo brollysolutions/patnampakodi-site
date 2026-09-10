@@ -16,7 +16,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         /^policies\/[a-z0-9-]+$/.test(page.slug),
     ),
     ...content.outlets.map((item) => ({ slug: "branches/" + item.slug })),
-    ...catalog.map((item) => ({ slug: "shop/" + item.product.slug })),
+    ...catalog.map((item) => ({ slug: "product/" + item.product.slug })),
+    ...[
+      ...new Set(catalog.map((item) => item.product.category).filter(Boolean)),
+    ].map((category) => ({ slug: "product-category/" + category })),
+    ...[...new Set(catalog.flatMap((item) => item.product.tags ?? []))].map(
+      (tag) => ({ slug: "product-tag/" + tag }),
+    ),
   ].map((page) => ({
     url: `${SITE_URL}${pathFor(page.slug)}`,
     lastModified: content.revision,
