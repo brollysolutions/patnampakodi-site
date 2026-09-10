@@ -2,9 +2,56 @@
 
 ## Current scope
 
-As of 2026-09-07 this repository contains developer workflow scripts and
-documentation. No website, authentication, customer database, payment processing,
-or deployment is implemented. Revisit this model when product code is introduced.
+The MVP introduces public storefront content, customer order/address data,
+named administrator credentials, payments/refunds, uploads, notifications and
+Docker packaging. No production account, customer dataset or host was accessed.
+See `docs/commerce-operations.md` for deployment trust, recovery and release gates.
+
+Public content uses the read-only `pakodi_reader` role. Commerce uses `pakodi_app`
+with fixed server-side brand context, FORCE RLS, no superuser/bypass rights and
+append-only audit permissions. Owner credentials are limited to migration and
+operator provisioning. Real secrets are supplied through restricted runtime
+files; local Docker passwords are synthetic and production startup rejects them.
+
+Passwords use Argon2; TOTP secrets, queued private links and raw webhook payloads
+are encrypted. Sessions, recovery codes and management tokens are stored hashed.
+Admins require password plus replay-resistant TOTP or an enrolled single-use
+recovery code. Sessions are HttpOnly/SameSite Strict with server-side CSRF and
+Origin checks on writes; production cookies require HTTPS. Management tokens
+authorize only their order. Phone/reference lookup returns minimal status with
+distributed rate limits, which fail closed if Redis is unavailable.
+
+Stock reservations and financial transitions serialize on PostgreSQL order and
+variant locks. One captured payment owns fulfillment; obsolete/additional captures
+refund their own payment without disturbing current fulfillment. Raw-body signed
+webhooks enter a durable inbox. Outbox jobs use leases and stable financial keys;
+ambiguous payment creation is reconciled, never blindly repeated. Cancellation
+and dispatch serialize; refunds do not automatically restore physical stock.
+
+Customer WhatsApp requires opt-in. STOP/private opt-out suppresses queued work;
+in-flight messages and provider retries may still repeat. Failed/overdue jobs and
+heartbeat/settlement results appear in admin. Approved legal retention, tax
+presentation, provider templates and host backup policy are release prerequisites.
+Processed raw events and delivered/suppressed payloads are cleared after seven
+days; order/invoice/audit records remain access-restricted pending the approved
+business retention process. Private links are capped after delivery.
+
+Uploaded images are size/pixel limited, decoded and re-encoded under random IDs;
+SVG and arbitrary paths are rejected. Public image retrieval requires a published
+product reference. CSV mutations validate all rows transactionally; spreadsheet
+formula prefixes are escaped on export. No arbitrary editorial HTML is rendered.
+Private pages use nonce CSP, no-referrer and noindex. Optional consented GA4 is
+public-only and strips URL queries/fragments/referrers. Enhanced Measurement must
+be disabled before the property is configured. Public CSP's inline allowance
+is defense in depth and is not permission to introduce raw HTML/script rendering.
+
+The production API trusts only the fixed edge proxy, which overwrites forwarding
+headers. Development BFF requests share loopback limits. The host must protect
+database/media disks and encrypted backups. Test fixtures are fixed to loopback
+54339, `pakodi_mvp_test`, and Redis 63799 DB 15. Never run them against a configured
+or production database. Provider calls are mocked in regression tests; live
+capture/refund/template acceptance is unverified until performed with approved
+accounts. Dependency vulnerability reports are point-in-time evidence.
 
 ## Assets and boundaries
 

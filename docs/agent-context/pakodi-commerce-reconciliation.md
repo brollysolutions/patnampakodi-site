@@ -1,10 +1,21 @@
 # Patnam Pakodi commerce: reconciled delivery brief
 
+**Current authority, 2026-09-10:** the user approved
+[the reconciled MVP](approved-mvp-plan.md) and instructed implementation. That
+record supersedes the older proposals below: no email fallback or courier/rider
+integration, staff-approved delivery fees before Razorpay, unrestricted valid
+Indian addresses, TOTP for named admins, opt-in Meta notifications, dashboard
+failure handling, P0 first and Docker handoff. Earlier proposed phases/conflicts
+remain historical context. Current evidence is in [feature status](feature-status.md)
+and operating instructions in [commerce operations](../commerce-operations.md).
+
 Derived on 2026-09-09 from the three user-supplied documents. This is a build
 proposal and conflict register, not evidence of implemented features or approval
 of unresolved choices. The user supplied the documents and live URL with
 "cook it"; the first-delivery scope and private-page indexing clarification
-were requested during the session and remain unanswered as of this revision.
+were requested during the session. The user's subsequent **proceed** approved
+the first stored-content storefront, cream direction and public-only indexing.
+The remaining commerce/provider/business decisions below stay open.
 
 ## Authority and source preservation
 
@@ -28,8 +39,9 @@ credentials, customer records or account onboarding material are included.
 The adjacent Downloads file `Patnam-Pakodi-Brand-Document.md` v1.1 was consulted
 because the design brief names it as its companion. It was not one of the three
 explicitly supplied sources and is not archived or promoted to approved seed
-data. Its data-quality warnings inform the unresolved-content checklist below;
-its business claims were not independently verified in this session.
+data by the ingestion task. The subsequent first slice carries only its outlet
+locality names/pincodes, with an explicit map-listing check for current details;
+it does not publish the conflicting addresses, phones, statistics or terms.
 
 ## Current implementation and migration baseline
 
@@ -76,11 +88,11 @@ The proposal column below is a recommendation unless existing authority is named
 | ID | Conflict or gap | Disposition / decision needed | Blocks |
 | --- | --- | --- | --- |
 | D1 | Integration plan assumes Celery + Valkey and an existing backend | Keep explicitly approved APScheduler + Redis. Propose a dedicated scheduler process and PostgreSQL outbox; no Celery/Valkey dependency | Final worker design, not source ingestion |
-| D2 | v4.1 6.1 says all pages indexable and noindex impossible; private commerce pages contain sensitive information | Ask to limit this to published public storefront pages. Keep private routes authenticated/authorized and `noindex`; noindex is not access control. Previews remain non-indexable | Production indexing contract |
+| D2 | v4.1 6.1 says all pages indexable and noindex impossible; private commerce pages contain sensitive information | Resolved by the user's proceed: indexing applies to published public storefront pages. Private prefixes and previews remain noindex; future private functionality also requires authentication/authorization | Resolved for first slice; deployment checks still required |
 | D3 | Integration plan says 5.1 was removed and assumes mandatory 2FA | v4.1 explicitly retains admin login with one role. Named accounts and server-side authentication are required; recommend TOTP, with enrollment/recovery design to confirm | Auth implementation |
 | D4 | Integration plan describes email as guaranteed, while v4.1 3.5 specifies WhatsApp only | Confirm mandatory checkout email and an email fallback; keep franchise operational failure alerts distinct from customer/lead notifications | Checkout contact schema and notification provider |
 | D5 | Direct Meta API is recommended, but shared inbox need is unknown | Recommend direct API for outbound templates only; choose a BSP only if shared staff replies are required. No provider subscription/account change now | Provider selection |
-| D6 | Primary colors/fonts locked; cream, supporting tokens, logo and photos remain proposed/open | See the concrete [visual proposal](website-design-decisions.md). Confirm cream and temporary text identity pending approved logo; request approved imagery before final launch | Visual implementation direction / final brand assets |
+| D6 | Primary colors/fonts locked; cream, supporting tokens, logo and photos were proposed/open | User approved the [cream direction](website-design-decisions.md) and temporary text identity. Illustration is visibly labelled; final logo/product photography still require business assets | Direction resolved; final launch assets remain open |
 | D7 | Live-derived companion contains conflicting contact details, office addresses, outlet counts, franchise inclusions and royalties | FRAB must supply canonical values. Do not choose a phone/address or publish claimed ratings, profits, counts or territorial promises from inconsistent copies | Contact, franchise/outlet content and structured data |
 | D8 | Food compliance fields, SKU weights/taxes and menu prices are missing in the companion | Obtain an approved record per SKU/menu item. Missing fields block publishing/selling; absence is not an empty string default | 1.4, 1.5, 2.5–2.7, 5.3 |
 | D9 | Provider prices, offer eligibility, billing deadlines and legal dates are described as verified in the integration source | Preserve as source claims only. Recheck official terms at procurement/launch; do not encode rates, promotions or legal deadlines from this document | Budgets, onboarding, legal/privacy sign-off |
@@ -212,7 +224,7 @@ preserved; no feature is implemented by this documentation PR.
 | 5.1–5.7 | P0 | Single-role named admin login; product/variant CSV; publish gate; orders/refunds/invoices; reason-coded stock; enquiries; reusable media | C, with payment/fulfillment operations completed in D–E |
 | 5.8 | P0 | GST filing report | F |
 | 5.9 | P1 | Sales summary by period | F |
-| 6.1–6.4 | P0 | Public indexability (D2 pending), generated sitemap, truthful structured data and legacy redirects | A–B; complete inventory/launch validation in F |
+| 6.1–6.4 | P0 | Public indexability (D2 resolved), generated sitemap, truthful structured data and legacy redirects | A–B; complete inventory/launch validation in F |
 | 6.5 | P0 | GA4 with approved property and privacy/consent behavior | F |
 
 ## Content and launch dependencies

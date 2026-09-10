@@ -79,9 +79,16 @@ user also requests remediation.
 
 ## Architecture
 
-This repository currently contains workflow scaffolding and documentation only.
-There is no application, API, database, generated contract, deployment, or application
-package manager configuration yet. Do not treat kit examples as existing architecture.
+The MVP contains server-rendered Next.js public pages, private order/admin UI,
+FastAPI commerce services, PostgreSQL RLS and durable work, Redis rate limits
+and one APScheduler process. Read `docs/commerce-operations.md` before changing
+financial transitions or deployment configuration.
+
+- `apps/web/`: Next.js App Router, npm lockfile, local fonts, browser tests.
+- `apps/api/`: FastAPI public/private/admin routes, commerce services, provider adapters, jobs, Pydantic schemas, additive Alembic migrations and uv lockfile.
+- `packages/contracts/`: generated OpenAPI and TypeScript schema; never hand-edit.
+- `compose.yaml`, `infra/postgres/`: isolated local PostgreSQL/Redis fixtures.
+- `compose.production.yaml`, Dockerfiles, `infra/Caddyfile`: reviewed container handoff; host and live provider acceptance remain separate.
 
 - `scripts/`: standard-library Python workflow engine, setup, tests, SEO checker.
 - `.githooks/`: local commit/push checks.
@@ -94,9 +101,9 @@ package manager configuration yet. Do not treat kit examples as existing archite
 The user-approved stack is Next.js, Python/FastAPI, PostgreSQL, APScheduler,
 Redis and Docker; the site must be SEO friendly. Read
 `docs/agent-context/technology-stack.md` for the decision and open deployment
-question. The stack is selected but not implemented. Server,
-contract, migration, and framework-specific steps apply only once those layers
-exist. Authentication, customer/contact data, uploads, payments, integrations,
+question. The selected components are implemented in the MVP. Hosting, approved
+content and live vendor acceptance are release prerequisites. Authentication,
+customer/contact data, uploads, payments, integrations,
 dependencies, CI, and secrets require security review when introduced.
 
 ## Implementation rules
@@ -156,11 +163,23 @@ Run from the repository root:
 
 On Windows the PowerShell equivalent of the full gate is
 `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 --ci`.
-Python 3.11+ and `uv` are required for workflow tools; application dependency
-versions and package tooling are not selected yet.
-Web/API/build/browser/live SEO/migration checks are not applicable
-until their corresponding application layers exist. Add their gates with the
-application and update this document. Never report a skipped check as passed.
+Python 3.11+, uv, Node.js 22.19+ and Docker are required; application packages
+are pinned in `apps/api/uv.lock` and `apps/web/package-lock.json`.
+Start the local PostgreSQL and Redis fixtures before the full gate. The gate owns
+API/web ports 8010/3010 for `pakodi_mvp_test` and Redis DB 15, then measures
+the pinned Docker images with a unique `pakodi_container_fixture_*` database,
+Redis DB 14 and temporary loopback ports. Do not run concurrent database-mutating
+test suites. Use `python scripts/verify_restore.py`
+for a synthetic backup/restore check. See
+`docs/storefront-development.md` for setup. The gate verifies API/RLS/publication,
+one migration head, generated contracts, lint/types/unit/build, browser/axe,
+local technical SEO, container smoke checks and Lighthouse against the standalone
+container build through local Caddy HTTPS/HTTP/2. Its temporary localhost
+certificate is a fixture, not production TLS evidence. CI retains the four-platform/runtime
+workflow matrix and adds a dedicated Ubuntu application job. `fast` skips
+browser/performance/SEO checks and must not be presented as full verification.
+Production deployment, provider, migration-on-production and field-vitals checks
+remain unverified until explicitly performed.
 
 ## Security and data handling
 

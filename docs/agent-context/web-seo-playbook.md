@@ -44,8 +44,11 @@ canonical, or a Lighthouse budget is not a design change; it is a regression.
    answer and link is in the HTML response. Native `<details>` disclosures for
    curricula and FAQs work without JavaScript. Nothing that matters for ranking
    is loaded by script, and no content depends on a fragment being present.
-6. **Indexability is an environment property.** Production is crawlable except
-   the API; every other host (previews, dev, local builds) carries
+6. **Indexability is an environment property.** The user approved public-only
+   indexing with the first storefront. Published public production pages are
+   crawlable; API/admin/account/cart/checkout/tracking/preview prefixes are
+   noindex and excluded from the sitemap. Private features also need real
+   authorization. Every other host (previews, dev, local builds) carries
    `X-Robots-Tag: noindex, nofollow` and a robots.txt that disallows `/`. The
    verification gate builds with `SITE_INDEXABLE=true` so Lighthouse's SEO audit
    sees the production header set. A deploy job for a non-production host
@@ -88,6 +91,21 @@ canonical, or a Lighthouse budget is not a design change; it is a regression.
 
 ## Implementation pattern (Next.js App Router)
 
+The first application uses `apps/web/src/lib/policy.mjs` as its public route
+allow-list and `apps/api/content/storefront.json` as initial database seed input.
+Metadata comes from published API page records. The root verification gate now
+uses npm, not the kit's pnpm examples below; see `../storefront-development.md`.
+It runs native browser/SEO checks and audits the pinned standalone containers
+through Caddy HTTPS/HTTP/2 with a disposable local certificate. All budgets above
+remain enforced on three-run performance medians; accessibility, SEO and best
+practices must pass every run. Individual results and variations are retained,
+following the repository's Lighthouse guidance. A deployed `launch` suite is not configured in this MVP; the
+reference launch command below must not be reported as a current application gate.
+Native GET query parameters are allowed for menu/locality filtering; canonical
+page paths remain stable. Accessibility skip links to `#main` are intentional,
+not substitute navigation destinations. They produce documented warnings in
+the generic SEO checker. The kit's future-route examples are not application facts.
+
 Reference copies of every file named here live in the kit under
 `reference/web-seo-patterns/`.
 
@@ -128,7 +146,7 @@ Reference copies of every file named here live in the kit under
    page, then `$seo-review` and `$design-review`.
 8. Record evidence in `implementation-plan.md` and `feature-status.md`, then ship.
 
-## Verification commands
+## Reference kit verification commands
 
 ```bash
 # Full web gate on the indexable production build

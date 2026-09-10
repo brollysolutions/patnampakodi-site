@@ -1,7 +1,15 @@
 # Patnam Pakodi
 
-Shared repository for the Patnam Pakodi site. The application has not been
-scaffolded yet; this repository currently provides the team's agent workflow.
+Patnam Pakodi's cream storefront and commerce MVP, built with Next.js, FastAPI,
+PostgreSQL, APScheduler and Redis. Customers request delivery, staff confirm a
+quote, and payment follows through Razorpay. Named admins manage products, stock,
+content and orders; customer updates use opt-in WhatsApp.
+
+See [commerce operations and Docker handoff](docs/commerce-operations.md).
+Hosting, approved business content and live provider acceptance remain release
+prerequisites; no production deployment is implied.
+
+See [local storefront setup](docs/storefront-development.md) to run the app.
 
 Start with the [partner workflow guide](docs/partner-workflow-guide.md) for
 installation, day-to-day collaboration, and troubleshooting.

@@ -2,10 +2,20 @@
 
 Derived 2026-09-09 from the user-supplied
 [design brief v0.2](patnam-pakodi-design-brief-v0.2.md).
-Status: **locked source identity preserved; visual proposal pending approval**.
-This record does not claim that a website or a browser-tested design exists.
+Status: **The Pakodi Table direction approved by the user's proceed instruction
+on 2026-09-09**, including cream, the first storefront slice and public-only
+search indexing. Source business-data gaps remain unresolved. Implementation
+and browser evidence are recorded separately from this approval.
 
 ## Design read
+
+The 2026-09-10 MVP extends this direction to product, cart, private order and admin
+screens. Reuse cream/white panels, existing local fonts and brown compact controls.
+Use labelled native forms, visible waiting/error/success text, static status
+changes, 48px inputs and stacked mobile layouts. No animation library is needed
+for frequently repeated operational tasks. Policy/outlet/product pages inherit
+public metadata; cart/tracking/admin remain private and use nonce CSP. Optional
+analytics consent is a small, nonmodal footer preference, never an order overlay.
 
 Public food storefront and franchise marketing for customers choosing a snack
 or packaged mix and entrepreneurs considering an outlet. The trust requirement
@@ -34,7 +44,7 @@ controls, brown structure and restrained orange actions.
 
 Recommend **The Pakodi Table** because it lets customers read food and actions
 quickly while giving franchise information a distinct, credible place on the
-same site. Pakodi Cream `#FBEFD9` is a proposal, not silently locked by this file.
+same site. Pakodi Cream `#FBEFD9` is now approved for this storefront.
 
 ## Concrete first viewport and page sequence
 

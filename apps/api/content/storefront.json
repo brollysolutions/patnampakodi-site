@@ -1,0 +1,1069 @@
+[
+  {
+    "kind": "brand",
+    "slug": "identity",
+    "position": 0,
+    "published": true,
+    "payload": {
+      "tagline": "Life Lo Spice Undali.",
+      "revision": "2026-09-10",
+      "contact_email": "patnampakodi@gmail.com",
+      "contact_phone": null
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "home",
+    "position": 1,
+    "published": true,
+    "payload": {
+      "slug": "home",
+      "title": "Patnam Pakodi | Chicken Pakodi, Menu & Franchise",
+      "description": "Meet Patnam Pakodi. Explore chicken pakodi, find a neighbourhood store, discover ready-mixes and start a conversation about your own franchise.",
+      "heading": "Chicken pakodi.\nBig on crunch.",
+      "intro": "For the spice seekers and the one-more-bite people. Find your favourite pakodi, a cool drink and your next snack stop.",
+      "sections": [
+        {
+          "title": "Small bites.\nA big part of your day.",
+          "body": "An evening catch-up. A quick snack with friends. That familiar craving for something crisp and spicy. Patnam Pakodi is about making room for all of them, one flavourful bite at a time."
+        },
+        {
+          "title": "Bring the flavour home.",
+          "body": "A little of the Patnam Pakodi spirit, in your own kitchen. Our ready-mix shop is being prepared. In the meantime, explore the flavours on our menu."
+        },
+        {
+          "title": "In the neighbourhood?",
+          "body": "A pakodi break might be closer than you think. Browse our locations and look up your next snack stop."
+        },
+        {
+          "title": "Your neighbourhood.\nYour Patnam Pakodi.",
+          "body": "From a compact counter to a full shop, explore the franchise formats and talk through the possibilities with our team."
+        },
+        {
+          "title": "Find your kind\nof crunch.",
+          "body": "Familiar favourites. A little extra spice. Start with something that sounds like you."
+        }
+      ]
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "menu",
+    "position": 2,
+    "published": true,
+    "payload": {
+      "slug": "menu",
+      "title": "Chicken Pakodi Menu | Patnam Pakodi",
+      "description": "Explore the Patnam Pakodi menu, from pachi mirchi chicken and kothimeera pakodi to bowls, dips and cool drinks. Find your next favourite bite.",
+      "heading": "A menu for\nyour kind of craving.",
+      "intro": "From the first crunch to the last sip. Explore our published menu and find something worth getting together for.",
+      "sections": []
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "about-us",
+    "position": 3,
+    "published": true,
+    "payload": {
+      "slug": "about-us",
+      "title": "Our Story | Patnam Pakodi",
+      "description": "Get to know Patnam Pakodi, the chicken pakodi brand behind a menu of familiar flavours, neighbourhood snack stops and franchise opportunities.",
+      "heading": "A little spice.\nA lot of good company.",
+      "intro": "Some of the best plans begin with a snack. Ours begins with chicken pakodi and the people who gather around it.",
+      "sections": [
+        {
+          "title": "The familiar, with a kick.",
+          "body": "Pachi mirchi. Kothimeera. Kaju chicken. Our menu brings together chicken pakodi flavours, saucy favourites, bowls and a little something to cool things down."
+        },
+        {
+          "title": "A place in your day.",
+          "body": "Drop in for an evening bite, make a plan with friends or find a flavour you have not tried before. Explore the menu, then find a Patnam Pakodi in your neighbourhood."
+        },
+        {
+          "title": "Make it your own.",
+          "body": "Interested in bringing Patnam Pakodi to your neighbourhood? Explore our display, cart, cabin and shop formats, and speak with the team about what fits your plans."
+        }
+      ]
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "shop",
+    "position": 4,
+    "published": true,
+    "payload": {
+      "slug": "shop",
+      "title": "Ready-Mix Shop | Patnam Pakodi",
+      "description": "Discover the Patnam Pakodi ready-mix shop. Online ordering is being prepared; explore our menu or get in touch with the team for product enquiries.",
+      "heading": "A little Patnam.\nIn your kitchen.",
+      "intro": "For the days when the snack plan starts at home.",
+      "sections": [
+        {
+          "title": "Our spice cupboard is being stocked.",
+          "body": "Online ordering is not available here yet. Product details and prices will be available when the shop opens. For now, browse our menu or contact the team with a product enquiry."
+        }
+      ]
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "branches",
+    "position": 5,
+    "published": true,
+    "payload": {
+      "slug": "branches",
+      "title": "Find a Patnam Pakodi Store | Hyderabad Locations",
+      "description": "Find published Patnam Pakodi locations in Hyderabad. Search by neighbourhood, city or pincode, then check the map listing before planning your visit.",
+      "heading": "Your next snack stop.",
+      "intro": "Find a Patnam Pakodi in the neighbourhood. Search our locations and check the latest details on the map.",
+      "sections": []
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "franchise",
+    "position": 6,
+    "published": true,
+    "payload": {
+      "slug": "franchise",
+      "title": "Franchise Opportunities | Patnam Pakodi",
+      "description": "Explore Patnam Pakodi franchise formats: display, cart, cabin and shop. Contact the team for current investment, inclusions and location requirements.",
+      "heading": "Bring the crunch\nto your neighbourhood.",
+      "intro": "A display, a cart, a cabin, a shop. Find the format that fits your idea, then build the conversation from there.",
+      "sections": [
+        {
+          "title": "Let’s start with\nyour idea.",
+          "body": "Tell the team where you would like to open, which format interests you and what you have in mind. Ask for the current investment, inclusions and operating terms before making a commitment."
+        }
+      ]
+    }
+  },
+  {
+    "kind": "page",
+    "slug": "contact",
+    "position": 7,
+    "published": true,
+    "payload": {
+      "slug": "contact",
+      "title": "Contact the Team | Patnam Pakodi",
+      "description": "Get in touch with Patnam Pakodi for franchise opportunities, product questions and menu enquiries, or find a nearby store for your next snack stop.",
+      "heading": "Let’s talk pakodi.",
+      "intro": "A question, an idea, a neighbourhood you have in mind. We would love to hear from you.",
+      "sections": []
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-pakodi-bone",
+    "position": 8,
+    "published": true,
+    "payload": {
+      "slug": "chicken-pakodi-bone",
+      "name": "Chicken Pakodi Bone",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-pakodi-boneless",
+    "position": 9,
+    "published": true,
+    "payload": {
+      "slug": "chicken-pakodi-boneless",
+      "name": "Chicken Pakodi Boneless",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "kaju-chicken-pakodi",
+    "position": 10,
+    "published": true,
+    "payload": {
+      "slug": "kaju-chicken-pakodi",
+      "name": "Kaju Chicken Pakodi",
+      "category": "Dry",
+      "description": "Cashew and chicken pakodi, together in one satisfying bite.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "kothimeera-chicken-pakodi",
+    "position": 11,
+    "published": true,
+    "payload": {
+      "slug": "kothimeera-chicken-pakodi",
+      "name": "Kothimeera Chicken Pakodi",
+      "category": "Dry",
+      "description": "Fragrant coriander meets a crisp chicken favourite.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "pachi-mirchi-chicken-pakodi",
+    "position": 12,
+    "published": true,
+    "payload": {
+      "slug": "pachi-mirchi-chicken-pakodi",
+      "name": "Pachi Mirchi Chicken Pakodi",
+      "category": "Dry",
+      "description": "Fresh green-chilli heat, with the crunch you came for.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "tandoori-chicken-pakodi",
+    "position": 13,
+    "published": true,
+    "payload": {
+      "slug": "tandoori-chicken-pakodi",
+      "name": "Tandoori Chicken Pakodi",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "peri-peri-chicken-pakodi",
+    "position": 14,
+    "published": true,
+    "payload": {
+      "slug": "peri-peri-chicken-pakodi",
+      "name": "Peri Peri Chicken Pakodi",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "leg-piece",
+    "position": 15,
+    "published": true,
+    "payload": {
+      "slug": "leg-piece",
+      "name": "Leg Piece",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "wings",
+    "position": 16,
+    "published": true,
+    "payload": {
+      "slug": "wings",
+      "name": "Wings",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "lollipops",
+    "position": 17,
+    "published": true,
+    "payload": {
+      "slug": "lollipops",
+      "name": "Lollipops",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-popcorn",
+    "position": 18,
+    "published": true,
+    "payload": {
+      "slug": "chicken-popcorn",
+      "name": "Chicken Popcorn",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-strips",
+    "position": 19,
+    "published": true,
+    "payload": {
+      "slug": "chicken-strips",
+      "name": "Chicken Strips",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-chips",
+    "position": 20,
+    "published": true,
+    "payload": {
+      "slug": "chicken-chips",
+      "name": "Chicken Chips",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-thokku-pakodi",
+    "position": 21,
+    "published": true,
+    "payload": {
+      "slug": "chicken-thokku-pakodi",
+      "name": "Chicken Thokku Pakodi",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-balls",
+    "position": 22,
+    "published": true,
+    "payload": {
+      "slug": "chicken-balls",
+      "name": "Chicken Balls",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-rolls",
+    "position": 23,
+    "published": true,
+    "payload": {
+      "slug": "chicken-rolls",
+      "name": "Chicken Rolls",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-burger",
+    "position": 24,
+    "published": true,
+    "payload": {
+      "slug": "chicken-burger",
+      "name": "Chicken Burger",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-sandwich",
+    "position": 25,
+    "published": true,
+    "payload": {
+      "slug": "chicken-sandwich",
+      "name": "Chicken Sandwich",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-bun",
+    "position": 26,
+    "published": true,
+    "payload": {
+      "slug": "chicken-bun",
+      "name": "Chicken Bun",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "crispy-chicken-pakodi",
+    "position": 27,
+    "published": true,
+    "payload": {
+      "slug": "crispy-chicken-pakodi",
+      "name": "Crispy Chicken Pakodi",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "crispy-wings",
+    "position": 28,
+    "published": true,
+    "payload": {
+      "slug": "crispy-wings",
+      "name": "Crispy Wings",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "crispy-legs",
+    "position": 29,
+    "published": true,
+    "payload": {
+      "slug": "crispy-legs",
+      "name": "Crispy Legs",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "crispy-strips",
+    "position": 30,
+    "published": true,
+    "payload": {
+      "slug": "crispy-strips",
+      "name": "Crispy Strips",
+      "category": "Dry",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chilli-chicken",
+    "position": 31,
+    "published": true,
+    "payload": {
+      "slug": "chilli-chicken",
+      "name": "Chilli Chicken",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "majestic-chicken",
+    "position": 32,
+    "published": true,
+    "payload": {
+      "slug": "majestic-chicken",
+      "name": "Majestic Chicken",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "creamy-chicken-pakodi",
+    "position": 33,
+    "published": true,
+    "payload": {
+      "slug": "creamy-chicken-pakodi",
+      "name": "Creamy Chicken Pakodi",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "creamy-kothimeera-chicken-pakodi",
+    "position": 34,
+    "published": true,
+    "payload": {
+      "slug": "creamy-kothimeera-chicken-pakodi",
+      "name": "Creamy Kothimeera Chicken Pakodi",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "creamy-pachi-mirchi-chicken-pakodi",
+    "position": 35,
+    "published": true,
+    "payload": {
+      "slug": "creamy-pachi-mirchi-chicken-pakodi",
+      "name": "Creamy Pachi Mirchi Chicken Pakodi",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "creamy-tandoori-chicken-pakodi",
+    "position": 36,
+    "published": true,
+    "payload": {
+      "slug": "creamy-tandoori-chicken-pakodi",
+      "name": "Creamy Tandoori Chicken Pakodi",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "creamy-peri-peri-chicken-pakodi",
+    "position": 37,
+    "published": true,
+    "payload": {
+      "slug": "creamy-peri-peri-chicken-pakodi",
+      "name": "Creamy Peri Peri Chicken Pakodi",
+      "category": "Wet",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-bowl-with-fries",
+    "position": 38,
+    "published": true,
+    "payload": {
+      "slug": "chicken-bowl-with-fries",
+      "name": "Chicken Bowl with Fries",
+      "category": "Bowls",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-bowl-with-nachos",
+    "position": 39,
+    "published": true,
+    "payload": {
+      "slug": "chicken-bowl-with-nachos",
+      "name": "Chicken Bowl with Nachos",
+      "category": "Bowls",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chicken-bowl-with-salads",
+    "position": 40,
+    "published": true,
+    "payload": {
+      "slug": "chicken-bowl-with-salads",
+      "name": "Chicken Bowl with Salads",
+      "category": "Bowls",
+      "description": "",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "garlic-dip",
+    "position": 41,
+    "published": true,
+    "payload": {
+      "slug": "garlic-dip",
+      "name": "Garlic Dip",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "cheese-dip",
+    "position": 42,
+    "published": true,
+    "payload": {
+      "slug": "cheese-dip",
+      "name": "Cheese Dip",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "peri-peri-dip",
+    "position": 43,
+    "published": true,
+    "payload": {
+      "slug": "peri-peri-dip",
+      "name": "Peri Peri Dip",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "spicy-mayo",
+    "position": 44,
+    "published": true,
+    "payload": {
+      "slug": "spicy-mayo",
+      "name": "Spicy Mayo",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "mint-dip",
+    "position": 45,
+    "published": true,
+    "payload": {
+      "slug": "mint-dip",
+      "name": "Mint Dip",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "tomato-sauce",
+    "position": 46,
+    "published": true,
+    "payload": {
+      "slug": "tomato-sauce",
+      "name": "Tomato Sauce",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "special-house-sauce",
+    "position": 47,
+    "published": true,
+    "payload": {
+      "slug": "special-house-sauce",
+      "name": "Special House Sauce",
+      "category": "Dips",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "junnu-pot",
+    "position": 48,
+    "published": true,
+    "payload": {
+      "slug": "junnu-pot",
+      "name": "Junnu Pot",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "classic-lemon-mojito",
+    "position": 49,
+    "published": true,
+    "payload": {
+      "slug": "classic-lemon-mojito",
+      "name": "Classic Lemon Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "mint-lime-cooler",
+    "position": 50,
+    "published": true,
+    "payload": {
+      "slug": "mint-lime-cooler",
+      "name": "Mint Lime Cooler",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "sweet-salt-lime",
+    "position": 51,
+    "published": true,
+    "payload": {
+      "slug": "sweet-salt-lime",
+      "name": "Sweet & Salt Lime",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "strawberry-mojito",
+    "position": 52,
+    "published": true,
+    "payload": {
+      "slug": "strawberry-mojito",
+      "name": "Strawberry Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "mango-mojito",
+    "position": 53,
+    "published": true,
+    "payload": {
+      "slug": "mango-mojito",
+      "name": "Mango Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "orange-mint-mojito",
+    "position": 54,
+    "published": true,
+    "payload": {
+      "slug": "orange-mint-mojito",
+      "name": "Orange Mint Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "pineapple-mojito",
+    "position": 55,
+    "published": true,
+    "payload": {
+      "slug": "pineapple-mojito",
+      "name": "Pineapple Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "blue-lagoon-mojito",
+    "position": 56,
+    "published": true,
+    "payload": {
+      "slug": "blue-lagoon-mojito",
+      "name": "Blue Lagoon Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "green-apple-mojito",
+    "position": 57,
+    "published": true,
+    "payload": {
+      "slug": "green-apple-mojito",
+      "name": "Green Apple Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "watermelon-mojito",
+    "position": 58,
+    "published": true,
+    "payload": {
+      "slug": "watermelon-mojito",
+      "name": "Watermelon Mojito",
+      "category": "Drinks",
+      "description": "",
+      "dietary": "unconfirmed",
+      "price_paise": null,
+      "featured": false
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "kukatpally",
+    "position": 59,
+    "published": true,
+    "payload": {
+      "slug": "kukatpally",
+      "name": "Kukatpally",
+      "city": "Hyderabad",
+      "pincode": "500072",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "madhapur",
+    "position": 60,
+    "published": true,
+    "payload": {
+      "slug": "madhapur",
+      "name": "Madhapur",
+      "city": "Hyderabad",
+      "pincode": "500081",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "miyapur",
+    "position": 61,
+    "published": true,
+    "payload": {
+      "slug": "miyapur",
+      "name": "Miyapur",
+      "city": "Hyderabad",
+      "pincode": "500049",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "gachibowli",
+    "position": 62,
+    "published": true,
+    "payload": {
+      "slug": "gachibowli",
+      "name": "Gachibowli",
+      "city": "Hyderabad",
+      "pincode": "500032",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "dilsukhnagar",
+    "position": 63,
+    "published": true,
+    "payload": {
+      "slug": "dilsukhnagar",
+      "name": "Dilsukhnagar",
+      "city": "Hyderabad",
+      "pincode": "500060",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "outlet",
+    "slug": "lb-nagar",
+    "position": 64,
+    "published": true,
+    "payload": {
+      "slug": "lb-nagar",
+      "name": "LB Nagar",
+      "city": "Hyderabad",
+      "pincode": "500074",
+      "address": null,
+      "hours": null,
+      "phone": null
+    }
+  },
+  {
+    "kind": "franchise",
+    "slug": "display",
+    "position": 65,
+    "published": true,
+    "payload": {
+      "name": "Display model",
+      "description": "A compact counter for your pakodi idea.",
+      "image": "display",
+      "investment_paise": null
+    }
+  },
+  {
+    "kind": "franchise",
+    "slug": "cart",
+    "position": 66,
+    "published": true,
+    "payload": {
+      "name": "Cart model",
+      "description": "A standalone cart format with a small footprint.",
+      "image": "cart",
+      "investment_paise": null
+    }
+  },
+  {
+    "kind": "franchise",
+    "slug": "cabin",
+    "position": 67,
+    "published": true,
+    "payload": {
+      "name": "Cabin model",
+      "description": "A dedicated cabin for a neighbourhood snack stop.",
+      "image": "cabin",
+      "investment_paise": null
+    }
+  },
+  {
+    "kind": "franchise",
+    "slug": "shop",
+    "position": 68,
+    "published": true,
+    "payload": {
+      "name": "Premium shop",
+      "description": "A full shop format for your Patnam Pakodi plans.",
+      "image": "shop",
+      "investment_paise": null
+    }
+  },
+  {
+    "kind": "product",
+    "slug": "unapproved-ready-mix",
+    "position": 69,
+    "published": false,
+    "payload": {
+      "slug": "unapproved-ready-mix",
+      "name": "Unapproved seed fixture"
+    }
+  }
+]

@@ -1,5 +1,38 @@
 # Feature status
 
+## Approved MVP implementation — 2026-09-10
+
+In progress on `feat/pakodi-mvp`, isolated from the original uncommitted
+`feat/pakodi-storefront` checkout. The approved source snapshot is included in
+this delivery; original files were not staged, moved or discarded.
+
+Implemented surfaces: stored-content public routes, packaged SKU listing/detail,
+category/price filters, cart/request/private management, staff delivery quotes,
+stock reservations, Razorpay adapters, refund/invoice lifecycle, opt-in Meta
+notifications, named password/TOTP admins, stock/CSV/media/content/enquiry editors,
+GST ledger, worker health/settlement comparison, private indexing boundaries,
+optional consented public GA4 and Docker packaging. Single stock location and
+manual own-team delivery; no courier/rider module or customer email provider.
+
+P1 search, FAQs/testimonials, brochure, enquiry CSV and sales summaries are
+deferred as approved. Complete approved product/food/menu/outlet/policy/tax inputs,
+full old-site URL inventory, vendor account/template acceptance and the chosen
+host's deployment/backup/privacy checks remain release prerequisites. The code
+does not fabricate these business facts or claim production transactions.
+
+Fresh checks passed 104 workflow tests, 53 backend integration tests, eight web
+unit tests, 39 browser tests at three sizes and technical SEO checks for 13 routes.
+The corrected Docker/Lighthouse gate passed all six three-run median profiles
+(18 observations; 1 individual outlier(s) retained), and restoration matched
+all 19 table counts and the migration head. Earlier full CI commands failed at
+the old audit runner; passing functional and corrected audit evidence is recorded
+separately. PR delivery is in progress. See
+[MVP verification](mvp-verification.md) for review coverage, retained failures,
+measurement conditions and release prerequisites. Planning recommendation:
+`gpt-6-astra` / High; implementation: `gpt-6-astra` / Extra High, selected settings
+unchanged. No subagents were used. Next priority is configured staging acceptance
+after this PR, followed by the approved P1 backlog.
+
 ## Commerce source ingestion and delivery proposal — 2026-09-09
 
 Three user-supplied documents are archived unchanged and indexed. The
