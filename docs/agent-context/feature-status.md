@@ -1,5 +1,8 @@
 # Feature status
 
+CI follow-up: Ubuntu AppArmor blocked the downloaded browser. Install the already-pinned Chromium companion SUID helper as root-owned mode 4755 on the ephemeral CI runner and validate those properties before launch. The sandbox and budgets remain enabled. Shell syntax passes; Linux runtime/performance verification is pending. OpenAPI generation now explicitly writes LF, avoiding Windows-only delivery-state churn.
+
+
 ## Commit-before-response correction — 2026-09-11
 
 CI exposed an order-approval refresh failure. A deterministic ASGI regression

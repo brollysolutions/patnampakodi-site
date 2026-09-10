@@ -7,6 +7,9 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+CI follow-up: Ubuntu AppArmor blocked the downloaded browser. Install the already-pinned Chromium companion SUID helper as root-owned mode 4755 on the ephemeral CI runner and validate those properties before launch. The sandbox and budgets remain enabled. Shell syntax passes; Linux runtime/performance verification is pending. OpenAPI generation now explicitly writes LF, avoiding Windows-only delivery-state churn.
+
+
 PR #8 follow-up: commit the commerce transaction before HTTP success becomes
 visible, proven by a failing-then-passing ASGI/independent-connection regression.
 Retain Lighthouse launch diagnostics for the unresolved Ubuntu execution error;
