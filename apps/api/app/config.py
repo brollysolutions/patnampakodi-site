@@ -37,6 +37,7 @@ def media_root():
 
 
 def validate_runtime():
+    fixture_mode()
     if os.environ.get("APP_ENV") != "production":
         return
     from cryptography.fernet import Fernet
@@ -48,3 +49,26 @@ def validate_runtime():
     Fernet(setting("DATA_ENCRYPTION_KEY").encode())
     if not origin().startswith("https://"):
         raise RuntimeError("Production PUBLIC_ORIGIN must use HTTPS")
+
+
+def fixture_mode():
+    from urllib.parse import urlsplit
+
+    mode = os.environ.get("PROVIDER_MODE", "live")
+    if mode == "live":
+        return False
+    if mode != "fixtures":
+        raise RuntimeError("Unknown provider mode")
+    parsed = urlsplit(origin())
+    if (
+        os.environ.get("APP_ENV") not in {"test", "staging"}
+        or parsed.scheme not in {"http", "https"}
+        or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
+        or parsed.username
+        or parsed.password
+        or parsed.path not in {"", "/"}
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise RuntimeError("Provider fixtures require a local test or staging origin")
+    return True

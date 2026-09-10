@@ -1274,6 +1274,11 @@
             "title": "Currency",
             "type": "string"
           },
+          "fixture": {
+            "default": false,
+            "title": "Fixture",
+            "type": "boolean"
+          },
           "key_id": {
             "title": "Key Id",
             "type": "string"
@@ -1284,6 +1289,7 @@
           }
         },
         "required": [
+          "fixture",
           "key_id",
           "order_id",
           "amount",
@@ -3937,6 +3943,44 @@
           }
         },
         "summary": "Cancel"
+      }
+    },
+    "/v1/order/fixture-capture": {
+      "post": {
+        "operationId": "fixture_capture_v1_order_fixture_capture_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentStart"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fixture Capture"
       }
     },
     "/v1/order/invoice": {

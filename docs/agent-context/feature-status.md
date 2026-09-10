@@ -1,8 +1,63 @@
 # Feature status
 
+## Four-PR remote acceptance readback - 2026-09-11
+
+PR #8 is ready for review at `4dc5b6d`, with full fork CI
+[34534326169](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34534326169) passing:
+63 API, 18 web unit and 45 browser tests; SEO/container checks; mobile
+Lighthouse medians 99/98/96 and desktop 100 throughout.
+PR #9 is ready for review at `000f945`, with full fork CI
+[34534816171](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34534816171) passing:
+67 API, 20 web unit and 48 browser tests; mobile medians 98/99/97, desktop 100.
+One individual menu-mobile observation misses its budget; the existing three-run
+median policy passes. Accessibility, best-practices and SEO are 100 throughout.
+No budgets, throttling or security controls were relaxed. These Linux results
+do not erase the separately recorded failing Windows mobile measurements.
+PR #10 remains draft: CI 34535340526 passes functional checks and sandbox launch
+but fails home/contact mobile timing budgets. Diagnostics are being collected.
+Merge order remains #8, #9, #10, then Docker staging; no PR was merged by the agent.
+The older sections below retain their original delivery evidence.
+
+## Docker staging acceptance - 2026-09-11
+
+Item 13 is implemented on `feat/docker-staging` in [PR #11](https://github.com/brollysolutions/patnampakodi-site/pull/11), stacked on PR #10. At initial publication it is draft pending Linux performance acceptance. Current remote checks and review status are recorded on the PR.
+Acceptance: repeatable loopback-only noindex Docker startup, isolated fake providers,
+private guest checkout through signed durable webhooks, provider/worker recovery,
+one invoice/capture, manual delivery, partial refund and local messaging receipts.
+Synthetic product/seller/admin data is confined to a uniquely named disposable
+acceptance database; persistent staging imports only published approved source
+content. No live provider requests or real business data are introduced.
+Planning recommendation: gpt-6-astra / High; implementation and final security
+review: gpt-6-astra / Extra High. Selected session settings remain unchanged.
+Fresh checks pass 86 API tests, one migration head, generated contracts, 110 workflow tests, 22-skill parity, lint/format/types, 20 web unit tests and production build. Synthetic backup/restore matches all 19 table counts and the migration head. Docker mobile acceptance passes checkout, signed replay after provider restart, worker recovery, invoice, delivery, partial refund, populated sales and local message receipts. Independent database checks pass one invoice/capture/refund and preserved delivery. The disposable project `pakodi_stage_fixture_9e2299230e42` was cleaned. Public browser/SEO checks now pass. Persistent staging startup and readback pass at http://127.0.0.1:3100/.
+All six services are healthy. The public site, shop and admin entry return 200
+with noindex headers and metadata; robots disallows crawling and the sitemap
+is empty. Exactly 70 published content records are present. There are zero
+unpublished records, variants, admins, settings, orders, enquiries, payments or
+refunds. Catalogue is empty and brochure returns 404 until approved input arrives.
+The environment is left running for the operator; its data volumes are preserved.
+
+
+Final local full gate (2026-09-11): 110 workflow tests and 22-skill parity,
+86 API tests, one migration head, generated contracts, lint/format/types,
+20 web unit tests, production build, 51 browser/axe tests, 13 SEO routes and
+container migration/seed/health/worker checks pass. The gate exits 1.
+Lighthouse completes 16 observations: mobile performance medians 62/71/69
+fail, with slow-CPU warnings; home/menu desktop medians 92/94 pass. The second
+contact-desktop observation receives HTTP 500 after the web content fetch's
+five-second timeout; the last observation is skipped, so that profile has no
+complete median. Reports remain in .agent-workflow/reports/lighthouse-1789079099725.
+These failures are retained; no budget, throttling, timeout or sandbox is relaxed.
+The added benchmark/script/layout diagnostics pass syntax, formatting and five
+launcher/budget tests; a fresh Linux gate remains required for this PR.
+
+
+CI diagnosis also proved chrome-launcher 1.2.1 adds --disable-setuid-sandbox on Linux. The Lighthouse wrapper preserves the pinned launcher defaults explicitly while omitting that implicit addition. Its regression reproduces the old launch flags and verifies sandbox preservation. Existing performance thresholds and throttling are unchanged; PRs #8/#9 now pass Ubuntu runtime acceptance. This staging PR awaits its own fresh Linux gate.
+
+
 ## Admin completion — 2026-09-11
 
-Item 12 is prepared for draft PR #10 on `feat/admin-completion`, stacked on PR #9. Acceptance:
+Item 12 is delivered in draft [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10) on `feat/admin-completion`, stacked on PR #9. Acceptance:
 staff can enrich a phone-first enquiry without changing its source/purpose,
 export an inclusive India-date/status CSV safely, review invoiced gross/refunded/
 net sales and select or preview an uploaded draft image. Existing product,

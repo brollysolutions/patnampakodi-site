@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { chromium } from "@playwright/test";
 import { passesBudgets, summarizeRuns } from "./performance-policy.mjs";
+import { lighthouseChromeArgs } from "./lighthouse-launch.mjs";
 
 const chromePath = chromium.executablePath();
 await access(chromePath);
@@ -42,7 +43,7 @@ for (const route of ["/", "/menu/", "/contact/"]) {
         "--output=json",
         "--output=html",
         `--output-path=${file}`,
-        `--chrome-flags=--headless --disable-dev-shm-usage${baseURL.protocol === "https:" ? " --allow-insecure-localhost" : ""}`,
+        ...lighthouseChromeArgs(baseURL),
         "--only-categories=performance,accessibility,best-practices,seo",
       ];
       if (device === "desktop") args.push("--preset=desktop");
@@ -85,12 +86,26 @@ for (const route of ["/", "/menu/", "/contact/"]) {
         scores,
         metrics,
         browser: report.environment.hostUserAgent,
+        benchmarkIndex: report.environment.benchmarkIndex,
         lighthouseVersion: report.lighthouseVersion,
         warnings: report.runWarnings,
         report: file,
       };
       results.push(result);
       console.log(JSON.stringify(result));
+      if (!passed)
+        console.log(
+          JSON.stringify({
+            route,
+            device,
+            attempt,
+            diagnostics: Object.fromEntries(
+              ["mainthread-work-breakdown", "bootup-time", "long-tasks"].map(
+                (key) => [key, report.audits[key]?.details?.items ?? []],
+              ),
+            ),
+          }),
+        );
     }
   }
 }

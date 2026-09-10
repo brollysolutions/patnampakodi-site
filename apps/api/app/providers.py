@@ -2,10 +2,12 @@
 
 import httpx
 
-from app.config import setting
+from app.config import fixture_mode, setting
 
 
 async def razorpay(method, path, **kwargs):
+    if fixture_mode():
+        return await fixture_request(method, path, **kwargs)
     key = setting("RAZORPAY_KEY_ID")
     secret = setting("RAZORPAY_KEY_SECRET")
     if not key or not secret:
@@ -19,6 +21,9 @@ async def razorpay(method, path, **kwargs):
 
 
 async def send_whatsapp(payload):
+    if fixture_mode():
+        result = await fixture_request("POST", "messages", json={"template": payload["template"]})
+        return result["id"]
     token = setting("META_ACCESS_TOKEN")
     phone_id = setting("META_PHONE_ID")
     version = setting("META_GRAPH_VERSION")
@@ -47,3 +52,16 @@ async def send_whatsapp(payload):
         )
         response.raise_for_status()
         return response.json()["messages"][0]["id"]
+
+
+async def fixture_request(method, path, **kwargs):
+    if not fixture_mode():
+        raise RuntimeError("Provider fixture is disabled")
+    async with httpx.AsyncClient(
+        base_url="http://fixture-provider:8000/v1/",
+        auth=("fixture", "local-fixture-only"),
+        timeout=15,
+    ) as client:
+        response = await client.request(method, path, **kwargs)
+        response.raise_for_status()
+        return response.json()

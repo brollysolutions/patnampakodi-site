@@ -375,6 +375,7 @@ function LoadedOrder({ nonce }: { nonce: string }) {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [fixtureQuote, setFixtureQuote] = useState<number | null>(null);
   useEffect(() => {
     if (token)
       api<Schema["OrderView"]>("order", {
@@ -410,6 +411,12 @@ function LoadedOrder({ nonce }: { nonce: string }) {
         throw new Error(
           "Payment setup is taking longer than expected. Your request is saved; try again shortly.",
         );
+      if (checkout.fixture) {
+        setFixtureQuote(order.quote_version);
+        setBusy(false);
+        setMessage("Local test checkout is ready. No money will be charged.");
+        return;
+      }
       if (!(window as RazorpayWindow).Razorpay)
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement("script");
@@ -448,6 +455,25 @@ function LoadedOrder({ nonce }: { nonce: string }) {
       }).open();
     } catch (error) {
       setMessage((error as Error).message);
+      setBusy(false);
+    }
+  }
+  async function simulatePayment() {
+    if (!order || fixtureQuote !== order.quote_version || busy) return;
+    setBusy(true);
+    try {
+      const result = await api<Schema["ActionResult"]>(
+        "order/fixture-capture",
+        {
+          ...jsonPost({ quote_version: fixtureQuote }),
+          headers: auth,
+        },
+      );
+      setMessage(result.detail);
+      setFixtureQuote(null);
+    } catch (error) {
+      setMessage((error as Error).message);
+    } finally {
       setBusy(false);
     }
   }
@@ -615,6 +641,33 @@ function LoadedOrder({ nonce }: { nonce: string }) {
                 {busy ? "Preparing payment…" : "Pay securely"}
               </button>
             )}
+            {fixtureQuote === order.quote_version &&
+              ["approved", "payment_pending"].includes(order.status) && (
+                <section
+                  className="notice form-stack"
+                  aria-label="Local test checkout"
+                >
+                  <h3>Simulate a payment</h3>
+                  <p>
+                    This local checkout uses a provider fixture. No money is
+                    charged and no real message is sent.
+                  </p>
+                  <button
+                    className="button"
+                    disabled={busy}
+                    onClick={simulatePayment}
+                  >
+                    Confirm test payment
+                  </button>
+                  <button
+                    className="button button-small"
+                    disabled={busy}
+                    onClick={() => setFixtureQuote(null)}
+                  >
+                    Close test checkout
+                  </button>
+                </section>
+              )}
             {order.invoice_number && (
               <button
                 className="button button-small"

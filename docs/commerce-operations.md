@@ -8,6 +8,8 @@ when fulfillment is unavailable, refunded against that exact payment.
 
 ## Local use
 
+For the approved local Docker review environment with simulated providers, follow [local staging](local-staging.md). Its fixtures cannot make real payments or send real messages.
+
 Follow [local development](storefront-development.md). Run PostgreSQL and Redis,
 migrate, seed the reviewed public content, then start API, web and **one** worker
 (`python -m app.jobs`). Use `python -m app.admin_cli create <username>` interactively

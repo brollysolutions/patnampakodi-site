@@ -51,7 +51,7 @@ from app.commerce_schemas import (
     VariantInput,
     VariantView,
 )
-from app.config import BRAND, media_root, origin, setting
+from app.config import BRAND, fixture_mode, media_root, origin, setting
 from app.schemas import FranchiseModel, MenuItem, Outlet, Page, Product
 from app.security import (
     DUMMY_PASSWORD_HASH,
@@ -161,12 +161,14 @@ updated_at=now() WHERE id=%s RETURNING *
 
 @router.post("/order/payment", response_model=PaymentCheckout)
 async def pay(payload: PaymentStart, request: Request, conn: DB):
-    if not setting("RAZORPAY_KEY_ID"):
+    simulated = fixture_mode()
+    if not simulated and not setting("RAZORPAY_KEY_ID"):
         raise HTTPException(503, "Payments are not yet available. Your request is saved.")
     order = await private_order(request, conn, True)
     payment = await commerce.begin_payment(conn, order, payload.quote_version)
     return PaymentCheckout(
-        key_id=setting("RAZORPAY_KEY_ID"),
+        fixture=simulated,
+        key_id="rzp_test_local_fixture" if simulated else setting("RAZORPAY_KEY_ID"),
         order_id=payment["provider_order"] or "",
         amount=payment["amount"],
     )
@@ -1099,3 +1101,13 @@ async def private_media(identifier: uuid.UUID, conn: DB, actor: Admin):
     if not path.is_file():
         raise HTTPException(404, "Image not found")
     return FileResponse(path, media_type="image/webp", headers={"Cache-Control": "no-store"})
+
+
+@router.post("/order/fixture-capture", response_model=ActionResult)
+async def fixture_capture(payload: PaymentStart, request: Request, conn: DB):
+    from app.fixture_checkout import capture_fixture
+
+    if not fixture_mode():
+        raise HTTPException(404, "Not found")
+    order = await private_order(request, conn, True)
+    return ActionResult(detail=await capture_fixture(conn, order, payload.quote_version))

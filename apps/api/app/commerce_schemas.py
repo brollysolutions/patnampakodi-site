@@ -82,6 +82,7 @@ class PaymentStart(PublicModel):
 
 
 class PaymentCheckout(PublicModel):
+    fixture: bool = False
     key_id: str
     order_id: str
     amount: int

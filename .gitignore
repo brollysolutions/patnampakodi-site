@@ -245,3 +245,5 @@ blob-report/
 !apps/web/src/lib/
 !apps/web/src/lib/**
 /apps/web/public/generated/
+
+apps/web/test-results-staging/

@@ -72,3 +72,6 @@ jobs:
         env:
           CHROME_DEVEL_SANDBOX: /usr/local/lib/pakodi-chrome-sandbox
         run: python scripts/verify_application.py all ci
+
+      - name: Verify isolated Docker staging and recovery
+        run: python scripts/verify_staging.py
