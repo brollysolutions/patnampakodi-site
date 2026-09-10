@@ -7,7 +7,7 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 9. Approved commerce MVP and Docker handoff | In progress on `feat/pakodi-mvp`; see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+| 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); scope and visuals resolved by item 9; hosting remains a release input | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
@@ -36,7 +36,9 @@ Fresh verification and residual limits are recorded in
 [MVP verification](mvp-verification.md). All required components have fresh passing evidence; earlier complete-command
 failures and the corrected audit are distinguished there. Delivery additionally
 fixes hook-local Git environment leakage into test fixtures, verified by a real
-linked-worktree regression and the 105-test workflow gate. PR delivery is in progress. Next priority is configured staging acceptance with approved
+linked-worktree regression and the 105-test workflow gate. Initial delivery `2b7acc4` was pushed and verified against open [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7),
+with matching head SHA and a clean worktree. This records that point in time;
+subsequent delivery must verify the new head again. Next priority is configured staging acceptance with approved
 catalog/legal/tax inputs, vendor accounts/templates and a chosen host, using
 [commerce operations](../commerce-operations.md). Real provider transactions,
 messages, production TLS/cutover and field performance are not claimed.

@@ -2,7 +2,8 @@
 
 ## Approved MVP implementation — 2026-09-10
 
-In progress on `feat/pakodi-mvp`, isolated from the original uncommitted
+Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7) from `feat/pakodi-mvp`,
+isolated from the original uncommitted
 `feat/pakodi-storefront` checkout. The approved source snapshot is included in
 this delivery; original files were not staged, moved or discarded.
 
@@ -27,8 +28,10 @@ The corrected Docker/Lighthouse gate passed all six three-run median profiles
 all 19 table counts and the migration head. Earlier full CI commands failed at
 the old audit runner; passing functional and corrected audit evidence is recorded
 separately. A linked-worktree push-hook fixture leak was reproduced and fixed;
-its new regression also preserves the protected-ref input stream. PR delivery
-is in progress. See
+its new regression also preserves the protected-ref input stream. The delivery
+helper exited 0 and verified initial head `2b7acc4`, an open PR against shared
+`main`, a clean worktree and no unpushed commits. This is a point-in-time record;
+current remote state must be checked again after this documentation update. See
 [MVP verification](mvp-verification.md) for review coverage, retained failures,
 measurement conditions and release prerequisites. Planning recommendation:
 `gpt-6-astra` / High; implementation: `gpt-6-astra` / Extra High, selected settings

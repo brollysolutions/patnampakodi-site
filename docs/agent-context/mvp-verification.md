@@ -132,3 +132,12 @@ production deployment/cutover and field performance are unverified.
 
 The next priority is configured staging acceptance using
 [commerce operations](../commerce-operations.md), followed by approved P1 work.
+
+## Delivery record
+
+Initial delivery `2b7acc4` was pushed to `origin/feat/pakodi-mvp`; the finish
+helper exited 0 and verified open [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7) against
+`brollysolutions/patnampakodi-site:main`, matching local/remote head SHA, a clean
+worktree and no unpushed commits. Hooks remained enabled. This documentation
+follow-up records that observation; final delivery requires fresh remote readback
+for its new head. GitHub CI results are reported separately from local checks.
