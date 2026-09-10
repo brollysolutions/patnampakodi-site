@@ -23,7 +23,7 @@ if [[ -f apps/api/pyproject.toml ]]; then
   (cd apps/api && uv run ruff check . && uv run ruff format --check .)
 fi
 
-if [[ -f apps/web/package.json ]] && command -v pnpm &>/dev/null; then
+if [[ -f apps/web/package.json ]]; then
   echo "==> Web lint"
-  (cd apps/web && pnpm lint)
+  (cd apps/web && npm run lint)
 fi

@@ -22,6 +22,8 @@ test("customer request, staff approval, private access and cancellation", async 
   page,
   browser,
 }, info) => {
+  // This journey provisions fixtures and audits four screens in separate sessions.
+  test.setTimeout(60_000);
   const data = JSON.parse(fixture("prepare"));
   try {
     await page.goto("/shop/fixture-mix/");

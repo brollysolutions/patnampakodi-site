@@ -127,6 +127,27 @@ class DeliverySelectionTests(unittest.TestCase):
 
 
 class HookEntrypointTests(unittest.TestCase):
+    def test_pre_commit_uses_npm_even_when_pnpm_is_available(self):
+        root = Path(__file__).resolve().parents[2]
+        with tempfile.TemporaryDirectory() as directory:
+            fixture = Path(directory)
+            (fixture / "apps/web").mkdir(parents=True)
+            (fixture / "apps/web/package.json").write_text("{}", encoding="utf-8")
+            hook = (root / ".githooks/pre-commit").read_text(encoding="utf-8")
+            # Export shell fixtures so the real hook runs without package installs.
+            harness = '''
+git() { echo feat/fixture; }
+uv() { return 0; }
+npm() { test "$*" = "run lint" && echo npm-lint-ran; }
+pnpm() { echo unexpected-pnpm >&2; return 99; }
+export -f git uv npm pnpm
+'''
+            result = subprocess.run([find_bash(), "-c", harness + hook], cwd=fixture,
+                capture_output=True, text=True, encoding="utf-8", timeout=30)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("npm-lint-ran", result.stdout)
+            self.assertNotIn("unexpected-pnpm", result.stderr)
+
     def test_configured_codex_hook_works_from_subdirectory(self):
         root = Path(__file__).resolve().parents[2]
         config = json.loads((root / ".codex/hooks.json").read_text(encoding="utf-8"))

@@ -1,5 +1,22 @@
 # Patnam Pakodi website design direction
 
+## Superseding instruction — 2026-09-10
+
+The user approved reproducing patnampakodi.com in Next.js, keeping its original
+copy, images, layout, sections, navigation and URLs, with **our fonts and colors
+only**. This replaces the earlier food-led composition below. The scope includes
+the whole ecommerce journey and admin dashboard. Keep the original logo and
+franchise-led homepage; use Abril Fatface/Archivo and existing palette tokens.
+Phone-first enquiry/brochure popups are explicitly approved; open only on user
+activation, with native dialog semantics, escape dismissal and focus restoration.
+This is an authorized exception to the generic no-modal design advice.
+
+Taste: preserve the established franchise-led composition. Impeccable: retain
+responsive hierarchy and complete interaction states. Kowalski: immediate state
+changes, no decorative motion or new animation dependency. Apple/browser evidence
+will be recorded after fresh review. Source contact discrepancies remain recorded
+for owner correction; copying source copy does not verify factual claims.
+
 Derived 2026-09-09 from the user-supplied
 [design brief v0.2](patnam-pakodi-design-brief-v0.2.md).
 Status: **The Pakodi Table direction approved by the user's proceed instruction

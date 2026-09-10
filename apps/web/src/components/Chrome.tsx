@@ -1,27 +1,31 @@
 import { SiteLink } from "./SiteLink";
 import { getStorefront } from "@/lib/content";
+import Image from "next/image";
+import { StructuredPage } from "./StructuredPage";
 
 const links = [
+  ["Home", "/"],
+  ["About Us", "/about-us/"],
   ["Menu", "/menu/"],
-  ["Shop", "/shop/"],
-  ["Our story", "/about-us/"],
-  ["Find a store", "/branches/"],
-  ["Cart", "/cart/"],
-] as const;
-
-const mobileLinks = [
-  ...links,
-  ["Own a franchise", "/franchise/"],
+  ["Branches", "/branches/"],
+  ["Franchise", "/franchise/"],
+  ["Recipe", "/shop/"],
   ["Contact", "/contact/"],
 ] as const;
+
+const mobileLinks = [...links, ["Cart", "/cart/"]] as const;
 
 export function Wordmark() {
   return (
     <SiteLink className="wordmark" href="/" aria-label="Patnam Pakodi home">
-      Patnam
-      <span>
-        Pakodi<span className="wordmark-dot">.</span>
-      </span>
+      <Image
+        className="reference-logo"
+        src="/images/live/656da99ddfd65b8a.webp"
+        alt="Patnam Pakodi"
+        width={377}
+        height={366}
+        priority
+      />
     </SiteLink>
   );
 }
@@ -38,12 +42,12 @@ export function Header() {
             </SiteLink>
           ))}
         </nav>
-        <SiteLink
+        <a
           className="button button-small header-franchise"
-          href="/franchise/"
+          href="https://wa.me/919000366219"
         >
-          Own a franchise <span aria-hidden="true">↗</span>
-        </SiteLink>
+          WhatsApp Us
+        </a>
         <details className="mobile-nav">
           <summary>
             Menu <span aria-hidden="true">＋</span>
@@ -63,6 +67,27 @@ export function Header() {
 
 export async function Footer() {
   const content = await getStorefront().catch(() => null);
+  const footer = content?.pages.find((page) => page.slug === "site-footer");
+  if (footer?.blocks.length)
+    return (
+      <footer>
+        <StructuredPage blocks={footer.blocks} slug="footer" />
+        <nav
+          className="container footer-bottom"
+          aria-label="Orders and policies"
+        >
+          <SiteLink href="/cart/">Cart</SiteLink>
+          <SiteLink href="/track/">Track your order</SiteLink>
+          {content?.pages
+            .filter((page) => page.slug.startsWith("policies/"))
+            .map((page) => (
+              <a key={page.slug} href={`/${page.slug}/`}>
+                {page.heading}
+              </a>
+            ))}
+        </nav>
+      </footer>
+    );
   return (
     <footer className="site-footer">
       <div className="container footer-grid">

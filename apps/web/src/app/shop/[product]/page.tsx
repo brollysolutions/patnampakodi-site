@@ -25,6 +25,7 @@ export async function generateMetadata(props: Props) {
     heading: product.name,
     intro: product.description,
     sections: [],
+    blocks: [],
   });
 }
 export default async function ProductPage(props: Props) {

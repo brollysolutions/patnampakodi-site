@@ -434,6 +434,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/brochure": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Download Brochure */
+        get: operations["download_brochure_v1_brochure_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/catalog": {
         parameters: {
             query?: never;
@@ -462,6 +479,23 @@ export interface paths {
         put?: never;
         /** Enquiry */
         post: operations["enquiry_v1_enquiries_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/enquiries/quick": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Quick Enquiry */
+        post: operations["quick_enquiry_v1_enquiries_quick_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -765,6 +799,89 @@ export interface components {
              * Format: uuid
              */
             variant_id: string;
+        };
+        /**
+         * ContentBlock
+         * @description Semantic editorial content, never HTML, CSS or executable attributes.
+         */
+        ContentBlock: {
+            /**
+             * Alt
+             * @default
+             */
+            alt: string;
+            /**
+             * Basis
+             * @default 100
+             */
+            basis: number;
+            /**
+             * Card
+             * @default false
+             */
+            card: boolean;
+            /** Children */
+            children: components["schemas"]["ContentBlock"][];
+            /**
+             * Height
+             * @default 600
+             */
+            height: number;
+            /**
+             * Href
+             * @default
+             */
+            href: string;
+            /**
+             * Image
+             * @default
+             */
+            image: string;
+            /** Items */
+            items: string[];
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "group" | "heading" | "text" | "image" | "list" | "link" | "faq" | "icon" | "enquiry" | "map";
+            /**
+             * Layout
+             * @default column
+             * @enum {string}
+             */
+            layout: "column" | "row";
+            /**
+             * Level
+             * @default 2
+             * @enum {integer}
+             */
+            level: 1 | 2 | 3 | 4;
+            /**
+             * Record Slug
+             * @default
+             */
+            record_slug: string;
+            /**
+             * Text
+             * @default
+             */
+            text: string;
+            /**
+             * Title
+             * @default
+             */
+            title: string;
+            /**
+             * Tone
+             * @default none
+             * @enum {string}
+             */
+            tone: "none" | "cream" | "white" | "brown";
+            /**
+             * Width
+             * @default 800
+             */
+            width: number;
         };
         /** ContentView */
         ContentView: {
@@ -1076,6 +1193,8 @@ export interface components {
         };
         /** Page */
         Page: {
+            /** Blocks */
+            blocks: components["schemas"]["ContentBlock"][];
             /** Description */
             description: string;
             /** Heading */
@@ -1138,6 +1257,49 @@ export interface components {
             shelf_life: string;
             /** Slug */
             slug: string;
+        };
+        /** QuickEnquiry */
+        QuickEnquiry: {
+            /**
+             * Campaign
+             * @default
+             */
+            campaign: string;
+            /**
+             * Medium
+             * @default
+             */
+            medium: string;
+            /** Phone */
+            phone: string;
+            /**
+             * Purpose
+             * @default franchise
+             * @enum {string}
+             */
+            purpose: "franchise" | "brochure" | "contact";
+            /**
+             * Request Key
+             * Format: uuid
+             */
+            request_key: string;
+            /**
+             * Source
+             * @default direct
+             */
+            source: string;
+            /**
+             * Website
+             * @default
+             */
+            website: string;
+        };
+        /** QuickEnquiryReceipt */
+        QuickEnquiryReceipt: {
+            /** Brochure Url */
+            brochure_url: string | null;
+            /** Detail */
+            detail: string;
         };
         /** QuoteLine */
         QuoteLine: {
@@ -2219,6 +2381,26 @@ export interface operations {
             };
         };
     };
+    download_brochure_v1_brochure_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
     catalog_v1_catalog_get: {
         parameters: {
             query?: never;
@@ -2259,6 +2441,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ActionResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    quick_enquiry_v1_enquiries_quick_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuickEnquiry"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuickEnquiryReceipt"];
                 };
             };
             /** @description Validation Error */

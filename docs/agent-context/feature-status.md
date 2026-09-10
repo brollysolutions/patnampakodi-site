@@ -1,5 +1,48 @@
 # Feature status
 
+## Four-PR completion — 2026-09-10
+
+The user approved the full website/ecommerce/admin plan. Item 10 is in progress:
+preserve the live-site content, original images, section order and URLs, while
+retaining Abril Fatface, Archivo and the project's orange/brown/cream tokens.
+The phone-only entry form now has a retry-safe backend and a stored admin lead.
+Real products must remain unpublished until their required business information
+is approved. No substitute food/tax records or brochure are authorized for staging.
+
+Items 11–13 finish ecommerce, the admin reporting backlog, and local Docker
+staging respectively. Provider fixtures are authorized for verification; real
+payments/messages and production cutover remain separate. Fresh Windows checks
+pass 106 workflow tests, 22-skill parity, 62 API tests, one migration head,
+generated contracts, lint/types, 17 web unit tests and the production build.
+The corrected browser run passes **45 tests** across desktop/mobile/tablet;
+technical SEO passes on **13 public routes**, with only intentional skip-link
+fragment warnings. Original asset hashes/formats/dimensions pass for all 31 files.
+The final native browser run passes **45 tests**, including the no-JavaScript
+FAQ, delegated dialog/focus and CMS-bound source content at all three widths.
+Technical SEO passes all **13 public routes**. The final container build passes;
+its Windows Lighthouse mobile profiles still exceed the existing budgets and
+report a slow test CPU. No budget, throttling or security gate was relaxed.
+The branch will remain a draft review until the existing Ubuntu CI runs the
+same full gate successfully; local performance is failed, not passed.
+
+The renderer uses a fixed, escaped HTML serializer for static content and one
+client enquiry handler. Tests exercise executable strings, unsafe destinations,
+fixed element/attribute names and readable initial HTML. Menu/outlet bindings
+cover staff edits, unpublishing and new published records. Branch contact copy
+is editable source data, not independently verified location structured data.
+Item 11 (catalogue URLs/search/admin metadata) is the next implementation slice.
+The commit hook now always uses the repository's npm toolchain. A shell regression
+confirms that an installed pnpm cannot trigger a second package installation;
+the lint gate remains enabled. All 106 workflow tests pass after this repair.
+PR linkage for this slice: `feat/live-site-parity` into `upstream/main`; the
+verified remote PR URL is recorded by the delivery helper and the next slice.
+
+Earlier browser runs exposed missing source FAQ answers/contact links, tablet
+wrapping, combined-filter test assumptions and a multi-screen test timeout.
+Those issues were corrected and the fresh browser run passes. The existing
+commerce navigation lint warning is unchanged. Historical PR #7 evidence below
+does not certify this change.
+
 ## Approved MVP implementation — 2026-09-10
 
 Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7) from `feat/pakodi-mvp`,
@@ -21,7 +64,7 @@ full old-site URL inventory, vendor account/template acceptance and the chosen
 host's deployment/backup/privacy checks remain release prerequisites. The code
 does not fabricate these business facts or claim production transactions.
 
-Fresh checks passed 105 workflow tests, 53 backend integration tests, eight web
+Fresh checks passed 106 workflow tests, 53 backend integration tests, eight web
 unit tests, 39 browser tests at three sizes and technical SEO checks for 13 routes.
 The corrected Docker/Lighthouse gate passed all six three-run median profiles
 (18 observations; one individual outlier retained), and restoration matched

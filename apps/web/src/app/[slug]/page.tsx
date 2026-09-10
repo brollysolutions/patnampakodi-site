@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { StructuredPage } from "@/components/StructuredPage";
+import { ReferenceDiscovery } from "@/components/ReferenceDiscovery";
 import { notFound } from "next/navigation";
 import { HeroImage } from "@/components/HeroImage";
 import { SiteLink } from "@/components/SiteLink";
@@ -36,6 +38,8 @@ export default async function PublicPage({ params, searchParams }: Props) {
   const content = await getStorefront();
   const page = content.pages.find((item) => item.slug === slug);
   if (!page) notFound();
+  if (page.blocks.length && !["menu", "branches"].includes(slug))
+    return <StructuredPage blocks={page.blocks} slug={slug} />;
   const query = await searchParams;
   const FranchiseForm =
     slug === "franchise"
@@ -43,6 +47,17 @@ export default async function PublicPage({ params, searchParams }: Props) {
       : null;
   const q = typeof query.q === "string" ? query.q.slice(0, 100) : "";
   const category = typeof query.category === "string" ? query.category : "";
+  if (page.blocks.length && ["menu", "branches"].includes(slug))
+    return (
+      <ReferenceDiscovery
+        blocks={page.blocks}
+        slug={slug}
+        q={q}
+        category={category}
+        outlets={content.outlets}
+        items={content.menu}
+      />
+    );
   const menu = filterMenu(content.menu, category, q) as typeof content.menu;
   const outlets = filterOutlets(content.outlets, q) as typeof content.outlets;
   return (

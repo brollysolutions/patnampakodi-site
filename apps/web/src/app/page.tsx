@@ -5,6 +5,7 @@ import { SiteLink } from "@/components/SiteLink";
 import { getStorefront } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/policy.mjs";
+import { StructuredPage } from "@/components/StructuredPage";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,8 @@ export default async function Home() {
   const content = await getStorefront();
   const page = content.pages.find((item) => item.slug === "home");
   if (!page) notFound();
+  if (page.blocks.length)
+    return <StructuredPage blocks={page.blocks} slug="home" />;
   return (
     <>
       <JsonLd

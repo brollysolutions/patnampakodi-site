@@ -128,8 +128,8 @@ def main():
                            env={**os.environ, "NEXT_TELEMETRY_DISABLED": "1",
                                 "LIGHTHOUSE_BASE_URL": proxy_url})
     except BaseException:
-        if len(containers) > 1:
-            run("logs", containers[1])
+        for name in containers:
+            run("logs", name)
         raise
     finally:
         for name in reversed(containers):
