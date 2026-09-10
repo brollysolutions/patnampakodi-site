@@ -1,5 +1,26 @@
 # Feature status
 
+## TOTP test boundary correction - 2026-09-11
+
+Three controlled rendering experiments were rejected: replacing Next Link,
+using mobile grid rows and deferring off-screen sections did not consistently
+improve the failing pages; the layout experiments also changed section heights.
+No experimental runtime code is retained. The original public layout, navigation,
+fonts, colours, timing budgets and throttling remain unchanged. The TOTP test
+correction passes all 74 admin-branch API tests, lint/format, migration-head and
+contract checks. Fresh Linux checks on the corrected commits remain required.
+
+The pre-push TOTP replay test had a reproduced 30-second boundary race:
+calling TOTP.now() after fixture login sometimes generates a genuinely new,
+valid code. A controlled next-window clock reproduced HTTP 200 versus the old
+401 expectation. The test now reconstructs the exact consumed step and checks
+its rejection while it remains in the valid time window, then checks recovery
+code single use. The deterministic reproduction fails before the correction and
+passes after it. Authentication code, accepted skew and rate limits are unchanged.
+Planning/implementation recommendation for this bounded correction: gpt-6-astra /
+High; the selected session settings remain unchanged.
+
+
 ## Four-PR remote acceptance readback - 2026-09-11
 
 PR #8 is ready for review at `4dc5b6d`, with full fork CI
@@ -19,6 +40,16 @@ Merge order remains #8, #9, #10, then Docker staging; no PR was merged by the ag
 The older sections below retain their original delivery evidence.
 
 ## Docker staging acceptance - 2026-09-11
+
+Initial fork CI 34539338452 passes functional/browser/SEO/container checks and
+all four workflow matrix jobs. Its 18 Lighthouse runs complete: home mobile
+95/LCP2358/TBT182 passes, menu 95/TBT230 and contact 93/LCP2544/TBT213 fail;
+desktop profiles all score 100. Accessibility, best-practices and SEO are 100.
+The later Docker acceptance step was skipped by the failed application step.
+CI now runs that separate disposable acceptance after a completed application
+step even if it failed; the earlier failure still fails the job. Cancelled runs
+or a skipped application step do not proceed. No gate is bypassed.
+
 
 Item 13 is implemented on `feat/docker-staging` in [PR #11](https://github.com/brollysolutions/patnampakodi-site/pull/11), stacked on PR #10. At initial publication it is draft pending Linux performance acceptance. Current remote checks and review status are recorded on the PR.
 Acceptance: repeatable loopback-only noindex Docker startup, isolated fake providers,

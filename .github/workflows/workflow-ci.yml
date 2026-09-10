@@ -69,9 +69,11 @@ jobs:
           test -f "$sandbox_source"
           sudo install -o root -g root -m 4755 -- "$sandbox_source" /usr/local/lib/pakodi-chrome-sandbox
       - name: Verify API, migrations, contracts, web, accessibility, SEO and performance
+        id: application
         env:
           CHROME_DEVEL_SANDBOX: /usr/local/lib/pakodi-chrome-sandbox
         run: python scripts/verify_application.py all ci
 
       - name: Verify isolated Docker staging and recovery
+        if: ${{ !cancelled() && steps.application.outcome != 'skipped' }}
         run: python scripts/verify_staging.py

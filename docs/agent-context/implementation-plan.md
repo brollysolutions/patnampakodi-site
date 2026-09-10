@@ -7,6 +7,12 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+The admin/staging verification now exercises an exact consumed TOTP across a
+controlled clock boundary; the old test incorrectly expected a fresh code to be
+a replay. Auth behavior is unchanged. Three rendering experiments did not show consistent
+improvement and were rejected; no experimental UI change is retained. Linux
+mobile timing acceptance remains pending on the corrected commits.
+
 Admin delivery also closes the proven commit-before-response race and restores
 keyboard access to horizontally scrolling reports. Ubuntu Lighthouse now has
 diagnostics, the pinned Chromium companion SUID helper and a launch configuration
@@ -48,7 +54,7 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 | --- | --- | --- | --- |
 | 10. Live-site content and franchise entry points (PR 1/4) | Ready for review in [PR #8](https://github.com/brollysolutions/patnampakodi-site/pull/8); full fork CI 34534326169 passes | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
 | 11. Complete customer ecommerce (PR 2/4) | Ready for review in [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9); full fork CI 34534816171 passes; merge after #8 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
-| 12. Complete admin and reporting (PR 3/4) | Draft [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10); functional/browser checks pass; CI 34535340526 fails mobile timing budgets | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 12. Complete admin and reporting (PR 3/4) | Draft [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10) at e6a4b2b; TOTP boundary correction delivered; functional checks pass, new Linux gate pending after earlier mobile timing failure | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 13. Repeatable Docker staging acceptance (PR 4/4) | Implemented in [PR #11](https://github.com/brollysolutions/patnampakodi-site/pull/11); Docker journey/readback pass and local staging is running; initial draft pending Linux gate | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 9. Approved commerce MVP and Docker handoff | Merged in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7) on 2026-09-10; fresh remote readback confirmed 2026-09-11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
