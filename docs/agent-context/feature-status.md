@@ -1,5 +1,8 @@
 # Feature status
 
+The installed helper exposed a second issue: chrome-launcher 1.2.1 implicitly disables the SUID sandbox on Linux. The runner now explicitly supplies its unchanged default flags while opting out of that implicit flag. A regression reproduces the old Linux flags and proves the corrected launch retains the sandbox and all other tool defaults. Runtime CI acceptance remains pending.
+
+
 CI follow-up: Ubuntu AppArmor blocked the downloaded browser. Install the already-pinned Chromium companion SUID helper as root-owned mode 4755 on the ephemeral CI runner and validate those properties before launch. The sandbox and budgets remain enabled. Shell syntax passes; Linux runtime/performance verification is pending. OpenAPI generation now explicitly writes LF, avoiding Windows-only delivery-state churn.
 
 

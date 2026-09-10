@@ -1,5 +1,8 @@
 # Implementation plan
 
+The installed helper exposed a second issue: chrome-launcher 1.2.1 implicitly disables the SUID sandbox on Linux. The runner now explicitly supplies its unchanged default flags while opting out of that implicit flag. A regression reproduces the old Linux flags and proves the corrected launch retains the sandbox and all other tool defaults. Runtime CI acceptance remains pending.
+
+
 Update this file and `feature-status.md` with product/workflow script changes.
 Record one in-progress item per task branch; independent contributors may each
 have a different task branch. Preserve the other contributor's records when
