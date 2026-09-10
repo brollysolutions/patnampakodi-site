@@ -8,12 +8,12 @@ const chromePath = chromium.executablePath();
 await access(chromePath);
 
 // CI's Ubuntu AppArmor policy blocks the downloaded browser's user namespaces.
-// Use the runner's installed SUID helper; never disable Chromium's sandbox.
+// CI installs the pinned browser's companion helper with the required ownership.
 if (process.env.CHROME_DEVEL_SANDBOX) {
   const helper = await stat(process.env.CHROME_DEVEL_SANDBOX);
   if (!helper.isFile() || helper.uid !== 0 || (helper.mode & 0o7777) !== 0o4755)
     throw new Error(
-      "Chrome sandbox helper must be a root-owned mode-4755 file",
+      `Chrome sandbox helper must be root-owned mode 4755 (uid=${helper.uid}, mode=${(helper.mode & 0o7777).toString(8)})`,
     );
 }
 

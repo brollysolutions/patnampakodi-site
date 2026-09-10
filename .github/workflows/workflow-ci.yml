@@ -60,7 +60,15 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
+      - name: Install the pinned browser sandbox helper
+        working-directory: apps/web
+        run: |
+          browser_dir="$(node -p "require('path').dirname(require('@playwright/test').chromium.executablePath())")"
+          sandbox_source="$browser_dir/chrome_sandbox"
+          if [ ! -f "$sandbox_source" ]; then sandbox_source="$browser_dir/chrome-sandbox"; fi
+          test -f "$sandbox_source"
+          sudo install -o root -g root -m 4755 -- "$sandbox_source" /usr/local/lib/pakodi-chrome-sandbox
       - name: Verify API, migrations, contracts, web, accessibility, SEO and performance
         env:
-          CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+          CHROME_DEVEL_SANDBOX: /usr/local/lib/pakodi-chrome-sandbox
         run: python scripts/verify_application.py all ci

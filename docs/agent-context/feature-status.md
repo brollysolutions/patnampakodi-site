@@ -11,15 +11,18 @@ the previous stale-read window. A rollback regression checks failure responses.
 This correction also ships in PR #8; admin reporting is the next slice.
 
 Verbose CI diagnostics identify Ubuntu AppArmor denying Chromium's sandbox
-startup. CI now points Chromium to the runner's installed Google Chrome SUID
-helper, verifying root ownership and mode 4755 first. This follows Chromium's
-documented helper approach; no sandbox-disable flag, global AppArmor change,
-package dependency or performance-budget change is introduced. Linux runtime
-acceptance remains pending. Both transaction boundary/rollback tests pass locally.
+startup. The runner's preinstalled helper failed its ownership/permissions check.
+CI now installs the companion helper from pinned Playwright Chromium 1243 as a
+root-owned mode-4755 file on that ephemeral runner, following Chromium's helper
+instructions. The runtime guard remains; no sandbox-disable flag, global AppArmor
+change, new package or performance-budget change is introduced. Bash syntax
+passes; Linux execution remains pending. Both transaction boundary/rollback tests
+pass locally. OpenAPI generation now explicitly writes LF, verified on Windows,
+to avoid generated-file line-ending changes during delivery.
 
 ## Ecommerce completion ? 2026-09-11
 
-Item 11 is in progress on `feat/commerce-catalog`, stacked on draft PR #8.
+Item 11 is delivered as draft PR #9 on `feat/commerce-catalog`, stacked on draft PR #8.
 Acceptance: published-only original product/category/tag URLs and sitemap,
 bounded combined catalog search/sorting, quantity/cart flow and admin/CSV
 metadata round trips. Prices and stock remain server-authoritative. Incomplete

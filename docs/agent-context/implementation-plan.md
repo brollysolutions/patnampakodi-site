@@ -10,6 +10,9 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 PR #9 is pushed and remains draft. Its follow-up closes the proven
 commit-before-response race and enables diagnosis of the Ubuntu Lighthouse
 launch failure. No performance threshold is relaxed. Item 12 follows this slice.
+The CI browser uses its pinned companion sandbox helper with verified root/SUID
+permissions; generated OpenAPI uses explicit LF on Windows. These corrections
+remain under the same PR, and Linux execution evidence is still pending.
 
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
