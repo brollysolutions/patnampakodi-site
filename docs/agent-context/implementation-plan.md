@@ -34,7 +34,9 @@ gpt-6-astra / Extra High. Selected settings were preserved; no subagents were us
 
 Fresh verification and residual limits are recorded in
 [MVP verification](mvp-verification.md). All required components have fresh passing evidence; earlier complete-command
-failures and the corrected audit are distinguished there. PR delivery is in progress. Next priority is configured staging acceptance with approved
+failures and the corrected audit are distinguished there. Delivery additionally
+fixes hook-local Git environment leakage into test fixtures, verified by a real
+linked-worktree regression and the 105-test workflow gate. PR delivery is in progress. Next priority is configured staging acceptance with approved
 catalog/legal/tax inputs, vendor accounts/templates and a chosen host, using
 [commerce operations](../commerce-operations.md). Real provider transactions,
 messages, production TLS/cutover and field performance are not claimed.

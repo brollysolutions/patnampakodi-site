@@ -42,7 +42,7 @@ tests reject repeated failures, missing measurements and mixed profile groups.
 | Contact | 1.974s | 99 | 0.462s | 100 |
 
 Maximum median TBT was 124ms. All observations scored 100 for accessibility,
-best practices and SEO. **1 individual timing observation(s) exceeded a budget**;
+best practices and SEO. **One individual timing observation exceeded a budget**;
 maximum individual TBT was 265ms. Those observations remain in the
 summary and are not reported as individual passes. JSON/HTML and Chrome traces
 are retained locally under `.agent-workflow/reports/lighthouse-1789035719836/`.
@@ -70,6 +70,23 @@ Production Compose/Caddy configuration validation passed. The expanded synthetic
 and the migration head after `pg_dump`/`pg_restore`. Fixture suites use only
 local synthetic databases and reject secret-file overrides. Real provider,
 production TLS/deployment/cutover and field-performance checks remain unverified.
+
+## Delivery-hook verification
+
+The first push was rejected by workflow tests because Git's hook-local environment
+redirected temporary fixture operations into the calling linked worktree. The
+unpublished fixture-only commit and identity changes were restored to the known
+implementation state; no remote history or unrelated working files were changed.
+The push hook now clears Git's repository-local variables in its verification
+subshell and gives that child empty stdin, preserving the incoming references for
+protected-ref checks. This follows [Git's hook guidance](https://git-scm.com/docs/githooks).
+
+A regression using real temporary repositories and a linked worktree failed before
+the fixes and passed afterwards. It verifies foreign writes, caller commit/file/
+identity preservation, command-scoped config isolation, empty verifier stdin and
+continued rejection of protected remote refs. The workflow-only gate exited 0
+with **105 tests**, **22-skill parity** and shell checks. Security/PR self-review
+found no unresolved issue in the fix. The product/provider/browser scope is unchanged.
 
 ## Review coverage
 

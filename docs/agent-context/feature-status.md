@@ -20,13 +20,15 @@ full old-site URL inventory, vendor account/template acceptance and the chosen
 host's deployment/backup/privacy checks remain release prerequisites. The code
 does not fabricate these business facts or claim production transactions.
 
-Fresh checks passed 104 workflow tests, 53 backend integration tests, eight web
+Fresh checks passed 105 workflow tests, 53 backend integration tests, eight web
 unit tests, 39 browser tests at three sizes and technical SEO checks for 13 routes.
 The corrected Docker/Lighthouse gate passed all six three-run median profiles
-(18 observations; 1 individual outlier(s) retained), and restoration matched
+(18 observations; one individual outlier retained), and restoration matched
 all 19 table counts and the migration head. Earlier full CI commands failed at
 the old audit runner; passing functional and corrected audit evidence is recorded
-separately. PR delivery is in progress. See
+separately. A linked-worktree push-hook fixture leak was reproduced and fixed;
+its new regression also preserves the protected-ref input stream. PR delivery
+is in progress. See
 [MVP verification](mvp-verification.md) for review coverage, retained failures,
 measurement conditions and release prerequisites. Planning recommendation:
 `gpt-6-astra` / High; implementation: `gpt-6-astra` / Extra High, selected settings
