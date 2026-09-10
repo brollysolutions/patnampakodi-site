@@ -1,5 +1,15 @@
 # Feature status
 
+## PR1 CI correction ? 2026-09-11
+
+Draft PR #8 is open at `efebb72`; its first fork CI passed all four workflow
+matrix jobs and 43 browser tests, but two no-JavaScript menu navigations timed
+out waiting for the whole page load. They now wait for DOMContentLoaded before
+asserting the same 51 cards, category/search behavior and reset. No assertion,
+timeout, performance budget or production behavior was relaxed. The same
+correction passes desktop/mobile/tablet within the next branch's fresh 48-test
+browser run. The full Ubuntu application/performance gate remains pending.
+
 ## Four-PR completion — 2026-09-10
 
 The user approved the full website/ecommerce/admin plan. Item 10 is in progress:

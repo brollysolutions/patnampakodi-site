@@ -39,7 +39,7 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 10. Live-site content and franchise entry points (PR 1/4) | In progress; implemented and functionally verified, draft CI performance review pending | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
+| 10. Live-site content and franchise entry points (PR 1/4) | In progress; implemented and functionally verified, draft PR #8 CI retry pending after DOM-ready no-JavaScript test correction | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
 | 11. Complete customer ecommerce (PR 2/4) | Planned; depends on item 10 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
 | 12. Complete admin and reporting (PR 3/4) | Planned; depends on item 11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |

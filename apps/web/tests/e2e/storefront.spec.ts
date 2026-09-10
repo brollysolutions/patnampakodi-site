@@ -51,7 +51,9 @@ test("menu search, categories, empty results and reset work without JavaScript",
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3010/menu/");
+  await page.goto("http://127.0.0.1:3010/menu/", {
+    waitUntil: "domcontentloaded",
+  });
   await expect(page.locator(".menu-item")).toHaveCount(51);
   await page.getByRole("button", { name: "Drinks", exact: true }).click();
   await expect(page.locator(".menu-item")).toHaveCount(11);
