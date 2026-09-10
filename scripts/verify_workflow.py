@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> int:
     mode = sys.argv[1] if len(sys.argv) > 1 else "full"
-    if mode.lstrip("-") not in {"full", "fast", "ci", "launch"}:
+    if mode.lstrip("-") not in {"full", "fast", "ci", "launch", "workflow-only"}:
         print(f"Unknown verification mode: {mode}", file=sys.stderr)
         return 2
     commands = [
@@ -31,6 +31,14 @@ def main() -> int:
         result = subprocess.run([bash, "-n", str(script)], cwd=ROOT)
         if result.returncode:
             return result.returncode
+    if mode.lstrip("-") == "workflow-only":
+        print("==> Workflow-only gate complete; application gate runs in its dedicated CI job")
+        return 0
+    if (ROOT / "apps/api/pyproject.toml").is_file():
+        result = subprocess.run(
+            [sys.executable, "scripts/verify_application.py", "all", mode.lstrip("-")], cwd=ROOT
+        )
+        return result.returncode
     for name in ("verify-api.sh", "verify-web.sh", "check-migrations.sh"):
         script = ROOT / "scripts" / name
         if script.is_file():

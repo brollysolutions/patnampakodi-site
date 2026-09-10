@@ -2,7 +2,9 @@
 
 Source: project owner's conversation instruction, 2026-09-09.
 Authority: authoritative for technology selection and the SEO requirement.
-Status: approved direction; application and deployment are not implemented.
+Status: selected components implemented for the approved MVP; see
+[approved decisions](approved-mvp-plan.md) and [operations](../commerce-operations.md).
+Docker handoff is included. Hosting/cutover and live provider acceptance are separate.
 
 ## Supplied instruction
 
@@ -15,8 +17,8 @@ Status: approved direction; application and deployment are not implemented.
 | Website | Next.js | Public pages and frontend |
 | Backend | Python with FastAPI | API and business logic |
 | Database | PostgreSQL | Persistent application data |
-| Scheduling | APScheduler | Scheduled Python jobs; execution model to be designed |
-| Redis | Redis | Approved component; exact use to be scoped |
+| Scheduling | APScheduler | One scheduler with PostgreSQL leases, reconciliation and reservation expiry |
+| Redis | Redis | Atomic distributed rate limits; never authoritative stock |
 | Containers | Docker | Package and run application services |
 
 The site must be SEO friendly. Apply the existing
@@ -26,11 +28,12 @@ crawlable links, sitemap/robots, truthful structured data, accessible responsive
 pages, and measured production-build performance. These are acceptance
 requirements, not evidence that a website currently passes them.
 
-Versions, application package managers, approved business content, hosting
-provider and deployment access remain undecided. The later 2026-09-09 request
+Versions and package managers are now pinned: npm for the web, uv for the API,
+and a digest-pinned PostgreSQL Docker fixture. Approved business content, hosting
+provider and deployment access remain partly unresolved. The later 2026-09-09 request
 supplies `https://patnampakodi.com/` and the MVP/design/integration briefs;
 [commerce reconciliation](pakodi-commerce-reconciliation.md) now records the
-requested feature inventory and pending first-delivery scope. The original
+requested feature inventory and approved first-delivery scope. The original
 stack-memory task did not authorize dependency installation or deployment.
 The new build request does not establish production access or cutover approval.
 
@@ -61,6 +64,6 @@ No credentials were supplied, requested for storage, or saved. Follow
 This decision supersedes current statements that the stack is unchosen in
 `../../AGENTS.md`, `../partner-workflow-guide.md` and item 2 of
 `implementation-plan.md`. Earlier dated setup/toolkit records remain historical.
-The scripts, skills and workflow tests remain the only implemented layers;
-there are no web/API routes, database models, migrations, jobs, generated
-contracts or deployment configuration to reconcile yet.
+The first storefront now adds web/API routes, public content schemas, an Alembic
+migration with RLS, generated contracts and a local Docker database. No business
+jobs or deployment configuration are implemented. See `../storefront-development.md`.

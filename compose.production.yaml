@@ -1,0 +1,132 @@
+# Docker handoff. Supply operator-owned secret files; no production defaults.
+name: pakodi
+x-runtime: &runtime
+  APP_ENV: production
+  PUBLIC_ORIGIN: https://${PAKODI_HOST:?Set PAKODI_HOST}
+  DATABASE_URL_FILE: /run/secrets/database_url
+  COMMERCE_DATABASE_URL_FILE: /run/secrets/commerce_database_url
+  REDIS_URL_FILE: /run/secrets/redis_url
+  DATA_ENCRYPTION_KEY_FILE: /run/secrets/data_encryption_key
+  RAZORPAY_KEY_ID_FILE: /run/secrets/razorpay_key_id
+  RAZORPAY_KEY_SECRET_FILE: /run/secrets/razorpay_key_secret
+  RAZORPAY_WEBHOOK_SECRET_FILE: /run/secrets/razorpay_webhook_secret
+  META_ACCESS_TOKEN_FILE: /run/secrets/meta_access_token
+  META_APP_SECRET_FILE: /run/secrets/meta_app_secret
+  META_VERIFY_TOKEN_FILE: /run/secrets/meta_verify_token
+  META_PHONE_ID: ${META_PHONE_ID:-}
+  META_GRAPH_VERSION: ${META_GRAPH_VERSION:-}
+services:
+  postgres:
+    image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    environment:
+      POSTGRES_USER: pakodi_owner
+      POSTGRES_DB: pakodi
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    volumes:
+      - postgres:/var/lib/postgresql
+      - ${PAKODI_SECRETS_DIR:?Set PAKODI_SECRETS_DIR}/owner/postgres_password:/run/secrets/postgres_password:ro
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U pakodi_owner -d pakodi]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks: [private]
+  redis:
+    image: redis:8.2-alpine@sha256:30abb90e62f14b737010746def3ba99cc79fe19dcdb3d37b41f21fc62e7da19d
+    command: [redis-server, /run/secrets/redis.conf]
+    volumes:
+      - redis:/data
+      - ${PAKODI_SECRETS_DIR}/redis.conf:/run/secrets/redis.conf:ro
+    restart: unless-stopped
+    networks: [private]
+  api:
+    build: {context: ., dockerfile: apps/api/Dockerfile}
+    environment:
+      <<: *runtime
+      TRUSTED_PROXY_IPS: 172.29.91.10
+    volumes:
+      - media:/media
+      - ${PAKODI_SECRETS_DIR}/api:/run/secrets:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_started}
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+    networks: [private]
+  worker:
+    build: {context: ., dockerfile: apps/api/Dockerfile}
+    command: [python, -m, app.jobs]
+    environment: *runtime
+    volumes:
+      - media:/media
+      - ${PAKODI_SECRETS_DIR}/api:/run/secrets:ro
+    depends_on:
+      api: {condition: service_healthy}
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [private]
+  migrate:
+    build: {context: ., dockerfile: apps/api/Dockerfile}
+    profiles: [operations]
+    command: [python, -m, alembic, upgrade, head]
+    environment:
+      <<: *runtime
+      MIGRATION_DATABASE_URL_FILE: /run/owner/migration_database_url
+    volumes:
+      - ${PAKODI_SECRETS_DIR}/api:/run/secrets:ro
+      - ${PAKODI_SECRETS_DIR}/owner:/run/owner:ro
+    networks: [private]
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        SITE_INDEXABLE: ${SITE_INDEXABLE:-false}
+        DEPLOYMENT_ENV: ${DEPLOYMENT_ENV:-preview}
+    environment:
+      CONTENT_API_URL: http://api:8000
+      GA4_MEASUREMENT_ID: ${GA4_MEASUREMENT_ID:-}
+      SITE_INDEXABLE: ${SITE_INDEXABLE:-false}
+      DEPLOYMENT_ENV: ${DEPLOYMENT_ENV:-preview}
+    depends_on:
+      api: {condition: service_healthy}
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [private]
+  proxy:
+    image: caddy:2-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648
+    environment:
+      PAKODI_HOST: ${PAKODI_HOST}
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [web]
+    restart: unless-stopped
+    networks:
+      private:
+        ipv4_address: 172.29.91.10
+networks:
+  private:
+    ipam:
+      config: [{subnet: 172.29.91.0/24}]
+volumes:
+  postgres:
+  redis:
+  media:
+  caddy_data:
+  caddy_config:

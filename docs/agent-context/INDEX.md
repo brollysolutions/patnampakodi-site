@@ -24,8 +24,15 @@ evidence of a working website or an approved production domain.
 
 ## Provenance
 
+The 2026-09-09 rows below describe the sources at ingestion. Their pending choices
+and then-unimplemented architecture are historical; the approved MVP decisions,
+current feature status and verification record describe this delivery.
+
 | Reference | Source / as of | Authority | Affected paths | Known differences |
 | --- | --- | --- | --- | --- |
+| [MVP verification](mvp-verification.md) | Fresh local tests and self-review, 2026-09-10 | Point-in-time evidence; final gate and remote delivery readback recorded separately | Application, contracts, containers, public/private UI | Live providers, approved business inputs and production host acceptance remain separate |
+| [Approved MVP decisions](approved-mvp-plan.md) | User planning answers and "Implement the plan", 2026-09-10 | Current authority over conflicting source proposals | Storefront, commerce, admin, jobs, Docker | Staff quotes, own delivery, WhatsApp only, TOTP, P0 first; production hosting separate |
+| [Commerce operations](../commerce-operations.md) | Implemented service and deployment contract, 2026-09-10 | Operational guidance; live acceptance evidence is separate | API/web/worker/database/providers/deployment | Approved content, credentials, tax/privacy sign-off and production cutover still required |
 | [Patnam Pakodi design brief v0.2](patnam-pakodi-design-brief-v0.2.md) | User-supplied `Patnam-Pakodi-Design-Brief (2).md`, dated 2026-09-04; copied unchanged on 2026-09-09 | Authoritative for explicitly locked identity; Proposed/Open sections remain pending | Future public pages, theme, fonts, controls | Cream/support palette, logo and imagery are not approved; source archive hash in reconciliation |
 | [FRAB Foods MVP features v4.1](frab-foods-mvp-features-v4.1.md) | User-supplied file, dated/received 2026-09-09; copied unchanged | Authoritative requested feature inventory; conflicts require explicit resolution | Future storefront, checkout, orders, franchise, admin and SEO | 50 features, not implemented; blanket indexability conflicts with private customer/admin pages |
 | [Razorpay and WhatsApp implementation source v1.0](frab-foods-razorpay-whatsapp-plan-v1.0.md) | User-supplied file, dated/received 2026-09-09; copied unchanged | Advisory implementation plan; external claims not independently established by copying | Payments, stock, outbox, messaging, tracking, admin | Assumes Celery/Valkey instead of approved APScheduler/Redis; stale feature numbering, email/TOTP assumptions, provider/pricing/legal claims need review |

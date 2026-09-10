@@ -10,7 +10,14 @@ case "$branch" in
 esac
 
 # The shared gate runs locally and in CI.
-uv --cache-dir .uv-cache run --no-project --python '>=3.11' python scripts/verify_workflow.py fast
+# Fixture Git commands must discover their own repository, not inherit this hook's.
+(
+  git_local_environment="$(git rev-parse --local-env-vars)"
+  while IFS= read -r git_local_name; do
+    unset "$git_local_name"
+  done <<< "$git_local_environment"
+  uv --cache-dir .uv-cache run --no-project --python '>=3.11' python scripts/verify_workflow.py fast
+) </dev/null
 
 while read -r _local_ref _local_sha remote_ref _remote_sha; do
   case "$remote_ref" in

@@ -7,13 +7,58 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
+| 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+| 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
-| 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); first-delivery scope, visual choices and hosting remain pending | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
+| 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); scope and visuals resolved by item 9; hosting remains a release input | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 3. Adopt Astra workflow and verify delivery evidence | Merged in [PR #2](https://github.com/brollysolutions/patnampakodi-site/pull/2) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 4. Audit and repair workflow enforcement and onboarding | Delivered for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; High recommended | User-selected model; High recommended |
 | 5. Reconcile PR #3 with upstream delivery safeguards | Resolved and verified for review in [PR #3](https://github.com/brollysolutions/patnampakodi-site/pull/3) | User-selected model; Medium recommended | User-selected model; Medium recommended |
 | 6. Share advanced SEO, Lighthouse and the requested design workflow | Delivered for review in [PR #4](https://github.com/brollysolutions/patnampakodi-site/pull/4) | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 7. Preserve the approved stack and SEO requirement | Delivered for review in [PR #5](https://github.com/brollysolutions/patnampakodi-site/pull/5) | `gpt-6-astra` / Medium recommended; selected settings preserved | `gpt-6-astra` / Medium recommended; selected settings preserved |
+
+## Item 9 acceptance — 2026-09-10
+
+Implement the [approved P0 MVP](approved-mvp-plan.md): preserved public storefront,
+packaged catalog, guest requests, staff delivery quotes, timed reservations,
+private Razorpay payment/cancellation/invoices, own-team fulfilment, opt-in Meta
+notifications, named password/TOTP admins, stock/content/media/enquiry tools,
+GST ledger, durable recovery and Docker/Caddy handoff. Financial refunds remain
+independent of physical delivery status. P1 and the superseded courier module
+remain outside this delivery.
+
+The source storefront snapshot is included; its original uncommitted worktree
+and the three archived briefs are preserved. Planning recommendation remains
+gpt-6-astra / High; implementation and financial/security review remain
+gpt-6-astra / Extra High. Selected settings were preserved; no subagents were used.
+
+Fresh verification and residual limits are recorded in
+[MVP verification](mvp-verification.md). All required components have fresh passing evidence; earlier complete-command
+failures and the corrected audit are distinguished there. Delivery additionally
+fixes hook-local Git environment leakage into test fixtures, verified by a real
+linked-worktree regression and the 105-test workflow gate. Initial delivery `2b7acc4` was pushed and verified against open [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7),
+with matching head SHA and a clean worktree. This records that point in time;
+subsequent delivery must verify the new head again. Next priority is configured staging acceptance with approved
+catalog/legal/tax inputs, vendor accounts/templates and a chosen host, using
+[commerce operations](../commerce-operations.md). Real provider transactions,
+messages, production TLS/cutover and field performance are not claimed.
+
+## Item 8 acceptance — 2026-09-09
+
+Build the approved cream storefront and published-content foundation: preserve
+the seven public entry paths, deliver responsive server-rendered content from
+FastAPI/PostgreSQL through generated types, provide usable menu filtering and
+outlet discovery states, and centralize metadata/sitemap/robots. Keep unpublished
+content inaccessible and private page prefixes out of search. Record content
+gaps without inventing prices, policies or contact details. Docker and local
+developer commands must be reviewable and repeatable.
+
+Non-goals for this first slice: payments, customer accounts, order processing,
+admin mutation, live messages, final policy approval and production deployment.
+APScheduler/Redis jobs follow when a business job is introduced; do not add
+placeholder jobs. Verify API/schema/publication/isolation behavior, generation,
+web build, browser interaction/no-JS/accessibility, SEO, Lighthouse and the
+existing workflow gate. Review dependencies and the complete diff before PR.
 
 ## Item 2: supplied commerce briefs — 2026-09-09
 

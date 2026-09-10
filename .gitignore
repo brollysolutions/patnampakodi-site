@@ -242,3 +242,6 @@ blob-report/
 /tools/seo-audit-tools/.mcp.json
 .eslintcache
 *.tsbuildinfo
+!apps/web/src/lib/
+!apps/web/src/lib/**
+/apps/web/public/generated/
