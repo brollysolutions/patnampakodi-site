@@ -10,6 +10,12 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+The admin/staging verification now exercises an exact consumed TOTP across a
+controlled clock boundary; the old test incorrectly expected a fresh code to be
+a replay. Auth behavior is unchanged. Three rendering experiments did not show consistent
+improvement and were rejected; no experimental UI change is retained. Linux
+mobile timing acceptance remains pending on the corrected commits.
+
 Admin CI now passes sandbox launch and functional checks. Run 34535340526
 fails mobile timing budgets; failed-run CPU/script/layout diagnostics are added
 to identify the remaining cause. No thresholds or throttling change.

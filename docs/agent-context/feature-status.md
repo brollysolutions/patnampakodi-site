@@ -1,5 +1,26 @@
 # Feature status
 
+## TOTP test boundary correction - 2026-09-11
+
+Three controlled rendering experiments were rejected: replacing Next Link,
+using mobile grid rows and deferring off-screen sections did not consistently
+improve the failing pages; the layout experiments also changed section heights.
+No experimental runtime code is retained. The original public layout, navigation,
+fonts, colours, timing budgets and throttling remain unchanged. The TOTP test
+correction passes all 74 admin-branch API tests, lint/format, migration-head and
+contract checks. Fresh Linux checks on the corrected commits remain required.
+
+The pre-push TOTP replay test had a reproduced 30-second boundary race:
+calling TOTP.now() after fixture login sometimes generates a genuinely new,
+valid code. A controlled next-window clock reproduced HTTP 200 versus the old
+401 expectation. The test now reconstructs the exact consumed step and checks
+its rejection while it remains in the valid time window, then checks recovery
+code single use. The deterministic reproduction fails before the correction and
+passes after it. Authentication code, accepted skew and rate limits are unchanged.
+Planning/implementation recommendation for this bounded correction: gpt-6-astra /
+High; the selected session settings remain unchanged.
+
+
 ## Current Linux performance diagnosis - 2026-09-11
 
 The pinned Chromium sandbox now launches successfully. Fork CI run
