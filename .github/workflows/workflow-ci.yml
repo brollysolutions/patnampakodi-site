@@ -61,4 +61,6 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
       - name: Verify API, migrations, contracts, web, accessibility, SEO and performance
+        env:
+          CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
         run: python scripts/verify_application.py all ci

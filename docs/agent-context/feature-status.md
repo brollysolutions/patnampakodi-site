@@ -1,5 +1,22 @@
 # Feature status
 
+## Catalog delivery and transaction follow-up — 2026-09-11
+
+Item 11 is delivered as draft [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9),
+initial commit `920a058`. Ubuntu passes 48 browser tests, technical SEO and Docker
+smoke, then Lighthouse exits before scores are produced. Launch logging is now
+enabled; the budgets and browser flags are unchanged. The shared transaction
+dependency now commits before HTTP success, with an ASGI regression proving
+the previous stale-read window. A rollback regression checks failure responses.
+This correction also ships in PR #8; admin reporting is the next slice.
+
+Verbose CI diagnostics identify Ubuntu AppArmor denying Chromium's sandbox
+startup. CI now points Chromium to the runner's installed Google Chrome SUID
+helper, verifying root ownership and mode 4755 first. This follows Chromium's
+documented helper approach; no sandbox-disable flag, global AppArmor change,
+package dependency or performance-budget change is introduced. Linux runtime
+acceptance remains pending. Both transaction boundary/rollback tests pass locally.
+
 ## Ecommerce completion ? 2026-09-11
 
 Item 11 is in progress on `feat/commerce-catalog`, stacked on draft PR #8.

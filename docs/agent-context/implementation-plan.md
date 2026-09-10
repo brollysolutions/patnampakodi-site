@@ -7,6 +7,10 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+PR #9 is pushed and remains draft. Its follow-up closes the proven
+commit-before-response race and enables diagnosis of the Ubuntu Lighthouse
+launch failure. No performance threshold is relaxed. Item 12 follows this slice.
+
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
 Fatface/Archivo fonts and orange/brown/cream palette. Each PR includes its own
