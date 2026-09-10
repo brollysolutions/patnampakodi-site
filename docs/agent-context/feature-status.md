@@ -1,5 +1,19 @@
 # Feature status
 
+## Current Linux performance diagnosis - 2026-09-11
+
+The pinned Chromium sandbox now launches successfully. Fork CI run
+34535340526 passes functional/browser/SEO/container checks but fails the unchanged
+mobile performance budgets: home performance 93 / TBT 265.5 ms; contact 91 /
+LCP 2579 ms / TBT 281.5 ms. Desktop medians are 100. Public rendering files
+are identical to the passing ecommerce head 000f945. That rules out a public
+source difference, but does not establish runner variation as the cause.
+The Lighthouse log now retains its CPU benchmark and, for failed observations,
+main-thread categories, script bootup and long tasks. It changes no measurement,
+budget, throttling or sandbox option. Fresh syntax and five launcher/budget tests
+pass. This diagnostic update remains draft until Linux acceptance is verified.
+
+
 CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox. Lighthouse now supplies every pinned default explicitly while avoiding that implicit flag, so the installed companion helper can be used. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No budgets or throttling changed; new Linux runtime/performance acceptance is pending.
 
 

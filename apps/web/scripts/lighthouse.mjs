@@ -86,12 +86,26 @@ for (const route of ["/", "/menu/", "/contact/"]) {
         scores,
         metrics,
         browser: report.environment.hostUserAgent,
+        benchmarkIndex: report.environment.benchmarkIndex,
         lighthouseVersion: report.lighthouseVersion,
         warnings: report.runWarnings,
         report: file,
       };
       results.push(result);
       console.log(JSON.stringify(result));
+      if (!passed)
+        console.log(
+          JSON.stringify({
+            route,
+            device,
+            attempt,
+            diagnostics: Object.fromEntries(
+              ["mainthread-work-breakdown", "bootup-time", "long-tasks"].map(
+                (key) => [key, report.audits[key]?.details?.items ?? []],
+              ),
+            ),
+          }),
+        );
     }
   }
 }

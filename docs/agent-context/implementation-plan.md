@@ -10,6 +10,10 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+Admin CI now passes sandbox launch and functional checks. Run 34535340526
+fails mobile timing budgets; failed-run CPU/script/layout diagnostics are added
+to identify the remaining cause. No thresholds or throttling change.
+
 Admin delivery also closes the proven commit-before-response race and restores
 keyboard access to horizontally scrolling reports. Ubuntu Lighthouse now has
 diagnostics and the pinned Chromium companion SUID-helper configuration; successful Linux
