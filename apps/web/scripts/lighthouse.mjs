@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { chromium } from "@playwright/test";
 import { passesBudgets, summarizeRuns } from "./performance-policy.mjs";
+import { lighthouseChromeArgs } from "./lighthouse-launch.mjs";
 
 const chromePath = chromium.executablePath();
 await access(chromePath);
@@ -42,7 +43,7 @@ for (const route of ["/", "/menu/", "/contact/"]) {
         "--output=json",
         "--output=html",
         `--output-path=${file}`,
-        `--chrome-flags=--headless --disable-dev-shm-usage${baseURL.protocol === "https:" ? " --allow-insecure-localhost" : ""}`,
+        ...lighthouseChromeArgs(baseURL),
         "--only-categories=performance,accessibility,best-practices,seo",
       ];
       if (device === "desktop") args.push("--preset=desktop");
