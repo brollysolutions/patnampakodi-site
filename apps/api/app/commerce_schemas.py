@@ -1,6 +1,6 @@
 """Explicit public, private-order and administrator contracts."""
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal
 from uuid import UUID
 
@@ -248,3 +248,31 @@ class SettlementView(PublicModel):
 class OperationsView(PublicModel):
     checks: list[OperationCheck]
     settlements: list[SettlementView]
+
+
+class EnquiryDetails(PublicModel):
+    name: str = Field(default="", max_length=100)
+    phone: str = Field(pattern=r"^\+91[6-9][0-9]{9}$")
+    email: str = Field(default="", pattern=r"^(?:[^\s@]+@[^\s@]+\.[^\s@]+)?$", max_length=254)
+    city: str = Field(default="", max_length=100)
+    preferred_model: str = Field(default="", max_length=100)
+    budget: str = Field(default="", max_length=100)
+    notes: str = Field(default="", max_length=4000)
+
+
+class SalesDay(PublicModel):
+    day: date
+    orders: int
+    gross_paise: int
+    refunded_paise: int
+    net_paise: int
+
+
+class SalesSummary(PublicModel):
+    start: date
+    end: date
+    days: list[SalesDay]
+    orders: int
+    gross_paise: int
+    refunded_paise: int
+    net_paise: int

@@ -7,6 +7,11 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
+Admin delivery also closes the proven commit-before-response race and restores
+keyboard access to horizontally scrolling reports. Ubuntu Lighthouse now has
+diagnostics and the pinned Chromium companion SUID-helper configuration; successful Linux
+runtime/performance verification is still required.
+
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
 Fatface/Archivo fonts and orange/brown/cream palette. Each PR includes its own
@@ -40,8 +45,8 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
 | 10. Live-site content and franchise entry points (PR 1/4) | Delivered as draft [PR #8](https://github.com/brollysolutions/patnampakodi-site/pull/8); functional checks pass, CI performance pending | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
-| 11. Complete customer ecommerce (PR 2/4) | In progress; functional/browser/container checks pass; local mobile performance fails, depends on draft PR #8 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
-| 12. Complete admin and reporting (PR 3/4) | Planned; depends on item 11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 11. Complete customer ecommerce (PR 2/4) | Delivered as draft PR #9; functional/browser/container checks pass; local mobile performance fails, depends on draft PR #8 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
+| 12. Complete admin and reporting (PR 3/4) | Delivered for draft review in PR #10; 74 API and 51 browser tests pass; mobile performance fails | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |

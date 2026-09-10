@@ -480,6 +480,58 @@
         "title": "ContentWrite",
         "type": "object"
       },
+      "EnquiryDetails": {
+        "additionalProperties": false,
+        "properties": {
+          "budget": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Budget",
+            "type": "string"
+          },
+          "city": {
+            "default": "",
+            "maxLength": 100,
+            "title": "City",
+            "type": "string"
+          },
+          "email": {
+            "default": "",
+            "maxLength": 254,
+            "pattern": "^(?:[^\\s@]+@[^\\s@]+\\.[^\\s@]+)?$",
+            "title": "Email",
+            "type": "string"
+          },
+          "name": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Name",
+            "type": "string"
+          },
+          "notes": {
+            "default": "",
+            "maxLength": 4000,
+            "title": "Notes",
+            "type": "string"
+          },
+          "phone": {
+            "pattern": "^\\+91[6-9][0-9]{9}$",
+            "title": "Phone",
+            "type": "string"
+          },
+          "preferred_model": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Preferred Model",
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone"
+        ],
+        "title": "EnquiryDetails",
+        "type": "object"
+      },
       "EnquiryInput": {
         "additionalProperties": false,
         "properties": {
@@ -1751,6 +1803,90 @@
         "title": "RequestReceipt",
         "type": "object"
       },
+      "SalesDay": {
+        "additionalProperties": false,
+        "properties": {
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "gross_paise": {
+            "title": "Gross Paise",
+            "type": "integer"
+          },
+          "net_paise": {
+            "title": "Net Paise",
+            "type": "integer"
+          },
+          "orders": {
+            "title": "Orders",
+            "type": "integer"
+          },
+          "refunded_paise": {
+            "title": "Refunded Paise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "day",
+          "orders",
+          "gross_paise",
+          "refunded_paise",
+          "net_paise"
+        ],
+        "title": "SalesDay",
+        "type": "object"
+      },
+      "SalesSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/SalesDay"
+            },
+            "title": "Days",
+            "type": "array"
+          },
+          "end": {
+            "format": "date",
+            "title": "End",
+            "type": "string"
+          },
+          "gross_paise": {
+            "title": "Gross Paise",
+            "type": "integer"
+          },
+          "net_paise": {
+            "title": "Net Paise",
+            "type": "integer"
+          },
+          "orders": {
+            "title": "Orders",
+            "type": "integer"
+          },
+          "refunded_paise": {
+            "title": "Refunded Paise",
+            "type": "integer"
+          },
+          "start": {
+            "format": "date",
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "days",
+          "orders",
+          "gross_paise",
+          "refunded_paise",
+          "net_paise"
+        ],
+        "title": "SalesSummary",
+        "type": "object"
+      },
       "Section": {
         "additionalProperties": false,
         "properties": {
@@ -2304,6 +2440,125 @@
         "summary": "List Enquiries"
       }
     },
+    "/v1/admin/enquiries.csv": {
+      "get": {
+        "operationId": "export_enquiries_v1_admin_enquiries_csv_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "start",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Start",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "End",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "default": "",
+              "enum": [
+                "",
+                "new",
+                "contacted",
+                "qualified",
+                "won",
+                "lost"
+              ],
+              "title": "Status",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export Enquiries"
+      }
+    },
+    "/v1/admin/enquiries/{identifier}": {
+      "put": {
+        "operationId": "update_enquiry_v1_admin_enquiries__identifier__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "identifier",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Identifier",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnquiryDetails"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnquiryView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Enquiry"
+      }
+    },
     "/v1/admin/enquiries/{identifier}/status": {
       "post": {
         "operationId": "enquiry_status_v1_admin_enquiries__identifier__status_post",
@@ -2571,6 +2826,47 @@
           }
         },
         "summary": "Upload Media"
+      }
+    },
+    "/v1/admin/media/{identifier}": {
+      "get": {
+        "operationId": "private_media_v1_admin_media__identifier__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "identifier",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Identifier",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Private Media"
       }
     },
     "/v1/admin/messages": {
@@ -3030,6 +3326,56 @@
           }
         },
         "summary": "Import Products"
+      }
+    },
+    "/v1/admin/sales-summary": {
+      "get": {
+        "operationId": "report_sales_v1_admin_sales_summary_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "start",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Start",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "End",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Report Sales"
       }
     },
     "/v1/admin/session": {

@@ -1,8 +1,38 @@
 # Feature status
 
+## Admin completion — 2026-09-11
+
+Item 12 is prepared for draft PR #10 on `feat/admin-completion`, stacked on PR #9. Acceptance:
+staff can enrich a phone-first enquiry without changing its source/purpose,
+export an inclusive India-date/status CSV safely, review invoiced gross/refunded/
+net sales and select or preview an uploaded draft image. Existing product,
+content, stock, order, fulfilment, GST, messaging and named-admin controls remain
+the foundation. Reports must respect request-scoped authorization and brand RLS;
+extra captures cannot inflate sales or reduce the invoice cohort's net totals.
+
+Planning recommendation: gpt-6-astra / High; implementation and final security
+review: gpt-6-astra / Extra High. Selected settings are unchanged. This slice
+adds no live provider calls, synthetic persistent business data or dependencies.
+Fresh checks pass 74 API tests, one migration head, generated contracts, 106 workflow tests, 22-skill parity, lint/format/types, 19 web unit tests and production build. All 51 browser/axe tests and 13 technical SEO routes pass (13 intentional fragment warnings). Container migration, seed, API/web/indexing and worker heartbeat pass. All 18 Lighthouse runs completed: desktop performance medians 94/96/97 pass; mobile 65/74/67 fail unchanged LCP/TBT budgets. Accessibility, best-practices and SEO score 100 throughout. Reports: `lighthouse-1789073180159`. Full gate fails on performance; Linux runtime/performance acceptance remains pending.
+
+The shared commerce dependency now commits before exposing HTTP success. Its
+ASGI regression first observed an old `requested` status at HTTP 200, then reads
+`approved` with function scope. A commit-failure regression returns 503 and proves
+rollback. Both tests pass. Mobile axe found an inaccessible horizontal GST table;
+GST and daily-sales scroll regions now have keyboard focus and accessible names.
+The corrected mobile report is included in the passing browser run.
+
+Ubuntu Lighthouse diagnosis: the downloaded Chromium could not start its sandbox
+under AppArmor. The preinstalled helper failed its ownership/permissions check.
+CI now installs the companion helper from pinned Chromium 1243 as root-owned
+mode 4755 on the ephemeral runner and validates those properties before launch.
+Sandbox and budgets stay enabled; Bash syntax passes and Linux runtime evidence
+is pending. OpenAPI now explicitly writes LF; Windows generation was checked for
+stable LF bytes after a CRLF-only delivery-state mismatch on the catalog branch.
+
 ## Ecommerce completion ? 2026-09-11
 
-Item 11 is in progress on `feat/commerce-catalog`, stacked on draft PR #8.
+Item 11 is delivered as draft PR #9 on `feat/commerce-catalog`, stacked on draft PR #8.
 Acceptance: published-only original product/category/tag URLs and sitemap,
 bounded combined catalog search/sorting, quantity/cart flow and admin/CSV
 metadata round trips. Prices and stock remain server-authoritative. Incomplete

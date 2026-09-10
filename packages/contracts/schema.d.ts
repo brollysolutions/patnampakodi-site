@@ -56,6 +56,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/enquiries.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export Enquiries */
+        get: operations["export_enquiries_v1_admin_enquiries_csv_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/enquiries/{identifier}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Enquiry */
+        put: operations["update_enquiry_v1_admin_enquiries__identifier__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/enquiries/{identifier}/status": {
         parameters: {
             query?: never;
@@ -153,6 +187,23 @@ export interface paths {
         put?: never;
         /** Upload Media */
         post: operations["upload_media_v1_admin_media_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/media/{identifier}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Private Media */
+        get: operations["private_media_v1_admin_media__identifier__get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -341,6 +392,23 @@ export interface paths {
         put?: never;
         /** Import Products */
         post: operations["import_products_v1_admin_products_csv_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/sales-summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Report Sales */
+        get: operations["report_sales_v1_admin_sales_summary_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -919,6 +987,41 @@ export interface components {
             /** Slug */
             slug: string;
         };
+        /** EnquiryDetails */
+        EnquiryDetails: {
+            /**
+             * Budget
+             * @default
+             */
+            budget: string;
+            /**
+             * City
+             * @default
+             */
+            city: string;
+            /**
+             * Email
+             * @default
+             */
+            email: string;
+            /**
+             * Name
+             * @default
+             */
+            name: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /** Phone */
+            phone: string;
+            /**
+             * Preferred Model
+             * @default
+             */
+            preferred_model: string;
+        };
         /** EnquiryInput */
         EnquiryInput: {
             /** Budget */
@@ -1426,6 +1529,45 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** SalesDay */
+        SalesDay: {
+            /**
+             * Day
+             * Format: date
+             */
+            day: string;
+            /** Gross Paise */
+            gross_paise: number;
+            /** Net Paise */
+            net_paise: number;
+            /** Orders */
+            orders: number;
+            /** Refunded Paise */
+            refunded_paise: number;
+        };
+        /** SalesSummary */
+        SalesSummary: {
+            /** Days */
+            days: components["schemas"]["SalesDay"][];
+            /**
+             * End
+             * Format: date
+             */
+            end: string;
+            /** Gross Paise */
+            gross_paise: number;
+            /** Net Paise */
+            net_paise: number;
+            /** Orders */
+            orders: number;
+            /** Refunded Paise */
+            refunded_paise: number;
+            /**
+             * Start
+             * Format: date
+             */
+            start: string;
+        };
         /** Section */
         Section: {
             /** Body */
@@ -1688,6 +1830,74 @@ export interface operations {
             };
         };
     };
+    export_enquiries_v1_admin_enquiries_csv_get: {
+        parameters: {
+            query: {
+                start: string;
+                end: string;
+                status?: "" | "new" | "contacted" | "qualified" | "won" | "lost";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_enquiry_v1_admin_enquiries__identifier__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identifier: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EnquiryDetails"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EnquiryView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     enquiry_status_v1_admin_enquiries__identifier__status_post: {
         parameters: {
             query?: never;
@@ -1878,6 +2088,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MediaView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    private_media_v1_admin_media__identifier__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identifier: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/webp": string;
                 };
             };
             /** @description Validation Error */
@@ -2239,6 +2480,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ActionResult"];
+                };
+            };
+        };
+    };
+    report_sales_v1_admin_sales_summary_get: {
+        parameters: {
+            query: {
+                start: string;
+                end: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SalesSummary"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
