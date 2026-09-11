@@ -36,7 +36,10 @@ preview refresh and four-width login accessibility/keyboard/error checks pass.
 The user-requested local account is provisioned and its login/session/logout are
 verified without storing credentials in repository artifacts. Next priority is
 performance acceptance and approved launch data from item 16.
-The new PR is linked after remote creation and readback; PR #13 is already merged.
+Delivery: [draft PR #14](https://github.com/brollysolutions/patnampakodi-site/pull/14),
+from `vamshisaideep9:feat/docker-staging` to `brollysolutions:main`. Commit/push/PR
+delivery and the required pre-push gate exit 0; remote head readback is verified.
+PR #13 is already merged. Performance acceptance remains open.
 
 ## Port migration and food catalogue preparation - 2026-09-11
 

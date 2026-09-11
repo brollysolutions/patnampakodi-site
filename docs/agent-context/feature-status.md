@@ -64,9 +64,12 @@ Removing the second factor is the user's explicit tradeoff. API and web must
 roll out together; rolling back to an MFA release requires operator recovery
 for accounts created/reset after this change. No schema migration or new
 dependency is introduced. Production/provider acceptance remains unverified.
-The new PR is linked after remote creation; PR #13 is already merged. Keep it
-draft for performance acceptance. Next priority: speed budgets and the approved
-launch product, food/tax and stock inputs recorded under item 16.
+Delivered in [draft PR #14](https://github.com/brollysolutions/patnampakodi-site/pull/14),
+from `vamshisaideep9:feat/docker-staging` to `brollysolutions:main`. The delivery
+helper and required pre-push gate exit 0, with clean Git status, synchronized
+origin tracking and verified remote PR head. PR #13 is already merged. PR #14
+remains draft for performance acceptance. Next priority: speed budgets and the
+approved launch product, food/tax and stock inputs recorded under item 16.
 
 ## Port migration and food catalogue preparation - 2026-09-11
 
