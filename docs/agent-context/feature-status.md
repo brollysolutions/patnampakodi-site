@@ -49,9 +49,12 @@ menu meets every budget. The reports also flag host CPU calibration. No budget
 or security gate was weakened. Keep the follow-up PR in draft. Production
 deployment, live providers and field vitals remain unverified.
 
-Delivery targets `vamshisaideep9:feat/docker-staging` against upstream `main`,
-following merged PR #14. Next priority: meet the public speed budgets and finish
-operator-approved inventory and live-provider launch acceptance.
+[PR #15](https://github.com/brollysolutions/patnampakodi-site/pull/15) delivers
+`vamshisaideep9:feat/docker-staging` against upstream `main`, following merged
+PR #14. Implementation commit `b923765` is pushed and its commit/push hooks pass;
+the remote PR head was verified before linking this evidence. The PR remains
+draft for the public speed failure. Next priority: meet the public speed budgets
+and finish operator-approved inventory and live-provider launch acceptance.
 
 ## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
 

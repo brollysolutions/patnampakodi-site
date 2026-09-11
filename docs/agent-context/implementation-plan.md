@@ -44,8 +44,10 @@ migration/seed, runtime/private headers, worker and local Caddy HTTPS checks pas
 All 18 Lighthouse reports complete, but speed budgets fail: home/menu/contact
 performance medians are mobile 57/66/73 and desktop 89/94/83. Accessibility,
 best-practices and SEO score 100. Keep the PR in draft while that acceptance is
-open. Delivery targets the contributor's `feat/docker-staging` branch against
-upstream `main`, following merged PR #14. Next priority: meet public speed budgets
+open. [PR #15](https://github.com/brollysolutions/patnampakodi-site/pull/15)
+delivers the contributor's `feat/docker-staging` branch against upstream `main`,
+following merged PR #14. Commit `b923765` contains the implementation; the
+commit/push hooks passed. Next priority: meet public speed budgets
 and complete operator-approved inventory and live-provider launch acceptance.
 
 ## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
