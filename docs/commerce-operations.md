@@ -21,6 +21,11 @@ to provision a named admin. The command prompts for a password; administrators s
 in with their username and password. `recover <username>` resets the password and
 revokes existing sessions after the operator verifies identity.
 
+Deploy the API and web sign-in form together when moving to password-only login.
+Existing administrators keep their passwords and no authenticator code is needed.
+If rolling back to an older MFA release, an operator must recover accounts created
+or reset after this change to provision authenticator credentials for that release.
+
 In admin, configure verified seller details, GSTIN/state, invoice prefix and the
 delivery tax rate. Add one SKU per sellable pack/variant, complete all food facts,
 upload an image and record initial stock with a reason. Publish only approved

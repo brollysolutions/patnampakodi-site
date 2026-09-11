@@ -97,7 +97,11 @@ export function AdminPanel() {
   }
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const form = new FormData(event.currentTarget);
+    const data: Schema["Login"] = {
+      username: String(form.get("username") ?? ""),
+      password: String(form.get("password") ?? ""),
+    };
     await action(
       async () =>
         setSession(

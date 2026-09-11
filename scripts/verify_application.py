@@ -19,8 +19,8 @@ API = ROOT / "apps/api"
 WEB = ROOT / "apps/web"
 PYTHON = API / (".venv/Scripts/python.exe" if os.name == "nt" else ".venv/bin/python")
 NPM = shutil.which("npm.cmd" if os.name == "nt" else "npm") or "npm"
-OWNER = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:5433/pakodi_mvp_test"
-READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:5433/pakodi_mvp_test"
+OWNER = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:5434/pakodi_mvp_test"
+READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:5434/pakodi_mvp_test"
 ENV = {**os.environ, "NEXT_TELEMETRY_DISABLED": "1", "SITE_INDEXABLE": "true",
        "DEPLOYMENT_ENV": "test", "APP_ENV": "test", "DATABASE_URL": READER,
        "MIGRATION_DATABASE_URL": OWNER, "CONTENT_API_URL": "http://127.0.0.1:8510",

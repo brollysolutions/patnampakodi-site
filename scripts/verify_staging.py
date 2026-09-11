@@ -185,7 +185,6 @@ def main():
             print("\nClient demo: " + origin, flush=True)
             print("Synthetic products and payments only. PIN 500001, state Telangana.", flush=True)
             print("Demo admin: staging-fixture-admin / synthetic-staging-only-password", flush=True)
-            print("Single-use demo recovery code: " + json.loads(data)["demo_recovery"], flush=True)
             input("Press Enter after the presentation to remove this disposable demo. ")
     except BaseException:
         # Fixtures contain synthetic data only; retain diagnosis locally.

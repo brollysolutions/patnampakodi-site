@@ -27,7 +27,7 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:3501`. FastAPI listens on loopback port 8500;
-PostgreSQL uses loopback port 5433 and Redis uses 6450. The separate persistent
+PostgreSQL uses loopback port 5434 and Redis uses 6450. The separate persistent
 Docker preview uses web port 3500. The API entry point explicitly selects
 the event loop required by Psycopg on Windows. The defaults need no `.env` file.
 Use `CONTENT_API_URL` on the Next.js server and `DATABASE_URL` on the API when

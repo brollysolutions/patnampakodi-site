@@ -19,7 +19,7 @@ from app.main import app
 from app.security import connection
 
 ORIGIN = "http://127.0.0.1:3501"
-APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:5433/pakodi_mvp_test"
+APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:5434/pakodi_mvp_test"
 CUSTOMER = {
     "name": "Fixture Buyer",
     "phone": "+919876543210",
@@ -386,6 +386,7 @@ def test_admin_csrf_and_password_only_login(staff):
     assert staff.post("/v1/admin/login", json={**payload, "code": "unused"}).status_code == 422
     run(provision("fixture-admin", "a-replaced-fixture-password", recover=True))
     assert staff.get("/v1/admin/session").status_code == 401
+    assert staff.post("/v1/admin/login", json=payload).status_code == 401
     with psycopg.connect(OWNER) as conn:
         conn.execute("UPDATE admins SET enrolled=false WHERE username='fixture-admin'")
     assert (

@@ -64,7 +64,6 @@ def main():
     }
     identifier = uuid.uuid4()
     with psycopg.connect(owner) as conn:
-        conn.execute("UPDATE admins SET enrolled=true WHERE username='staging-fixture-admin'")
         conn.execute("INSERT INTO settings(brand_id,data) VALUES(%s,%s)", (BRAND, Jsonb(business)))
         conn.execute(
             "INSERT INTO variants(id,brand_id,sku,slug,product,price_paise,"

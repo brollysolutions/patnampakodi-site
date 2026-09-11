@@ -27,13 +27,15 @@ async def provision(username, password, recover=False):
         if recover and not existing:
             raise ValueError("Account does not exist")
         identifier = existing["id"] if existing else uuid.uuid4()
+        # Keep the immutable legacy columns inert; password-only accounts have
+        # no authenticator enrollment or recovery credentials to issue.
         await conn.execute(
             """
 INSERT INTO
 admins(id,brand_id,username,password_hash,totp_secret,recovery_hashes)
 VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(id) DO UPDATE SET
 password_hash=excluded.password_hash,
-totp_secret=excluded.totp_secret,recovery_hashes=excluded.recovery_hashes,enrolled=true,last_totp=-1
+totp_secret=excluded.totp_secret,recovery_hashes=excluded.recovery_hashes,enrolled=false,last_totp=-1
 """,
             (
                 identifier,

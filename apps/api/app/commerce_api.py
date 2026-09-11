@@ -365,8 +365,12 @@ async def login(payload: Login, request: Request, response: Response, conn: DB):
     same_origin(request)
     await rate_request(request, "login", 30)
     await limit("login-user:" + payload.username.lower(), 5, 300)
+    # Serialize sign-in with operator password resets so a stale password cannot
+    # create a session after the reset has revoked existing sessions.
     account = await one(
-        conn, "SELECT * FROM admins WHERE username=%s AND enabled", (payload.username.lower(),)
+        conn,
+        "SELECT id,username,password_hash FROM admins WHERE username=%s AND enabled FOR UPDATE",
+        (payload.username.lower(),),
     )
     valid = await run_in_threadpool(
         password_valid,

@@ -14,7 +14,10 @@ Customer notifications are opt-in WhatsApp only, through Meta Cloud API. No
 shared inbox, broadcasts, SMS or email provider. Failed/overdue notifications
 appear in admin with retry controls. Private order links authorize payment,
 invoice download and pre-dispatch cancellation; order/phone lookup exposes only
-basic status. Named admins require password + TOTP and recovery codes.
+basic status. The user's 2026-09-11 correction makes named admin sign-in username
+and password only, superseding the original TOTP/recovery-code requirement.
+Argon2, throttling, CSRF/Origin checks, server sessions and operator password reset
+with session revocation remain required.
 
 Keep the approved stack: Next.js, FastAPI, PostgreSQL, APScheduler, Redis, Docker.
 Keep the approved cream design and public-only indexing. P0 is the first release;
@@ -29,7 +32,7 @@ The original 50 feature IDs stay traceable in the reconciliation. 2.3 becomes
 Indian-address validation without a serviceability allowlist; 2.6 becomes a staff
 quoted delivery fee; 2.8 occurs after approval; 2.9 distinguishes request receipt
 from paid confirmation; 3.3 is removed; 3.4 is manually updated delivery status.
-Other P0 capabilities retain their meaning, with TOTP, scoped order links, audit,
+Other P0 capabilities retain their meaning, with scoped order links, audit,
 idempotency, outbox and reconciliation as supporting safeguards.
 
 Verify concurrency, expired quotes/reservations, late captures, duplicate and
