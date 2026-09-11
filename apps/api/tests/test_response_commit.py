@@ -8,6 +8,7 @@ from fastapi.middleware.asyncexitstack import AsyncExitStackMiddleware
 from test_commerce import add_product, request_order, run
 
 from app.main import app
+from app.security import connection, database
 
 pytest_plugins = ["test_commerce"]
 
@@ -59,3 +60,28 @@ def test_approval_is_committed_before_response_start(staff):
 
     run(operation())
     assert observed == [(200, "approved")]
+
+
+def test_failed_commit_rolls_back_before_reporting_failure(staff):
+    variant = add_product(staff)
+    order, _, _ = request_order(staff, variant)
+
+    async def failing_transaction():
+        async with connection() as conn:
+            yield conn
+            raise psycopg.OperationalError("Synthetic commit failure")
+
+    app.dependency_overrides[database] = failing_transaction
+    try:
+        response = staff.post(
+            f"/v1/admin/orders/{order['id']}/approve", json={"delivery_paise": 1180}
+        )
+        assert response.status_code == 503
+        assert "Synthetic commit failure" not in response.text
+    finally:
+        del app.dependency_overrides[database]
+    with psycopg.connect(OWNER) as conn:
+        assert (
+            conn.execute("SELECT status FROM orders WHERE id=%s", (order["id"],)).fetchone()[0]
+            == "requested"
+        )

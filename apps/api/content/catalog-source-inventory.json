@@ -1,0 +1,91 @@
+{
+  "publication": "Source observations only. These records are not seed data or approved product/tax information.",
+  "source": "https://patnampakodi.com/shop/",
+  "retrieved": "2026-09-10",
+  "products": [
+    {
+      "slug": "chettinadu-pakodi-ready-mix",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/08/Chettinadu-Pakodi-Ready-Mix.png",
+      "alt": "Chettinadu Pakodi Ready Mix",
+      "title": "Chettinadu Pakodi Ready Mix",
+      "local_image": "/images/live/chettinadu-pakodi-ready-mix.webp",
+      "path": "/product/chettinadu-pakodi-ready-mix/",
+      "category": "chettinad-pakodi-ready-mix",
+      "tags": [
+        "chettinad-pakodi-ready-mix"
+      ]
+    },
+    {
+      "slug": "erra-karam-kodi-pakodi",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/07/staff-serving-DEEcub9i.jpg",
+      "alt": "Erra Karam Kodi Pakodi",
+      "title": "Erra Karam Kodi Pakodi",
+      "local_image": "/images/live/cb5ae1febb395e1d.webp",
+      "path": "/product/erra-karam-kodi-pakodi/",
+      "category": "uncategorized",
+      "tags": [
+        "erra-karam-kodi-pakodi"
+      ]
+    },
+    {
+      "slug": "green-chilli-pakodi-ready-mix",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/08/Green-Chilli-Pakodi-Ready-Mix.png",
+      "alt": "Green Chilli Pakodi Ready-Mix",
+      "title": "Green Chilli Pakodi Ready-Mix",
+      "local_image": "/images/live/green-chilli-pakodi-ready-mix.webp",
+      "path": "/product/green-chilli-pakodi-ready-mix/",
+      "category": "green-chilli-pakodi-ready-mix",
+      "tags": [
+        "green-chilli-pakodi-ready-mix"
+      ]
+    },
+    {
+      "slug": "mirayala-kodi-pakodi",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/07/staff-serving-DEEcub9i.jpg",
+      "alt": "Mirayala Kodi Pakodi",
+      "title": "Mirayala Kodi Pakodi",
+      "local_image": "/images/live/cb5ae1febb395e1d.webp",
+      "path": "/product/mirayala-kodi-pakodi/",
+      "category": "uncategorized",
+      "tags": [
+        "mirayala-kodi-pakodi"
+      ]
+    },
+    {
+      "slug": "pachi-mirchi-kodi-pakodi",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/07/staff-serving-DEEcub9i.jpg",
+      "alt": "Pachi Mirchi Kodi Pakodi",
+      "title": "Pachi Mirchi Kodi Pakodi",
+      "local_image": "/images/live/cb5ae1febb395e1d.webp",
+      "path": "/product/pachi-mirchi-kodi-pakodi/",
+      "category": "uncategorized",
+      "tags": [
+        "pachi-mirchi-kodi-pakodi"
+      ]
+    },
+    {
+      "slug": "pepper-pakodi-ready-mix",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/08/Papper-Pakodi-Ready-Mix.png",
+      "alt": "Pepper Pakodi Ready-Mix",
+      "title": "Pepper Pakodi Ready-Mix",
+      "local_image": "/images/live/pepper-pakodi-ready-mix.webp",
+      "path": "/product/pepper-pakodi-ready-mix/",
+      "category": "pepper-pakodi-ready-mix",
+      "tags": [
+        "pepper-pakodi-ready-mix"
+      ]
+    },
+    {
+      "slug": "red-chilli-pakodi-ready-mix",
+      "image": "https://patnampakodi.com/wp-content/uploads/2026/08/Red-Chilli-Pakodi-Ready-Mix.png",
+      "alt": "Red Chilli Pakodi Ready-Mix",
+      "title": "Red Chilli Pakodi Ready-Mix",
+      "local_image": "/images/live/red-chilli-pakodi-ready-mix.webp",
+      "path": "/product/red-chilli-pakodi-ready-mix/",
+      "category": "red-chilli-pakodi-ready-mix",
+      "tags": [
+        "red-chilli-pakodi-ready-mix"
+      ]
+    }
+  ]
+}

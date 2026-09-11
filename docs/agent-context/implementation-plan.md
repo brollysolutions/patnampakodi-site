@@ -1,6 +1,24 @@
 # Implementation plan
 
-The installed helper exposed a second issue: chrome-launcher 1.2.1 implicitly disables the SUID sandbox on Linux. The runner now explicitly supplies its unchanged default flags while opting out of that implicit flag. A regression reproduces the old Linux flags and proves the corrected launch retains the sandbox and all other tool defaults. Runtime CI acceptance remains pending.
+## PR #9 upstream integration - 2026-09-11
+
+PR #8 was merged into upstream/main at d5ab5c5. Item 11 conflicts are resolved in the existing [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9).
+The resolution reconciles the implementation records and retains both
+commit-before-response and rollback coverage. All application,
+contract, migration, frontend and CI files match the previous PR #9 head.
+Acceptance: upstream/main is an ancestor, no unresolved conflicts, retained tests
+pass and the same PR receives a normal push. No new feature or PR is introduced.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh API verification passes all 67 tests, lint/format, one
+migration head and unchanged generated contracts. The workflow gate passes
+106 tests, 22-skill parity and shell syntax. Diff review found no unresolved
+conflicts or code changes. Fresh browser/Lighthouse execution is left to CI;
+previous CI 34534816171 passed at 000f945 and is historical evidence.
+The next priority is PR #9 review, then the existing admin/staging PRs.
+Earlier draft/pending statements below describe historical checkpoints.
+
+
+CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox, preventing use of the installed companion helper. The Lighthouse runner now supplies every pinned default explicitly while avoiding that implicit flag. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No performance budgets or throttling changed. Fresh Linux runtime/performance acceptance is pending.
 
 
 Update this file and `feature-status.md` with product/workflow script changes.
@@ -10,13 +28,12 @@ resolving a conflict. Use the selected model; do not switch or delegate silently
 
 ## Approved four-PR delivery
 
-CI follow-up: Ubuntu AppArmor blocked the downloaded browser. Install the already-pinned Chromium companion SUID helper as root-owned mode 4755 on the ephemeral CI runner and validate those properties before launch. The sandbox and budgets remain enabled. Shell syntax passes; Linux runtime/performance verification is pending. OpenAPI generation now explicitly writes LF, avoiding Windows-only delivery-state churn.
-
-
-PR #8 follow-up: commit the commerce transaction before HTTP success becomes
-visible, proven by a failing-then-passing ASGI/independent-connection regression.
-Retain Lighthouse launch diagnostics for the unresolved Ubuntu execution error;
-the existing performance thresholds remain mandatory.
+PR #9 is pushed and remains draft. Its follow-up closes the proven
+commit-before-response race and enables diagnosis of the Ubuntu Lighthouse
+launch failure. No performance threshold is relaxed. Item 12 follows this slice.
+The CI browser uses its pinned companion sandbox helper with verified root/SUID
+permissions; generated OpenAPI uses explicit LF on Windows. These corrections
+remain under the same PR, and Linux execution evidence is still pending.
 
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
@@ -50,8 +67,8 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 10. Live-site content and franchise entry points (PR 1/4) | In progress; implemented and functionally verified, draft PR #8 CI retry pending after DOM-ready no-JavaScript test correction | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
-| 11. Complete customer ecommerce (PR 2/4) | Planned; depends on item 10 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
+| 10. Live-site content and franchise entry points (PR 1/4) | Merged in PR #8 at upstream d5ab5c5 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
+| 11. Complete customer ecommerce (PR 2/4) | Conflicts resolved in PR #9; fresh API/workflow checks pass; updated remote CI pending | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
 | 12. Complete admin and reporting (PR 3/4) | Planned; depends on item 11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
