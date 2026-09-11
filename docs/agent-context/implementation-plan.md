@@ -1,5 +1,122 @@
 # Implementation plan
 
+## Port migration and food catalogue preparation - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 16. Move local services to new ports and prepare the complete food catalogue | Implemented and locally verified; sales activation awaits approved data | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+The user requests new ports, including 8500 and 3500, and all referenced foods
+and flavours for a planned launch today. Continue on the instructed
+`feat/docker-staging` branch and update [PR #13](https://github.com/brollysolutions/patnampakodi-site/pull/13).
+Use Docker website 3500, native web 3501, API 8500, browser fixtures 3510/8510,
+local PostgreSQL 55450 and Redis 6450. Align server URLs, Origin checks, health
+checks, containers, test runners and current setup documentation. Preserve
+loopback bindings, private Docker networks, existing volumes and other projects.
+Database/Redis container protocol ports and public production HTTP/TLS ports
+remain standard; dynamic disposable ports remain allocated by the fixture.
+
+Catalogue scope: 51 saved menu items reconciled with the seven original product
+URLs yield 57 distinct entries: 53 fresh foods and four ready-mix flavours. The
+Pachi Mirchi menu flavour retains its original product URL. Reuse recorded names,
+categories and images through an authenticated admin setup endpoint and searchable
+Products list; existing variant records and stock must never be overwritten.
+Launch prices, portions/pack sizes, stock and complete food/tax details are not
+present in the saved sources; the user has been asked for those inputs. Prepare
+the catalogue without inventing those business facts or changing publication,
+payment or stock safeguards. No live deployment or provider activation is included.
+
+Acceptance: the preview loads on 3500, service and fixture URLs agree, no previous
+fixed local ports remain in active configuration, and source foods are ready for
+completion/publication using confirmed information. Verify workflow/port guards,
+API and generated contracts, browser/SEO, Docker checkout and retained data.
+Performance acceptance from item 15 remains open and PR #13 stays draft.
+
+Implementation evidence: 111 workflow tests, 97 API tests, five catalogue
+regressions after image curation, one migration head and fresh contracts pass.
+Web lint/format/types, 27 units and production build pass. The broad browser run
+passes 58 checks and skips two duplicate reflow projects; its three admin failures
+are the same dietary-select test locator. The semantic combobox correction passes
+all three affected admin/axe journeys. Technical SEO passes 13 routes. Source-photo
+review restricts automatic product artwork to the seven product-specific records;
+other prepared foods use neutral icons. Docker smoke and Caddy routing pass;
+18 Lighthouse reports complete with accessibility/best-practices/SEO 100, while
+the unchanged speed budgets fail on mobile and home desktop (see feature-status).
+Both disposable Docker acceptance tests and all five database invariants pass;
+the presentation fixture is cleaned up successfully. Manual review covers the
+setup list and product form at 1440, 768, 390 and 320px, range/name filtering,
+focus, sticky navigation and saving a synthetic unpublished product. Its stock
+remains zero, existing stock is unchanged, and the setup count falls from 57 to 56.
+The persistent preview is refreshed to port 3500 with web image `3838f013` and
+API image `aa6670ac`, preserving all four named volumes. Home, admin and the
+storefront API return 200 with noindex; the old port 3100 is no longer listening.
+No synthetic sale or admin records were inserted into the persistent preview.
+Native Safari, physical devices and manual browser zoom remain unverified.
+Delivery is through draft PR #13; final remote readback accompanies the handoff.
+Live business/provider/hosting and performance acceptance remain the next release
+priorities. See the updated [client presentation guide](../client-presentation.md).
+
+## Classic ecommerce redesign - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 15. Classic storefront, immediate checkout and pilot fresh ordering | Implemented; functional acceptance passes; draft for performance | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+
+The user approved [the complete redesign](commerce-redesign-plan.md) and asked
+for implementation and a client presentation guide. Continue on the explicitly
+instructed `feat/docker-staging` branch. PR #12 was merged at fdf22ab; its
+historical draft/performance evidence below remains evidence, not current PR state.
+New acceptance: original identity, every public/admin surface, independent fresh
+and packaged carts, device favourites, PIN-based immediate checkout, one pilot
+outlet, preparation/cancellation serialization, and a repeatable client walkthrough.
+Reuse existing assets; built-in image generation only for a demonstrated gap.
+Later user correction removes website content management from the admin panel;
+Orders, Products, Enquiries, Messages, Reports, Delivery, Settings and Media remain.
+This bounded correction recommends gpt-6-astra / Medium for planning and
+implementation; the selected session settings remain unchanged.
+The follow-up requests a better admin dashboard and sticky navigation. Extend this
+same item with a compact dedicated admin header, desktop sidebar/mobile tabs,
+clear section descriptions, readable order cards and current-view status counts.
+Make storefront navigation sticky too, with focus/anchor clearance. Planning and
+implementation recommendation for this UI pass: gpt-6-astra / High. Acceptance:
+all eight operational sections remain accessible, Content is absent, navigation
+stays reachable while scrolling and keyboard focus reveals the selected section.
+Use existing tokens/icons, instant navigation and no new dependencies or data APIs.
+Preserve historical orders, private links, RLS, durable payment/refund invariants,
+SEO URLs and quality budgets. Live business inputs and deployment remain separate.
+Verification: API/security/concurrency, generated contracts, web units/build,
+responsive browser/axe/SEO, Docker commerce recovery, and Lighthouse. Interim checks:
+95 API tests, one migration head, regenerated contracts, 27 web units and production
+build pass. The broad admin-refinement run passed 58 browser checks, with three
+failures and two duplicate reflow skips. Corrected the mobile grid's minimum
+width and skip-link stacking; a fresh rebuilt run of all 12 affected admin,
+staff-approval, sticky-header and keyboard checks passes across desktop/mobile/
+tablet. Technical SEO passes 13 routes with the documented skip-link warnings.
+The 320px/720px CSS-width sweep covers reflow, not manual browser zoom. Final review
+adds an admin-only preparation cancellation: refund the remaining balance once,
+keep customer cancellation blocked and do not restock food being prepared. The
+95-test API run covers concurrent retries, CSRF and stock/refund preservation.
+The final error callback refreshes server data before retrying. Both Docker
+acceptance tests and five SQL invariants pass, covering checkout/recovery/refund,
+missing photos and an actual public API outage with a successful retry. The
+disposable presentation also verifies fresh payment, preparation, blocked customer
+cancellation, staff cancellation and completed refund. The last admin navigation
+correction passes separate frontend and browser verification. The final Docker
+rebuild passes both acceptance tests and all five SQL invariants; its disposable
+project was cleaned up successfully. Manual review covers all eight admin sections
+and 320px, 390px, 768px and 1440px layouts. The persistent preview at port 3100 is
+refreshed to web image `a84155fb` and API image `689efa6d`, preserving its data.
+Container smoke checks pass. Lighthouse completes all 18 reports without another
+Contact HTTP 500; accessibility/best-practices/SEO score 100 throughout, but mobile
+and home-desktop speed fail the unchanged budgets (details in feature-status.md).
+The measured image precedes the final retry callback, staff-cancellation and
+admin navigation changes.
+Review target: `vamshisaideep9:feat/docker-staging` to upstream `main`, in draft;
+[current branch PR lookup](https://github.com/brollysolutions/patnampakodi-site/pulls?q=is%3Aopen+is%3Apr+head%3Afeat%2Fdocker-staging).
+The [client presentation guide](../client-presentation.md) provides the repeatable
+demo and ten-minute walkthrough. Next priority: final-head CI/performance
+acceptance and approved business/provider/hosting inputs. No merge or live deployment.
+
 ## Original identity and ordering access - 2026-09-11
 
 User correction: keep the original site's colors and fonts and provide the full

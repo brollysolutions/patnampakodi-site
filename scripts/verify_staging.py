@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import re
@@ -17,6 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--present", action="store_true",
+                        help="Keep the verified disposable demo open until Enter is pressed")
+    args = parser.parse_args()
     staging.require_local_engine()
     project = "pakodi_stage_fixture_" + uuid.uuid4().hex[:12]
     assert re.fullmatch(r"pakodi_stage_fixture_[a-f0-9]{12}", project)
@@ -52,7 +57,7 @@ def main():
         if name == "web":
             service["ports"] = [
                 {
-                    "target": 3000,
+                    "target": 3500,
                     "published": str(port),
                     "host_ip": "127.0.0.1",
                     "protocol": "tcp",
@@ -176,6 +181,12 @@ def main():
         print(
             "Docker checkout, signed replay, provider/worker restart, invoice, delivery, partial refund and messaging fixtures passed."
         )
+        if args.present:
+            print("\nClient demo: " + origin, flush=True)
+            print("Synthetic products and payments only. PIN 500001, state Telangana.", flush=True)
+            print("Demo admin: staging-fixture-admin / synthetic-staging-only-password", flush=True)
+            print("Single-use demo recovery code: " + json.loads(data)["demo_recovery"], flush=True)
+            input("Press Enter after the presentation to remove this disposable demo. ")
     except BaseException:
         # Fixtures contain synthetic data only; retain diagnosis locally.
         result = subprocess.run(

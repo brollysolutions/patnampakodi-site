@@ -18,7 +18,7 @@ from app.config import BRAND  # noqa: E402
 
 TABLES = """admins,sessions,variants,orders,order_tokens,payments,refunds,
 provider_events,outbox,enquiries,media,settings,invoice_counters,audit_events,
-settlements,message_receipts"""
+settlements,message_receipts,fulfilment_settings"""
 
 
 def main():
@@ -28,8 +28,11 @@ def main():
     os.environ["COMMERCE_DATABASE_URL"] = APP_DB
     with psycopg.connect(OWNER) as conn:
         conn.execute("TRUNCATE " + TABLES + " RESTART IDENTITY CASCADE")
-        conn.execute("DELETE FROM content_records WHERE kind='product'")
-    Redis.from_url("redis://127.0.0.1:63799/15").flushdb()
+        conn.execute(
+            "DELETE FROM content_records WHERE kind='product' OR "
+            "(kind='outlet' AND slug='fixture-pilot')"
+        )
+    Redis.from_url("redis://127.0.0.1:6450/15").flushdb()
     if sys.argv[1] == "reset":
         return
     _, recovery = run(provision("browser-admin", "a-strong-browser-fixture-password"))
@@ -55,6 +58,73 @@ def main():
                 ),
             ),
         )
+        if sys.argv[1] == "checkout":
+            fresh_id = uuid.uuid4()
+            conn.execute(
+                "INSERT INTO content_records(brand_id,kind,slug,published,payload) "
+                "VALUES(%s,'outlet','fixture-pilot',true,%s)",
+                (
+                    BRAND,
+                    Jsonb(
+                        {
+                            "slug": "fixture-pilot",
+                            "name": "Fixture pilot outlet",
+                            "city": "Test City",
+                            "pincode": "500001",
+                        }
+                    ),
+                ),
+            )
+            conn.execute(
+                "INSERT INTO variants(id,brand_id,sku,slug,product,price_paise,"
+                "gst_bps,hsn,stock,published) VALUES(%s,%s,'BROWSER-FRESH',"
+                "'fixture-fresh',%s,11800,1800,'2106',20,true)",
+                (
+                    fresh_id,
+                    BRAND,
+                    Jsonb(
+                        {
+                            **PRODUCT,
+                            "slug": "fixture-fresh",
+                            "name": "Fixture Fresh Pakodi",
+                            "mode": "fresh",
+                            "category": "dry",
+                            "outlet_slug": "fixture-pilot",
+                            "net_quantity": "1 portion",
+                            "shelf_life": "",
+                            "manufacturer": "",
+                            "image": "/images/live/822655cabe9a63a6.webp",
+                        }
+                    ),
+                ),
+            )
+            conn.execute(
+                "INSERT INTO fulfilment_settings(brand_id,data) VALUES(%s,%s)",
+                (
+                    BRAND,
+                    Jsonb(
+                        {
+                            "packaged_enabled": True,
+                            "fresh_enabled": True,
+                            "outlet_slug": "fixture-pilot",
+                            "preparation_minutes": 20,
+                            "hours": [
+                                {"day": day, "opens": "00:00", "closes": "24:00"}
+                                for day in range(7)
+                            ],
+                            "rules": [
+                                {
+                                    "mode": mode,
+                                    "pincode": "500001",
+                                    "state_code": "36",
+                                    "fee_paise": 2000,
+                                }
+                                for mode in ("fresh", "packaged")
+                            ],
+                        }
+                    ),
+                ),
+            )
     print(json.dumps({"recovery": recovery[0], "variant": str(identifier)}))
 
 

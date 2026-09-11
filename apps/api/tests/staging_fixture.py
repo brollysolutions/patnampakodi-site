@@ -30,7 +30,7 @@ def main():
     owner = "postgresql://pakodi_owner:local-owner-only@postgres:5432/" + database
     # Refuse reuse instead of truncating any existing records.
     with psycopg.connect(owner) as conn:
-        for table in ["admins", "settings", "variants", "orders"]:
+        for table in ["admins", "settings", "variants", "orders", "fulfilment_settings"]:
             if conn.execute("SELECT count(*) FROM " + table).fetchone()[0]:
                 raise RuntimeError("Acceptance fixture must be empty")
     _, recovery = asyncio.run(provision("staging-fixture-admin", "synthetic-staging-only-password"))
@@ -72,7 +72,75 @@ def main():
             "VALUES(%s,%s,'STAGE-FIXTURE','staging-fixture-mix',%s,11800,1800,'2106',10,true)",
             (identifier, BRAND, Jsonb(product)),
         )
-    print(json.dumps({"recovery": recovery[0], "variant": str(identifier)}))
+        conn.execute(
+            "INSERT INTO content_records(brand_id,kind,slug,published,payload) "
+            "VALUES(%s,'outlet','staging-fixture-outlet',true,%s)",
+            (
+                BRAND,
+                Jsonb(
+                    {
+                        "slug": "staging-fixture-outlet",
+                        "name": "Synthetic pilot outlet",
+                        "city": "Fixture City",
+                        "pincode": "500001",
+                    }
+                ),
+            ),
+        )
+        conn.execute(
+            "INSERT INTO variants(id,brand_id,sku,slug,product,price_paise,"
+            "gst_bps,hsn,stock,published) VALUES(%s,%s,'STAGE-FRESH',"
+            "'staging-fixture-fresh',%s,11800,1800,'2106',10,true)",
+            (
+                uuid.uuid4(),
+                BRAND,
+                Jsonb(
+                    {
+                        **product,
+                        "slug": "staging-fixture-fresh",
+                        "name": "Staging Fixture Fresh Pakodi",
+                        "mode": "fresh",
+                        "category": "dry",
+                        "outlet_slug": "staging-fixture-outlet",
+                        "net_quantity": "1 portion",
+                        "shelf_life": "",
+                        "manufacturer": "",
+                        "image": "/images/live/822655cabe9a63a6.webp",
+                    }
+                ),
+            ),
+        )
+        conn.execute(
+            "INSERT INTO fulfilment_settings(brand_id,data) VALUES(%s,%s)",
+            (
+                BRAND,
+                Jsonb(
+                    {
+                        "packaged_enabled": True,
+                        "fresh_enabled": True,
+                        "outlet_slug": "staging-fixture-outlet",
+                        "preparation_minutes": 20,
+                        "hours": [
+                            {"day": day, "opens": "00:00", "closes": "24:00"} for day in range(7)
+                        ],
+                        "rules": [
+                            {
+                                "mode": mode,
+                                "pincode": "500001",
+                                "state_code": "36",
+                                "fee_paise": 2000,
+                            }
+                            for mode in ("fresh", "packaged")
+                        ],
+                    }
+                ),
+            ),
+        )
+    print(
+        json.dumps(
+            {"recovery": recovery[0], "demo_recovery": recovery[1], "variant": str(identifier)}
+        )
+    )
 
 
 if __name__ == "__main__":

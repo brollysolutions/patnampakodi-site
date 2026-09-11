@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Icon } from "./Icon";
 import type { Schema } from "@/lib/commerce";
 export function ProductImage({
   variant,
@@ -10,7 +11,15 @@ export function ProductImage({
   const source = variant.media_id
     ? `/api/v1/media/${variant.media_id}`
     : variant.product.image;
-  if (!source) return null;
+  if (!source)
+    return (
+      <span
+        className="product-image product-image-placeholder"
+        aria-hidden="true"
+      >
+        <Icon name="box" />
+      </span>
+    );
   return (
     <Image
       className="product-image"

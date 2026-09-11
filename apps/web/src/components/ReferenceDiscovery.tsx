@@ -1,5 +1,6 @@
 import type { components } from "../../../../packages/contracts/schema";
 import { StructuredPage } from "./StructuredPage";
+import { DeliveryCheck } from "./DeliveryCheck";
 import { SiteLink } from "./SiteLink";
 import { filterOutlets } from "@/lib/policy.mjs";
 import { menuBlocks, menuCategories } from "@/lib/reference-menu.mjs";
@@ -34,6 +35,15 @@ export function ReferenceDiscovery({
     <>
       <section className="container section discovery-controls">
         {menu ? <h1>Menu</h1> : <h1>Find Your Nearest Patnam Pakodi Branch</h1>}
+        {menu && (
+          <div className="menu-service">
+            <p>
+              Explore our fresh menu. Check online delivery for your PIN code,
+              or visit a branch for today’s selection.
+            </p>
+            <DeliveryCheck mode="fresh" />
+          </div>
+        )}
         <form method="get" className="actions">
           {menu && category && (
             <input type="hidden" name="category" value={category} />

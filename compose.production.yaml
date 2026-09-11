@@ -57,7 +57,7 @@ services:
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     healthcheck:
-      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3)"]
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8500/health',timeout=3)"]
       interval: 20s
       timeout: 5s
       retries: 3
@@ -96,7 +96,7 @@ services:
         SITE_INDEXABLE: ${SITE_INDEXABLE:-false}
         DEPLOYMENT_ENV: ${DEPLOYMENT_ENV:-preview}
     environment:
-      CONTENT_API_URL: http://api:8000
+      CONTENT_API_URL: http://api:8500
       GA4_MEASUREMENT_ID: ${GA4_MEASUREMENT_ID:-}
       SITE_INDEXABLE: ${SITE_INDEXABLE:-false}
       DEPLOYMENT_ENV: ${DEPLOYMENT_ENV:-preview}

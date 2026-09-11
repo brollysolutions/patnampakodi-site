@@ -156,7 +156,7 @@ PLAYWRIGHT_BASE_URL=https://example.com ./scripts/verify-web.sh launch
 
 # Technical SEO for specific pages against a running production build
 SITE_INDEXABLE=true pnpm build && pnpm start &
-python scripts/check_seo.py http://localhost:3000 / /services/ /contact/ \
+python scripts/check_seo.py http://localhost:3501 / /services/ /contact/ \
   --canonical-origin https://example.com --expect-text "<a sentence from the page>"
 ```
 

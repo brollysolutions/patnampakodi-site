@@ -236,6 +236,217 @@
         "title": "CartLine",
         "type": "object"
       },
+      "CatalogDraft": {
+        "additionalProperties": false,
+        "description": "Known source identity only; never a priced or purchasable variant.",
+        "properties": {
+          "category": {
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Category",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "maxLength": 5000,
+            "title": "Description",
+            "type": "string"
+          },
+          "dietary": {
+            "default": "unconfirmed",
+            "enum": [
+              "veg",
+              "non-veg",
+              "unconfirmed"
+            ],
+            "title": "Dietary",
+            "type": "string"
+          },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "fresh",
+              "packaged"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "sku": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Sku",
+            "type": "string"
+          },
+          "slug": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Slug",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sku",
+          "slug",
+          "name",
+          "description",
+          "mode",
+          "category",
+          "tags",
+          "dietary",
+          "image"
+        ],
+        "title": "CatalogDraft",
+        "type": "object"
+      },
+      "CheckoutOrderRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/CartLine"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Lines",
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "quote_token": {
+            "maxLength": 4000,
+            "minLength": 20,
+            "title": "Quote Token",
+            "type": "string"
+          },
+          "request_key": {
+            "format": "uuid",
+            "title": "Request Key",
+            "type": "string"
+          },
+          "whatsapp_consent": {
+            "default": false,
+            "title": "Whatsapp Consent",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "mode",
+          "customer",
+          "lines",
+          "request_key",
+          "quote_token"
+        ],
+        "title": "CheckoutOrderRequest",
+        "type": "object"
+      },
+      "CheckoutQuote": {
+        "additionalProperties": false,
+        "properties": {
+          "delivery_paise": {
+            "title": "Delivery Paise",
+            "type": "integer"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "fulfilment": {
+            "$ref": "#/components/schemas/Serviceability"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteLine"
+            },
+            "title": "Lines",
+            "type": "array"
+          },
+          "quote_token": {
+            "title": "Quote Token",
+            "type": "string"
+          },
+          "tax": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Tax",
+            "type": "object"
+          },
+          "total_paise": {
+            "title": "Total Paise",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "quote_token",
+          "expires_at",
+          "lines",
+          "delivery_paise",
+          "total_paise",
+          "tax",
+          "fulfilment"
+        ],
+        "title": "CheckoutQuote",
+        "type": "object"
+      },
+      "CheckoutQuoteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/CartLine"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Lines",
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "customer",
+          "lines"
+        ],
+        "title": "CheckoutQuoteRequest",
+        "type": "object"
+      },
       "ContentBlock": {
         "additionalProperties": false,
         "description": "Semantic editorial content, never HTML, CSS or executable attributes.",
@@ -480,6 +691,43 @@
         "title": "ContentWrite",
         "type": "object"
       },
+      "DeliveryRule": {
+        "additionalProperties": false,
+        "properties": {
+          "fee_paise": {
+            "maximum": 10000000.0,
+            "minimum": 0.0,
+            "title": "Fee Paise",
+            "type": "integer"
+          },
+          "mode": {
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "pincode": {
+            "pattern": "^[1-9][0-9]{5}$",
+            "title": "Pincode",
+            "type": "string"
+          },
+          "state_code": {
+            "pattern": "^(0[1-9]|[12][0-9]|3[0-8])$",
+            "title": "State Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "pincode",
+          "state_code",
+          "fee_paise"
+        ],
+        "title": "DeliveryRule",
+        "type": "object"
+      },
       "EnquiryDetails": {
         "additionalProperties": false,
         "properties": {
@@ -712,6 +960,131 @@
         "title": "FranchiseModel",
         "type": "object"
       },
+      "FulfilmentSettings-Input": {
+        "additionalProperties": false,
+        "properties": {
+          "fresh_enabled": {
+            "default": false,
+            "title": "Fresh Enabled",
+            "type": "boolean"
+          },
+          "fresh_paused": {
+            "default": false,
+            "title": "Fresh Paused",
+            "type": "boolean"
+          },
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningWindow"
+            },
+            "maxItems": 21,
+            "title": "Hours",
+            "type": "array"
+          },
+          "outlet_slug": {
+            "default": "",
+            "maxLength": 100,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Outlet Slug",
+            "type": "string"
+          },
+          "packaged_enabled": {
+            "default": false,
+            "title": "Packaged Enabled",
+            "type": "boolean"
+          },
+          "preparation_minutes": {
+            "anyOf": [
+              {
+                "maximum": 240.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preparation Minutes"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/DeliveryRule"
+            },
+            "maxItems": 1000,
+            "title": "Rules",
+            "type": "array"
+          }
+        },
+        "title": "FulfilmentSettings",
+        "type": "object"
+      },
+      "FulfilmentSettings-Output": {
+        "additionalProperties": false,
+        "properties": {
+          "fresh_enabled": {
+            "default": false,
+            "title": "Fresh Enabled",
+            "type": "boolean"
+          },
+          "fresh_paused": {
+            "default": false,
+            "title": "Fresh Paused",
+            "type": "boolean"
+          },
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningWindow"
+            },
+            "maxItems": 21,
+            "title": "Hours",
+            "type": "array"
+          },
+          "outlet_slug": {
+            "default": "",
+            "maxLength": 100,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Outlet Slug",
+            "type": "string"
+          },
+          "packaged_enabled": {
+            "default": false,
+            "title": "Packaged Enabled",
+            "type": "boolean"
+          },
+          "preparation_minutes": {
+            "anyOf": [
+              {
+                "maximum": 240.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preparation Minutes"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/DeliveryRule"
+            },
+            "maxItems": 1000,
+            "title": "Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "packaged_enabled",
+          "fresh_enabled",
+          "fresh_paused",
+          "outlet_slug",
+          "preparation_minutes",
+          "hours",
+          "rules"
+        ],
+        "title": "FulfilmentSettings",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -864,6 +1237,35 @@
         "title": "MenuItem",
         "type": "object"
       },
+      "OpeningWindow": {
+        "additionalProperties": false,
+        "properties": {
+          "closes": {
+            "pattern": "^(?:(?:[01][0-9]|2[0-3]):[0-5][0-9]|24:00)$",
+            "title": "Closes",
+            "type": "string"
+          },
+          "day": {
+            "description": "Monday=0, Sunday=6; Asia/Kolkata",
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Day",
+            "type": "integer"
+          },
+          "opens": {
+            "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$",
+            "title": "Opens",
+            "type": "string"
+          }
+        },
+        "required": [
+          "day",
+          "opens",
+          "closes"
+        ],
+        "title": "OpeningWindow",
+        "type": "object"
+      },
       "OperationCheck": {
         "additionalProperties": false,
         "properties": {
@@ -956,6 +1358,15 @@
       "OrderView": {
         "additionalProperties": false,
         "properties": {
+          "checkout_kind": {
+            "default": "staff",
+            "enum": [
+              "staff",
+              "instant"
+            ],
+            "title": "Checkout Kind",
+            "type": "string"
+          },
           "consent": {
             "title": "Consent",
             "type": "boolean"
@@ -971,6 +1382,20 @@
           "delivery_paise": {
             "title": "Delivery Paise",
             "type": "integer"
+          },
+          "fulfilment": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Fulfilment",
+            "type": "object"
           },
           "id": {
             "format": "uuid",
@@ -1019,6 +1444,15 @@
             "title": "Reference",
             "type": "string"
           },
+          "shopping_mode": {
+            "default": "packaged",
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Shopping Mode",
+            "type": "string"
+          },
           "status": {
             "title": "Status",
             "type": "string"
@@ -1055,7 +1489,10 @@
           "note",
           "created_at",
           "updated_at",
-          "consent"
+          "consent",
+          "shopping_mode",
+          "checkout_kind",
+          "fulfilment"
         ],
         "title": "OrderView",
         "type": "object"
@@ -1372,8 +1809,17 @@
             "type": "string"
           },
           "manufacturer": {
-            "minLength": 1,
+            "default": "",
             "title": "Manufacturer",
+            "type": "string"
+          },
+          "mode": {
+            "default": "packaged",
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
             "type": "string"
           },
           "name": {
@@ -1392,6 +1838,13 @@
             "title": "Nutrition",
             "type": "string"
           },
+          "outlet_slug": {
+            "default": "",
+            "maxLength": 100,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Outlet Slug",
+            "type": "string"
+          },
           "price_paise": {
             "exclusiveMinimum": 0.0,
             "maximum": 100000000.0,
@@ -1399,7 +1852,7 @@
             "type": "integer"
           },
           "shelf_life": {
-            "minLength": 1,
+            "default": "",
             "title": "Shelf Life",
             "type": "string"
           },
@@ -1429,8 +1882,6 @@
           "allergens",
           "nutrition",
           "net_quantity",
-          "shelf_life",
-          "manufacturer",
           "consumer_care"
         ],
         "title": "Product",
@@ -1495,8 +1946,17 @@
             "type": "string"
           },
           "manufacturer": {
-            "minLength": 1,
+            "default": "",
             "title": "Manufacturer",
+            "type": "string"
+          },
+          "mode": {
+            "default": "packaged",
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
             "type": "string"
           },
           "name": {
@@ -1515,6 +1975,13 @@
             "title": "Nutrition",
             "type": "string"
           },
+          "outlet_slug": {
+            "default": "",
+            "maxLength": 100,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Outlet Slug",
+            "type": "string"
+          },
           "price_paise": {
             "exclusiveMinimum": 0.0,
             "maximum": 100000000.0,
@@ -1522,7 +1989,7 @@
             "type": "integer"
           },
           "shelf_life": {
-            "minLength": 1,
+            "default": "",
             "title": "Shelf Life",
             "type": "string"
           },
@@ -1543,6 +2010,8 @@
           }
         },
         "required": [
+          "mode",
+          "outlet_slug",
           "category",
           "tags",
           "image",
@@ -1916,6 +2385,90 @@
         "title": "Section",
         "type": "object"
       },
+      "Serviceability": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "delivery_paise": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delivery Paise"
+          },
+          "hours": {
+            "items": {
+              "$ref": "#/components/schemas/OpeningWindow"
+            },
+            "title": "Hours",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "packaged",
+              "fresh"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "outlet_name": {
+            "default": "",
+            "title": "Outlet Name",
+            "type": "string"
+          },
+          "outlet_slug": {
+            "default": "",
+            "title": "Outlet Slug",
+            "type": "string"
+          },
+          "preparation_minutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preparation Minutes"
+          },
+          "state_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State Code"
+          }
+        },
+        "required": [
+          "mode",
+          "available",
+          "message",
+          "delivery_paise",
+          "state_code",
+          "outlet_slug",
+          "outlet_name",
+          "preparation_minutes",
+          "hours"
+        ],
+        "title": "Serviceability",
+        "type": "object"
+      },
       "SessionView": {
         "additionalProperties": false,
         "properties": {
@@ -1988,6 +2541,7 @@
           "status": {
             "enum": [
               "declined",
+              "preparing",
               "dispatched",
               "delivered",
               "delivery_issue"
@@ -2343,6 +2897,28 @@
         "summary": "Health"
       }
     },
+    "/v1/admin/catalog-drafts": {
+      "get": {
+        "operationId": "catalog_drafts_v1_admin_catalog_drafts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CatalogDraft"
+                  },
+                  "title": "Response Catalog Drafts V1 Admin Catalog Drafts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Catalog Drafts"
+      }
+    },
     "/v1/admin/content": {
       "get": {
         "operationId": "list_content_v1_admin_content_get",
@@ -2613,6 +3189,60 @@
           }
         },
         "summary": "Enquiry Status"
+      }
+    },
+    "/v1/admin/fulfilment": {
+      "get": {
+        "operationId": "get_fulfilment_v1_admin_fulfilment_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FulfilmentSettings-Output"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Fulfilment"
+      },
+      "put": {
+        "operationId": "put_fulfilment_v1_admin_fulfilment_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FulfilmentSettings-Input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FulfilmentSettings-Output"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Fulfilment"
       }
     },
     "/v1/admin/gst-report": {
@@ -3728,6 +4358,21 @@
               "title": "Sort",
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "default": "",
+              "enum": [
+                "",
+                "packaged",
+                "fresh"
+              ],
+              "title": "Mode",
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -3757,6 +4402,82 @@
           }
         },
         "summary": "Catalog"
+      }
+    },
+    "/v1/checkout/orders": {
+      "post": {
+        "operationId": "checkout_order_v1_checkout_orders_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestReceipt"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Checkout Order"
+      }
+    },
+    "/v1/checkout/quote": {
+      "post": {
+        "operationId": "checkout_quote_v1_checkout_quote_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutQuoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutQuote"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Checkout Quote"
       }
     },
     "/v1/enquiries": {
@@ -4130,6 +4851,61 @@
           }
         },
         "summary": "Get Product"
+      }
+    },
+    "/v1/serviceability": {
+      "get": {
+        "operationId": "serviceability_v1_serviceability_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "default": "packaged",
+              "enum": [
+                "packaged",
+                "fresh"
+              ],
+              "title": "Mode",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pincode",
+            "required": false,
+            "schema": {
+              "default": "",
+              "pattern": "^(?:[1-9][0-9]{5})?$",
+              "title": "Pincode",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Serviceability"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Serviceability"
       }
     },
     "/v1/storefront": {

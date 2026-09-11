@@ -29,7 +29,7 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
   const data = JSON.parse(fixture("prepare"));
   try {
     const lead = await page.request.post("/api/v1/enquiries/quick", {
-      headers: { Origin: "http://127.0.0.1:3010" },
+      headers: { Origin: "http://127.0.0.1:3510" },
       data: {
         request_key: randomUUID(),
         phone: "+919876543210",
@@ -47,8 +47,60 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
     await page.getByRole("button", { name: "Sign in", exact: true }).click();
     const navigation = page.getByRole("navigation", { name: "Administration" });
     await navigation
+      .getByRole("button", { name: "Products", exact: true })
+      .click();
+    await page.getByLabel("Find a food or flavour").fill("Chettinadu");
+    await page
+      .getByRole("button", {
+        name: "Prepare Chettinadu Pakodi Ready Mix",
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.getByRole("heading", {
+        name: "Set up Chettinadu Pakodi Ready Mix",
+        exact: true,
+      }),
+    ).toBeFocused();
+    await expect(page.getByLabel("Product name", { exact: true })).toHaveValue(
+      "Chettinadu Pakodi Ready Mix",
+    );
+    await expect(page.getByLabel("Permanent product URL slug")).toHaveValue(
+      "chettinadu-pakodi-ready-mix",
+    );
+    await expect(page.getByLabel("Price in INR including tax")).toHaveValue("");
+    await expect(page.getByLabel("Allergens", { exact: true })).toHaveValue("");
+    await expect(
+      page.getByRole("combobox", { name: "Dietary mark", exact: true }),
+    ).toHaveValue("");
+    await page
+      .getByRole("button", { name: "Add another product", exact: true })
+      .click();
+    await expect(page.getByLabel("Product name", { exact: true })).toHaveValue(
+      "",
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page
+      .getByRole("button", { name: "Save product", exact: true })
+      .scrollIntoViewIfNeeded();
+    // Long forms must leave store navigation reachable at every supported width.
+    const topbar = await page.locator(".admin-topbar").boundingBox();
+    const navBounds = await navigation.boundingBox();
+    expect(topbar!.y).toBe(0);
+    expect(navBounds!.y).toBeGreaterThanOrEqual(topbar!.height);
+    expect(navBounds!.y + navBounds!.height).toBeLessThanOrEqual(
+      page.viewportSize()!.height,
+    );
+    await navigation
       .getByRole("button", { name: "Enquiries", exact: true })
       .click();
+    await expect(
+      page.getByRole("heading", { name: "Enquiries", exact: true }),
+    ).toBeFocused();
     await page.getByText("Edit enquiry details", { exact: true }).click();
     await page
       .getByLabel("Contact name", { exact: true })

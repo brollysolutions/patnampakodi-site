@@ -1,7 +1,7 @@
 # Local Docker review environment
 
 This environment reproduces the public site, commerce and admin application at
-`http://127.0.0.1:3100/`, preserving the original site's fonts and colors. It runs only local
+`http://127.0.0.1:3500/`, preserving the original site's fonts and colors. It runs only local
 provider fixtures. It is noindex and cannot charge money or send a real WhatsApp
 message. Hosting, production TLS and real provider acceptance remain separate.
 
@@ -20,7 +20,7 @@ runs additive migrations, imports only published reviewed source records and
 starts API, web, one scheduler and the fixture provider. Existing content is
 preserved. Stop preserves the database, media and fixture-provider volumes.
 The helper disables default `.env` loading and ambient Compose file/project/env
-overrides. The fixed project is `pakodi-stage`; only web port 3100 is exposed on
+overrides. The fixed project is `pakodi-stage`; only web port 3500 is exposed on
 loopback through a web-only entry network. PostgreSQL, Redis, API, worker and
 providers stay on an internal backend network; only web joins both. Startup
 checks the published port from the host after container health checks.
@@ -47,14 +47,25 @@ login at `/admin/` with the authenticator code. Do not put these credentials in
 the repository, chat, scripts or screenshots.
 
 In Settings, enter the approved seller name/address, GSTIN/state, invoice prefix
-and delivery tax rate before approving sales. In Products, enter approved SKU,
-pack price, GST/HSN, required food information, image and stock. Keep incomplete
-products unpublished. The seven original product URL observations are recorded
-in `apps/api/content/catalog-source-inventory.json`; this file is not seed data
-or approval of historical prices/taxes.
+and delivery tax rate before approving sales. In Products, choose from **Foods
+and flavours to set up**. The 57 entries cover 53 fresh foods and four ready mixes,
+using the saved menu and product references. Search by name or filter by range,
+then select **Enter details** to prefill the name, URL, category and available
+image. Confirm the description, dietary mark, portion/pack size, ingredients,
+allergens, other food details, price and GST/HSN. Select a preparation outlet for
+fresh food. Save the complete product, add stock and publish only when its
+information is approved. Existing product records and stock are preserved; a
+saved product disappears from the setup list.
+Only the seven original product references prefill a photo. Other foods use an
+icon because the saved menu repeats generic pakodi artwork for unrelated dishes.
+Choose an approved product photo from Media when completing these entries.
+The seven original product URL observations are recorded in
+`apps/api/content/catalog-source-inventory.json`. They supply setup templates,
+not approval of historical prices, tax notes or packaging claims.
 
-Content controls the copied public pages, menus, outlets, FAQ/testimonial blocks
-and published policy pages. Enquiries supports phone-first leads, staff details,
+Website content management is absent from the admin panel. Arrange public page,
+menu and policy revisions through the development workflow. Enquiries supports
+phone-first leads, staff details,
 pipeline status and dated CSV exports. Reports shows gross invoices, processed
 primary-payment refunds to date and net sales for an inclusive India-date cohort,
 plus the existing GST ledger. A staff refund does not reverse physical delivery
@@ -70,8 +81,10 @@ The endpoint checks that a PDF exists before offering the download.
 
 ## Local checkout and acceptance
 
-A published, complete product can enter the guest cart. Staff quotes delivery;
-the quote lasts 24 hours. Payment setup reserves stock for 15 minutes. The local
+A published, complete product with stock can enter the guest cart. Configured
+delivery PIN codes receive an itemised checkout total immediately. The existing
+staff-quoted request flow remains available; its quote lasts 24 hours. Payment
+setup reserves stock for 15 minutes. The local
 checkout explicitly asks to **Confirm test payment**. Its signed fixture webhook
 enters the normal durable inbox; the worker verifies the capture and issues the
 invoice. Refresh status for confirmation. Staff can mark dispatch/delivery and

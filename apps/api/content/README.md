@@ -15,6 +15,20 @@ not seed data. The source's displayed prices and body tax notes conflict, and
 required food/seller information is incomplete. An operator must supply approved
 product and tax records before publication. Four original pack images are kept
 locally with hashes; adding an image does not approve its printed claims.
+
+The private `/v1/admin/catalog-drafts` endpoint combines these seven observations
+with the 51 published menu records into **57 setup templates**: 53 fresh foods
+and four ready mixes. The Pachi Mirchi menu flavour reuses its original product
+URL, avoiding a duplicate. Templates contain known identity and artwork only;
+they do not insert purchasable variants or invent prices, stock or food/tax data.
+Only the seven product-specific source observations supply automatic images.
+The menu cards repeat generic pakodi photographs for other foods, including
+drinks and dips; those photographs must not become their sale images. Other setup
+entries use neutral icons until an operator chooses an approved photo in Media.
+The admin Products form requires the remaining information. Existing variants
+are filtered using the request's normal brand-scoped database connection and
+are never overwritten. The public storefront still reads its published database
+records and does not use these templates as fallback content.
 Menu cards and branch sections bind to their published CMS records. The branch
 contact details displayed in the source are imported as editable editorial
 content; they do not establish verified locations and are not promoted to

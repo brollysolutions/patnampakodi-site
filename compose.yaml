@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: local-owner-only
       POSTGRES_DB: pakodi
     ports:
-      - "127.0.0.1:54339:5432"
+      - "127.0.0.1:55450:5432"
     volumes:
       - pakodi_postgres:/var/lib/postgresql
       - ./infra/postgres:/docker-entrypoint-initdb.d:ro
@@ -20,7 +20,7 @@ services:
   redis:
     image: redis:8.2-alpine@sha256:30abb90e62f14b737010746def3ba99cc79fe19dcdb3d37b41f21fc62e7da19d
     ports:
-      - "127.0.0.1:63799:6379"
+      - "127.0.0.1:6450:6379"
     command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
     volumes:
       - pakodi_redis:/data

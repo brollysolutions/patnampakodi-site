@@ -8,8 +8,8 @@ from psycopg.rows import dict_row
 
 from app.config import setting
 
-LOCAL_DATABASE_URL = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:54339/pakodi"
-LOCAL_MIGRATION_URL = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:54339/pakodi"
+LOCAL_DATABASE_URL = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:55450/pakodi"
+LOCAL_MIGRATION_URL = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:55450/pakodi"
 
 
 def database_url() -> str:

@@ -4,7 +4,7 @@ from app.security import rows
 
 
 async def search_catalog(
-    conn, *, q="", category="", tag="", dietary="", max_price=None, sort="default"
+    conn, *, q="", category="", tag="", dietary="", max_price=None, sort="default", mode=""
 ):
     ordering = {
         "default": "slug",
@@ -14,6 +14,9 @@ async def search_catalog(
     }[sort]
     conditions = ["published"]
     parameters = []
+    if mode:
+        conditions.append("COALESCE(product->>'mode','packaged')=%s")
+        parameters.append(mode)
     if q.strip():
         conditions.append(
             "strpos(lower(concat_ws(' ',product->>'name',product->>'description')),lower(%s))>0"

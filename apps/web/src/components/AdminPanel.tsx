@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { api, jsonPost, money, statusLabel, type Schema } from "@/lib/commerce";
-import { ContentEditor } from "./ContentEditor";
+import { FulfilmentPanel } from "./FulfilmentPanel";
+import { CatalogDrafts } from "./CatalogDrafts";
+import { Icon, type IconName } from "./Icon";
 import { Field, Notice } from "./FormFields";
 import Image from "next/image";
 import {
@@ -15,14 +17,37 @@ import {
 const tabs = [
   "Orders",
   "Products",
-  "Content",
   "Enquiries",
   "Messages",
   "Reports",
+  "Delivery",
   "Settings",
   "Media",
 ] as const;
 type Tab = (typeof tabs)[number];
+const tabIcons: Record<Tab, IconName> = {
+  Orders: "bag",
+  Products: "box",
+  Enquiries: "users",
+  Messages: "mail",
+  Reports: "chart",
+  Delivery: "truck",
+  Settings: "settings",
+  Media: "image",
+};
+const tabDescriptions: Record<Tab, string> = {
+  Orders: "Follow every order from payment to delivery.",
+  Products: "Manage your catalogue, food information and available stock.",
+  Enquiries: "Follow up with people interested in the brand and franchise.",
+  Messages:
+    "Review delivery updates, provider jobs and items that need attention.",
+  Reports: "Review invoiced sales, refunds and exports for your chosen dates.",
+  Delivery:
+    "Set delivery areas, fees and availability for your fresh-food pilot.",
+  Settings:
+    "Keep seller details, invoices and operational contacts up to date.",
+  Media: "Upload and manage photographs for your product catalogue.",
+};
 const FOOD_FIELDS = [
   "ingredients",
   "allergens",
@@ -42,6 +67,11 @@ export function AdminPanel() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [revision, setRevision] = useState(0);
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+    heading.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [tab]);
   useEffect(() => {
     api<Schema["SessionView"]>("admin/session")
       .then(setSession)
@@ -79,8 +109,13 @@ export function AdminPanel() {
   if (!checked) return <Notice message="Checking your session…" />;
   if (!session)
     return (
-      <form className="panel form-stack narrow" onSubmit={login}>
+      <form className="panel form-stack narrow admin-login" onSubmit={login}>
+        <span className="admin-login-icon">
+          <Icon name="shield" />
+        </span>
+        <p className="eyebrow">Your store, in one place</p>
         <h2>Admin sign in</h2>
+        <p>Manage orders, products and day-to-day operations.</p>
         <Field name="username" label="Username" autoComplete="username" />
         <Field
           name="password"
@@ -107,54 +142,87 @@ export function AdminPanel() {
     );
   return (
     <div className="admin-workspace">
-      <div className="actions">
-        <p>
-          Signed in as <strong>{session.username}</strong>
-        </p>
-        <button
-          className="button button-small"
-          onClick={() =>
-            action(async () => {
-              await api("admin/logout", { method: "POST" });
-              setSession(null);
-            })
-          }
-        >
-          Sign out
-        </button>
-      </div>
-      <nav className="admin-tabs" aria-label="Administration">
-        {tabs.map((name) => (
+      <aside className="admin-sidebar">
+        <p className="admin-nav-label">Workspace</p>
+        <nav className="admin-tabs" aria-label="Administration">
+          {tabs.map((name) => (
+            <button
+              key={name}
+              className="button button-small"
+              aria-current={tab === name ? "page" : undefined}
+              aria-controls="admin-content"
+              disabled={busy}
+              onClick={() => {
+                setTab(name);
+                setMessage("");
+              }}
+            >
+              <Icon name={tabIcons[name]} />
+              {name}
+            </button>
+          ))}
+        </nav>
+        <div className="admin-account">
+          <span className="admin-avatar" aria-hidden="true">
+            {session.username.slice(0, 1).toUpperCase()}
+          </span>
+          <p>
+            <small>Signed in as</small>
+            <strong>{session.username}</strong>
+          </p>
           <button
-            key={name}
-            className="button button-small"
-            aria-current={tab === name ? "page" : undefined}
+            className="admin-signout"
+            disabled={busy}
+            onClick={() =>
+              action(async () => {
+                await api("admin/logout", { method: "POST" });
+                setSession(null);
+              })
+            }
+          >
+            Sign out
+          </button>
+        </div>
+      </aside>
+      <div className="admin-content" id="admin-content">
+        <div className="admin-section-heading">
+          <div>
+            <p className="eyebrow">Store management</p>
+            <h2 ref={heading} tabIndex={-1}>
+              {tab}
+            </h2>
+            <p>{tabDescriptions[tab]}</p>
+          </div>
+          <button
+            type="button"
+            className="button button-small button-outline"
+            disabled={busy}
             onClick={() => {
-              setTab(name);
               setMessage("");
+              setRevision((value) => value + 1);
             }}
           >
-            {name}
+            <Icon name="refresh" /> Refresh
           </button>
-        ))}
-      </nav>
-      <Notice message={message} />
-      <fieldset
-        className="admin-fields"
-        key={`${tab}-${revision}`}
-        aria-busy={busy}
-        disabled={busy}
-      >
-        <legend className="sr-only">{tab}</legend>
-        {tab === "Orders" && <Orders action={action} />}
-        {tab === "Products" && <Products action={action} />}
-        {tab === "Content" && <Content action={action} />}
-        {tab === "Enquiries" && <Enquiries action={action} />}
-        {tab === "Messages" && <Messages action={action} />}
-        {tab === "Reports" && <Reports />}
-        {tab === "Settings" && <Settings action={action} />}
-        {tab === "Media" && <Media action={action} />}
-      </fieldset>
+        </div>
+        <Notice message={message} />
+        <fieldset
+          className="admin-fields"
+          key={`${tab}-${revision}`}
+          aria-busy={busy}
+          disabled={busy}
+        >
+          <legend className="sr-only">{tab}</legend>
+          {tab === "Orders" && <Orders action={action} />}
+          {tab === "Products" && <Products action={action} />}
+          {tab === "Enquiries" && <Enquiries action={action} />}
+          {tab === "Messages" && <Messages action={action} />}
+          {tab === "Reports" && <Reports />}
+          {tab === "Delivery" && <FulfilmentPanel />}
+          {tab === "Settings" && <Settings action={action} />}
+          {tab === "Media" && <Media action={action} />}
+        </fieldset>
+      </div>
     </div>
   );
 }
@@ -196,7 +264,7 @@ function Pagination({
   onPage: (offset: number) => void;
 }) {
   return (
-    <nav className="actions" aria-label="Results pages">
+    <nav className="actions admin-pagination" aria-label="Results pages">
       <button
         className="button button-small"
         type="button"
@@ -231,7 +299,7 @@ function Orders({ action }: { action: Action }) {
   return (
     <>
       <form
-        className="actions"
+        className="panel admin-order-search"
         onSubmit={(event) => {
           event.preventDefault();
           setOffset(0);
@@ -241,8 +309,40 @@ function Orders({ action }: { action: Action }) {
         }}
       >
         <Field name="search" label="Order number or phone" required={false} />
-        <button className="button button-small">Search orders</button>
+        <button className="button button-small">
+          <Icon name="search" /> Search orders
+        </button>
       </form>
+      {data && data.length > 0 && (
+        <section
+          className="admin-order-overview"
+          aria-label="Order summary for this page"
+        >
+          <p className="small">
+            In this view · {data.length}{" "}
+            {data.length === 1 ? "order" : "orders"}
+            {search ? " matching your search" : ""}
+          </p>
+          <dl className="admin-metrics">
+            {[
+              ["Payment confirmed", "paid", "check"],
+              ["Preparing", "preparing", "fresh"],
+              ["Dispatched", "dispatched", "truck"],
+              ["Delivery issues", "delivery_issue", "pin"],
+            ].map(([label, status, icon]) => (
+              <div key={status}>
+                <dt>
+                  <Icon name={icon as IconName} />
+                  {label}
+                </dt>
+                <dd>
+                  {data.filter((order) => order.status === status).length}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
       <Pagination
         offset={offset}
         count={data?.length ?? 0}
@@ -260,21 +360,52 @@ function Orders({ action }: { action: Action }) {
       {!data ? (
         <Load error={error} />
       ) : !data.length ? (
-        <p>No order requests yet.</p>
+        <div className="panel admin-empty">
+          <Icon name={search ? "search" : "bag"} />
+          <h3>
+            {search ? "No matching orders" : "Your orders will appear here"}
+          </h3>
+          <p>
+            {search
+              ? "Try another order number or phone number."
+              : "When a customer places an order, you can follow its progress and manage delivery here."}
+          </p>
+        </div>
       ) : (
         data.map((order) => (
           <article className="panel order-admin" key={order.id}>
-            <div className="actions">
-              <h2>{order.reference}</h2>
-              <strong>{statusLabel(order.status)}</strong>
+            <div className="order-admin-heading">
+              <div>
+                <span className="order-mode">
+                  <Icon
+                    name={order.shopping_mode === "fresh" ? "fresh" : "box"}
+                  />
+                  {order.shopping_mode === "fresh" ? "Fresh food" : "Packaged"}
+                </span>
+                <h3>{order.reference}</h3>
+              </div>
+              <span className="order-status" data-status={order.status}>
+                {statusLabel(order.status)}
+              </span>
             </div>
-            <p>
-              {order.customer.name} · {order.customer.phone}
-              <br />
-              {order.customer.address}, {order.customer.city},{" "}
-              {order.customer.pincode}
-            </p>
-            <ul>
+            <div className="order-admin-customer">
+              <p>
+                <Icon name="users" />
+                <span>
+                  <strong>{order.customer.name}</strong>
+                  <br />
+                  {order.customer.phone}
+                </span>
+              </p>
+              <p>
+                <Icon name="pin" />
+                <span>
+                  {order.customer.address}, {order.customer.city},{" "}
+                  {order.customer.pincode}
+                </span>
+              </p>
+            </div>
+            <ul className="order-admin-lines">
               {order.lines.map((line) => (
                 <li key={line.variant_id}>
                   {line.quantity} × {line.name} —{" "}
@@ -282,41 +413,60 @@ function Orders({ action }: { action: Action }) {
                 </li>
               ))}
             </ul>
-            <p>
-              Total:{" "}
-              {order.total_paise
-                ? money(order.total_paise)
-                : "Awaiting quotation"}
+            <p className="order-admin-total">
+              <span>Order total</span>
+              <strong>
+                {order.total_paise
+                  ? money(order.total_paise)
+                  : "Awaiting quotation"}
+              </strong>
             </p>
-            {["requested", "approved"].includes(order.status) && (
-              <form
-                className="actions"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  const fee = Number(
-                    new FormData(event.currentTarget).get("fee"),
-                  );
-                  void action(() =>
-                    api(
-                      `admin/orders/${order.id}/approve`,
-                      jsonPost({ delivery_paise: Math.round(fee * 100) }),
-                    ),
-                  );
-                }}
-              >
-                <Field
-                  name="fee"
-                  label="Delivery fee (INR, including tax)"
-                  type="number"
-                  min={0}
-                  step="0.01"
-                  defaultValue={order.delivery_paise / 100}
-                />
-                <button className="button">Confirm delivery & quote</button>
-              </form>
-            )}
+            {order.checkout_kind === "staff" &&
+              ["requested", "approved"].includes(order.status) && (
+                <form
+                  className="actions"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const fee = Number(
+                      new FormData(event.currentTarget).get("fee"),
+                    );
+                    void action(() =>
+                      api(
+                        `admin/orders/${order.id}/approve`,
+                        jsonPost({ delivery_paise: Math.round(fee * 100) }),
+                      ),
+                    );
+                  }}
+                >
+                  <Field
+                    name="fee"
+                    label="Delivery fee (INR, including tax)"
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    defaultValue={order.delivery_paise / 100}
+                  />
+                  <button className="button">Confirm delivery & quote</button>
+                </form>
+              )}
             <div className="actions">
-              {order.status === "paid" && (
+              {order.status === "paid" && order.shopping_mode === "fresh" && (
+                <button
+                  className="button button-small"
+                  onClick={() =>
+                    action(() =>
+                      api(
+                        `admin/orders/${order.id}/status`,
+                        jsonPost({ status: "preparing" }),
+                      ),
+                    )
+                  }
+                >
+                  Start preparing
+                </button>
+              )}
+              {((order.status === "paid" && order.shopping_mode !== "fresh") ||
+                order.status === "preparing") && (
                 <button
                   className="button button-small"
                   onClick={() =>
@@ -363,11 +513,12 @@ function Orders({ action }: { action: Action }) {
               )}
               {order.invoice_number && (
                 <a
-                  className="button button-small"
+                  className="button button-small button-outline"
                   href={`/api/v1/admin/orders/${order.id}/invoice`}
                   target="_blank"
                   rel="noreferrer"
                 >
+                  <Icon name="document" />
                   Print / download invoice
                 </a>
               )}
@@ -375,24 +526,29 @@ function Orders({ action }: { action: Action }) {
             <details>
               <summary>Cancellation, refund, and link recovery</summary>
               <div className="form-stack">
-                {["requested", "approved"].includes(order.status) && (
-                  <button
-                    className="button button-small"
-                    onClick={() =>
-                      action(() =>
-                        api(
-                          `admin/orders/${order.id}/status`,
-                          jsonPost({ status: "declined" }),
-                        ),
-                      )
-                    }
-                  >
-                    Decline delivery request
-                  </button>
-                )}
-                {["requested", "approved", "payment_pending", "paid"].includes(
-                  order.status,
-                ) && (
+                {order.checkout_kind === "staff" &&
+                  ["requested", "approved"].includes(order.status) && (
+                    <button
+                      className="button button-small"
+                      onClick={() =>
+                        action(() =>
+                          api(
+                            `admin/orders/${order.id}/status`,
+                            jsonPost({ status: "declined" }),
+                          ),
+                        )
+                      }
+                    >
+                      Decline delivery request
+                    </button>
+                  )}
+                {[
+                  "requested",
+                  "approved",
+                  "payment_pending",
+                  "paid",
+                  "preparing",
+                ].includes(order.status) && (
                   <button
                     className="button button-small"
                     onClick={() =>
@@ -403,8 +559,16 @@ function Orders({ action }: { action: Action }) {
                       )
                     }
                   >
-                    Cancel order and refund captured payment
+                    {order.status === "preparing"
+                      ? "Stop preparation and refund captured payment"
+                      : "Cancel order and refund captured payment"}
                   </button>
+                )}
+                {order.status === "preparing" && (
+                  <p className="small">
+                    Confirm with the kitchen before cancelling. Prepared food is
+                    not automatically returned to stock.
+                  </p>
                 )}
                 {order.invoice_number && (
                   <form
@@ -478,7 +642,24 @@ function Orders({ action }: { action: Action }) {
 
 function Products({ action }: { action: Action }) {
   const { data, error } = useLoad<Schema["VariantView"][]>("admin/variants");
+  const { data: drafts, error: draftError } = useLoad<Schema["CatalogDraft"][]>(
+    "admin/catalog-drafts",
+  );
   const [editing, setEditing] = useState<Schema["VariantView"] | null>(null);
+  const [draft, setDraft] = useState<Schema["CatalogDraft"] | null>(null);
+  const editorHeading = useRef<HTMLHeadingElement>(null);
+  const [mode, setMode] = useState<"fresh" | "packaged">("packaged");
+  const { data: storefront } = useLoad<Schema["Storefront"]>("storefront");
+  const selectedMode = editing?.product.mode ?? draft?.mode ?? mode;
+  useEffect(() => {
+    if (editing || draft) {
+      editorHeading.current?.focus({ preventScroll: true });
+      editorHeading.current?.scrollIntoView({
+        block: "start",
+        behavior: "instant",
+      });
+    }
+  }, [editing, draft]);
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -493,6 +674,10 @@ function Products({ action }: { action: Action }) {
       product: {
         ...editing?.product,
         ...product,
+        image: editing?.product.image ?? draft?.image ?? "",
+        mode: selectedMode,
+        outlet_slug:
+          selectedMode === "fresh" ? String(form.get("outlet_slug") ?? "") : "",
         category: String(form.get("category") ?? "").trim(),
         tags: String(form.get("tags") ?? "")
           .split(",")
@@ -516,205 +701,291 @@ function Products({ action }: { action: Action }) {
     );
   }
   return (
-    <div className="commerce-grid">
-      <section className="panel form-stack">
-        <h2>Product catalog</h2>
-        <a href="/api/v1/admin/products.csv">Export products CSV</a>
-        <form
-          className="form-stack"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const file = new FormData(event.currentTarget).get("csv") as File;
-            void action(() =>
-              api("admin/products.csv", {
-                method: "POST",
-                body: file,
-                headers: { "Content-Type": "text/csv" },
-              }),
-            );
+    <>
+      {drafts ? (
+        <CatalogDrafts
+          items={drafts}
+          onChoose={(item) => {
+            setEditing(null);
+            setDraft(item);
           }}
+        />
+      ) : (
+        <Load error={draftError} />
+      )}
+      <div className="commerce-grid">
+        <section className="panel form-stack">
+          <h2>Product catalog</h2>
+          <a href="/api/v1/admin/products.csv">Export products CSV</a>
+          <form
+            className="form-stack"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const file = new FormData(event.currentTarget).get("csv") as File;
+              void action(() =>
+                api("admin/products.csv", {
+                  method: "POST",
+                  body: file,
+                  headers: { "Content-Type": "text/csv" },
+                }),
+              );
+            }}
+          >
+            <Field
+              name="csv"
+              label="Import product CSV"
+              type="file"
+              accept=".csv,text/csv"
+            />
+            <button className="button button-small">Import all rows</button>
+          </form>
+          {!data ? (
+            <Load error={error} />
+          ) : (
+            data.map((item) => (
+              <article key={item.id} className="stock-row">
+                <h3>{item.product.name}</h3>
+                <p>
+                  {item.sku} ·{" "}
+                  {item.product.mode === "fresh" ? "Fresh" : "Packaged"} ·{" "}
+                  {item.published ? "Published" : "Draft"}
+                  <br />
+                  Stock {item.stock} · Reserved {item.reserved}
+                </p>
+                <button
+                  className="button button-small"
+                  onClick={() => {
+                    setDraft(null);
+                    setEditing(item);
+                  }}
+                >
+                  Edit product
+                </button>
+                <form
+                  className="actions"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const form = new FormData(event.currentTarget);
+                    void action(() =>
+                      api(
+                        `admin/variants/${item.id}/stock`,
+                        jsonPost({
+                          delta: Number(form.get("delta")),
+                          reason: String(form.get("reason")),
+                        }),
+                      ),
+                    );
+                  }}
+                >
+                  <Field
+                    name="delta"
+                    label={`Stock adjustment for ${item.sku}`}
+                    type="number"
+                    step={1}
+                  />
+                  <Field
+                    name="reason"
+                    label="Adjustment reason"
+                    minLength={3}
+                  />
+                  <button className="button button-small">Adjust stock</button>
+                </form>
+              </article>
+            ))
+          )}
+        </section>
+        <form
+          className="panel form-stack"
+          onSubmit={save}
+          key={editing?.id ?? draft?.slug ?? "new"}
         >
-          <Field
-            name="csv"
-            label="Import product CSV"
-            type="file"
-            accept=".csv,text/csv"
-          />
-          <button className="button button-small">Import all rows</button>
-        </form>
-        {!data ? (
-          <Load error={error} />
-        ) : (
-          data.map((item) => (
-            <article key={item.id} className="stock-row">
-              <h3>{item.product.name}</h3>
-              <p>
-                {item.sku} · {item.published ? "Published" : "Draft"}
-                <br />
-                Stock {item.stock} · Reserved {item.reserved}
-              </p>
-              <button
-                className="button button-small"
-                onClick={() => setEditing(item)}
+          <h2 ref={editorHeading} tabIndex={-1}>
+            {editing
+              ? "Edit product"
+              : draft
+                ? `Set up ${draft.name}`
+                : "Add product"}
+          </h2>
+          {draft && (
+            <p className="small">
+              The name, category and available artwork are prefilled. Confirm
+              the remaining food, price and tax information before publishing.
+            </p>
+          )}
+          <label className="field">
+            Shopping mode
+            <select
+              value={selectedMode}
+              disabled={Boolean(editing || draft)}
+              onChange={(event) =>
+                setMode(event.target.value as "fresh" | "packaged")
+              }
+            >
+              <option value="packaged">Packaged product</option>
+              <option value="fresh">Fresh food</option>
+            </select>
+          </label>
+          {selectedMode === "fresh" && (
+            <label className="field">
+              Preparation outlet
+              <select
+                name="outlet_slug"
+                required
+                defaultValue={editing?.product.outlet_slug ?? ""}
+                disabled={Boolean(editing)}
               >
-                Edit product
-              </button>
-              <form
-                className="actions"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  const form = new FormData(event.currentTarget);
-                  void action(() =>
-                    api(
-                      `admin/variants/${item.id}/stock`,
-                      jsonPost({
-                        delta: Number(form.get("delta")),
-                        reason: String(form.get("reason")),
-                      }),
-                    ),
-                  );
-                }}
-              >
-                <Field
-                  name="delta"
-                  label={`Stock adjustment for ${item.sku}`}
-                  type="number"
-                  step={1}
+                <option value="">Choose a published outlet</option>
+                {storefront?.outlets.map((outlet) => (
+                  <option key={outlet.slug} value={outlet.slug}>
+                    {outlet.name}
+                  </option>
+                ))}
+              </select>
+              {editing && (
+                <input
+                  type="hidden"
+                  name="outlet_slug"
+                  value={editing.product.outlet_slug}
                 />
-                <Field name="reason" label="Adjustment reason" minLength={3} />
-                <button className="button button-small">Adjust stock</button>
-              </form>
-            </article>
-          ))
-        )}
-      </section>
-      <form
-        className="panel form-stack"
-        onSubmit={save}
-        key={editing?.id ?? "new"}
-      >
-        <h2>{editing ? "Edit product" : "Add product"}</h2>
-        {editing && (
-          <button
-            type="button"
-            className="button button-small"
-            onClick={() => setEditing(null)}
-          >
-            Add another product
-          </button>
-        )}
-        <Field
-          name="sku"
-          label="SKU"
-          defaultValue={editing?.sku}
-          pattern="[A-Za-z0-9_-]{1,64}"
-        />
-        <Field
-          name="slug"
-          label="Permanent product URL slug"
-          defaultValue={editing?.product.slug}
-          readOnly={Boolean(editing)}
-          pattern="[a-z0-9]+(-[a-z0-9]+)*"
-        />
-        <Field
-          name="name"
-          label="Product name"
-          defaultValue={editing?.product.name}
-        />
-        <Field
-          name="description"
-          label="Description"
-          defaultValue={editing?.product.description}
-        />
-        <Field
-          name="price"
-          label="Price in INR including tax"
-          type="number"
-          min="0.01"
-          step="0.01"
-          defaultValue={editing ? editing.product.price_paise / 100 : undefined}
-        />
-        <Field
-          name="category"
-          label="Category URL slug (optional)"
-          required={false}
-          defaultValue={editing?.product.category ?? ""}
-          pattern="[a-z0-9]+(-[a-z0-9]+)*"
-          maxLength={80}
-        />
-        <Field
-          name="tags"
-          label="Tag URL slugs, comma separated (optional)"
-          required={false}
-          defaultValue={editing?.product.tags?.join(", ") ?? ""}
-        />
-        <Field
-          name="compare"
-          label="Original price in INR (optional)"
-          type="number"
-          required={false}
-          min="0.01"
-          step="0.01"
-          defaultValue={
-            editing?.product.compare_at_price_paise
-              ? editing.product.compare_at_price_paise / 100
-              : ""
-          }
-        />
-        <label className="field">
-          Dietary mark
-          <select
-            name="dietary"
-            defaultValue={editing?.product.dietary ?? "non-veg"}
-          >
-            <option value="veg">Vegetarian</option>
-            <option value="non-veg">Non-vegetarian</option>
-          </select>
-        </label>
-        {FOOD_FIELDS.map((key) => (
+              )}
+            </label>
+          )}
+          {editing && (
+            <p className="small">
+              Mode and preparation outlet are permanent. Create a new product to
+              change them.
+            </p>
+          )}
+          {(editing || draft) && (
+            <button
+              type="button"
+              className="button button-small"
+              onClick={() => {
+                setEditing(null);
+                setDraft(null);
+              }}
+            >
+              Add another product
+            </button>
+          )}
           <Field
-            key={key}
-            name={key}
-            label={sentence(key)}
-            defaultValue={editing?.product[key]}
+            name="sku"
+            label="SKU"
+            defaultValue={editing?.sku ?? draft?.sku}
+            pattern={"[A-Za-z0-9_\\-]{1,64}"}
           />
-        ))}
-        <Field
-          name="gst"
-          label="GST rate (%)"
-          type="number"
-          min={0}
-          max={40}
-          step="0.01"
-          defaultValue={editing ? editing.gst_bps / 100 : undefined}
-        />
-        <Field
-          name="hsn"
-          label="HSN code"
-          pattern="[0-9]{4,8}"
-          defaultValue={editing?.hsn}
-        />
-        <MediaSelect selected={editing?.media_id ?? null} />
-        <label className="checkbox">
-          <input
-            type="checkbox"
-            name="published"
-            defaultChecked={editing?.published}
+          <Field
+            name="slug"
+            label="Permanent product URL slug"
+            defaultValue={editing?.product.slug ?? draft?.slug}
+            readOnly={Boolean(editing || draft)}
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
           />
-          Publish after verifying all food and tax information
-        </label>
-        <button className="button">Save product</button>
-      </form>
-    </div>
-  );
-}
-
-function Content({ action }: { action: Action }) {
-  const { data, error } = useLoad<Schema["ContentView"][]>("admin/content");
-  return data ? (
-    <ContentEditor items={data} action={action} />
-  ) : (
-    <Load error={error} />
+          <Field
+            name="name"
+            label="Product name"
+            defaultValue={editing?.product.name ?? draft?.name}
+          />
+          <Field
+            name="description"
+            label="Description"
+            defaultValue={editing?.product.description ?? draft?.description}
+          />
+          <Field
+            name="price"
+            label="Price in INR including tax"
+            type="number"
+            min="0.01"
+            step="0.01"
+            defaultValue={
+              editing ? editing.product.price_paise / 100 : undefined
+            }
+          />
+          <Field
+            name="category"
+            label="Category URL slug (optional)"
+            required={false}
+            defaultValue={editing?.product.category ?? draft?.category ?? ""}
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+            maxLength={80}
+          />
+          <Field
+            name="tags"
+            label="Tag URL slugs, comma separated (optional)"
+            required={false}
+            defaultValue={
+              (editing?.product.tags ?? draft?.tags)?.join(", ") ?? ""
+            }
+          />
+          <Field
+            name="compare"
+            label="Original price in INR (optional)"
+            type="number"
+            required={false}
+            min="0.01"
+            step="0.01"
+            defaultValue={
+              editing?.product.compare_at_price_paise
+                ? editing.product.compare_at_price_paise / 100
+                : ""
+            }
+          />
+          <label className="field">
+            Dietary mark
+            <select
+              name="dietary"
+              required
+              defaultValue={
+                editing?.product.dietary ??
+                (draft?.dietary === "unconfirmed" ? "" : draft?.dietary) ??
+                "non-veg"
+              }
+            >
+              <option value="">Confirm dietary mark</option>
+              <option value="veg">Vegetarian</option>
+              <option value="non-veg">Non-vegetarian</option>
+            </select>
+          </label>
+          {FOOD_FIELDS.map((key) => (
+            <Field
+              key={key}
+              name={key}
+              label={sentence(key)}
+              required={
+                selectedMode === "packaged" ||
+                !["shelf_life", "manufacturer"].includes(key)
+              }
+              defaultValue={editing?.product[key]}
+            />
+          ))}
+          <Field
+            name="gst"
+            label="GST rate (%)"
+            type="number"
+            min={0}
+            max={40}
+            step="0.01"
+            defaultValue={editing ? editing.gst_bps / 100 : undefined}
+          />
+          <Field
+            name="hsn"
+            label="HSN code"
+            pattern="[0-9]{4,8}"
+            defaultValue={editing?.hsn}
+          />
+          <MediaSelect selected={editing?.media_id ?? null} />
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              name="published"
+              defaultChecked={editing?.published}
+            />
+            Publish after verifying all food and tax information
+          </label>
+          <button className="button">Save product</button>
+        </form>
+      </div>
+    </>
   );
 }
 

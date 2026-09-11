@@ -76,7 +76,7 @@ async def rows(conn, sql, values=()):
 
 async def limit(key: str, maximum: int, seconds: int):
     client = Redis.from_url(
-        setting("REDIS_URL", "redis://127.0.0.1:63799/0"),
+        setting("REDIS_URL", "redis://127.0.0.1:6450/0"),
         socket_connect_timeout=2,
         socket_timeout=2,
     )

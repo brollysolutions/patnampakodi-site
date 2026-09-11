@@ -10,6 +10,6 @@ COPY apps/api/content ./content
 COPY apps/api/alembic.ini ./
 RUN useradd --uid 10001 --create-home pakodi && mkdir -p /media && chown pakodi /media
 USER 10001
-ENV PATH="/app/.venv/bin:$PATH" API_HOST=0.0.0.0 API_PORT=8000 MEDIA_ROOT=/media
-EXPOSE 8000
+ENV PATH="/app/.venv/bin:$PATH" API_HOST=0.0.0.0 API_PORT=8500 MEDIA_ROOT=/media
+EXPOSE 8500
 CMD ["python", "-m", "app.serve"]

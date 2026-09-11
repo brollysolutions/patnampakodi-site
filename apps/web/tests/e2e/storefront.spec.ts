@@ -43,6 +43,20 @@ for (const route of routes) {
       path: testInfo.outputPath("page.png"),
       fullPage: true,
     });
+    if (route === "/") {
+      await page.locator("footer").scrollIntoViewIfNeeded();
+      const header = await page.locator(".store-header").boundingBox();
+      expect(header!.y).toBe(0);
+      await page
+        .getByRole("search")
+        .getByRole("button", { name: "Search", exact: true })
+        .focus();
+      await expect(
+        page
+          .getByRole("search")
+          .getByRole("button", { name: "Search", exact: true }),
+      ).toBeInViewport();
+    }
   });
 }
 
@@ -51,21 +65,27 @@ test("menu search, categories, empty results and reset work without JavaScript",
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3010/menu/", {
+  await page.goto("http://127.0.0.1:3510/menu/", {
     waitUntil: "domcontentloaded",
   });
   await expect(page.locator(".menu-item")).toHaveCount(51);
   await page.getByRole("button", { name: "Drinks", exact: true }).click();
   await expect(page.locator(".menu-item")).toHaveCount(11);
   await page.getByLabel("Find your favourite").fill("Junnu");
-  await page.getByRole("button", { name: "Search", exact: true }).click();
+  await page
+    .locator("main")
+    .getByRole("button", { name: "Search", exact: true })
+    .click();
   await expect(page.locator(".menu-item")).toHaveCount(1);
   await expect(page).toHaveURL(/category=Drinks/);
   await expect(
     page.getByRole("heading", { name: "Junnu Pot", exact: true }),
   ).toBeVisible();
   await page.getByLabel("Find your favourite").fill("nothingmatches123");
-  await page.getByRole("button", { name: "Search", exact: true }).click();
+  await page
+    .locator("main")
+    .getByRole("button", { name: "Search", exact: true })
+    .click();
   await expect(
     page.getByRole("heading", { name: "No bites found." }),
   ).toBeVisible();
@@ -125,7 +145,9 @@ test("sitemap contains only public routes; private and missing routes are noinde
     "/home/",
   ]) {
     const response = await request.get(route);
-    expect(response.status()).toBe(route === "/admin/" ? 200 : 404);
+    expect(response.status()).toBe(
+      ["/admin/", "/checkout/"].includes(route) ? 200 : 404,
+    );
     expect(await response.text()).toContain("noindex");
     if (route !== "/missing-page/" && route !== "/home/")
       expect(response.headers()["x-robots-tag"]).toContain("noindex");
@@ -141,13 +163,15 @@ test("keyboard skip link and mobile navigation work with reduced motion", async 
   await expect(
     page.getByRole("link", { name: "Skip to content" }),
   ).toBeFocused();
+  await page.getByRole("link", { name: "Skip to content" }).click();
+  await expect(page).toHaveURL(/#main$/);
   if (testInfo.project.name === "mobile") {
-    await page.locator(".mobile-nav summary").focus();
+    await page.getByRole("button", { name: "Open menu" }).focus();
     await page.keyboard.press("Enter");
-    await expect(page.locator(".mobile-nav nav")).toBeVisible();
+    await expect(page.locator(".store-drawer[open] nav")).toBeVisible();
     await page
-      .locator(".mobile-nav")
-      .getByRole("link", { name: "Menu", exact: true })
+      .locator(".store-drawer")
+      .getByRole("link", { name: "Order fresh", exact: true })
       .click();
     await expect(page).toHaveURL(/\/menu\/$/);
   }

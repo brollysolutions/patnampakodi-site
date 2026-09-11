@@ -56,6 +56,9 @@ class OrderView(PublicModel):
     created_at: datetime
     updated_at: datetime
     consent: bool
+    shopping_mode: Literal["packaged", "fresh"] = "packaged"
+    checkout_kind: Literal["staff", "instant"] = "staff"
+    fulfilment: dict[str, str | int] = Field(default_factory=dict)
 
 
 class RequestReceipt(PublicModel):
@@ -69,7 +72,7 @@ class Approve(PublicModel):
 
 
 class StatusChange(PublicModel):
-    status: Literal["declined", "dispatched", "delivered", "delivery_issue"]
+    status: Literal["declined", "preparing", "dispatched", "delivered", "delivery_issue"]
     note: str = Field(default="", max_length=500)
 
 
@@ -102,6 +105,20 @@ class TrackingStatus(PublicModel):
     reference: str
     status: str
     updated_at: datetime
+
+
+class CatalogDraft(PublicModel):
+    """Known source identity only; never a priced or purchasable variant."""
+
+    sku: str = Field(pattern=r"^[A-Za-z0-9_-]{1,64}$")
+    slug: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    name: str = Field(min_length=1, max_length=200)
+    description: str = Field(default="", max_length=5000)
+    mode: Literal["fresh", "packaged"]
+    category: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$", max_length=80)
+    tags: list[str] = Field(default_factory=list, max_length=20)
+    dietary: Literal["veg", "non-veg", "unconfirmed"] = "unconfirmed"
+    image: str = Field(default="", pattern=r"^(?:/images/live/[a-z0-9-]+\.webp)?$")
 
 
 class VariantInput(PublicModel):

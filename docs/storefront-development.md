@@ -26,8 +26,9 @@ npm ci
 npm run dev
 ```
 
-Open `http://127.0.0.1:3000`. FastAPI listens on loopback port 8000;
-PostgreSQL uses loopback port 54339. The API entry point explicitly selects
+Open `http://127.0.0.1:3501`. FastAPI listens on loopback port 8500;
+PostgreSQL uses loopback port 55450 and Redis uses 6450. The separate persistent
+Docker preview uses web port 3500. The API entry point explicitly selects
 the event loop required by Psycopg on Windows. The defaults need no `.env` file.
 Use `CONTENT_API_URL` on the Next.js server and `DATABASE_URL` on the API when
 configuring another environment. Never use local fixture passwords in production.
@@ -39,8 +40,8 @@ The canonical origin is `https://patnampakodi.com`. Hosting/cutover is not confi
 
 ## Verification
 
-Keep ports 8010 and 3010 free for verification; normal development can remain on
-8000/3000. Keep PostgreSQL and Redis running. Install the pinned test browser once from `apps/web`:
+Keep ports 8510 and 3510 free for verification; normal development can remain on
+8500/3501. Keep PostgreSQL and Redis running. Install the pinned test browser once from `apps/web`:
 
 ```text
 npx playwright install chromium
@@ -85,14 +86,19 @@ For browser/SEO/performance reruns of the existing build:
 
 The request path is Next.js route → server-only content loader → generated
 schema → FastAPI dependency → service → PostgreSQL RLS. No seed JSON is imported
-by the running frontend. Named admins use the Content and Products editors.
+by the running frontend. Named admins manage food records in Products; website
+content management is absent from the admin panel.
 See [commerce operations](commerce-operations.md) for provisioning and the worker.
 
 The initial [content input](../apps/api/content/README.md) preserves existing
 database rows. `python -m app.seed --replace` explicitly replaces only matching
 seed keys; review that data before using it. Publication of packaged products
-requires complete food facts and a positive price. The current shop intentionally
-has no purchasable products. Menu prices, precise outlet addresses/hours, legal
+requires complete food facts and a positive price. Products includes a searchable
+setup list of 57 source foods and ready mixes with their recorded names and
+available product-specific artwork.
+The authenticated API derives these templates from the saved references; they are
+not purchasable variants. Confirm missing prices, food/tax details, stock and
+fresh preparation outlets before publication. Menu prices, precise outlet addresses/hours, legal
 policies and franchise terms still require business confirmation.
 
 After editing server schemas, run `uv run python -m app.export_openapi` from

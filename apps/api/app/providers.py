@@ -58,7 +58,7 @@ async def fixture_request(method, path, **kwargs):
     if not fixture_mode():
         raise RuntimeError("Provider fixture is disabled")
     async with httpx.AsyncClient(
-        base_url="http://fixture-provider:8000/v1/",
+        base_url="http://fixture-provider:8500/v1/",
         auth=("fixture", "local-fixture-only"),
         timeout=15,
     ) as client:

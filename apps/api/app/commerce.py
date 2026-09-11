@@ -90,17 +90,24 @@ def view(order):
     return OrderView.model_validate({key: order[key] for key in OrderView.model_fields})
 
 
-async def snapshot(conn, requested):
+async def snapshot(conn, requested, *, mode="packaged", outlet_slug="", check_stock=False):
     identifiers = [str(line.variant_id) for line in requested]
     if len(set(identifiers)) != len(identifiers):
         raise HTTPException(422, "Combine quantities for each product")
     result = []
     for line in sorted(requested, key=lambda item: str(item.variant_id)):
         variant = await one(
-            conn, "SELECT * FROM variants WHERE id=%s AND published", (line.variant_id,)
+            conn, "SELECT * FROM variants WHERE id=%s AND published FOR UPDATE", (line.variant_id,)
         )
         if not variant:
             raise HTTPException(409, "A product is no longer available")
+        product = variant["product"]
+        if product.get("mode", "packaged") != mode or (
+            mode == "fresh" and product.get("outlet_slug") != outlet_slug
+        ):
+            raise HTTPException(409, "Keep fresh and packaged products in their separate carts")
+        if check_stock and variant["stock"] - variant["reserved"] < line.quantity:
+            raise HTTPException(409, "Stock changed. Review your cart before paying.")
         result.append(
             QuoteLine(
                 variant_id=line.variant_id,
@@ -115,7 +122,7 @@ async def snapshot(conn, requested):
     return result
 
 
-async def create_request(conn, payload):
+async def create_request(conn, payload, *, shopping_mode="packaged", outlet_slug="", instant=False):
     data = payload.model_dump(mode="json")
     request_hash = digest(json.dumps(data, sort_keys=True))
     key = digest(str(payload.request_key))
@@ -128,7 +135,7 @@ async def create_request(conn, payload):
                 409, "This request has already been submitted with different details"
             )
         return existing, await token_for(conn, existing["id"])
-    lines = await snapshot(conn, payload.lines)
+    lines = await snapshot(conn, payload.lines, mode=shopping_mode, outlet_slug=outlet_slug)
     identifier = uuid.uuid4()
     alphabet = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
     reference = "PP-" + "".join(secrets.choice(alphabet) for _ in range(10))
@@ -136,8 +143,9 @@ async def create_request(conn, payload):
         conn,
         """
 INSERT INTO
-orders(id,brand_id,reference,request_key,request_hash,customer,lines,consent,consent_version)
-VALUES(%s,%s,%s,%s,%s,%s,%s,%s,'order-updates-2026-09') RETURNING *
+orders(id,brand_id,reference,request_key,request_hash,customer,lines,consent,consent_version,
+shopping_mode,checkout_kind)
+VALUES(%s,%s,%s,%s,%s,%s,%s,%s,'order-updates-2026-09',%s,%s) RETURNING *
 """,
         (
             identifier,
@@ -148,6 +156,8 @@ VALUES(%s,%s,%s,%s,%s,%s,%s,%s,'order-updates-2026-09') RETURNING *
             Jsonb(data["customer"]),
             Jsonb(lines),
             payload.whatsapp_consent,
+            shopping_mode,
+            "instant" if instant else "staff",
         ),
     )
     await audit(conn, "customer", "request.created", identifier, {"status": "requested"})
@@ -160,8 +170,10 @@ def tax_amount(gross, rate):
     )
 
 
-async def approve(conn, order_id, delivery, actor):
+async def approve(conn, order_id, delivery, actor, *, instant=False):
     order = await order_by_id(conn, order_id)
+    if order["checkout_kind"] == "instant" and not instant:
+        raise HTTPException(409, "Instant checkout totals are calculated at checkout")
     if order["status"] not in {"requested", "approved"}:
         raise HTTPException(409, "Only unpaid requests can be approved")
     record = await one(conn, "SELECT data FROM settings WHERE brand_id=%s", (BRAND,))
@@ -178,6 +190,8 @@ async def approve(conn, order_id, delivery, actor):
             CartLine(variant_id=line["variant_id"], quantity=line["quantity"])
             for line in order["lines"]
         ],
+        mode=order["shopping_mode"],
+        outlet_slug=order["fulfilment"].get("outlet_slug", ""),
     )
     total = sum(line["price_paise"] * line["quantity"] for line in lines) + delivery
     if total > 100000000:
@@ -214,7 +228,8 @@ WHERE id=%s RETURNING *
             "version": updated["quote_version"],
         },
     )
-    await notify(conn, updated, "approved_" + str(updated["quote_version"]))
+    if not instant:
+        await notify(conn, updated, "approved_" + str(updated["quote_version"]))
     return updated
 
 
@@ -241,9 +256,7 @@ async def reserve(conn, order):
             (line["quantity"], line["variant_id"], line["quantity"]),
         )
         if not changed:
-            raise HTTPException(
-                409, "Stock changed. Ask staff to review your request before paying."
-            )
+            raise HTTPException(409, "Stock changed. Review your cart before paying.")
     await conn.execute(
         """
 UPDATE orders SET reservation_active=true,reserved_until=now()+interval '15
@@ -269,8 +282,15 @@ async def begin_payment(conn, order, version):
         or order["quote_expires_at"] <= datetime.now(UTC)
     ):
         raise HTTPException(
-            409, "The quote is unavailable or expired. Ask staff to confirm it again."
+            409,
+            "The checkout review expired. Return to your cart to review the total."
+            if order["checkout_kind"] == "instant"
+            else "The quote is unavailable or expired. Ask staff to confirm it again.",
         )
+    if order["checkout_kind"] == "instant":
+        from app.checkout import validate_payment
+
+        await validate_payment(conn, order)
     await reserve(conn, order)
     payment = await one(
         conn,
@@ -324,11 +344,14 @@ VALUES(%s,%s,%s,%s,%s,%s)
     return identifier
 
 
-async def cancel(conn, order, actor):
+async def cancel(conn, order, actor, *, allow_preparing=False):
     if order["status"] in {"cancelled", "refund_pending", "refunded", "declined"}:
         return order
-    if order["status"] not in {"requested", "approved", "payment_pending", "paid"}:
-        raise HTTPException(409, "This order has been dispatched. Contact support for help.")
+    preparing = order["status"] == "preparing" and order["shopping_mode"] == "fresh"
+    if order["status"] not in {"requested", "approved", "payment_pending", "paid"} and not (
+        allow_preparing and preparing
+    ):
+        raise HTTPException(409, "Preparation or delivery has started. Contact support for help.")
     await release_stock(conn, order)
     if order["status"] == "paid":
         # Captured stock is returned only for this serialized physical cancellation.
@@ -337,6 +360,8 @@ async def cancel(conn, order, actor):
                 "UPDATE variants SET stock=stock+%s WHERE id=%s",
                 (line["quantity"], line["variant_id"]),
             )
+    if order["status"] == "paid" or preparing:
+        # Food already being prepared is not automatically returned to sellable stock.
         used = await one(
             conn,
             "SELECT COALESCE(sum(amount),0) AS amount, "
@@ -346,7 +371,15 @@ async def cancel(conn, order, actor):
         )
         remaining = order["total_paise"] - used["amount"]
         if remaining:
-            await refund(conn, order, remaining, "Pre-dispatch cancellation", actor)
+            await refund(
+                conn,
+                order,
+                remaining,
+                "Staff cancellation during preparation"
+                if preparing
+                else "Pre-dispatch cancellation",
+                actor,
+            )
         status = "refunded" if used["processed"] == order["total_paise"] else "refund_pending"
     else:
         status = "cancelled"
@@ -366,7 +399,8 @@ async def set_status(conn, order_id, change, actor):
     order = await order_by_id(conn, order_id)
     allowed = {
         "declined": {"requested", "approved"},
-        "dispatched": {"paid"},
+        "preparing": {"paid"} if order["shopping_mode"] == "fresh" else set(),
+        "dispatched": {"preparing"} if order["shopping_mode"] == "fresh" else {"paid"},
         "delivered": {"dispatched", "delivery_issue"},
         "delivery_issue": {"dispatched"},
     }

@@ -1,176 +1,200 @@
 import { getCatalog } from "@/lib/catalog";
-import { money } from "@/lib/commerce";
-import { AddToCart } from "@/components/CommerceForms";
-import { ProductImage } from "@/components/ProductImage";
-import { SiteLink } from "@/components/SiteLink";
 import { normalizeCatalogQuery } from "@/lib/catalog-query.mjs";
-
+import { SiteLink } from "./SiteLink";
+import { ProductCard } from "./ProductCard";
+import { DeliveryCheck } from "./DeliveryCheck";
+import { CatalogFilters } from "./CatalogFilters";
+import { Icon } from "./Icon";
+import type { ShoppingMode } from "@/lib/shopping";
 export const label = (slug: string) =>
   slug
     .split("-")
     .map((word) => word[0]?.toUpperCase() + word.slice(1))
     .join(" ");
-
 export async function CatalogBrowser({
   query,
   category = "",
   tag = "",
+  mode = "packaged",
 }: {
   query: Record<string, string | string[] | undefined>;
   category?: string;
   tag?: string;
+  mode?: ShoppingMode;
 }) {
   const filters = normalizeCatalogQuery({
     ...query,
     ...(category ? { category } : {}),
     ...(tag ? { tag } : {}),
   });
-  const all = await getCatalog();
-  const products = await getCatalog(filters);
+  const [all, products] = await Promise.all([
+    getCatalog({ mode: category || tag ? undefined : mode }),
+    getCatalog({ ...filters, mode: category || tag ? undefined : mode }),
+  ]);
   const categories = [
-    ...new Set(
-      all
-        .map((item) => item.product.category)
-        .filter((value): value is string => Boolean(value)),
-    ),
+    ...new Set(all.map((item) => item.product.category).filter(Boolean)),
   ].sort();
   const path = category
     ? `/product-category/${category}/`
     : tag
       ? `/product-tag/${tag}/`
-      : "/shop/";
+      : mode === "fresh"
+        ? "/menu/"
+        : "/shop/";
   return (
-    <section className="container section catalog-page">
-      <nav aria-label="Breadcrumb">
-        <SiteLink href="/">Home</SiteLink> /{" "}
-        <SiteLink href="/shop/">Shop</SiteLink>
-        {(category || tag) && ` / ${label(category || tag)}`}
+    <section className="container shop-page">
+      <nav className="store-breadcrumb" aria-label="Breadcrumb">
+        <SiteLink href="/">Home</SiteLink>
+        <Icon name="chevron" />
+        <span>
+          {category || tag
+            ? label(category || tag)
+            : mode === "fresh"
+              ? "Order fresh"
+              : "Shop packaged"}
+        </span>
       </nav>
-      <h1>{category || tag ? label(category || tag) : "Shop"}</h1>
-      <form method="get" className="actions catalog-filters" action={path}>
-        {!tag && filters.tag && (
-          <input type="hidden" name="tag" value={filters.tag} />
-        )}
-        <label className="field">
-          Search products
-          <input
-            name="q"
-            type="search"
-            defaultValue={filters.q}
-            maxLength={100}
-          />
-        </label>
-        {!category && (
-          <label className="field">
-            Category
-            <select name="category" defaultValue={filters.category}>
-              <option value="">All categories</option>
-              {categories.map((value) => (
-                <option key={value} value={value}>
-                  {label(value)}
-                </option>
+      <div className="shop-heading">
+        <div>
+          <h1>
+            {category || tag
+              ? label(category || tag)
+              : mode === "fresh"
+                ? "Order fresh pakodi."
+                : "Shop packaged favourites."}
+          </h1>
+          <p>
+            {mode === "fresh"
+              ? "Explore the menu. Choose your bites. We’ll take care of the cooking."
+              : "Your favourite pakodi flavours, ready for your own kitchen."}
+          </p>
+        </div>
+        <DeliveryCheck mode={mode} />
+      </div>
+      <div className="catalog-layout">
+        <CatalogFilters>
+          <form method="get" action={path} className="form-stack">
+            {tag && <input type="hidden" name="tag" value={tag} />}
+            <label className="field">
+              Search products
+              <input
+                name="q"
+                type="search"
+                defaultValue={filters.q}
+                maxLength={100}
+                placeholder="What sounds good?"
+              />
+            </label>
+            {!category && (
+              <label className="field">
+                Category
+                <select name="category" defaultValue={filters.category}>
+                  <option value="">All categories</option>
+                  {categories.map((value) => (
+                    <option key={value} value={value}>
+                      {label(value)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <label className="field">
+              Dietary preference
+              <select name="dietary" defaultValue={filters.dietary}>
+                <option value="">All products</option>
+                <option value="veg">Vegetarian</option>
+                <option value="non-veg">Non-vegetarian</option>
+              </select>
+            </label>
+            <label className="field">
+              Maximum price in INR
+              <input
+                name="max"
+                type="number"
+                min="0"
+                step="0.01"
+                defaultValue={
+                  filters.max_price == null ? "" : filters.max_price / 100
+                }
+              />
+            </label>
+            <label className="field">
+              Shop order
+              <select name="sort" defaultValue={filters.sort}>
+                <option value="default">Default sorting</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="name">Name: A to Z</option>
+              </select>
+            </label>
+            <button className="button">Apply filters</button>
+            <a href={path} className="reset-link">
+              Reset filters
+            </a>
+          </form>
+        </CatalogFilters>
+        <div>
+          <div className="catalog-results">
+            <p role="status">
+              {products.length} {products.length === 1 ? "result" : "results"}
+              {filters.q && <> for “{filters.q}”</>}
+            </p>
+            <SiteLink href={`/cart/?mode=${mode}`}>
+              View cart <Icon name="arrow" />
+            </SiteLink>
+          </div>
+          {(filters.q ||
+            filters.category ||
+            filters.dietary ||
+            filters.max_price != null) && (
+            <div className="active-filters">
+              {[
+                filters.q,
+                filters.category && label(filters.category),
+                filters.dietary &&
+                  (filters.dietary === "veg" ? "Vegetarian" : "Non-vegetarian"),
+                filters.max_price != null &&
+                  `Up to ₹${filters.max_price / 100}`,
+              ]
+                .filter(Boolean)
+                .map((value) => (
+                  <span key={String(value)}>{value}</span>
+                ))}
+              <a href={path}>Clear all</a>
+            </div>
+          )}
+          {products.length ? (
+            <div className="store-product-grid">
+              {products.map((item) => (
+                <ProductCard item={item} key={item.id} headingLevel={2} />
               ))}
-            </select>
-          </label>
-        )}
-        <label className="field">
-          Dietary preference
-          <select name="dietary" defaultValue={filters.dietary}>
-            <option value="">All products</option>
-            <option value="veg">Vegetarian</option>
-            <option value="non-veg">Non-vegetarian</option>
-          </select>
-        </label>
-        <label className="field">
-          Maximum price in INR
-          <input
-            name="max"
-            type="number"
-            min="0"
-            step="0.01"
-            defaultValue={
-              filters.max_price == null ? "" : filters.max_price / 100
-            }
-          />
-        </label>
-        <label className="field">
-          Shop order
-          <select name="sort" defaultValue={filters.sort}>
-            <option value="default">Default sorting</option>
-            <option value="price-asc">Sort by price: low to high</option>
-            <option value="price-desc">Sort by price: high to low</option>
-            <option value="name">Sort by name</option>
-          </select>
-        </label>
-        <button className="button button-small">Apply filters</button>
-        <a href={path}>Reset filters</a>
-      </form>
-      <p role="status">
-        Showing {products.length} {products.length === 1 ? "result" : "results"}
-      </p>
-      <p>
-        Our team confirms delivery and the final total before you pay.{" "}
-        <SiteLink href="/cart/">View cart</SiteLink>
-      </p>
-      {products.length ? (
-        <div className="product-grid">
-          {products.map((item) => (
-            <article className="panel" key={item.id}>
-              {(item.media_id || item.product.image) && (
-                <a
-                  href={`/product/${item.product.slug}/`}
-                  aria-label={item.product.name}
-                >
-                  <ProductImage variant={item} />
-                </a>
-              )}
-              {item.product.category && (
-                <a href={`/product-category/${item.product.category}/`}>
-                  {label(item.product.category)}
-                </a>
-              )}
+            </div>
+          ) : (
+            <div className="store-empty">
+              <Icon name={all.length ? "search" : "box"} />
               <h2>
-                <a href={`/product/${item.product.slug}/`}>
-                  {item.product.name}
-                </a>
+                {all.length
+                  ? "No products match these filters"
+                  : mode === "fresh"
+                    ? "Fresh ordering is on its way"
+                    : "We’re preparing our packaged range"}
               </h2>
               <p>
-                {item.product.dietary === "veg"
-                  ? "Vegetarian"
-                  : "Non-vegetarian"}{" "}
-                · {item.product.net_quantity}
+                {all.length
+                  ? "Try another search or clear your filters to explore the range."
+                  : "We’re confirming the range and delivery details. In the meantime, explore Patnam Pakodi at an outlet near you."}
               </p>
-              <p>
-                {item.product.compare_at_price_paise &&
-                item.product.compare_at_price_paise >
-                  item.product.price_paise ? (
-                  <>
-                    <span className="sr-only">Original price </span>
-                    <del>{money(item.product.compare_at_price_paise)}</del>{" "}
-                    <span className="sr-only">Current price </span>
-                  </>
-                ) : null}
-                <strong>{money(item.product.price_paise)}</strong>
-              </p>
-              <AddToCart variant={item} />
-            </article>
-          ))}
+              <SiteLink
+                className="button button-outline"
+                href={all.length ? path : "/branches/"}
+              >
+                {all.length ? "Clear filters" : "Find a branch"}
+                <Icon name="arrow" />
+              </SiteLink>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="panel">
-          <h2>
-            {all.length
-              ? "No products match these filters"
-              : "We’re preparing our packaged range"}
-          </h2>
-          <p>
-            {all.length
-              ? "Reset the filters to see all products."
-              : "Products will appear here once their food information and prices are confirmed."}
-          </p>
-          <SiteLink href="/menu/">Explore the fresh-food menu</SiteLink>
-        </div>
-      )}
+      </div>
     </section>
   );
 }

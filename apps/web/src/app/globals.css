@@ -1,4 +1,4 @@
-@layer reset, base, components, commerce, responsive;
+@layer reset, base, components, commerce, responsive, store, admin;
 
 @layer reset {
   *,
@@ -131,7 +131,7 @@
     background: var(--brown);
     color: white;
     padding: 12px 24px;
-    z-index: 30;
+    z-index: 60;
   }
   .skip-link:focus {
     top: 16px;

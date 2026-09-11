@@ -21,6 +21,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/catalog-drafts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Catalog Drafts */
+        get: operations["catalog_drafts_v1_admin_catalog_drafts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/content": {
         parameters: {
             query?: never;
@@ -101,6 +118,24 @@ export interface paths {
         put?: never;
         /** Enquiry Status */
         post: operations["enquiry_status_v1_admin_enquiries__identifier__status_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/fulfilment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Fulfilment */
+        get: operations["get_fulfilment_v1_admin_fulfilment_get"];
+        /** Put Fulfilment */
+        put: operations["put_fulfilment_v1_admin_fulfilment_put"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -536,6 +571,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/checkout/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Checkout Order */
+        post: operations["checkout_order_v1_checkout_orders_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/checkout/quote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Checkout Quote */
+        post: operations["checkout_quote_v1_checkout_quote_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/enquiries": {
         parameters: {
             query?: never;
@@ -724,6 +793,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/serviceability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Serviceability */
+        get: operations["serviceability_v1_serviceability_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/storefront": {
         parameters: {
             query?: never;
@@ -886,6 +972,98 @@ export interface components {
             variant_id: string;
         };
         /**
+         * CatalogDraft
+         * @description Known source identity only; never a priced or purchasable variant.
+         */
+        CatalogDraft: {
+            /** Category */
+            category: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Dietary
+             * @default unconfirmed
+             * @enum {string}
+             */
+            dietary: "veg" | "non-veg" | "unconfirmed";
+            /**
+             * Image
+             * @default
+             */
+            image: string;
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "fresh" | "packaged";
+            /** Name */
+            name: string;
+            /** Sku */
+            sku: string;
+            /** Slug */
+            slug: string;
+            /** Tags */
+            tags: string[];
+        };
+        /** CheckoutOrderRequest */
+        CheckoutOrderRequest: {
+            customer: components["schemas"]["Address"];
+            /** Lines */
+            lines: components["schemas"]["CartLine"][];
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
+            /** Quote Token */
+            quote_token: string;
+            /**
+             * Request Key
+             * Format: uuid
+             */
+            request_key: string;
+            /**
+             * Whatsapp Consent
+             * @default false
+             */
+            whatsapp_consent: boolean;
+        };
+        /** CheckoutQuote */
+        CheckoutQuote: {
+            /** Delivery Paise */
+            delivery_paise: number;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+            fulfilment: components["schemas"]["Serviceability"];
+            /** Lines */
+            lines: components["schemas"]["QuoteLine"][];
+            /** Quote Token */
+            quote_token: string;
+            /** Tax */
+            tax: {
+                [key: string]: number;
+            };
+            /** Total Paise */
+            total_paise: number;
+        };
+        /** CheckoutQuoteRequest */
+        CheckoutQuoteRequest: {
+            customer: components["schemas"]["Address"];
+            /** Lines */
+            lines: components["schemas"]["CartLine"][];
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
+        };
+        /**
          * ContentBlock
          * @description Semantic editorial content, never HTML, CSS or executable attributes.
          */
@@ -1004,6 +1182,20 @@ export interface components {
             /** Slug */
             slug: string;
         };
+        /** DeliveryRule */
+        DeliveryRule: {
+            /** Fee Paise */
+            fee_paise: number;
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
+            /** Pincode */
+            pincode: string;
+            /** State Code */
+            state_code: string;
+        };
         /** EnquiryDetails */
         EnquiryDetails: {
             /**
@@ -1119,6 +1311,64 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** FulfilmentSettings */
+        "FulfilmentSettings-Input": {
+            /**
+             * Fresh Enabled
+             * @default false
+             */
+            fresh_enabled: boolean;
+            /**
+             * Fresh Paused
+             * @default false
+             */
+            fresh_paused: boolean;
+            /** Hours */
+            hours?: components["schemas"]["OpeningWindow"][];
+            /**
+             * Outlet Slug
+             * @default
+             */
+            outlet_slug: string;
+            /**
+             * Packaged Enabled
+             * @default false
+             */
+            packaged_enabled: boolean;
+            /** Preparation Minutes */
+            preparation_minutes?: number | null;
+            /** Rules */
+            rules?: components["schemas"]["DeliveryRule"][];
+        };
+        /** FulfilmentSettings */
+        "FulfilmentSettings-Output": {
+            /**
+             * Fresh Enabled
+             * @default false
+             */
+            fresh_enabled: boolean;
+            /**
+             * Fresh Paused
+             * @default false
+             */
+            fresh_paused: boolean;
+            /** Hours */
+            hours: components["schemas"]["OpeningWindow"][];
+            /**
+             * Outlet Slug
+             * @default
+             */
+            outlet_slug: string;
+            /**
+             * Packaged Enabled
+             * @default false
+             */
+            packaged_enabled: boolean;
+            /** Preparation Minutes */
+            preparation_minutes: number | null;
+            /** Rules */
+            rules: components["schemas"]["DeliveryRule"][];
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -1187,6 +1437,18 @@ export interface components {
             /** Slug */
             slug: string;
         };
+        /** OpeningWindow */
+        OpeningWindow: {
+            /** Closes */
+            closes: string;
+            /**
+             * Day
+             * @description Monday=0, Sunday=6; Asia/Kolkata
+             */
+            day: number;
+            /** Opens */
+            opens: string;
+        };
         /** OperationCheck */
         OperationCheck: {
             /**
@@ -1226,6 +1488,12 @@ export interface components {
         };
         /** OrderView */
         OrderView: {
+            /**
+             * Checkout Kind
+             * @default staff
+             * @enum {string}
+             */
+            checkout_kind: "staff" | "instant";
             /** Consent */
             consent: boolean;
             /**
@@ -1236,6 +1504,10 @@ export interface components {
             customer: components["schemas"]["Address"];
             /** Delivery Paise */
             delivery_paise: number;
+            /** Fulfilment */
+            fulfilment: {
+                [key: string]: string | number;
+            };
             /**
              * Id
              * Format: uuid
@@ -1253,6 +1525,12 @@ export interface components {
             quote_version: number;
             /** Reference */
             reference: string;
+            /**
+             * Shopping Mode
+             * @default packaged
+             * @enum {string}
+             */
+            shopping_mode: "packaged" | "fresh";
             /** Status */
             status: string;
             /** Tax */
@@ -1380,17 +1658,34 @@ export interface components {
             image: string;
             /** Ingredients */
             ingredients: string;
-            /** Manufacturer */
+            /**
+             * Manufacturer
+             * @default
+             */
             manufacturer: string;
+            /**
+             * Mode
+             * @default packaged
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
             /** Name */
             name: string;
             /** Net Quantity */
             net_quantity: string;
             /** Nutrition */
             nutrition: string;
+            /**
+             * Outlet Slug
+             * @default
+             */
+            outlet_slug: string;
             /** Price Paise */
             price_paise: number;
-            /** Shelf Life */
+            /**
+             * Shelf Life
+             * @default
+             */
             shelf_life: string;
             /** Slug */
             slug: string;
@@ -1424,17 +1719,34 @@ export interface components {
             image: string;
             /** Ingredients */
             ingredients: string;
-            /** Manufacturer */
+            /**
+             * Manufacturer
+             * @default
+             */
             manufacturer: string;
+            /**
+             * Mode
+             * @default packaged
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
             /** Name */
             name: string;
             /** Net Quantity */
             net_quantity: string;
             /** Nutrition */
             nutrition: string;
+            /**
+             * Outlet Slug
+             * @default
+             */
+            outlet_slug: string;
             /** Price Paise */
             price_paise: number;
-            /** Shelf Life */
+            /**
+             * Shelf Life
+             * @default
+             */
             shelf_life: string;
             /** Slug */
             slug: string;
@@ -1597,6 +1909,36 @@ export interface components {
             /** Title */
             title: string;
         };
+        /** Serviceability */
+        Serviceability: {
+            /** Available */
+            available: boolean;
+            /** Delivery Paise */
+            delivery_paise: number | null;
+            /** Hours */
+            hours: components["schemas"]["OpeningWindow"][];
+            /** Message */
+            message: string;
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "packaged" | "fresh";
+            /**
+             * Outlet Name
+             * @default
+             */
+            outlet_name: string;
+            /**
+             * Outlet Slug
+             * @default
+             */
+            outlet_slug: string;
+            /** Preparation Minutes */
+            preparation_minutes: number | null;
+            /** State Code */
+            state_code: string | null;
+        };
         /** SessionView */
         SessionView: {
             /** Csrf Token */
@@ -1628,7 +1970,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "declined" | "dispatched" | "delivered" | "delivery_issue";
+            status: "declined" | "preparing" | "dispatched" | "delivered" | "delivery_issue";
         };
         /** StockChange */
         StockChange: {
@@ -1764,6 +2106,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Health"];
+                };
+            };
+        };
+    };
+    catalog_drafts_v1_admin_catalog_drafts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CatalogDraft"][];
                 };
             };
         };
@@ -1942,6 +2304,59 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ActionResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_fulfilment_v1_admin_fulfilment_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FulfilmentSettings-Output"];
+                };
+            };
+        };
+    };
+    put_fulfilment_v1_admin_fulfilment_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FulfilmentSettings-Input"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FulfilmentSettings-Output"];
                 };
             };
             /** @description Validation Error */
@@ -2763,6 +3178,7 @@ export interface operations {
                 dietary?: "" | "veg" | "non-veg";
                 max_price?: number | null;
                 sort?: "default" | "price-asc" | "price-desc" | "name";
+                mode?: "" | "packaged" | "fresh";
             };
             header?: never;
             path?: never;
@@ -2777,6 +3193,72 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["VariantView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    checkout_order_v1_checkout_orders_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckoutOrderRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RequestReceipt"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    checkout_quote_v1_checkout_quote_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckoutQuoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CheckoutQuote"];
                 };
             };
             /** @description Validation Error */
@@ -3117,6 +3599,38 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Product-Output"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    serviceability_v1_serviceability_get: {
+        parameters: {
+            query?: {
+                mode?: "packaged" | "fresh";
+                pincode?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Serviceability"];
                 };
             };
             /** @description Validation Error */

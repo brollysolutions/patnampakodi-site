@@ -18,11 +18,19 @@ from psycopg.types.json import Jsonb
 from pydantic import ValidationError
 from starlette.concurrency import run_in_threadpool
 
-from app import commerce
+from app import checkout, commerce
+from app.checkout_schemas import (
+    CheckoutOrderRequest,
+    CheckoutQuote,
+    CheckoutQuoteRequest,
+    FulfilmentSettings,
+    Serviceability,
+)
 from app.commerce_schemas import (
     ActionResult,
     Approve,
     BusinessSettings,
+    CatalogDraft,
     ContentView,
     ContentWrite,
     EnquiryDetails,
@@ -113,15 +121,78 @@ async def catalog(
     dietary: Literal["", "veg", "non-veg"] = "",
     max_price: int | None = Query(default=None, ge=0, le=100000000),
     sort: Literal["default", "price-asc", "price-desc", "name"] = "default",
+    mode: Literal["", "packaged", "fresh"] = "",
 ):
     from app.catalog import search_catalog
 
     return [
         variant_view(row)
         for row in await search_catalog(
-            conn, q=q, category=category, tag=tag, dietary=dietary, max_price=max_price, sort=sort
+            conn,
+            q=q,
+            category=category,
+            tag=tag,
+            dietary=dietary,
+            max_price=max_price,
+            sort=sort,
+            mode=mode,
         )
     ]
+
+
+@router.get("/serviceability", response_model=Serviceability)
+async def serviceability(
+    conn: DB,
+    request: Request,
+    mode: Literal["packaged", "fresh"] = "packaged",
+    pincode: str = Query(default="", pattern=r"^(?:[1-9][0-9]{5})?$"),
+):
+    await rate_request(request, "serviceability", 120)
+    return await checkout.availability(conn, mode, pincode)
+
+
+@router.post("/checkout/quote", response_model=CheckoutQuote)
+async def checkout_quote(payload: CheckoutQuoteRequest, request: Request, conn: DB):
+    same_origin(request)
+    await rate_request(request, "checkout-quote", 30)
+    return await checkout.quote(conn, payload)
+
+
+@router.post("/checkout/orders", response_model=RequestReceipt, status_code=201)
+async def checkout_order(payload: CheckoutOrderRequest, request: Request, conn: DB):
+    same_origin(request)
+    await rate_request(request, "request-order", 20)
+    await limit("order-phone:" + payload.customer.phone, 5, 3600)
+    order, token = await checkout.create(conn, payload)
+    return RequestReceipt(reference=order["reference"], access_token=token, status=order["status"])
+
+
+@router.get("/admin/fulfilment", response_model=FulfilmentSettings)
+async def get_fulfilment(conn: DB, actor: Admin):
+    return await checkout.configuration(conn)
+
+
+@router.put("/admin/fulfilment", response_model=FulfilmentSettings)
+async def put_fulfilment(payload: FulfilmentSettings, conn: DB, actor: Admin):
+    if payload.outlet_slug and not await one(
+        conn,
+        "SELECT slug FROM content_records WHERE kind='outlet' AND slug=%s AND published",
+        (payload.outlet_slug,),
+    ):
+        raise HTTPException(422, "Select a published outlet")
+    await conn.execute(
+        "INSERT INTO fulfilment_settings(brand_id,data) VALUES(%s,%s) "
+        "ON CONFLICT(brand_id) DO UPDATE SET data=excluded.data",
+        (BRAND, Jsonb(payload.model_dump())),
+    )
+    await commerce.audit(
+        conn,
+        actor["id"],
+        "fulfilment.updated",
+        BRAND,
+        {"after": payload.model_dump()},
+    )
+    return payload
 
 
 @router.post("/orders", response_model=RequestReceipt, status_code=201)
@@ -141,6 +212,8 @@ async def get_order(request: Request, conn: DB):
 @router.put("/order", response_model=OrderView)
 async def revise_order(payload: OrderRequest, request: Request, conn: DB):
     order = await private_order(request, conn, True)
+    if order["checkout_kind"] == "instant":
+        raise HTTPException(409, "Return to your cart to review a new checkout")
     if order["status"] not in {"requested", "approved"}:
         raise HTTPException(409, "This order can no longer be edited")
     lines = await commerce.snapshot(conn, payload.lines)
@@ -402,7 +475,9 @@ async def status_order(order_id: uuid.UUID, payload: StatusChange, conn: DB, act
 @router.post("/admin/orders/{order_id}/cancel", response_model=OrderView)
 async def cancel_order(order_id: uuid.UUID, conn: DB, actor: Admin):
     return commerce.view(
-        await commerce.cancel(conn, await commerce.order_by_id(conn, order_id), actor["id"])
+        await commerce.cancel(
+            conn, await commerce.order_by_id(conn, order_id), actor["id"], allow_preparing=True
+        )
     )
 
 
@@ -446,6 +521,13 @@ async def recover_link(order_id: uuid.UUID, conn: DB, actor: Admin):
     )
 
 
+@router.get("/admin/catalog-drafts", response_model=list[CatalogDraft])
+async def catalog_drafts(conn: DB, actor: Admin):
+    from app.catalog_drafts import pending_catalog
+
+    return await pending_catalog(conn)
+
+
 @router.get("/admin/variants", response_model=list[VariantView])
 async def variants(conn: DB, actor: Admin):
     return [
@@ -464,6 +546,19 @@ async def save_variant(conn, identifier, payload, actor):
         raise HTTPException(
             409, "Published product paths are permanent; create a new variant instead"
         )
+    if previous and (
+        previous["product"].get("mode", "packaged") != payload.product.mode
+        or previous["product"].get("outlet_slug", "") != payload.product.outlet_slug
+    ):
+        raise HTTPException(
+            409, "A product's shopping mode and outlet cannot change; create a new product"
+        )
+    if payload.product.mode == "fresh" and not await one(
+        conn,
+        "SELECT slug FROM content_records WHERE kind='outlet' AND slug=%s AND published",
+        (payload.product.outlet_slug,),
+    ):
+        raise HTTPException(422, "Select a published outlet for this fresh product")
     record = await one(
         conn,
         """
@@ -567,7 +662,8 @@ LEGACY_CSV_FIELDS = [
 ]
 
 
-CSV_FIELDS = LEGACY_CSV_FIELDS + ["category", "tags", "image", "compare_at_price_paise"]
+DISCOVERY_CSV_FIELDS = LEGACY_CSV_FIELDS + ["category", "tags", "image", "compare_at_price_paise"]
+CSV_FIELDS = DISCOVERY_CSV_FIELDS + ["mode", "outlet_slug"]
 
 
 @router.get("/admin/products.csv")
@@ -607,7 +703,7 @@ async def import_products(request: Request, conn: DB, actor: Admin):
     try:
         text = (await request.body()).decode("utf-8-sig")
         reader = csv.DictReader(io.StringIO(text))
-        if reader.fieldnames not in (CSV_FIELDS, LEGACY_CSV_FIELDS):
+        if reader.fieldnames not in (CSV_FIELDS, DISCOVERY_CSV_FIELDS, LEGACY_CSV_FIELDS):
             raise ValueError("Use the exported column headings")
         imported = list(reader)
         if not 1 <= len(imported) <= 1000:
@@ -638,7 +734,7 @@ async def import_products(request: Request, conn: DB, actor: Admin):
             existing = await one(
                 conn, "SELECT id,media_id,product FROM variants WHERE sku=%s", (row["sku"].strip(),)
             )
-            if existing and reader.fieldnames == LEGACY_CSV_FIELDS:
+            if existing and reader.fieldnames != CSV_FIELDS:
                 product = {**existing["product"], **product}
             payload = VariantInput(
                 sku=row["sku"],
