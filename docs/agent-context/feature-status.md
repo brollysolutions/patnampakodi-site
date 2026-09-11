@@ -1,5 +1,51 @@
 # Feature status
 
+## PR #11 upstream integration - 2026-09-11
+
+PR #10 is merged into upstream/main at f93edde, following PRs #8 and #9.
+Item 13 conflicts are resolved in the existing
+[PR #11](https://github.com/brollysolutions/patnampakodi-site/pull/11).
+Only the two implementation records conflict. The resolution preserves both
+upstream and staging history; all code, tests, contracts, migrations, Docker
+configuration and CI match the previous staging head d198c04.
+Acceptance: current upstream/main is an ancestor, the same PR receives a normal
+push and GitHub reports no conflicts. No additional feature, PR or deployment.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh workflow verification passes 110 tests, 22-skill
+parity and shell syntax. Diff review confirms only these two records differ
+from d198c04 and no conflict markers remain. Delivery hooks run the API/web
+fast gate; full browser/Lighthouse/Docker acceptance remains a CI check.
+Next priority: review PR #11 with its existing performance and operator gates.
+
+Previous-head Linux CI 34543506150 passed functional checks and independent
+Docker checkout/recovery/refund acceptance, but contact-mobile performance
+failed (91, LCP 2554 ms, TBT 296 ms). PR #11 remains draft for that separate
+failure; budgets and the failed-gate result are preserved. Prior draft/pending
+statements below are historical and do not override the current merge status.
+
+
+## PR #10 upstream integration - 2026-09-11
+
+PR #9 is merged into upstream/main at 1544478, following PR #8. Item 12
+conflicts are resolved in the existing [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10).
+Only the two implementation records conflict; application code, tests, contracts,
+migrations and CI merge without changing the previous admin head e6a4b2b.
+Preserve the TOTP boundary regression, transaction tests, reporting behaviour and
+all performance budgets. Acceptance: the current base is an ancestor, the same
+PR is updated normally and GitHub reports no conflicts. No new feature or PR.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh workflow verification passes 106 tests, 22-skill
+parity and shell syntax. Diff review confirms only these two records differ
+from e6a4b2b and no conflict markers remain. The delivery hooks run the API/web
+fast gate; browser/Lighthouse acceptance remains a separate CI check.
+Next priority: review the updated PR #10 while retaining its performance gate.
+
+The PR remains draft: previous-head Linux CI 34542851812 passed functional
+checks but failed home/contact mobile performance. This integration does not
+resolve that separate failure. Earlier draft/pending statements below are
+historical checkpoints; current upstream state supersedes them.
+
+
 ## TOTP test boundary correction - 2026-09-11
 
 Three controlled rendering experiments were rejected: replacing Next Link,
@@ -84,6 +130,21 @@ launcher/budget tests; a fresh Linux gate remains required for this PR.
 
 
 CI diagnosis also proved chrome-launcher 1.2.1 adds --disable-setuid-sandbox on Linux. The Lighthouse wrapper preserves the pinned launcher defaults explicitly while omitting that implicit addition. Its regression reproduces the old launch flags and verifies sandbox preservation. Existing performance thresholds and throttling are unchanged; PRs #8/#9 now pass Ubuntu runtime acceptance. This staging PR awaits its own fresh Linux gate.
+## Current Linux performance diagnosis - 2026-09-11
+
+The pinned Chromium sandbox now launches successfully. Fork CI run
+34535340526 passes functional/browser/SEO/container checks but fails the unchanged
+mobile performance budgets: home performance 93 / TBT 265.5 ms; contact 91 /
+LCP 2579 ms / TBT 281.5 ms. Desktop medians are 100. Public rendering files
+are identical to the passing ecommerce head 000f945. That rules out a public
+source difference, but does not establish runner variation as the cause.
+The Lighthouse log now retains its CPU benchmark and, for failed observations,
+main-thread categories, script bootup and long tasks. It changes no measurement,
+budget, throttling or sandbox option. Fresh syntax and five launcher/budget tests
+pass. This diagnostic update remains draft until Linux acceptance is verified.
+
+
+CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox. Lighthouse now supplies every pinned default explicitly while avoiding that implicit flag, so the installed companion helper can be used. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No budgets or throttling changed; new Linux runtime/performance acceptance is pending.
 
 
 ## Admin completion — 2026-09-11
@@ -115,6 +176,78 @@ mode 4755 on the ephemeral runner and validates those properties before launch.
 Sandbox and budgets stay enabled; Bash syntax passes and Linux runtime evidence
 is pending. OpenAPI now explicitly writes LF; Windows generation was checked for
 stable LF bytes after a CRLF-only delivery-state mismatch on the catalog branch.
+
+## Earlier upstream integration history
+
+## PR #9 upstream integration - 2026-09-11
+
+PR #8 was merged into upstream/main at d5ab5c5. Item 11 conflicts are resolved in the existing [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9).
+The resolution reconciles the implementation records and retains both
+commit-before-response and rollback coverage. All application,
+contract, migration, frontend and CI files match the previous PR #9 head.
+Acceptance: upstream/main is an ancestor, no unresolved conflicts, retained tests
+pass and the same PR receives a normal push. No new feature or PR is introduced.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh API verification passes all 67 tests, lint/format, one
+migration head and unchanged generated contracts. The workflow gate passes
+106 tests, 22-skill parity and shell syntax. Diff review found no unresolved
+conflicts or code changes. Fresh browser/Lighthouse execution is left to CI;
+previous CI 34534816171 passed at 000f945 and is historical evidence.
+The next priority is PR #9 review, then the existing admin/staging PRs.
+Earlier draft/pending statements below describe historical checkpoints.
+
+
+## Earlier upstream verification history
+
+## Commit-before-response correction — 2026-09-11
+
+CI exposed an order-approval refresh failure. A deterministic ASGI regression
+observed HTTP 200 while another database connection still read `requested`.
+The commerce dependency now uses function scope so commit/rollback completes
+before the response starts. The same regression then reads `approved`; all eight
+targeted transaction/admin tests pass on the stacked admin branch. Full checks
+on this branch follow. Planning/implementation/security recommendation remains
+gpt-6-astra / Extra High; selected settings are unchanged.
+
+The catalog branch's Ubuntu CI passes browser/SEO/container smoke, then its
+Lighthouse subprocess exits before producing scores. Remove quiet logging to
+retain the launch diagnosis; no browser flags or budgets are relaxed. PR #8
+remains draft until full verification passes.
+
+## PR1 CI correction ? 2026-09-11
+
+Draft PR #8 is open at `efebb72`; its first fork CI passed all four workflow
+matrix jobs and 43 browser tests, but two no-JavaScript menu navigations timed
+out waiting for the whole page load. They now wait for DOMContentLoaded before
+asserting the same 51 cards, category/search behavior and reset. No assertion,
+timeout, performance budget or production behavior was relaxed. The same
+correction passes desktop/mobile/tablet within the next branch's fresh 48-test
+browser run. The full Ubuntu application/performance gate remains pending.
+
+
+CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox, preventing use of the installed companion helper. The Lighthouse runner now supplies every pinned default explicitly while avoiding that implicit flag. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No performance budgets or throttling changed. Fresh Linux runtime/performance acceptance is pending.
+
+
+## Catalog delivery and transaction follow-up — 2026-09-11
+
+Item 11 is delivered as draft [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9),
+initial commit `920a058`. Ubuntu passes 48 browser tests, technical SEO and Docker
+smoke, then Lighthouse exits before scores are produced. Launch logging is now
+enabled; the budgets and browser flags are unchanged. The shared transaction
+dependency now commits before HTTP success, with an ASGI regression proving
+the previous stale-read window. A rollback regression checks failure responses.
+This correction also ships in PR #8; admin reporting is the next slice.
+
+Verbose CI diagnostics identify Ubuntu AppArmor denying Chromium's sandbox
+startup. The runner's preinstalled helper failed its ownership/permissions check.
+CI now installs the companion helper from pinned Playwright Chromium 1243 as a
+root-owned mode-4755 file on that ephemeral runner, following Chromium's helper
+instructions. The runtime guard remains; no sandbox-disable flag, global AppArmor
+change, new package or performance-budget change is introduced. Bash syntax
+passes; Linux execution remains pending. Both transaction boundary/rollback tests
+pass locally. OpenAPI generation now explicitly writes LF, verified on Windows,
+to avoid generated-file line-ending changes during delivery.
+
 
 ## Ecommerce completion ? 2026-09-11
 
