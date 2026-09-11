@@ -1,5 +1,29 @@
 # Implementation plan
 
+## PR #11 upstream integration - 2026-09-11
+
+PR #10 is merged into upstream/main at f93edde, following PRs #8 and #9.
+Item 13 conflicts are resolved in the existing
+[PR #11](https://github.com/brollysolutions/patnampakodi-site/pull/11).
+Only the two implementation records conflict. The resolution preserves both
+upstream and staging history; all code, tests, contracts, migrations, Docker
+configuration and CI match the previous staging head d198c04.
+Acceptance: current upstream/main is an ancestor, the same PR receives a normal
+push and GitHub reports no conflicts. No additional feature, PR or deployment.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh workflow verification passes 110 tests, 22-skill
+parity and shell syntax. Diff review confirms only these two records differ
+from d198c04 and no conflict markers remain. Delivery hooks run the API/web
+fast gate; full browser/Lighthouse/Docker acceptance remains a CI check.
+Next priority: review PR #11 with its existing performance and operator gates.
+
+Previous-head Linux CI 34543506150 passed functional checks and independent
+Docker checkout/recovery/refund acceptance, but contact-mobile performance
+failed (91, LCP 2554 ms, TBT 296 ms). PR #11 remains draft for that separate
+failure; budgets and the failed-gate result are preserved. Prior draft/pending
+statements below are historical and do not override the current merge status.
+
+
 ## PR #10 upstream integration - 2026-09-11
 
 PR #9 is merged into upstream/main at 1544478, following PR #8. Item 12
@@ -44,8 +68,10 @@ to identify the remaining cause. No thresholds or throttling change.
 
 Admin delivery also closes the proven commit-before-response race and restores
 keyboard access to horizontally scrolling reports. Ubuntu Lighthouse now has
-diagnostics and the pinned Chromium companion SUID-helper configuration; successful Linux
-runtime/performance verification is still required.
+diagnostics, the pinned Chromium companion SUID helper and a launch configuration
+that preserves its sandbox. Linux runtime/performance verification passes for PRs #8 and #9;
+PR #10 passes functional checks but still fails mobile timing budgets. Staging uses a web-only entry bridge and an internal backend
+network; page metadata follows the existing deployment indexing policy.
 
 Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
 live site's copy, images, layout and permanent URLs with our existing Abril
@@ -81,9 +107,9 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 | --- | --- | --- | --- |
 | 10. Live-site content and franchise entry points (PR 1/4) | Merged in PR #8 at upstream d5ab5c5 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
 | 11. Complete customer ecommerce (PR 2/4) | Merged in PR #9 at upstream 1544478 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
-| 12. Complete admin and reporting (PR 3/4) | Conflicts resolved; workflow checks pass; remains draft for mobile performance | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
-| 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
-| 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+| 12. Complete admin and reporting (PR 3/4) | Merged in PR #10 at upstream f93edde; earlier performance failures remain recorded | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 13. Repeatable Docker staging acceptance (PR 4/4) | Conflicts resolved; workflow checks pass; remains draft for mobile performance | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 9. Approved commerce MVP and Docker handoff | Merged in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7) on 2026-09-10; fresh remote readback confirmed 2026-09-11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |
 | 2. Define website scope using the approved stack | Source reconciliation and phased decision brief delivered in [PR #6](https://github.com/brollysolutions/patnampakodi-site/pull/6); scope and visuals resolved by item 9; hosting remains a release input | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |

@@ -14,4 +14,5 @@
 docs
 **/playwright-report
 **/test-results
+**/test-results-staging
 apps/web/public/generated

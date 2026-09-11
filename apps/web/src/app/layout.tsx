@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header, Footer } from "@/components/Chrome";
-import { SITE_URL } from "@/lib/policy.mjs";
+import { indexable, SITE_URL } from "@/lib/policy.mjs";
 import "./globals.css";
 import "./commerce.css";
 import "./reference.css";
@@ -24,7 +24,7 @@ const body = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  robots: { index: true, follow: true },
+  robots: { index: indexable(process.env), follow: indexable(process.env) },
 };
 
 export default function RootLayout({

@@ -28,8 +28,13 @@ def validate_record(record: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--replace", action="store_true", help="Explicitly replace seeded records")
+    parser.add_argument(
+        "--published-only", action="store_true", help="Load only published source records"
+    )
     args = parser.parse_args()
     records = json.loads(SOURCE.read_text(encoding="utf-8"))
+    if args.published_only:
+        records = [record for record in records if record["published"]]
     for record in records:
         validate_record(record)
     conflict = (
