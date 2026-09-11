@@ -1,5 +1,27 @@
 # Implementation plan
 
+## PR #10 upstream integration - 2026-09-11
+
+PR #9 is merged into upstream/main at 1544478, following PR #8. Item 12
+conflicts are resolved in the existing [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10).
+Only the two implementation records conflict; application code, tests, contracts,
+migrations and CI merge without changing the previous admin head e6a4b2b.
+Preserve the TOTP boundary regression, transaction tests, reporting behaviour and
+all performance budgets. Acceptance: the current base is an ancestor, the same
+PR is updated normally and GitHub reports no conflicts. No new feature or PR.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh workflow verification passes 106 tests, 22-skill
+parity and shell syntax. Diff review confirms only these two records differ
+from e6a4b2b and no conflict markers remain. The delivery hooks run the API/web
+fast gate; browser/Lighthouse acceptance remains a separate CI check.
+Next priority: review the updated PR #10 while retaining its performance gate.
+
+The PR remains draft: previous-head Linux CI 34542851812 passed functional
+checks but failed home/contact mobile performance. This integration does not
+resolve that separate failure. Earlier draft/pending statements below are
+historical checkpoints; current upstream state supersedes them.
+
+
 CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox. Lighthouse now supplies every pinned default explicitly while avoiding that implicit flag, so the installed companion helper can be used. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No budgets or throttling changed; new Linux runtime/performance acceptance is pending.
 
 
@@ -57,9 +79,9 @@ Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 10. Live-site content and franchise entry points (PR 1/4) | Delivered as draft [PR #8](https://github.com/brollysolutions/patnampakodi-site/pull/8); functional checks pass, CI performance pending | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
-| 11. Complete customer ecommerce (PR 2/4) | Delivered as draft PR #9; functional/browser/container checks pass; local mobile performance fails, depends on draft PR #8 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
-| 12. Complete admin and reporting (PR 3/4) | Delivered for draft review in PR #10; 74 API and 51 browser tests pass; mobile performance fails | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 10. Live-site content and franchise entry points (PR 1/4) | Merged in PR #8 at upstream d5ab5c5 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
+| 11. Complete customer ecommerce (PR 2/4) | Merged in PR #9 at upstream 1544478 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
+| 12. Complete admin and reporting (PR 3/4) | Conflicts resolved; workflow checks pass; remains draft for mobile performance | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
@@ -306,3 +328,22 @@ At the original delivery, all 59 tests passed. Fork CI passed for that implement
 PR #1 was merged into shared `main` on 2026-09-07 (GitHub readback during the
 audit). The next product task is item 2 above. Current audit evidence is in
 `workflow-audit.md` and `feature-status.md`.
+
+## Earlier catalog integration record
+
+## PR #9 upstream integration - 2026-09-11
+
+PR #8 was merged into upstream/main at d5ab5c5. Item 11 conflicts are resolved in the existing [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9).
+The resolution reconciles the implementation records and retains both
+commit-before-response and rollback coverage. All application,
+contract, migration, frontend and CI files match the previous PR #9 head.
+Acceptance: upstream/main is an ancestor, no unresolved conflicts, retained tests
+pass and the same PR receives a normal push. No new feature or PR is introduced.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh API verification passes all 67 tests, lint/format, one
+migration head and unchanged generated contracts. The workflow gate passes
+106 tests, 22-skill parity and shell syntax. Diff review found no unresolved
+conflicts or code changes. Fresh browser/Lighthouse execution is left to CI;
+previous CI 34534816171 passed at 000f945 and is historical evidence.
+The next priority is PR #9 review, then the existing admin/staging PRs.
+Earlier draft/pending statements below describe historical checkpoints.
