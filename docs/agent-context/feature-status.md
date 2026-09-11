@@ -1,5 +1,58 @@
 # Feature status
 
+## Original identity and ordering access - 2026-09-11
+
+Item 14 is implemented and functionally verified, with draft release status.
+The user now requires the original fonts and colors.
+Fresh read-only browser inspection of patnampakodi.com and its shop establishes
+Poppins body/editorial text, Inter shop headings, peach `#FEF1E4`, body `#353535`,
+orange `#FF6210`, red `#C0392B` and gold `#F39C12`. This supersedes replacement
+Abril Fatface/Archivo styling. Existing commerce already supports guest requests,
+staff delivery quotes, private payment/tracking and administration. Persistent
+staging still needs approved sellable catalog and seller inputs; no live ordering
+readiness is claimed.
+
+Fresh verification: 110 workflow tests and 22 identical skills; 86 API tests,
+one migration head and unchanged generated contracts; web lint (one existing
+navigation warning), formatting, types, 20 unit tests and production build;
+54 browser/axe tests across desktop/mobile/tablet; 13 technical SEO routes with
+zero failures (the documented skip-link warnings remain). Initial localFont
+array-key and stale sharing-image font-path failures were corrected and the
+affected web checks rerun successfully. Container migration/seed, API/web,
+private/indexing headers, worker heartbeat and proxy smoke checks passed.
+
+The full web gate **failed** Lighthouse acceptance. Reports are retained locally
+in `lighthouse-1789099512531`: home mobile median performance 62, LCP 3382 ms,
+TBT 1282 ms; menu mobile 66, LCP 3282 ms, TBT 1303 ms. Home/menu desktop median
+performance scores 89/80 also miss the 90 budget. Fourteen usable reports score
+100 for accessibility, best practices and SEO. The third contact-mobile request
+returned HTTP 500 and aborted the remaining contact-desktop measurements, so the
+audit is incomplete as well as failing. Slow-CPU warnings and similar historical
+local failures are evidence limits, not permission to relax budgets or attribute
+the entire failure to the host. Production/field performance is unverified.
+
+Final review also preserves white headings on the dark legacy fallback story
+section and distributes the matching font license notices. The final staging
+build and `scripts/verify_staging.py` pass (exit 0), including checkout, signed
+replay, provider/worker recovery, invoice, delivery, partial refund and messaging
+fixtures. Its disposable project was cleaned up. The local preview was refreshed
+with `scripts/staging.py up` (exit 0), using final web image
+`b80747741c2bc070359e7c04d053470ceb4233ef2f85e85331390e23517e8b9d`.
+Six final identity/navigation/dialog browser checks pass across desktop/mobile/
+tablet; an isolated DOM probe confirms the fallback heading remains white.
+Ten sequential contact GETs returned 200 with noindex (0.17-3.16 seconds), so the
+audit's HTTP 500 did not recur in that check; its cause remains unresolved.
+
+Security/design/SEO/PR self-review found no unresolved change-specific security
+or functional defect after fixing the fallback contrast and license notices.
+Reviewed exact package pins, integrity and OFL notices; npm reports zero known
+vulnerabilities. Native Safari, field vitals and live sales remain unverified.
+Delivery target: draft PR from `vamshisaideep9:feat/docker-staging` to shared main;
+[current branch PR lookup](https://github.com/brollysolutions/patnampakodi-site/pulls?q=is%3Aopen+is%3Apr+head%3Afeat%2Fdocker-staging).
+Next priority: performance/HTTP 500 acceptance and approved catalog, seller and
+provider inputs. The approved staff quote flow remains; immediate checkout is
+an unanswered user question. No real payment, message or production deployment.
+
 ## PR #11 upstream integration - 2026-09-11
 
 PR #10 is merged into upstream/main at f93edde, following PRs #8 and #9.

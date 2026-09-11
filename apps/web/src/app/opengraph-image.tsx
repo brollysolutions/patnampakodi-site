@@ -10,7 +10,7 @@ export default async function OpenGraphImage() {
   const displayFont = await readFile(
     join(
       process.cwd(),
-      "node_modules/@fontsource/abril-fatface/files/abril-fatface-latin-400-normal.woff",
+      "node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff",
     ),
   );
   return new ImageResponse(
@@ -20,21 +20,22 @@ export default async function OpenGraphImage() {
         flexDirection: "column",
         width: "100%",
         height: "100%",
-        background: "#FBEFD9",
-        color: "#2B1406",
+        background: "#FEF1E4",
+        color: "#1C1C1C",
         padding: 80,
         justifyContent: "center",
-        fontFamily: "Abril Fatface",
+        fontFamily: "Poppins",
+        fontWeight: 700,
       }}
     >
-      <div style={{ fontSize: 108, letterSpacing: -5 }}>Patnam Pakodi.</div>
+      <div style={{ fontSize: 100, letterSpacing: -3 }}>Patnam Pakodi.</div>
       <div style={{ fontSize: 36, marginTop: 30 }}>Life Lo Spice Undali.</div>
       <div
         style={{
           display: "flex",
           width: 140,
           height: 10,
-          background: "#EB6637",
+          background: "#FF6210",
           marginTop: 50,
         }}
       />
@@ -43,9 +44,9 @@ export default async function OpenGraphImage() {
       ...size,
       fonts: [
         {
-          name: "Abril Fatface",
+          name: "Poppins",
           data: displayFont,
-          weight: 400,
+          weight: 700,
           style: "normal",
         },
       ],

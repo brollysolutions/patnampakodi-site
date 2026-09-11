@@ -1,5 +1,40 @@
 # Implementation plan
 
+## Original identity and ordering access - 2026-09-11
+
+User correction: keep the original site's colors and fonts and provide the full
+ecommerce journey. This supersedes the previous replacement-brand styling.
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 14. Restore original identity and verify ordering access | Implemented; functional acceptance passes; draft for performance/HTTP 500 acceptance | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; Extra High security review; selected settings unchanged |
+
+Acceptance: locally served original Poppins body/editorial typography and Inter
+commerce headings; observed peach, dark, orange, red and gold palette; visible
+Shop and Cart navigation at mobile and desktop sizes; existing catalog, guest
+request, staff quote, payment, tracking and admin journeys pass fresh checks.
+Keep public URLs, server content, accessibility and performance budgets intact.
+No invented sellable products, shipping prices or seller/tax details. Immediate
+checkout is an open user question; retain the approved staff quote flow until
+resolved. Live providers and production deployment require separate acceptance.
+Review the font package provenance/license and lockfile; verify browser/axe,
+technical SEO, full application gate and disposable Docker order acceptance.
+Fresh evidence: 110 workflow tests, 86 API tests, 20 web units, 54 browser/axe
+tests, 13 technical SEO routes, production build and container smoke pass.
+Final Docker checkout/capture/replay/restart/invoice/delivery/refund/message
+acceptance passes; six final preview identity/dialog checks and fallback heading
+contrast pass. Local preview is refreshed at port 3100 with no test catalog/admin
+insertions. Ten repeated contact requests return HTTP 200 and retain noindex.
+Lighthouse failed timing budgets, then stopped on a contact HTTP 500; the full
+gate is not passed. See feature-status.md for exact results and limitations.
+
+Review target: `vamshisaideep9:feat/docker-staging` to upstream `main`, kept in
+draft; [current branch PR lookup](https://github.com/brollysolutions/patnampakodi-site/pulls?q=is%3Aopen+is%3Apr+head%3Afeat%2Fdocker-staging).
+No merge or production deployment. Next priority: resolve performance and HTTP
+500 acceptance, receive approved catalog/seller/provider inputs and settle the
+open immediate-checkout question. Functional verification does not enable live
+sales or waive those release prerequisites.
+
 ## PR #11 upstream integration - 2026-09-11
 
 PR #10 is merged into upstream/main at f93edde, following PRs #8 and #9.

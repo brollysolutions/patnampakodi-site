@@ -1,7 +1,7 @@
 # Local Docker review environment
 
 This environment reproduces the public site, commerce and admin application at
-`http://127.0.0.1:3100/`, using the project's fonts and colours. It runs only local
+`http://127.0.0.1:3100/`, preserving the original site's fonts and colors. It runs only local
 provider fixtures. It is noindex and cannot charge money or send a real WhatsApp
 message. Hosting, production TLS and real provider acceptance remain separate.
 

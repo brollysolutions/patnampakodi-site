@@ -1,6 +1,47 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test("original identity and shopping navigation survive responsive layouts", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("html")).toHaveCSS(
+    "background-color",
+    "rgb(254, 241, 228)",
+  );
+  await expect(page.locator("body")).toHaveCSS("color", "rgb(53, 53, 53)");
+  await expect(page.locator("h1")).toHaveCSS("font-weight", "800");
+  const typography = await page.evaluate(() => ({
+    body: getComputedStyle(document.body).fontFamily,
+    heading: getComputedStyle(document.querySelector("h1")!).fontFamily,
+  }));
+  expect(typography.heading).toBe(typography.body);
+  const navigation = page.locator(".desktop-nav");
+  if (!(await navigation.isVisible())) {
+    await page.locator(".mobile-nav summary").click();
+  }
+  const visibleNavigation = page.locator("header nav:visible");
+  await visibleNavigation
+    .getByRole("link", { name: "Shop", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/shop\/$/);
+  if (
+    !(await navigation.isVisible()) &&
+    !(await page.locator(".mobile-nav nav").isVisible())
+  ) {
+    await page.locator(".mobile-nav summary").click();
+  }
+  await page
+    .locator("header nav:visible")
+    .getByRole("link", { name: "Cart", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/cart\/$/);
+  await expect(
+    page.getByRole("heading", { name: "Your cart is empty" }),
+  ).toBeVisible();
+});
+
 test("original homepage content, local assets and phone-first lead dialog", async ({
   page,
 }) => {

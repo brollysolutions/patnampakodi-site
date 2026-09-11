@@ -9,11 +9,11 @@ const links = [
   ["Menu", "/menu/"],
   ["Branches", "/branches/"],
   ["Franchise", "/franchise/"],
-  ["Recipe", "/shop/"],
+  ["Shop", "/shop/"],
   ["Contact", "/contact/"],
 ] as const;
 
-const mobileLinks = [...links, ["Cart", "/cart/"]] as const;
+const orderLinks = [...links, ["Cart", "/cart/"]] as const;
 
 export function Wordmark() {
   return (
@@ -36,7 +36,7 @@ export function Header() {
       <div className="container header-inner">
         <Wordmark />
         <nav aria-label="Main navigation" className="desktop-nav">
-          {links.map(([name, href]) => (
+          {orderLinks.map(([name, href]) => (
             <SiteLink href={href} key={href}>
               {name}
             </SiteLink>
@@ -53,7 +53,7 @@ export function Header() {
             Menu <span aria-hidden="true">＋</span>
           </summary>
           <nav aria-label="Mobile navigation">
-            {mobileLinks.map(([name, href]) => (
+            {orderLinks.map(([name, href]) => (
               <SiteLink href={href} key={href}>
                 {name}
               </SiteLink>
