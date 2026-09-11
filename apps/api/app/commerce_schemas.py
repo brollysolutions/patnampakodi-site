@@ -136,6 +136,11 @@ class VariantView(VariantInput):
     reserved: int
 
 
+class ProductPage(PublicModel):
+    items: list[VariantView]
+    total: int
+
+
 class StockChange(Reason):
     delta: int = Field(strict=True, ge=-1000000, le=1000000)
 

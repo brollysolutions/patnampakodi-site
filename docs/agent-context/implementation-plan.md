@@ -1,5 +1,53 @@
 # Implementation plan
 
+## Saved product visibility and CRUD - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 18. Make saved products visible and complete product CRUD | Implemented; functional checks pass, public performance acceptance remains open | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; Extra High final deletion review; selected settings preserved |
+
+The saved product exists in local staging; its catalogue is below the large
+menu-preparation panel. Put saved products first, add name/SKU
+search and publication/range filters with pagination, preserve create/edit and
+stock controls, and collapse menu suggestions and CSV tools. Use the existing
+fonts, palette and form controls, with explicit empty/loading/error states and
+keyboard focus after selecting a product. No added animation or dependency.
+The user's follow-up also requires an information button beside every field in
+the product editor, with concise field-specific help usable by keyboard/touch.
+
+Complete deletion through the authenticated API and browser proxy. Delete only
+products with no order references or reservations, after UI confirmation; keep
+order/audit history and attached media. Use the normal RLS transaction, serialize
+deletion with edits/checkout, and add only the required variant DELETE privilege
+through an additive migration. The delete operation unpublishes its content record.
+Products with order history remain editable and can be unpublished.
+
+Acceptance: saved published and draft products appear immediately; search and
+pagination find existing products; create/read/update/delete survive reload;
+deletion rejects unauthenticated, cross-origin, bad-CSRF, other-brand and ordered/
+reserved products; concurrent edits cannot recreate a deleted ID. Verify API,
+migration/contracts, browser CRUD/axe/reflow and the applicable full gate.
+Non-goals: changing the user's product values/stock/publication, inventing sale
+data, changing order/payment behavior, or changing the existing origin policy.
+PR #14 is merged; create a new upstream PR for this follow-up on the instructed
+`feat/docker-staging` branch. Existing performance acceptance remains open.
+
+Fresh functional acceptance on 12 September passes 112 API tests (eight new),
+112 workflow tests, 27 web units, one migration head, generated contracts,
+lint/format/types and production builds. All six admin browser journeys pass
+after correcting exact-label and renamed-notice expectations; the initial broad
+run retains its 58 passes, two intentional skips and six failed assertions.
+CRUD/reload, all field help, publication synchronization, axe and 320px reflow
+are covered. Technical SEO passes 13 routes. Local staging is refreshed and
+healthy; a read-only digest confirms the saved product is unchanged. Container
+migration/seed, runtime/private headers, worker and local Caddy HTTPS checks pass.
+All 18 Lighthouse reports complete, but speed budgets fail: home/menu/contact
+performance medians are mobile 57/66/73 and desktop 89/94/83. Accessibility,
+best-practices and SEO score 100. Keep the PR in draft while that acceptance is
+open. Delivery targets the contributor's `feat/docker-staging` branch against
+upstream `main`, following merged PR #14. Next priority: meet public speed budgets
+and complete operator-approved inventory and live-provider launch acceptance.
+
 ## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |

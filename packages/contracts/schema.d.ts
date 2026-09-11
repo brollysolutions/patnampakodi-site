@@ -415,6 +415,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Product Catalog */
+        get: operations["product_catalog_v1_admin_products_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/products.csv": {
         parameters: {
             query?: never;
@@ -514,7 +531,8 @@ export interface paths {
         /** Update Variant */
         put: operations["update_variant_v1_admin_variants__identifier__put"];
         post?: never;
-        delete?: never;
+        /** Delete Variant */
+        delete: operations["delete_variant_v1_admin_variants__identifier__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1751,6 +1769,13 @@ export interface components {
             /** Tags */
             tags: string[];
         };
+        /** ProductPage */
+        ProductPage: {
+            /** Items */
+            items: components["schemas"]["VariantView"][];
+            /** Total */
+            total: number;
+        };
         /** QuickEnquiry */
         QuickEnquiry: {
             /**
@@ -2879,6 +2904,41 @@ export interface operations {
             };
         };
     };
+    product_catalog_v1_admin_products_get: {
+        parameters: {
+            query?: {
+                q?: string;
+                mode?: "" | "fresh" | "packaged";
+                status?: "" | "published" | "draft";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductPage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     export_products_v1_admin_products_csv_get: {
         parameters: {
             query?: never;
@@ -3099,6 +3159,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["VariantView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_variant_v1_admin_variants__identifier__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identifier: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionResult"];
                 };
             };
             /** @description Validation Error */

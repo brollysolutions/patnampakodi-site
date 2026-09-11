@@ -6,6 +6,7 @@ import { FulfilmentPanel } from "./FulfilmentPanel";
 import { CatalogDrafts } from "./CatalogDrafts";
 import { Icon, type IconName } from "./Icon";
 import { Field, Notice } from "./FormFields";
+import { HelpField, HelpSelect } from "./FieldHelp";
 import Image from "next/image";
 import {
   EnquiryExport,
@@ -57,6 +58,22 @@ const FOOD_FIELDS = [
   "manufacturer",
   "consumer_care",
 ] as const;
+const FOOD_HELP: Record<(typeof FOOD_FIELDS)[number], string> = {
+  ingredients:
+    "List the confirmed ingredients used in this food or mix, including ingredients in sauces and coatings.",
+  allergens:
+    "Enter confirmed allergens and any applicable cross-contact information. Do not assume an item is allergen-free.",
+  nutrition:
+    "Enter the verified nutrition information and its basis, such as per serving or per 100 g.",
+  net_quantity:
+    "Describe the sellable portion or pack size, such as its confirmed weight or number of pieces.",
+  shelf_life:
+    "Enter the confirmed shelf life and storage instructions. Required for packaged products; optional for fresh food.",
+  manufacturer:
+    "Enter the responsible manufacturer's details for the packaged product. Optional for fresh food.",
+  consumer_care:
+    "Provide the customer-care contact that should accompany this product, such as an approved phone number or email.",
+};
 const sentence = (text: string) =>
   text[0].toUpperCase() + text.slice(1).replaceAll("_", " ");
 
@@ -229,25 +246,35 @@ type Action = (
   success?: string,
   refresh?: boolean,
 ) => Promise<void>;
-function useLoad<T>(path: string) {
-  const [result, setResult] = useState<{ path: string; data: T } | null>(null);
-  const [failure, setFailure] = useState({ path: "", error: "" });
+function useLoad<T>(path: string, revision = 0) {
+  const [result, setResult] = useState<{
+    path: string;
+    revision: number;
+    data: T;
+  } | null>(null);
+  const [failure, setFailure] = useState({ path: "", revision: 0, error: "" });
   useEffect(() => {
     let active = true;
     api<T>(path)
       .then((result) => {
-        if (active) setResult({ path, data: result });
+        if (active) setResult({ path, revision, data: result });
       })
       .catch((err) => {
-        if (active) setFailure({ path, error: err.message });
+        if (active) setFailure({ path, revision, error: err.message });
       });
     return () => {
       active = false;
     };
-  }, [path]);
+  }, [path, revision]);
   return {
-    data: result?.path === path ? result.data : null,
-    error: failure.path === path ? failure.error : "",
+    data:
+      result?.path === path && result.revision === revision
+        ? result.data
+        : null,
+    error:
+      failure.path === path && failure.revision === revision
+        ? failure.error
+        : "",
   };
 }
 function Pagination({
@@ -639,39 +666,65 @@ function Orders({ action }: { action: Action }) {
 }
 
 function Products({ action }: { action: Action }) {
-  const { data, error } = useLoad<Schema["VariantView"][]>("admin/variants");
+  const emptyFilters = { q: "", mode: "", status: "", offset: 0 };
+  const [filters, setFilters] = useState(emptyFilters);
+  const [revision, setRevision] = useState(0);
+  const params = new URLSearchParams({
+    ...filters,
+    offset: String(filters.offset),
+    limit: "20",
+  });
+  const { data, error } = useLoad<Schema["ProductPage"]>(
+    `admin/products?${params}`,
+    revision,
+  );
   const { data: drafts, error: draftError } = useLoad<Schema["CatalogDraft"][]>(
     "admin/catalog-drafts",
+    revision,
   );
   const [editing, setEditing] = useState<Schema["VariantView"] | null>(null);
   const [draft, setDraft] = useState<Schema["CatalogDraft"] | null>(null);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editorVersion, setEditorVersion] = useState(0);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const listHeading = useRef<HTMLHeadingElement>(null);
   const editorHeading = useRef<HTMLHeadingElement>(null);
   const [mode, setMode] = useState<"fresh" | "packaged">("packaged");
   const { data: storefront } = useLoad<Schema["Storefront"]>("storefront");
   const selectedMode = editing?.product.mode ?? draft?.mode ?? mode;
   useEffect(() => {
-    if (editing || draft) {
+    if (editorOpen) {
       editorHeading.current?.focus({ preventScroll: true });
       editorHeading.current?.scrollIntoView({
         block: "start",
         behavior: "instant",
       });
     }
-  }, [editing, draft]);
+  }, [editing, draft, editorOpen, editorVersion]);
+  function addNew() {
+    setDraft(null);
+    setEditing(null);
+    setEditorVersion((value) => value + 1);
+    setEditorOpen(true);
+  }
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const product = Object.fromEntries(
-      ["slug", "name", "description", "dietary", ...FOOD_FIELDS].map((key) => [
-        key,
-        String(form.get(key)),
-      ]),
-    );
-    const payload = {
-      sku: form.get("sku"),
+    const payload: Schema["VariantInput"] = {
+      sku: String(form.get("sku")),
       product: {
         ...editing?.product,
-        ...product,
+        slug: String(form.get("slug")),
+        name: String(form.get("name")),
+        description: String(form.get("description")),
+        dietary: String(form.get("dietary")) as "veg" | "non-veg",
+        ingredients: String(form.get("ingredients")),
+        allergens: String(form.get("allergens")),
+        nutrition: String(form.get("nutrition")),
+        net_quantity: String(form.get("net_quantity")),
+        shelf_life: String(form.get("shelf_life")),
+        manufacturer: String(form.get("manufacturer")),
+        consumer_care: String(form.get("consumer_care")),
         image: editing?.product.image ?? draft?.image ?? "",
         mode: selectedMode,
         outlet_slug:
@@ -687,301 +740,606 @@ function Products({ action }: { action: Action }) {
         price_paise: Math.round(Number(form.get("price")) * 100),
       },
       gst_bps: Math.round(Number(form.get("gst")) * 100),
-      hsn: form.get("hsn"),
+      hsn: String(form.get("hsn")),
       published: form.get("published") === "on",
-      media_id: form.get("media") || null,
+      media_id: String(form.get("media") ?? "") || null,
     };
-    await action(() =>
-      api(editing ? `admin/variants/${editing.id}` : "admin/variants", {
-        method: editing ? "PUT" : "POST",
-        body: JSON.stringify(payload),
-      }),
+    await action(
+      async () => {
+        const saved = await api<Schema["VariantView"]>(
+          editing ? `admin/variants/${editing.id}` : "admin/variants",
+          {
+            method: editing ? "PUT" : "POST",
+            body: JSON.stringify(payload),
+          },
+        );
+        setEditing(saved);
+        setDraft(null);
+        setFilters({ ...emptyFilters, q: saved.sku });
+        setRevision((value) => value + 1);
+      },
+      "Product saved. It is shown in the saved catalogue.",
+      false,
     );
   }
   return (
     <>
-      {drafts ? (
-        <CatalogDrafts
-          items={drafts}
-          onChoose={(item) => {
-            setEditing(null);
-            setDraft(item);
-          }}
-        />
-      ) : (
-        <Load error={draftError} />
-      )}
       <div className="commerce-grid">
-        <section className="panel form-stack">
-          <h2>Product catalog</h2>
-          <a href="/api/v1/admin/products.csv">Export products CSV</a>
+        <section
+          className="panel form-stack"
+          aria-labelledby="saved-products-title"
+        >
+          <h2 id="saved-products-title" ref={listHeading} tabIndex={-1}>
+            Saved products
+          </h2>
+          <p className="small">
+            Your created products, including drafts and items with no stock.
+          </p>
+          <button
+            type="button"
+            className="button button-small"
+            onClick={addNew}
+          >
+            Add product
+          </button>
           <form
             className="form-stack"
+            key={`${filters.q}-${filters.mode}-${filters.status}`}
             onSubmit={(event) => {
               event.preventDefault();
-              const file = new FormData(event.currentTarget).get("csv") as File;
-              void action(() =>
-                api("admin/products.csv", {
-                  method: "POST",
-                  body: file,
-                  headers: { "Content-Type": "text/csv" },
-                }),
-              );
+              const form = new FormData(event.currentTarget);
+              setFilters({
+                q: String(form.get("q") ?? "").trim(),
+                mode: String(form.get("mode") ?? ""),
+                status: String(form.get("status") ?? ""),
+                offset: 0,
+              });
             }}
           >
             <Field
-              name="csv"
-              label="Import product CSV"
-              type="file"
-              accept=".csv,text/csv"
+              name="q"
+              label="Search saved products"
+              type="search"
+              required={false}
+              maxLength={100}
+              defaultValue={filters.q}
+              placeholder="Product name or SKU"
             />
-            <button className="button button-small">Import all rows</button>
+            <div className="catalog-draft-filters">
+              <label className="field">
+                Product range
+                <select name="mode" defaultValue={filters.mode}>
+                  <option value="">All ranges</option>
+                  <option value="fresh">Fresh food</option>
+                  <option value="packaged">Packaged</option>
+                </select>
+              </label>
+              <label className="field">
+                Publication status
+                <select name="status" defaultValue={filters.status}>
+                  <option value="">All statuses</option>
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </label>
+            </div>
+            <div className="actions">
+              <button className="button button-small">Apply filters</button>
+              <button
+                type="button"
+                className="button button-small button-outline"
+                onClick={() => setFilters(emptyFilters)}
+              >
+                Clear filters
+              </button>
+            </div>
           </form>
+          <details>
+            <summary>Import or export products CSV</summary>
+            <a href="/api/v1/admin/products.csv">Export products CSV</a>
+            <form
+              className="form-stack"
+              onSubmit={(event) => {
+                event.preventDefault();
+                const file = new FormData(event.currentTarget).get(
+                  "csv",
+                ) as File;
+                void action(() =>
+                  api("admin/products.csv", {
+                    method: "POST",
+                    body: file,
+                    headers: { "Content-Type": "text/csv" },
+                  }),
+                );
+              }}
+            >
+              <Field
+                name="csv"
+                label="Import product CSV"
+                type="file"
+                accept=".csv,text/csv"
+              />
+              <button className="button button-small">Import all rows</button>
+            </form>
+          </details>
           {!data ? (
             <Load error={error} />
           ) : (
-            data.map((item) => (
-              <article key={item.id} className="stock-row">
-                <h3>{item.product.name}</h3>
+            <>
+              <p className="small" role="status">
+                {data.total} {data.total === 1 ? "product" : "products"}
+                {filters.q || filters.mode || filters.status
+                  ? " matching your filters"
+                  : " saved"}
+              </p>
+              {!data.total && (
                 <p>
-                  {item.sku} ·{" "}
-                  {item.product.mode === "fresh" ? "Fresh" : "Packaged"} ·{" "}
-                  {item.published ? "Published" : "Draft"}
-                  <br />
-                  Stock {item.stock} · Reserved {item.reserved}
+                  {filters.q || filters.mode || filters.status
+                    ? "No matching products. Clear the filters or search another name or SKU."
+                    : "No products saved yet. Add a product or choose a food from the menu suggestions."}
                 </p>
-                <button
-                  className="button button-small"
-                  onClick={() => {
-                    setDraft(null);
-                    setEditing(item);
-                  }}
+              )}
+              {data.items.map((item) => (
+                <article key={item.id} className="stock-row">
+                  <h3>{item.product.name}</h3>
+                  <p>
+                    {item.sku} ·{" "}
+                    {item.product.mode === "fresh" ? "Fresh" : "Packaged"} ·{" "}
+                    {item.published ? "Published" : "Draft"}
+                    <br />
+                    Stock {item.stock} · Reserved {item.reserved}
+                    <br />
+                    {money(item.product.price_paise)} ·{" "}
+                    {item.product.net_quantity}
+                  </p>
+                  {item.stock - item.reserved === 0 && (
+                    <p className="small">No stock available for new orders.</p>
+                  )}
+                  <details>
+                    <summary>View details</summary>
+                    <p>{item.product.description}</p>
+                    <dl className="facts">
+                      {FOOD_FIELDS.map((key) => (
+                        <div key={key}>
+                          <dt>{sentence(key)}</dt>
+                          <dd>{item.product[key] || "Not supplied"}</dd>
+                        </div>
+                      ))}
+                      <div>
+                        <dt>HSN / GST</dt>
+                        <dd>
+                          {item.hsn} / {item.gst_bps / 100}%
+                        </dd>
+                      </div>
+                    </dl>
+                  </details>
+                  <div className="actions">
+                    <button
+                      className="button button-small"
+                      onClick={() => {
+                        setDraft(null);
+                        setEditing(item);
+                        setEditorOpen(true);
+                      }}
+                    >
+                      Edit product
+                    </button>
+                    <button
+                      type="button"
+                      className="button button-small button-outline"
+                      onClick={() =>
+                        void action(
+                          async () => {
+                            const { sku, product, gst_bps, hsn, media_id } =
+                              item;
+                            await api(`admin/variants/${item.id}`, {
+                              method: "PUT",
+                              body: JSON.stringify({
+                                sku,
+                                product,
+                                gst_bps,
+                                hsn,
+                                media_id,
+                                published: !item.published,
+                              } satisfies Schema["VariantInput"]),
+                            });
+                            if (editing?.id === item.id)
+                              setEditing({
+                                ...item,
+                                published: !item.published,
+                              });
+                            setRevision((value) => value + 1);
+                          },
+                          item.published
+                            ? "Product unpublished."
+                            : "Product published.",
+                          false,
+                        )
+                      }
+                    >
+                      {item.published ? "Unpublish" : "Publish"}
+                    </button>
+                    <button
+                      type="button"
+                      className="button button-small button-outline"
+                      data-delete-trigger
+                      disabled={item.reserved > 0}
+                      onClick={() => setDeleting(item.id)}
+                    >
+                      Delete product
+                    </button>
+                  </div>
+                  {deleting === item.id && (
+                    <div className="delete-product-confirmation" role="alert">
+                      <p>
+                        Delete {item.product.name}? This permanently removes the
+                        product and its stock. Products with order history
+                        cannot be deleted.
+                      </p>
+                      <div className="actions">
+                        <button
+                          type="button"
+                          className="button button-small"
+                          onClick={() =>
+                            void action(
+                              async () => {
+                                await api(`admin/variants/${item.id}`, {
+                                  method: "DELETE",
+                                });
+                                setDeleting(null);
+                                if (editing?.id === item.id) {
+                                  setEditing(null);
+                                  setEditorOpen(false);
+                                }
+                                setFilters({ ...filters, offset: 0 });
+                                setRevision((value) => value + 1);
+                                listHeading.current?.focus();
+                              },
+                              "Product deleted.",
+                              false,
+                            )
+                          }
+                        >
+                          Confirm delete
+                        </button>
+                        <button
+                          type="button"
+                          className="button button-small button-outline"
+                          onClick={(event) => {
+                            event.currentTarget
+                              .closest("article")
+                              ?.querySelector<HTMLButtonElement>(
+                                "[data-delete-trigger]",
+                              )
+                              ?.focus();
+                            setDeleting(null);
+                          }}
+                        >
+                          Cancel deletion
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <details>
+                    <summary>Adjust stock</summary>
+                    <form
+                      className="actions"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        const form = new FormData(event.currentTarget);
+                        void action(
+                          async () => {
+                            await api(
+                              `admin/variants/${item.id}/stock`,
+                              jsonPost({
+                                delta: Number(form.get("delta")),
+                                reason: String(form.get("reason")),
+                              }),
+                            );
+                            setRevision((value) => value + 1);
+                          },
+                          "Stock updated.",
+                          false,
+                        );
+                      }}
+                    >
+                      <Field
+                        name="delta"
+                        label={`Stock adjustment for ${item.sku}`}
+                        type="number"
+                        step={1}
+                      />
+                      <Field
+                        name="reason"
+                        label="Adjustment reason"
+                        minLength={3}
+                      />
+                      <button className="button button-small">
+                        Adjust stock
+                      </button>
+                    </form>
+                  </details>
+                </article>
+              ))}
+              {data.total > 20 && (
+                <nav
+                  className="actions admin-pagination"
+                  aria-label="Saved product pages"
                 >
-                  Edit product
-                </button>
-                <form
-                  className="actions"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    const form = new FormData(event.currentTarget);
-                    void action(() =>
-                      api(
-                        `admin/variants/${item.id}/stock`,
-                        jsonPost({
-                          delta: Number(form.get("delta")),
-                          reason: String(form.get("reason")),
-                        }),
-                      ),
-                    );
-                  }}
-                >
-                  <Field
-                    name="delta"
-                    label={`Stock adjustment for ${item.sku}`}
-                    type="number"
-                    step={1}
-                  />
-                  <Field
-                    name="reason"
-                    label="Adjustment reason"
-                    minLength={3}
-                  />
-                  <button className="button button-small">Adjust stock</button>
-                </form>
-              </article>
-            ))
+                  <button
+                    type="button"
+                    className="button button-small"
+                    disabled={filters.offset === 0}
+                    onClick={() =>
+                      setFilters({
+                        ...filters,
+                        offset: Math.max(0, filters.offset - 20),
+                      })
+                    }
+                  >
+                    Previous products
+                  </button>
+                  <span>
+                    Page {Math.floor(filters.offset / 20) + 1} of{" "}
+                    {Math.ceil(data.total / 20)}
+                  </span>
+                  <button
+                    type="button"
+                    className="button button-small"
+                    disabled={filters.offset + 20 >= data.total}
+                    onClick={() =>
+                      setFilters({ ...filters, offset: filters.offset + 20 })
+                    }
+                  >
+                    Next products
+                  </button>
+                </nav>
+              )}
+            </>
           )}
         </section>
-        <form
-          className="panel form-stack"
-          onSubmit={save}
-          key={editing?.id ?? draft?.slug ?? "new"}
-        >
-          <h2 ref={editorHeading} tabIndex={-1}>
-            {editing
-              ? "Edit product"
-              : draft
-                ? `Set up ${draft.name}`
-                : "Add product"}
-          </h2>
-          {draft && (
+        <div className="form-stack">
+          <details className="panel">
+            <summary>Choose a food from the menu</summary>
+            {drafts ? (
+              <CatalogDrafts
+                items={drafts}
+                onChoose={(item) => {
+                  setEditing(null);
+                  setDraft(item);
+                  setEditorOpen(true);
+                }}
+              />
+            ) : (
+              <Load error={draftError} />
+            )}
+          </details>
+          {!editorOpen && (
             <p className="small">
-              The name, category and available artwork are prefilled. Confirm
-              the remaining food, price and tax information before publishing.
+              Select Edit product to update a saved item, or Add product to
+              create one.
             </p>
           )}
-          <label className="field">
-            Shopping mode
-            <select
-              value={selectedMode}
-              disabled={Boolean(editing || draft)}
-              onChange={(event) =>
-                setMode(event.target.value as "fresh" | "packaged")
-              }
+          {editorOpen && (
+            <form
+              className="panel form-stack"
+              onSubmit={save}
+              key={editing?.id ?? draft?.slug ?? `new-${editorVersion}`}
             >
-              <option value="packaged">Packaged product</option>
-              <option value="fresh">Fresh food</option>
-            </select>
-          </label>
-          {selectedMode === "fresh" && (
-            <label className="field">
-              Preparation outlet
-              <select
-                name="outlet_slug"
-                required
-                defaultValue={editing?.product.outlet_slug ?? ""}
-                disabled={Boolean(editing)}
+              <h2 ref={editorHeading} tabIndex={-1}>
+                {editing
+                  ? "Edit product"
+                  : draft
+                    ? `Set up ${draft.name}`
+                    : "Add product"}
+              </h2>
+              <button
+                type="button"
+                className="button button-small button-outline"
+                onClick={() => {
+                  setEditorOpen(false);
+                  listHeading.current?.focus();
+                  listHeading.current?.scrollIntoView({
+                    block: "start",
+                    behavior: "instant",
+                  });
+                }}
               >
-                <option value="">Choose a published outlet</option>
-                {storefront?.outlets.map((outlet) => (
-                  <option key={outlet.slug} value={outlet.slug}>
-                    {outlet.name}
-                  </option>
-                ))}
-              </select>
-              {editing && (
-                <input
-                  type="hidden"
-                  name="outlet_slug"
-                  value={editing.product.outlet_slug}
-                />
+                Back to saved products
+              </button>
+              {draft && (
+                <p className="small">
+                  The name, category and available artwork are prefilled.
+                  Confirm the remaining food, price and tax information before
+                  publishing.
+                </p>
               )}
-            </label>
+              <HelpSelect
+                label="Shopping mode"
+                help="Choose fresh food prepared by an outlet or a packaged product. This choice is permanent after the product is created."
+                value={selectedMode}
+                disabled={Boolean(editing || draft)}
+                onChange={(event) =>
+                  setMode(event.target.value as "fresh" | "packaged")
+                }
+              >
+                <option value="packaged">Packaged product</option>
+                <option value="fresh">Fresh food</option>
+              </HelpSelect>
+              {selectedMode === "fresh" && (
+                <>
+                  <HelpSelect
+                    label="Preparation outlet"
+                    help="Choose the published outlet that prepares this fresh item. The outlet cannot change after saving. Configure ordering hours and coverage in Delivery."
+                    name="outlet_slug"
+                    required
+                    defaultValue={editing?.product.outlet_slug ?? ""}
+                    disabled={Boolean(editing)}
+                  >
+                    <option value="">Choose a published outlet</option>
+                    {storefront?.outlets.map((outlet) => (
+                      <option key={outlet.slug} value={outlet.slug}>
+                        {outlet.name}
+                      </option>
+                    ))}
+                  </HelpSelect>
+                  {editing && (
+                    <input
+                      type="hidden"
+                      name="outlet_slug"
+                      value={editing.product.outlet_slug}
+                    />
+                  )}
+                </>
+              )}
+              {editing && (
+                <p className="small">
+                  Mode and preparation outlet are permanent. Create a new
+                  product to change them.
+                </p>
+              )}
+              {(editing || draft) && (
+                <button
+                  type="button"
+                  className="button button-small"
+                  onClick={addNew}
+                >
+                  Add another product
+                </button>
+              )}
+              <HelpField
+                name="sku"
+                label="SKU"
+                help="A unique internal product code, up to 64 letters, numbers, underscores or hyphens. Use it to identify this item in stock and CSV files."
+                defaultValue={editing?.sku ?? draft?.sku}
+                pattern={"[A-Za-z0-9_\\-]{1,64}"}
+              />
+              <HelpField
+                name="slug"
+                label="Permanent product URL slug"
+                help="The product's permanent URL name. Use lowercase words separated by hyphens. It cannot be changed after creation."
+                defaultValue={editing?.product.slug ?? draft?.slug}
+                readOnly={Boolean(editing || draft)}
+                pattern="[a-z0-9]+(-[a-z0-9]+)*"
+              />
+              <HelpField
+                name="name"
+                label="Product name"
+                help="The name customers and staff will see. Include the flavour or product type so this item is easy to recognize."
+                defaultValue={editing?.product.name ?? draft?.name}
+              />
+              <HelpField
+                name="description"
+                label="Description"
+                help="Describe the food, flavour and what the customer receives. Use confirmed details rather than unverified claims."
+                defaultValue={
+                  editing?.product.description ?? draft?.description
+                }
+              />
+              <HelpField
+                name="price"
+                label="Price in INR including tax"
+                help="Enter the price for one sellable portion or pack in rupees, including applicable tax. Stock is managed separately."
+                type="number"
+                min="0.01"
+                step="0.01"
+                defaultValue={
+                  editing ? editing.product.price_paise / 100 : undefined
+                }
+              />
+              <HelpField
+                name="category"
+                label="Category URL slug (optional)"
+                help="An optional grouping for shop filters. Use lowercase words separated by hyphens, such as ready-mixes."
+                required={false}
+                defaultValue={
+                  editing?.product.category ?? draft?.category ?? ""
+                }
+                pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                maxLength={80}
+              />
+              <HelpField
+                name="tags"
+                label="Tag URL slugs, comma separated (optional)"
+                help="Optional search and discovery tags, separated by commas. Each tag uses lowercase words joined with hyphens."
+                required={false}
+                defaultValue={
+                  (editing?.product.tags ?? draft?.tags)?.join(", ") ?? ""
+                }
+              />
+              <HelpField
+                name="compare"
+                label="Original price in INR (optional)"
+                help="Only enter a genuine original price higher than the current selling price. Leave blank when no original-price comparison applies."
+                type="number"
+                required={false}
+                min="0.01"
+                step="0.01"
+                defaultValue={
+                  editing?.product.compare_at_price_paise
+                    ? editing.product.compare_at_price_paise / 100
+                    : ""
+                }
+              />
+              <HelpSelect
+                label="Dietary mark"
+                help="Choose Vegetarian or Non-vegetarian using the product's confirmed ingredients. Review this value for every food."
+                name="dietary"
+                required
+                defaultValue={
+                  editing?.product.dietary ??
+                  (draft?.dietary === "unconfirmed" ? "" : draft?.dietary) ??
+                  "non-veg"
+                }
+              >
+                <option value="">Confirm dietary mark</option>
+                <option value="veg">Vegetarian</option>
+                <option value="non-veg">Non-vegetarian</option>
+              </HelpSelect>
+              {FOOD_FIELDS.map((key) => (
+                <HelpField
+                  key={key}
+                  name={key}
+                  label={sentence(key)}
+                  help={FOOD_HELP[key]}
+                  required={
+                    selectedMode === "packaged" ||
+                    !["shelf_life", "manufacturer"].includes(key)
+                  }
+                  defaultValue={editing?.product[key]}
+                />
+              ))}
+              <HelpField
+                name="gst"
+                label="GST rate (%)"
+                help="Enter the confirmed GST percentage for this product. Use the rate approved for your product classification; the selling price above already includes tax."
+                type="number"
+                min={0}
+                max={40}
+                step="0.01"
+                defaultValue={editing ? editing.gst_bps / 100 : undefined}
+              />
+              <HelpField
+                name="hsn"
+                label="HSN code"
+                help="Enter the confirmed 4–8 digit HSN classification used for this product's invoices. Check it against your approved tax records."
+                pattern="[0-9]{4,8}"
+                defaultValue={editing?.hsn}
+              />
+              <MediaSelect selected={editing?.media_id ?? null} />
+              <HelpField
+                key={`${editing?.id ?? "new"}-${editing?.published ?? false}`}
+                label="Publish after verifying all food and tax information"
+                help="Published products can appear in the storefront. Taking orders also requires available stock and valid delivery settings. Leave unchecked to save a draft."
+                type="checkbox"
+                name="published"
+                required={false}
+                defaultChecked={editing?.published}
+              />
+              <button className="button">Save product</button>
+            </form>
           )}
-          {editing && (
-            <p className="small">
-              Mode and preparation outlet are permanent. Create a new product to
-              change them.
-            </p>
-          )}
-          {(editing || draft) && (
-            <button
-              type="button"
-              className="button button-small"
-              onClick={() => {
-                setEditing(null);
-                setDraft(null);
-              }}
-            >
-              Add another product
-            </button>
-          )}
-          <Field
-            name="sku"
-            label="SKU"
-            defaultValue={editing?.sku ?? draft?.sku}
-            pattern={"[A-Za-z0-9_\\-]{1,64}"}
-          />
-          <Field
-            name="slug"
-            label="Permanent product URL slug"
-            defaultValue={editing?.product.slug ?? draft?.slug}
-            readOnly={Boolean(editing || draft)}
-            pattern="[a-z0-9]+(-[a-z0-9]+)*"
-          />
-          <Field
-            name="name"
-            label="Product name"
-            defaultValue={editing?.product.name ?? draft?.name}
-          />
-          <Field
-            name="description"
-            label="Description"
-            defaultValue={editing?.product.description ?? draft?.description}
-          />
-          <Field
-            name="price"
-            label="Price in INR including tax"
-            type="number"
-            min="0.01"
-            step="0.01"
-            defaultValue={
-              editing ? editing.product.price_paise / 100 : undefined
-            }
-          />
-          <Field
-            name="category"
-            label="Category URL slug (optional)"
-            required={false}
-            defaultValue={editing?.product.category ?? draft?.category ?? ""}
-            pattern="[a-z0-9]+(-[a-z0-9]+)*"
-            maxLength={80}
-          />
-          <Field
-            name="tags"
-            label="Tag URL slugs, comma separated (optional)"
-            required={false}
-            defaultValue={
-              (editing?.product.tags ?? draft?.tags)?.join(", ") ?? ""
-            }
-          />
-          <Field
-            name="compare"
-            label="Original price in INR (optional)"
-            type="number"
-            required={false}
-            min="0.01"
-            step="0.01"
-            defaultValue={
-              editing?.product.compare_at_price_paise
-                ? editing.product.compare_at_price_paise / 100
-                : ""
-            }
-          />
-          <label className="field">
-            Dietary mark
-            <select
-              name="dietary"
-              required
-              defaultValue={
-                editing?.product.dietary ??
-                (draft?.dietary === "unconfirmed" ? "" : draft?.dietary) ??
-                "non-veg"
-              }
-            >
-              <option value="">Confirm dietary mark</option>
-              <option value="veg">Vegetarian</option>
-              <option value="non-veg">Non-vegetarian</option>
-            </select>
-          </label>
-          {FOOD_FIELDS.map((key) => (
-            <Field
-              key={key}
-              name={key}
-              label={sentence(key)}
-              required={
-                selectedMode === "packaged" ||
-                !["shelf_life", "manufacturer"].includes(key)
-              }
-              defaultValue={editing?.product[key]}
-            />
-          ))}
-          <Field
-            name="gst"
-            label="GST rate (%)"
-            type="number"
-            min={0}
-            max={40}
-            step="0.01"
-            defaultValue={editing ? editing.gst_bps / 100 : undefined}
-          />
-          <Field
-            name="hsn"
-            label="HSN code"
-            pattern="[0-9]{4,8}"
-            defaultValue={editing?.hsn}
-          />
-          <MediaSelect selected={editing?.media_id ?? null} />
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              name="published"
-              defaultChecked={editing?.published}
-            />
-            Publish after verifying all food and tax information
-          </label>
-          <button className="button">Save product</button>
-        </form>
+        </div>
       </div>
     </>
   );

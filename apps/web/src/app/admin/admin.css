@@ -1,4 +1,57 @@
 @layer admin {
+  .admin-page .field-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .admin-page .field-caption > label {
+    min-width: 0;
+  }
+  .admin-page .field-caption > .checkbox {
+    align-items: center;
+    min-height: 44px;
+  }
+  .admin-page .field input[type="checkbox"] {
+    min-height: 24px;
+    padding: 0;
+  }
+  .admin-page .field-info {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+  .admin-page .field-info span {
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .admin-page .field-info:hover,
+  .admin-page .field-info[aria-expanded="true"] {
+    background: var(--cream);
+  }
+  .admin-page .field-help {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-page .delete-product-confirmation {
+    padding: 16px;
+    border: 1px solid currentColor;
+    border-radius: 8px;
+  }
   body:has(.admin-page) {
     padding-bottom: 0;
   }
