@@ -1,5 +1,51 @@
 # Feature status
 
+## PR #9 upstream integration - 2026-09-11
+
+PR #8 was merged into upstream/main at d5ab5c5. Item 11 conflicts are resolved in the existing [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9).
+The resolution reconciles the implementation records and retains both
+commit-before-response and rollback coverage. All application,
+contract, migration, frontend and CI files match the previous PR #9 head.
+Acceptance: upstream/main is an ancestor, no unresolved conflicts, retained tests
+pass and the same PR receives a normal push. No new feature or PR is introduced.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh API verification passes all 67 tests, lint/format, one
+migration head and unchanged generated contracts. The workflow gate passes
+106 tests, 22-skill parity and shell syntax. Diff review found no unresolved
+conflicts or code changes. Fresh browser/Lighthouse execution is left to CI;
+previous CI 34534816171 passed at 000f945 and is historical evidence.
+The next priority is PR #9 review, then the existing admin/staging PRs.
+Earlier draft/pending statements below describe historical checkpoints.
+
+
+## Earlier upstream verification history
+
+## Commit-before-response correction — 2026-09-11
+
+CI exposed an order-approval refresh failure. A deterministic ASGI regression
+observed HTTP 200 while another database connection still read `requested`.
+The commerce dependency now uses function scope so commit/rollback completes
+before the response starts. The same regression then reads `approved`; all eight
+targeted transaction/admin tests pass on the stacked admin branch. Full checks
+on this branch follow. Planning/implementation/security recommendation remains
+gpt-6-astra / Extra High; selected settings are unchanged.
+
+The catalog branch's Ubuntu CI passes browser/SEO/container smoke, then its
+Lighthouse subprocess exits before producing scores. Remove quiet logging to
+retain the launch diagnosis; no browser flags or budgets are relaxed. PR #8
+remains draft until full verification passes.
+
+## PR1 CI correction ? 2026-09-11
+
+Draft PR #8 is open at `efebb72`; its first fork CI passed all four workflow
+matrix jobs and 43 browser tests, but two no-JavaScript menu navigations timed
+out waiting for the whole page load. They now wait for DOMContentLoaded before
+asserting the same 51 cards, category/search behavior and reset. No assertion,
+timeout, performance budget or production behavior was relaxed. The same
+correction passes desktop/mobile/tablet within the next branch's fresh 48-test
+browser run. The full Ubuntu application/performance gate remains pending.
+
+
 CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox, preventing use of the installed companion helper. The Lighthouse runner now supplies every pinned default explicitly while avoiding that implicit flag. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No performance budgets or throttling changed. Fresh Linux runtime/performance acceptance is pending.
 
 
