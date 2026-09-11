@@ -156,7 +156,6 @@ class Login(PublicModel):
     model_config = ConfigDict(str_strip_whitespace=False)
     username: str = Field(min_length=3, max_length=100)
     password: str = Field(min_length=12, max_length=200)
-    code: str = Field(min_length=6, max_length=100)
 
 
 class SessionView(PublicModel):

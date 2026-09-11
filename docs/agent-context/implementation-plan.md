@@ -1,5 +1,29 @@
 # Implementation plan
 
+## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 17. Move the local PostgreSQL listener to 5433 and remove the admin TOTP/recovery-code requirement | Implemented; database-dependent checks blocked by an external 5433 listener | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+
+Change only the loopback PostgreSQL mapping and the local URLs that consume it:
+`127.0.0.1:5433` maps to the existing container port `5432`. Production remains
+private at `postgres:5432`; it must not publish PostgreSQL. Simplify admin sign-in
+to username and password only, while retaining Argon2 password verification,
+per-IP/per-username rate limits, server-side sessions, CSRF checks, strict cookies,
+account disablement, session revocation on password reset, audit logging and RLS.
+The legacy migration is immutable, so unused TOTP/recovery columns remain for
+compatibility rather than being rewritten or exposed.
+
+Acceptance: local development and verification connect through port 5433; no
+active source still directs local PostgreSQL clients to 55450; the API contract and
+admin form accept only username/password; password resets revoke sessions; and
+anonymous, invalid-password, CSRF and cross-origin requests remain denied.
+Non-goals: changing the in-container PostgreSQL port, publishing PostgreSQL in
+production, changing customer/order authentication, or altering financial flows.
+The delivery PR is created during the final shipping step; its URL and remote head
+are recorded in feature status after fresh readback.
+
 ## Port migration and food catalogue preparation - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |

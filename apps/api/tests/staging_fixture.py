@@ -33,7 +33,7 @@ def main():
         for table in ["admins", "settings", "variants", "orders", "fulfilment_settings"]:
             if conn.execute("SELECT count(*) FROM " + table).fetchone()[0]:
                 raise RuntimeError("Acceptance fixture must be empty")
-    _, recovery = asyncio.run(provision("staging-fixture-admin", "synthetic-staging-only-password"))
+    asyncio.run(provision("staging-fixture-admin", "synthetic-staging-only-password"))
     business = {
         "legal_name": "Synthetic Fixture Seller",
         "address": "10 Synthetic Seller Street",
@@ -136,11 +136,7 @@ def main():
                 ),
             ),
         )
-    print(
-        json.dumps(
-            {"recovery": recovery[0], "demo_recovery": recovery[1], "variant": str(identifier)}
-        )
-    )
+    print(json.dumps({"variant": str(identifier)}))
 
 
 if __name__ == "__main__":

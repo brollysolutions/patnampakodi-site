@@ -17,10 +17,9 @@ For the approved local Docker review environment with simulated providers, follo
 Follow [local development](storefront-development.md). Run PostgreSQL and Redis,
 migrate, seed the reviewed public content, then start API, web and **one** worker
 (`python -m app.jobs`). Use `python -m app.admin_cli create <username>` interactively
-to provision a named admin. The command prints an authenticator setup secret and
-single-use recovery codes to that operator only. The first login must use TOTP;
-store recovery codes outside the repository. `recover <username>` resets both
-factors and revokes existing sessions after the operator verifies identity.
+to provision a named admin. The command prompts for a password; administrators sign
+in with their username and password. `recover <username>` resets the password and
+revokes existing sessions after the operator verifies identity.
 
 In admin, configure verified seller details, GSTIN/state, invoice prefix and the
 delivery tax rate. Add one SKU per sellable pack/variant, complete all food facts,
@@ -150,7 +149,7 @@ first; never use migration downgrade as a routine financial-data rollback. Keep
 the previous image digest for application rollback when schema compatibility
 allows it. Rotate compromised admin factors using the CLI; rotate provider
 secrets through provider consoles and the protected mounted files. Data-key
-rotation requires re-encryption of stored TOTP/outbox/inbox records; do not simply
+rotation requires re-encryption of stored outbox/inbox records; do not simply
 replace that key and lose access to existing data.
 
 ## Backup, recovery and release gates
@@ -173,7 +172,7 @@ FRAB must approve its legal retention/deletion procedure before collecting live
 data. Backups need the same retention and access policy.
 
 Before enabling live sales: approve product/menu/outlet details and five policies;
-validate invoice samples with the accountant; test TOTP/recovery, provider capture,
+validate invoice samples with the accountant; test password reset, provider capture,
 webhook retries, refunds, consent and WhatsApp templates with the configured
 accounts; test mail-free recovery with staff; verify TLS, proxy trust and restored
 backups on the chosen host. Production transactions and notifications were not

@@ -74,8 +74,6 @@ from app.security import (
     rows,
     same_origin,
     seal,
-    totp_step,
-    unseal,
 )
 
 router = APIRouter(prefix="/v1")
@@ -368,9 +366,7 @@ async def login(payload: Login, request: Request, response: Response, conn: DB):
     await rate_request(request, "login", 30)
     await limit("login-user:" + payload.username.lower(), 5, 300)
     account = await one(
-        conn,
-        "SELECT * FROM admins WHERE username=%s AND enabled FOR UPDATE",
-        (payload.username.lower(),),
+        conn, "SELECT * FROM admins WHERE username=%s AND enabled", (payload.username.lower(),)
     )
     valid = await run_in_threadpool(
         password_valid,
@@ -379,20 +375,6 @@ async def login(payload: Login, request: Request, response: Response, conn: DB):
     )
     if not account or not valid:
         raise HTTPException(401, "Sign-in details were not accepted")
-    step = totp_step(unseal(account["totp_secret"]), payload.code, account["last_totp"])
-    recovery = list(account["recovery_hashes"])
-    if step is None:
-        match = next(
-            (code for code in recovery if hmac.compare_digest(code, digest(payload.code))), None
-        )
-        if not match or not account["enrolled"]:
-            raise HTTPException(401, "Sign-in details were not accepted")
-        recovery.remove(match)
-        step = account["last_totp"]
-    await conn.execute(
-        "UPDATE admins SET enrolled=true,last_totp=%s,recovery_hashes=%s WHERE id=%s",
-        (step, Jsonb(recovery), account["id"]),
-    )
     token, csrf = random_token(), random_token()
     await conn.execute(
         """

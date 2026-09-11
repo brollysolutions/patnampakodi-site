@@ -43,7 +43,6 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
     await page
       .getByLabel("Password", { exact: true })
       .fill("a-strong-browser-fixture-password");
-    await page.getByLabel("Authenticator or recovery code").fill(data.recovery);
     await page.getByRole("button", { name: "Sign in", exact: true }).click();
     const navigation = page.getByRole("navigation", { name: "Administration" });
     await navigation

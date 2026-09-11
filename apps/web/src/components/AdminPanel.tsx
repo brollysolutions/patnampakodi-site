@@ -124,19 +124,13 @@ export function AdminPanel() {
           autoComplete="current-password"
           minLength={12}
         />
-        <Field
-          name="code"
-          label="Authenticator or recovery code"
-          autoComplete="one-time-code"
-          minLength={6}
-        />
         <button className="button" disabled={busy}>
           {busy ? "Signing in…" : "Sign in"}
         </button>
         <Notice message={message} />
         <p className="small">
-          Your operator supplies account setup and recovery. Each person uses
-          their own account.
+          Your operator supplies account setup. Each person uses their own
+          account.
         </p>
       </form>
     );

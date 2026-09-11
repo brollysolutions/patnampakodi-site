@@ -1117,12 +1117,6 @@
       "Login": {
         "additionalProperties": false,
         "properties": {
-          "code": {
-            "maxLength": 100,
-            "minLength": 6,
-            "title": "Code",
-            "type": "string"
-          },
           "password": {
             "maxLength": 200,
             "minLength": 12,
@@ -1138,8 +1132,7 @@
         },
         "required": [
           "username",
-          "password",
-          "code"
+          "password"
         ],
         "title": "Login",
         "type": "object"

@@ -1385,8 +1385,6 @@ export interface components {
         };
         /** Login */
         Login: {
-            /** Code */
-            code: string;
             /** Password */
             password: string;
             /** Username */

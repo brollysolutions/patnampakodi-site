@@ -4,11 +4,9 @@ import hashlib
 import hmac
 import json
 import secrets
-import time
 from contextlib import asynccontextmanager
 
 import psycopg
-import pyotp
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError
 from cryptography.fernet import Fernet
@@ -119,9 +117,9 @@ async def admin(request: Request):
     async with connection() as conn:
         session = await one(
             conn,
-            """SELECT s.*,a.username,a.enrolled FROM sessions s
+            """SELECT s.*,a.username FROM sessions s
           JOIN admins a ON a.id=s.admin_id WHERE s.id=%s AND NOT s.revoked
-          AND s.expires_at>now() AND a.enabled AND a.enrolled""",
+          AND s.expires_at>now() AND a.enabled""",
             (digest(token),),
         )
     if not session:
@@ -140,12 +138,3 @@ def password_valid(encoded: str, password: str):
         return PASSWORDS.verify(encoded, password)
     except VerificationError:
         return False
-
-
-def totp_step(secret: str, code: str, previous: int):
-    current = int(time.time() // 30)
-    generator = pyotp.TOTP(secret)
-    for step in (current - 1, current, current + 1):
-        if step > previous and hmac.compare_digest(generator.at(step * 30), code):
-            return step
-    return None

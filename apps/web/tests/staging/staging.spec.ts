@@ -79,7 +79,6 @@ test("Docker checkout, signed replay, worker recovery, delivery and partial refu
   await admin
     .getByLabel("Password", { exact: true })
     .fill("synthetic-staging-only-password");
-  await admin.getByLabel("Authenticator or recovery code").fill(data.recovery);
   await admin.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(
     admin.getByRole("heading", { name: order.reference }),

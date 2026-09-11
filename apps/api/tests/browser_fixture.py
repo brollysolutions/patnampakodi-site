@@ -35,7 +35,7 @@ def main():
     Redis.from_url("redis://127.0.0.1:6450/15").flushdb()
     if sys.argv[1] == "reset":
         return
-    _, recovery = run(provision("browser-admin", "a-strong-browser-fixture-password"))
+    run(provision("browser-admin", "a-strong-browser-fixture-password"))
     identifier = uuid.uuid4()
     with psycopg.connect(OWNER) as conn:
         conn.execute("UPDATE admins SET enrolled=true WHERE username='browser-admin'")
@@ -125,7 +125,7 @@ def main():
                     ),
                 ),
             )
-    print(json.dumps({"recovery": recovery[0], "variant": str(identifier)}))
+    print(json.dumps({"variant": str(identifier)}))
 
 
 if __name__ == "__main__":

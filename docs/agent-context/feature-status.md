@@ -1,5 +1,32 @@
 # Feature status
 
+## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
+
+Item 17 moves the local Docker PostgreSQL host mapping and every local consumer
+to `127.0.0.1:5433`, while preserving internal Docker PostgreSQL at `5432` and
+keeping production PostgreSQL unexposed. A regression test checks the compose
+mapping and all local API/test/verification URLs stay synchronized.
+
+Admin login now accepts only username and password. The OpenAPI contract and
+generated TypeScript client no longer include a TOTP/recovery-code field; the web
+form and disposable browser fixtures match it. Provisioning and password recovery
+keep session revocation and audit logging, while previous TOTP/recovery columns
+remain inert for immutable-migration compatibility. Argon2 verification,
+per-IP/per-username limits, disabled-account checks, HttpOnly/SameSite Strict
+cookies, CSRF/Origin checks, RLS and audit safeguards remain enforced. The direct
+security review found and corrected the legacy `enrolled` session guard that would
+otherwise reject sessions for password-only accounts.
+
+Fresh checks passed: OpenAPI and TypeScript regeneration; API Ruff lint/format
+and 97-test collection; 112 workflow/SEO/configuration tests including the new
+port regression; web lint, formatting, type checks, 27 unit tests and production
+build; and `docker compose config --quiet`. Full API/database tests, browser/axe,
+Docker acceptance, migration/head and Lighthouse remain unverified: another local
+project's `client1-pgbouncer` currently owns host port 5433, so this task did not
+connect to or alter it. The requested configuration therefore cannot be started
+until that external listener is released. The delivery PR URL and remote head are
+recorded after the final shipping readback.
+
 ## Port migration and food catalogue preparation - 2026-09-11
 
 Item 16 is implemented and locally verified on `feat/docker-staging` for
