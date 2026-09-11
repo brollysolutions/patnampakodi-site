@@ -236,6 +236,85 @@
         "title": "CartLine",
         "type": "object"
       },
+      "CatalogDraft": {
+        "additionalProperties": false,
+        "description": "Known source identity only; never a priced or purchasable variant.",
+        "properties": {
+          "category": {
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Category",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "maxLength": 5000,
+            "title": "Description",
+            "type": "string"
+          },
+          "dietary": {
+            "default": "unconfirmed",
+            "enum": [
+              "veg",
+              "non-veg",
+              "unconfirmed"
+            ],
+            "title": "Dietary",
+            "type": "string"
+          },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "fresh",
+              "packaged"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "sku": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Sku",
+            "type": "string"
+          },
+          "slug": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Slug",
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sku",
+          "slug",
+          "name",
+          "description",
+          "mode",
+          "category",
+          "tags",
+          "dietary",
+          "image"
+        ],
+        "title": "CatalogDraft",
+        "type": "object"
+      },
       "CheckoutOrderRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2816,6 +2895,28 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/v1/admin/catalog-drafts": {
+      "get": {
+        "operationId": "catalog_drafts_v1_admin_catalog_drafts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CatalogDraft"
+                  },
+                  "title": "Response Catalog Drafts V1 Admin Catalog Drafts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Catalog Drafts"
       }
     },
     "/v1/admin/content": {

@@ -51,7 +51,7 @@ def test_approval_is_committed_before_response_start(staff):
                 "query_string": b"",
                 "headers": headers,
                 "client": ("127.0.0.1", 1234),
-                "server": ("127.0.0.1", 3000),
+                "server": ("127.0.0.1", 3501),
                 "app": app,
             },
             receive,

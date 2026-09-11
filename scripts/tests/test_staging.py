@@ -26,7 +26,7 @@ class StagingIsolationTests(unittest.TestCase):
                         "environment": {
                             "APP_ENV": "staging",
                             "PROVIDER_MODE": "fixtures",
-                            "PUBLIC_ORIGIN": "http://127.0.0.1:3100",
+                            "PUBLIC_ORIGIN": "http://127.0.0.1:3500",
                         },
                     }
                     for name in ("api", "worker", "fixture-provider")
@@ -34,7 +34,7 @@ class StagingIsolationTests(unittest.TestCase):
                 "web": {
                     "networks": {"private": {}, "web-entry": {}},
                     "environment": {"SITE_INDEXABLE": "false"},
-                    "ports": [{"host_ip": "127.0.0.1", "published": "3100"}],
+                    "ports": [{"host_ip": "127.0.0.1", "published": "3500", "target": 3500}],
                 },
                 "migrate": {"networks": {"private": {}}},
                 "seed": {"networks": {"private": {}}},
@@ -61,6 +61,14 @@ class StagingIsolationTests(unittest.TestCase):
             bad["services"][name]["environment"]["PROVIDER_MODE"] = "live"
             with self.assertRaises(RuntimeError):
                 staging.validate_config(bad)
+
+    def test_wrong_web_listener_or_published_port_is_rejected(self):
+        for changes in ({"published": "3501"}, {"target": 3501}, {"protocol": "udp"}):
+            with self.subTest(changes=changes):
+                bad = self.config()
+                bad["services"]["web"]["ports"][0].update(changes)
+                with self.assertRaises(RuntimeError):
+                    staging.validate_config(bad)
 
     def test_backend_cannot_join_entry_network_and_operations_must_exist(self):
         bad = self.config()

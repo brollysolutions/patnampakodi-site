@@ -77,7 +77,7 @@ async def webhook(provider, event, event_id):
         headers["X-Hub-Signature-256"] = "sha256=" + signature
     async with httpx.AsyncClient(timeout=10) as client:
         response = await client.post(
-            "http://api:8000/v1/webhooks/" + provider, content=raw, headers=headers
+            "http://api:8500/v1/webhooks/" + provider, content=raw, headers=headers
         )
         response.raise_for_status()
 

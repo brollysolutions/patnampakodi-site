@@ -19,14 +19,14 @@ API = ROOT / "apps/api"
 WEB = ROOT / "apps/web"
 PYTHON = API / (".venv/Scripts/python.exe" if os.name == "nt" else ".venv/bin/python")
 NPM = shutil.which("npm.cmd" if os.name == "nt" else "npm") or "npm"
-OWNER = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:54339/pakodi_mvp_test"
-READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:54339/pakodi_mvp_test"
+OWNER = "postgresql://pakodi_owner:local-owner-only@127.0.0.1:55450/pakodi_mvp_test"
+READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:55450/pakodi_mvp_test"
 ENV = {**os.environ, "NEXT_TELEMETRY_DISABLED": "1", "SITE_INDEXABLE": "true",
        "DEPLOYMENT_ENV": "test", "APP_ENV": "test", "DATABASE_URL": READER,
-       "MIGRATION_DATABASE_URL": OWNER, "CONTENT_API_URL": "http://127.0.0.1:8010",
+       "MIGRATION_DATABASE_URL": OWNER, "CONTENT_API_URL": "http://127.0.0.1:8510",
        "COMMERCE_DATABASE_URL": OWNER.replace("pakodi_owner:local-owner-only", "pakodi_app:local-app-only"),
-       "REDIS_URL": "redis://127.0.0.1:63799/15", "PUBLIC_ORIGIN": "http://127.0.0.1:3010",
-       "API_HOST": "127.0.0.1", "API_PORT": "8010"}
+       "REDIS_URL": "redis://127.0.0.1:6450/15", "PUBLIC_ORIGIN": "http://127.0.0.1:3510",
+       "API_HOST": "127.0.0.1", "API_PORT": "8510"}
 REPORTS = ROOT / ".agent-workflow/reports"
 
 
@@ -103,26 +103,26 @@ def web_checks(mode, browsers_only=False):
     if mode == "fast":
         print("==> Browser/performance/live SEO checks SKIPPED (--fast)", flush=True)
         return
-    require_free_port(8010)
-    require_free_port(3010)
+    require_free_port(8510)
+    require_free_port(3510)
     run([PYTHON, "tests/browser_fixture.py", "reset"], API)
-    api = start([str(PYTHON), "-m", "app.serve"], API, "http://127.0.0.1:8010/health", "api.log")
+    api = start([str(PYTHON), "-m", "app.serve"], API, "http://127.0.0.1:8510/health", "api.log")
     web = None
     try:
         web = start([shutil.which("node") or "node", "node_modules/next/dist/bin/next", "start",
-                     "--hostname", "127.0.0.1", "--port", "3010"], WEB, "http://127.0.0.1:3010", "web.log")
+                     "--hostname", "127.0.0.1", "--port", "3510"], WEB, "http://127.0.0.1:3510", "web.log")
         run([NPM, "run", "test:e2e"], WEB)
         manifest = run(["node", "--input-type=module", "-e",
                         "import {PUBLIC_SLUGS,pathFor} from './src/lib/policy.mjs'; "
                         "console.log(JSON.stringify(PUBLIC_SLUGS.map(pathFor)))"], WEB, capture=True)
         routes = json.loads(manifest.stdout)
-        with urlopen("http://127.0.0.1:3010/sitemap.xml", timeout=5) as response:
+        with urlopen("http://127.0.0.1:3510/sitemap.xml", timeout=5) as response:
             sitemap = ElementTree.fromstring(response.read())
         routes = sorted(set(routes) | {
             urlparse(node.text).path
             for node in sitemap.findall("{*}url/{*}loc") if node.text
         })
-        run([sys.executable, "scripts/check_seo.py", "http://127.0.0.1:3010", *routes,
+        run([sys.executable, "scripts/check_seo.py", "http://127.0.0.1:3510", *routes,
              "--canonical-origin", "https://patnampakodi.com", "--json", str(REPORTS / "seo.json")])
     finally:
         if web:

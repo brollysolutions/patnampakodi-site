@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { api, jsonPost, money, statusLabel, type Schema } from "@/lib/commerce";
 import { FulfilmentPanel } from "./FulfilmentPanel";
+import { CatalogDrafts } from "./CatalogDrafts";
 import { Icon, type IconName } from "./Icon";
 import { Field, Notice } from "./FormFields";
 import Image from "next/image";
@@ -641,10 +642,24 @@ function Orders({ action }: { action: Action }) {
 
 function Products({ action }: { action: Action }) {
   const { data, error } = useLoad<Schema["VariantView"][]>("admin/variants");
+  const { data: drafts, error: draftError } = useLoad<Schema["CatalogDraft"][]>(
+    "admin/catalog-drafts",
+  );
   const [editing, setEditing] = useState<Schema["VariantView"] | null>(null);
+  const [draft, setDraft] = useState<Schema["CatalogDraft"] | null>(null);
+  const editorHeading = useRef<HTMLHeadingElement>(null);
   const [mode, setMode] = useState<"fresh" | "packaged">("packaged");
   const { data: storefront } = useLoad<Schema["Storefront"]>("storefront");
-  const selectedMode = editing?.product.mode ?? mode;
+  const selectedMode = editing?.product.mode ?? draft?.mode ?? mode;
+  useEffect(() => {
+    if (editing || draft) {
+      editorHeading.current?.focus({ preventScroll: true });
+      editorHeading.current?.scrollIntoView({
+        block: "start",
+        behavior: "instant",
+      });
+    }
+  }, [editing, draft]);
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -659,6 +674,7 @@ function Products({ action }: { action: Action }) {
       product: {
         ...editing?.product,
         ...product,
+        image: editing?.product.image ?? draft?.image ?? "",
         mode: selectedMode,
         outlet_slug:
           selectedMode === "fresh" ? String(form.get("outlet_slug") ?? "") : "",
@@ -685,246 +701,291 @@ function Products({ action }: { action: Action }) {
     );
   }
   return (
-    <div className="commerce-grid">
-      <section className="panel form-stack">
-        <h2>Product catalog</h2>
-        <a href="/api/v1/admin/products.csv">Export products CSV</a>
-        <form
-          className="form-stack"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const file = new FormData(event.currentTarget).get("csv") as File;
-            void action(() =>
-              api("admin/products.csv", {
-                method: "POST",
-                body: file,
-                headers: { "Content-Type": "text/csv" },
-              }),
-            );
+    <>
+      {drafts ? (
+        <CatalogDrafts
+          items={drafts}
+          onChoose={(item) => {
+            setEditing(null);
+            setDraft(item);
           }}
+        />
+      ) : (
+        <Load error={draftError} />
+      )}
+      <div className="commerce-grid">
+        <section className="panel form-stack">
+          <h2>Product catalog</h2>
+          <a href="/api/v1/admin/products.csv">Export products CSV</a>
+          <form
+            className="form-stack"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const file = new FormData(event.currentTarget).get("csv") as File;
+              void action(() =>
+                api("admin/products.csv", {
+                  method: "POST",
+                  body: file,
+                  headers: { "Content-Type": "text/csv" },
+                }),
+              );
+            }}
+          >
+            <Field
+              name="csv"
+              label="Import product CSV"
+              type="file"
+              accept=".csv,text/csv"
+            />
+            <button className="button button-small">Import all rows</button>
+          </form>
+          {!data ? (
+            <Load error={error} />
+          ) : (
+            data.map((item) => (
+              <article key={item.id} className="stock-row">
+                <h3>{item.product.name}</h3>
+                <p>
+                  {item.sku} ·{" "}
+                  {item.product.mode === "fresh" ? "Fresh" : "Packaged"} ·{" "}
+                  {item.published ? "Published" : "Draft"}
+                  <br />
+                  Stock {item.stock} · Reserved {item.reserved}
+                </p>
+                <button
+                  className="button button-small"
+                  onClick={() => {
+                    setDraft(null);
+                    setEditing(item);
+                  }}
+                >
+                  Edit product
+                </button>
+                <form
+                  className="actions"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const form = new FormData(event.currentTarget);
+                    void action(() =>
+                      api(
+                        `admin/variants/${item.id}/stock`,
+                        jsonPost({
+                          delta: Number(form.get("delta")),
+                          reason: String(form.get("reason")),
+                        }),
+                      ),
+                    );
+                  }}
+                >
+                  <Field
+                    name="delta"
+                    label={`Stock adjustment for ${item.sku}`}
+                    type="number"
+                    step={1}
+                  />
+                  <Field
+                    name="reason"
+                    label="Adjustment reason"
+                    minLength={3}
+                  />
+                  <button className="button button-small">Adjust stock</button>
+                </form>
+              </article>
+            ))
+          )}
+        </section>
+        <form
+          className="panel form-stack"
+          onSubmit={save}
+          key={editing?.id ?? draft?.slug ?? "new"}
         >
-          <Field
-            name="csv"
-            label="Import product CSV"
-            type="file"
-            accept=".csv,text/csv"
-          />
-          <button className="button button-small">Import all rows</button>
-        </form>
-        {!data ? (
-          <Load error={error} />
-        ) : (
-          data.map((item) => (
-            <article key={item.id} className="stock-row">
-              <h3>{item.product.name}</h3>
-              <p>
-                {item.sku} ·{" "}
-                {item.product.mode === "fresh" ? "Fresh" : "Packaged"} ·{" "}
-                {item.published ? "Published" : "Draft"}
-                <br />
-                Stock {item.stock} · Reserved {item.reserved}
-              </p>
-              <button
-                className="button button-small"
-                onClick={() => setEditing(item)}
-              >
-                Edit product
-              </button>
-              <form
-                className="actions"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  const form = new FormData(event.currentTarget);
-                  void action(() =>
-                    api(
-                      `admin/variants/${item.id}/stock`,
-                      jsonPost({
-                        delta: Number(form.get("delta")),
-                        reason: String(form.get("reason")),
-                      }),
-                    ),
-                  );
-                }}
-              >
-                <Field
-                  name="delta"
-                  label={`Stock adjustment for ${item.sku}`}
-                  type="number"
-                  step={1}
-                />
-                <Field name="reason" label="Adjustment reason" minLength={3} />
-                <button className="button button-small">Adjust stock</button>
-              </form>
-            </article>
-          ))
-        )}
-      </section>
-      <form
-        className="panel form-stack"
-        onSubmit={save}
-        key={editing?.id ?? "new"}
-      >
-        <h2>{editing ? "Edit product" : "Add product"}</h2>
-        <label className="field">
-          Shopping mode
-          <select
-            value={selectedMode}
-            disabled={Boolean(editing)}
-            onChange={(event) =>
-              setMode(event.target.value as "fresh" | "packaged")
-            }
-          >
-            <option value="packaged">Packaged product</option>
-            <option value="fresh">Fresh food</option>
-          </select>
-        </label>
-        {selectedMode === "fresh" && (
+          <h2 ref={editorHeading} tabIndex={-1}>
+            {editing
+              ? "Edit product"
+              : draft
+                ? `Set up ${draft.name}`
+                : "Add product"}
+          </h2>
+          {draft && (
+            <p className="small">
+              The name, category and available artwork are prefilled. Confirm
+              the remaining food, price and tax information before publishing.
+            </p>
+          )}
           <label className="field">
-            Preparation outlet
+            Shopping mode
             <select
-              name="outlet_slug"
-              required
-              defaultValue={editing?.product.outlet_slug ?? ""}
-              disabled={Boolean(editing)}
+              value={selectedMode}
+              disabled={Boolean(editing || draft)}
+              onChange={(event) =>
+                setMode(event.target.value as "fresh" | "packaged")
+              }
             >
-              <option value="">Choose a published outlet</option>
-              {storefront?.outlets.map((outlet) => (
-                <option key={outlet.slug} value={outlet.slug}>
-                  {outlet.name}
-                </option>
-              ))}
+              <option value="packaged">Packaged product</option>
+              <option value="fresh">Fresh food</option>
             </select>
-            {editing && (
-              <input
-                type="hidden"
-                name="outlet_slug"
-                value={editing.product.outlet_slug}
-              />
-            )}
           </label>
-        )}
-        {editing && (
-          <p className="small">
-            Mode and preparation outlet are permanent. Create a new product to
-            change them.
-          </p>
-        )}
-        {editing && (
-          <button
-            type="button"
-            className="button button-small"
-            onClick={() => setEditing(null)}
-          >
-            Add another product
-          </button>
-        )}
-        <Field
-          name="sku"
-          label="SKU"
-          defaultValue={editing?.sku}
-          pattern={"[A-Za-z0-9_\\-]{1,64}"}
-        />
-        <Field
-          name="slug"
-          label="Permanent product URL slug"
-          defaultValue={editing?.product.slug}
-          readOnly={Boolean(editing)}
-          pattern="[a-z0-9]+(-[a-z0-9]+)*"
-        />
-        <Field
-          name="name"
-          label="Product name"
-          defaultValue={editing?.product.name}
-        />
-        <Field
-          name="description"
-          label="Description"
-          defaultValue={editing?.product.description}
-        />
-        <Field
-          name="price"
-          label="Price in INR including tax"
-          type="number"
-          min="0.01"
-          step="0.01"
-          defaultValue={editing ? editing.product.price_paise / 100 : undefined}
-        />
-        <Field
-          name="category"
-          label="Category URL slug (optional)"
-          required={false}
-          defaultValue={editing?.product.category ?? ""}
-          pattern="[a-z0-9]+(-[a-z0-9]+)*"
-          maxLength={80}
-        />
-        <Field
-          name="tags"
-          label="Tag URL slugs, comma separated (optional)"
-          required={false}
-          defaultValue={editing?.product.tags?.join(", ") ?? ""}
-        />
-        <Field
-          name="compare"
-          label="Original price in INR (optional)"
-          type="number"
-          required={false}
-          min="0.01"
-          step="0.01"
-          defaultValue={
-            editing?.product.compare_at_price_paise
-              ? editing.product.compare_at_price_paise / 100
-              : ""
-          }
-        />
-        <label className="field">
-          Dietary mark
-          <select
-            name="dietary"
-            defaultValue={editing?.product.dietary ?? "non-veg"}
-          >
-            <option value="veg">Vegetarian</option>
-            <option value="non-veg">Non-vegetarian</option>
-          </select>
-        </label>
-        {FOOD_FIELDS.map((key) => (
+          {selectedMode === "fresh" && (
+            <label className="field">
+              Preparation outlet
+              <select
+                name="outlet_slug"
+                required
+                defaultValue={editing?.product.outlet_slug ?? ""}
+                disabled={Boolean(editing)}
+              >
+                <option value="">Choose a published outlet</option>
+                {storefront?.outlets.map((outlet) => (
+                  <option key={outlet.slug} value={outlet.slug}>
+                    {outlet.name}
+                  </option>
+                ))}
+              </select>
+              {editing && (
+                <input
+                  type="hidden"
+                  name="outlet_slug"
+                  value={editing.product.outlet_slug}
+                />
+              )}
+            </label>
+          )}
+          {editing && (
+            <p className="small">
+              Mode and preparation outlet are permanent. Create a new product to
+              change them.
+            </p>
+          )}
+          {(editing || draft) && (
+            <button
+              type="button"
+              className="button button-small"
+              onClick={() => {
+                setEditing(null);
+                setDraft(null);
+              }}
+            >
+              Add another product
+            </button>
+          )}
           <Field
-            key={key}
-            name={key}
-            label={sentence(key)}
-            required={
-              selectedMode === "packaged" ||
-              !["shelf_life", "manufacturer"].includes(key)
+            name="sku"
+            label="SKU"
+            defaultValue={editing?.sku ?? draft?.sku}
+            pattern={"[A-Za-z0-9_\\-]{1,64}"}
+          />
+          <Field
+            name="slug"
+            label="Permanent product URL slug"
+            defaultValue={editing?.product.slug ?? draft?.slug}
+            readOnly={Boolean(editing || draft)}
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+          />
+          <Field
+            name="name"
+            label="Product name"
+            defaultValue={editing?.product.name ?? draft?.name}
+          />
+          <Field
+            name="description"
+            label="Description"
+            defaultValue={editing?.product.description ?? draft?.description}
+          />
+          <Field
+            name="price"
+            label="Price in INR including tax"
+            type="number"
+            min="0.01"
+            step="0.01"
+            defaultValue={
+              editing ? editing.product.price_paise / 100 : undefined
             }
-            defaultValue={editing?.product[key]}
           />
-        ))}
-        <Field
-          name="gst"
-          label="GST rate (%)"
-          type="number"
-          min={0}
-          max={40}
-          step="0.01"
-          defaultValue={editing ? editing.gst_bps / 100 : undefined}
-        />
-        <Field
-          name="hsn"
-          label="HSN code"
-          pattern="[0-9]{4,8}"
-          defaultValue={editing?.hsn}
-        />
-        <MediaSelect selected={editing?.media_id ?? null} />
-        <label className="checkbox">
-          <input
-            type="checkbox"
-            name="published"
-            defaultChecked={editing?.published}
+          <Field
+            name="category"
+            label="Category URL slug (optional)"
+            required={false}
+            defaultValue={editing?.product.category ?? draft?.category ?? ""}
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+            maxLength={80}
           />
-          Publish after verifying all food and tax information
-        </label>
-        <button className="button">Save product</button>
-      </form>
-    </div>
+          <Field
+            name="tags"
+            label="Tag URL slugs, comma separated (optional)"
+            required={false}
+            defaultValue={
+              (editing?.product.tags ?? draft?.tags)?.join(", ") ?? ""
+            }
+          />
+          <Field
+            name="compare"
+            label="Original price in INR (optional)"
+            type="number"
+            required={false}
+            min="0.01"
+            step="0.01"
+            defaultValue={
+              editing?.product.compare_at_price_paise
+                ? editing.product.compare_at_price_paise / 100
+                : ""
+            }
+          />
+          <label className="field">
+            Dietary mark
+            <select
+              name="dietary"
+              required
+              defaultValue={
+                editing?.product.dietary ??
+                (draft?.dietary === "unconfirmed" ? "" : draft?.dietary) ??
+                "non-veg"
+              }
+            >
+              <option value="">Confirm dietary mark</option>
+              <option value="veg">Vegetarian</option>
+              <option value="non-veg">Non-vegetarian</option>
+            </select>
+          </label>
+          {FOOD_FIELDS.map((key) => (
+            <Field
+              key={key}
+              name={key}
+              label={sentence(key)}
+              required={
+                selectedMode === "packaged" ||
+                !["shelf_life", "manufacturer"].includes(key)
+              }
+              defaultValue={editing?.product[key]}
+            />
+          ))}
+          <Field
+            name="gst"
+            label="GST rate (%)"
+            type="number"
+            min={0}
+            max={40}
+            step="0.01"
+            defaultValue={editing ? editing.gst_bps / 100 : undefined}
+          />
+          <Field
+            name="hsn"
+            label="HSN code"
+            pattern="[0-9]{4,8}"
+            defaultValue={editing?.hsn}
+          />
+          <MediaSelect selected={editing?.media_id ?? null} />
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              name="published"
+              defaultChecked={editing?.published}
+            />
+            Publish after verifying all food and tax information
+          </label>
+          <button className="button">Save product</button>
+        </form>
+      </div>
+    </>
   );
 }
 

@@ -20,8 +20,8 @@ from app.admin_cli import provision
 from app.main import app
 from app.security import connection
 
-ORIGIN = "http://127.0.0.1:3000"
-APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:54339/pakodi_mvp_test"
+ORIGIN = "http://127.0.0.1:3501"
+APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:55450/pakodi_mvp_test"
 CUSTOMER = {
     "name": "Fixture Buyer",
     "phone": "+919876543210",
@@ -67,7 +67,7 @@ def api(database, monkeypatch):
     monkeypatch.setenv("APP_ENV", "test")
     monkeypatch.setenv("COMMERCE_DATABASE_URL", APP_DB)
     monkeypatch.setenv("DATABASE_URL", READER)
-    monkeypatch.setenv("REDIS_URL", "redis://127.0.0.1:63799/15")
+    monkeypatch.setenv("REDIS_URL", "redis://127.0.0.1:6450/15")
     monkeypatch.setenv("PUBLIC_ORIGIN", ORIGIN)
     monkeypatch.setenv("RAZORPAY_KEY_ID", "rzp_test_fixture")
     monkeypatch.setenv("RAZORPAY_WEBHOOK_SECRET", "synthetic-webhook-secret")
@@ -83,7 +83,7 @@ RESTART IDENTITY CASCADE
             "DELETE FROM content_records WHERE (kind='product' AND slug LIKE 'fixture-%') "
             "OR (kind='outlet' AND slug='fixture-pilot')"
         )
-    Redis.from_url("redis://127.0.0.1:63799/15").flushdb()
+    Redis.from_url("redis://127.0.0.1:6450/15").flushdb()
     with TestClient(app, backend_options={"loop_factory": asyncio.SelectorEventLoop}) as client:
         client.headers["origin"] = ORIGIN
         yield client

@@ -32,7 +32,7 @@ def main():
             "DELETE FROM content_records WHERE kind='product' OR "
             "(kind='outlet' AND slug='fixture-pilot')"
         )
-    Redis.from_url("redis://127.0.0.1:63799/15").flushdb()
+    Redis.from_url("redis://127.0.0.1:6450/15").flushdb()
     if sys.argv[1] == "reset":
         return
     _, recovery = run(provision("browser-admin", "a-strong-browser-fixture-password"))

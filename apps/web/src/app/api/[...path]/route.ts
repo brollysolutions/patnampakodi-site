@@ -51,7 +51,7 @@ async function forward(
   }
   try {
     const response = await fetch(
-      `${process.env.CONTENT_API_URL ?? "http://127.0.0.1:8000"}/${path.join("/")}${request.nextUrl.search}`,
+      `${process.env.CONTENT_API_URL ?? "http://127.0.0.1:8500"}/${path.join("/")}${request.nextUrl.search}`,
       {
         method: request.method,
         headers,

@@ -22,7 +22,7 @@ Security headers (CSP, nosniff, referrer policy) and fragment links are reported
 as warnings. Exit status is 1 when any check fails.
 
 Usage:
-  python scripts/check_seo.py http://localhost:3000 / /services/ \
+  python scripts/check_seo.py http://localhost:3501 / /services/ \
       --canonical-origin https://example.com
   python scripts/check_seo.py https://preview.example.com /about/ --allow-noindex --no-links
   python scripts/check_seo.py https://example.com / --expect-text "Working systems" --json seo.json
@@ -416,7 +416,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("base_url", help="Origin of the running site, e.g. http://localhost:3000")
+    parser.add_argument("base_url", help="Origin of the running site, e.g. http://localhost:3501")
     parser.add_argument("paths", nargs="+", help="Paths to check, each starting with /")
     parser.add_argument(
         "--canonical-origin",

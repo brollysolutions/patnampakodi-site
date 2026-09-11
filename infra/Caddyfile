@@ -5,11 +5,11 @@
     max_size 5MB
   }
   handle_path /api/* {
-    reverse_proxy api:8000 {
+    reverse_proxy api:8500 {
       header_up X-Forwarded-For {remote_host}
     }
   }
   handle {
-    reverse_proxy web:3000
+    reverse_proxy web:3500
   }
 }

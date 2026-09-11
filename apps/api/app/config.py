@@ -22,12 +22,12 @@ def setting(name: str, local: str = "") -> str:
 
 def app_database_url():
     return setting(
-        "COMMERCE_DATABASE_URL", "postgresql://pakodi_app:local-app-only@127.0.0.1:54339/pakodi"
+        "COMMERCE_DATABASE_URL", "postgresql://pakodi_app:local-app-only@127.0.0.1:55450/pakodi"
     )
 
 
 def origin():
-    return setting("PUBLIC_ORIGIN", "http://127.0.0.1:3000").rstrip("/")
+    return setting("PUBLIC_ORIGIN", "http://127.0.0.1:3501").rstrip("/")
 
 
 def media_root():

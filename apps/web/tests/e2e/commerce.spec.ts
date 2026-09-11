@@ -28,7 +28,7 @@ test("customer request, staff approval, private access and cancellation", async 
   try {
     // Legacy staff quotes remain manageable through existing private order links.
     const submitted = await page.request.post("/api/v1/orders", {
-      headers: { Origin: "http://127.0.0.1:3010" },
+      headers: { Origin: "http://127.0.0.1:3510" },
       data: {
         request_key: crypto.randomUUID(),
         customer: {
@@ -65,7 +65,7 @@ test("customer request, staff approval, private access and cancellation", async 
     ).json();
     const staffContext = await browser.newContext();
     const admin = await staffContext.newPage();
-    await admin.goto("http://127.0.0.1:3010/admin/");
+    await admin.goto("http://127.0.0.1:3510/admin/");
     await admin.getByLabel("Username", { exact: true }).fill("browser-admin");
     await admin
       .getByLabel("Password", { exact: true })
@@ -112,13 +112,13 @@ test("customer request, staff approval, private access and cancellation", async 
     });
     const stranger = await browser.newContext();
     const anonymous = await stranger.newPage();
-    await anonymous.goto("http://127.0.0.1:3010/track/");
+    await anonymous.goto("http://127.0.0.1:3510/track/");
     await expect(anonymous.locator("main")).not.toContainText(
       "Browser Fixture Buyer",
     );
     expect(
       (
-        await anonymous.request.get("http://127.0.0.1:3010/api/v1/admin/orders")
+        await anonymous.request.get("http://127.0.0.1:3510/api/v1/admin/orders")
       ).status(),
     ).toBe(401);
     await page

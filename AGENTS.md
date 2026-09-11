@@ -166,7 +166,7 @@ On Windows the PowerShell equivalent of the full gate is
 Python 3.11+, uv, Node.js 22.19+ and Docker are required; application packages
 are pinned in `apps/api/uv.lock` and `apps/web/package-lock.json`.
 Start the local PostgreSQL and Redis fixtures before the full gate. The gate owns
-API/web ports 8010/3010 for `pakodi_mvp_test` and Redis DB 15, then measures
+API/web ports 8510/3510 for `pakodi_mvp_test` and Redis DB 15, then measures
 the pinned Docker images with a unique `pakodi_container_fixture_*` database,
 Redis DB 14 and temporary loopback ports. Do not run concurrent database-mutating
 test suites. Use `python scripts/verify_restore.py`

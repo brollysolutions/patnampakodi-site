@@ -8,7 +8,7 @@ test("Lighthouse launch retains tool defaults and the Linux SUID sandbox", () =>
   Object.defineProperty(process, "platform", { value: "linux" });
   try {
     assert.ok(new Launcher().flags.includes("--disable-setuid-sandbox"));
-    const args = lighthouseChromeArgs(new URL("https://localhost:3010"));
+    const args = lighthouseChromeArgs(new URL("https://localhost:3510"));
     const flags = args[1].slice("--chrome-flags=".length).split(" ");
     const actual = new Launcher({
       ignoreDefaultFlags: args.includes("--chrome-ignore-default-flags"),
@@ -21,7 +21,7 @@ test("Lighthouse launch retains tool defaults and the Linux SUID sandbox", () =>
     assert.ok(actual.includes("--headless"));
     assert.ok(actual.includes("--allow-insecure-localhost"));
     assert.ok(
-      !lighthouseChromeArgs(new URL("http://127.0.0.1:3010"))[1].includes(
+      !lighthouseChromeArgs(new URL("http://127.0.0.1:3510"))[1].includes(
         "--allow-insecure-localhost",
       ),
     );

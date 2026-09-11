@@ -79,14 +79,16 @@ def validate_config(config):
             if (
                 name != "web"
                 or port.get("host_ip") != "127.0.0.1"
-                or str(port.get("published")) != "3100"
+                or str(port.get("published")) != "3500"
+                or port.get("target") != 3500
+                or port.get("protocol", "tcp") != "tcp"
             ):
-                raise RuntimeError("Only loopback web port3100 may be published")
+                raise RuntimeError("Only loopback web port 3500 may be published")
         values = service.get("environment", {})
         if name in {"api", "worker", "fixture-provider"} and (
             values.get("PROVIDER_MODE") != "fixtures"
             or values.get("APP_ENV") != "staging"
-            or values.get("PUBLIC_ORIGIN") != "http://127.0.0.1:3100"
+            or values.get("PUBLIC_ORIGIN") != "http://127.0.0.1:3500"
         ):
             raise RuntimeError("Local staging requires local provider fixtures")
     if config["services"]["web"]["environment"].get("SITE_INDEXABLE") != "false":
@@ -123,8 +125,8 @@ def main():
         command("run", "--rm", "migrate")
         command("run", "--rm", "seed")
         command("up", "-d", "--wait", "api", "fixture-provider", "worker", "web")
-        wait_for_web("http://127.0.0.1:3100")
-        print("Local staging: http://127.0.0.1:3100/ (provider fixtures, noindex)")
+        wait_for_web("http://127.0.0.1:3500")
+        print("Local staging: http://127.0.0.1:3500/ (provider fixtures, noindex)")
         print(
             "No catalog or admin test fixtures were inserted. Follow docs/local-staging.md for operator setup."
         )

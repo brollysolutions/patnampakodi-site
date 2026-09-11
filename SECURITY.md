@@ -48,7 +48,7 @@ is defense in depth and is not permission to introduce raw HTML/script rendering
 The production API trusts only the fixed edge proxy, which overwrites forwarding
 headers. Development BFF requests share loopback limits. The host must protect
 database/media disks and encrypted backups. Test fixtures are fixed to loopback
-54339, `pakodi_mvp_test`, and Redis 63799 DB 15. Never run them against a configured
+55450, `pakodi_mvp_test`, and Redis 6450 DB 15. Never run them against a configured
 or production database. Provider calls are mocked in regression tests; live
 capture/refund/template acceptance is unverified until performed with approved
 accounts. Dependency vulnerability reports are point-in-time evidence.

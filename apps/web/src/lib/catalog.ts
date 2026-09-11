@@ -8,7 +8,7 @@ export async function getCatalog(
   query: CatalogQuery = {},
 ): Promise<Schema["VariantView"][]> {
   const url = new URL(
-    `${process.env.CONTENT_API_URL ?? "http://127.0.0.1:8000"}/v1/catalog`,
+    `${process.env.CONTENT_API_URL ?? "http://127.0.0.1:8500"}/v1/catalog`,
   );
   for (const [name, value] of Object.entries(query))
     if (value !== undefined && value !== "")

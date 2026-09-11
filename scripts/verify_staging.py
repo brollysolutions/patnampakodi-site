@@ -57,7 +57,7 @@ def main():
         if name == "web":
             service["ports"] = [
                 {
-                    "target": 3000,
+                    "target": 3500,
                     "published": str(port),
                     "host_ip": "127.0.0.1",
                     "protocol": "tcp",

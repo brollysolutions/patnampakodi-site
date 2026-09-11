@@ -21,14 +21,14 @@ pytest_plugins = ["test_commerce"]
 @pytest.mark.parametrize(
     "environment,origin,allowed",
     [
-        ("test", "http://127.0.0.1:3100", True),
-        ("staging", "http://localhost:3100", True),
-        ("production", "http://127.0.0.1:3100", False),
-        ("development", "http://127.0.0.1:3100", False),
+        ("test", "http://127.0.0.1:3500", True),
+        ("staging", "http://localhost:3500", True),
+        ("production", "http://127.0.0.1:3500", False),
+        ("development", "http://127.0.0.1:3500", False),
         ("staging", "https://patnampakodi.com", False),
         ("staging", "http://127.0.0.1.evil.test", False),
-        ("staging", "http://user@127.0.0.1:3100", False),
-        ("staging", "http://127.0.0.1:3100/path", False),
+        ("staging", "http://user@127.0.0.1:3500", False),
+        ("staging", "http://127.0.0.1:3500/path", False),
     ],
 )
 def test_fixture_mode_requires_explicit_local_nonproduction(
@@ -49,7 +49,7 @@ def test_fixture_mode_requires_explicit_local_nonproduction(
 
 def test_fixture_provider_persists_idempotent_captures_and_refunds(monkeypatch, tmp_path):
     monkeypatch.setenv("APP_ENV", "test")
-    monkeypatch.setenv("PUBLIC_ORIGIN", "http://127.0.0.1:3100")
+    monkeypatch.setenv("PUBLIC_ORIGIN", "http://127.0.0.1:3500")
     monkeypatch.setenv("PROVIDER_MODE", "fixtures")
     monkeypatch.setenv("FIXTURE_STORE", str(tmp_path / "provider.sqlite3"))
     events = []
@@ -111,7 +111,7 @@ def test_fixture_webhooks_sign_the_exact_request_bytes(monkeypatch):
     event = {"event": "payment.captured", "payload": {"fixture": "signed"}}
     asyncio.run(fixture_provider.webhook("razorpay", event, "fixture-event"))
     request = sent[0]
-    assert str(request.url) == "http://api:8000/v1/webhooks/razorpay"
+    assert str(request.url) == "http://api:8500/v1/webhooks/razorpay"
     assert json.loads(request.content) == event
     assert (
         request.headers["X-Razorpay-Signature"]
@@ -166,7 +166,7 @@ def test_capture_route_requires_private_order_current_quote_and_reservation(staf
 
 def test_fixture_message_adapter_omits_customer_phone_and_private_parameters(monkeypatch):
     monkeypatch.setenv("APP_ENV", "test")
-    monkeypatch.setenv("PUBLIC_ORIGIN", "http://127.0.0.1:3100")
+    monkeypatch.setenv("PUBLIC_ORIGIN", "http://127.0.0.1:3500")
     monkeypatch.setenv("PROVIDER_MODE", "fixtures")
     calls = []
 

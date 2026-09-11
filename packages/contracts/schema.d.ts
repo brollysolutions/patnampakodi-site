@@ -21,6 +21,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/catalog-drafts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Catalog Drafts */
+        get: operations["catalog_drafts_v1_admin_catalog_drafts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/content": {
         parameters: {
             query?: never;
@@ -953,6 +970,43 @@ export interface components {
              * Format: uuid
              */
             variant_id: string;
+        };
+        /**
+         * CatalogDraft
+         * @description Known source identity only; never a priced or purchasable variant.
+         */
+        CatalogDraft: {
+            /** Category */
+            category: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+            /**
+             * Dietary
+             * @default unconfirmed
+             * @enum {string}
+             */
+            dietary: "veg" | "non-veg" | "unconfirmed";
+            /**
+             * Image
+             * @default
+             */
+            image: string;
+            /**
+             * Mode
+             * @enum {string}
+             */
+            mode: "fresh" | "packaged";
+            /** Name */
+            name: string;
+            /** Sku */
+            sku: string;
+            /** Slug */
+            slug: string;
+            /** Tags */
+            tags: string[];
         };
         /** CheckoutOrderRequest */
         CheckoutOrderRequest: {
@@ -2052,6 +2106,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Health"];
+                };
+            };
+        };
+    };
+    catalog_drafts_v1_admin_catalog_drafts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CatalogDraft"][];
                 };
             };
         };

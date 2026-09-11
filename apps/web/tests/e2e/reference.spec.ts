@@ -101,7 +101,7 @@ test("public source FAQ remains available without JavaScript", async ({
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3010/", { waitUntil: "domcontentloaded" });
+  await page.goto("http://127.0.0.1:3510/", { waitUntil: "domcontentloaded" });
   const faq = page.locator(".home-faq details").first();
   await faq.locator("summary").click();
   await expect(faq.locator("p")).toContainText("Display Model");

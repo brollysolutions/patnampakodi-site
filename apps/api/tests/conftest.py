@@ -17,7 +17,7 @@ from app.main import app
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNER = LOCAL_MIGRATION_URL.rsplit("/", 1)[0] + "/pakodi_mvp_test"
-READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:54339/pakodi_mvp_test"
+READER = "postgresql://pakodi_reader:local-reader-only@127.0.0.1:55450/pakodi_mvp_test"
 
 
 def require_fixture_environment():

@@ -22,6 +22,9 @@ delivery rules. Payments and messages use local provider fixtures: no money is
 charged and no real message is sent. It does not populate the persistent review
 site or production. Rehearse before the meeting; the first build takes time.
 
+The persistent review site is at `http://127.0.0.1:3500/`, with admin at `/admin/`.
+Use the separate disposable demo above to demonstrate orders and stock changes.
+
 Use PIN **500001**, state **Telangana**, and an invented customer name/address.
 Each fixture product costs ₹118; delivery costs ₹20. These are demonstration
 values for reviewing the software, not proposed business prices.
@@ -62,7 +65,10 @@ demonstration is interrupted.
    to show the pilot outlet, opening hours, pause switch and PIN fees.
    Show how the sticky sidebar or mobile tabs keep each area within reach. Order
    counts describe the current view; use Reports for date-based sales totals.
-   Show product stock, enquiries, reports and media. Demonstrate
+   In Products, search the 57 food and flavour setup entries and open a ready mix
+   to show its prefilled name and image. Explain that approved prices, portions,
+   food/tax information and stock complete its activation. Then show product
+   stock, enquiries, reports and media. Demonstrate
    changes only in this disposable demo.
 
 6. **The rest of the brand — 1 minute.** Visit the story, branches, franchise,

@@ -1,5 +1,74 @@
 # Feature status
 
+## Port migration and food catalogue preparation - 2026-09-11
+
+Item 16 is implemented and locally verified on `feat/docker-staging` for
+[PR #13](https://github.com/brollysolutions/patnampakodi-site/pull/13). The new local
+map is Docker web 3500, native web 3501, API 8500, browser web/API 3510/8510,
+PostgreSQL 55450 and Redis 6450. These ports were checked for active listeners;
+another project's API already uses 8000 and is outside this change. Existing
+project volumes, private network boundaries and public production TLS are preserved.
+
+The saved references reconcile to **57 distinct setup entries: 53 fresh foods
+and four ready mixes**. Products provides name search, range filtering, pagination
+and a prefilled form. Pachi Mirchi retains its original product URL. The private
+API uses the normal admin session and brand-scoped database connection; existing
+variants and stock are preserved. Seven product-specific source images are reused.
+Visual review found generic pakodi photos on menu drinks/dips, so other setup
+entries use neutral icons until staff select approved Media. Confirmed launch
+prices, portions, stock and required food/tax information remain requested inputs;
+the templates do not create purchasable variants or approve packaging claims.
+
+Fresh checks: 111 workflow tests and 22-skill parity; 97 API tests, lint/format,
+one migration head and regenerated contracts. Five catalogue regressions pass
+again after the source-photo correction. Web lint (two existing navigation
+warnings), formatting, types, 27 unit tests and production build pass. The broad
+browser run passed 58 checks, failed the same new dietary-select locator in all
+three viewports, and skipped two duplicate reflow projects. Correcting the test
+to locate the semantic combobox yields three passing admin/axe journeys on the
+same build. Technical SEO passes 13 routes with the existing skip-link warnings.
+
+Container migration/seed, API/web, private/indexing headers, worker heartbeat and
+Caddy HTTPS routing pass with the new internal ports. Lighthouse completes all
+18 reports with accessibility, best practices and SEO 100; no HTTP 500 occurs.
+The overall command exits 1 because the unchanged timing budgets fail. Report:
+`lighthouse-1789133177557`, web image `40798c15`, API image `bc2de2e2`.
+
+| Page/device | Median performance | LCP (ms) | TBT (ms) | Budget |
+| --- | ---: | ---: | ---: | --- |
+| Home/mobile | 57 | 3663 | 1908 | Fail |
+| Menu/mobile | 65 | 3250 | 1096 | Fail |
+| Contact/mobile | 63 | 3602 | 897 | Fail |
+| Home/desktop | 85 | 1197 | 222 | Fail |
+| Menu/desktop | 94 | 888 | 150 | Pass |
+| Contact/desktop | 91 | 869 | 136 | Pass |
+
+The slow-CPU warning limits interpretation but does not waive a failed budget.
+Historical CI for prior head `d5ce5de` also fails performance: homepage mobile
+median LCP 2589 ms exceeds 2500 ms, with performance 94 and TBT 194 ms. Its other
+five page/device medians and four workflow jobs pass
+([run 34594368754](https://github.com/vamshisaideep9/patnampakodi-site/actions/runs/34594368754)).
+That CI run is not evidence for this follow-up. Final-head CI remains unverified.
+
+The final disposable Docker run passes both acceptance tests and all five SQL
+invariants, including payment/replay, provider and worker recovery, invoice,
+delivery, refund, messages and recovery from a real local API outage. Manual
+review checks the setup list and form at 1440, 768, 390 and 320px, ready-mix and
+name filters, focus and sticky controls. Saving a source ready mix with explicitly
+synthetic details leaves it unpublished with stock zero, preserves existing stock
+and removes its setup entry (57 to 56). The disposable project is cleaned up
+successfully. Native Safari, physical devices and manual browser zoom are unverified.
+
+The persistent preview refresh exits 0: website/admin on port 3500, web image
+`3838f013`, API image `aa6670ac`; all four named volumes are retained. Home, admin
+and the storefront API return 200 with noindex. Port 3100 is no longer listening;
+the other project's services were not modified. No synthetic catalogue, sale or
+admin fixtures were inserted into this preview. Draft PR #13 carries the reviewed
+change; final remote delivery evidence belongs in the handoff. Next priority:
+confirmed business activation data, hosting/live providers and passing unchanged
+performance budgets. The [client guide](../client-presentation.md) supplies a
+repeatable disposable demo and ten-minute buyer/operator walkthrough.
+
 ## Classic ecommerce redesign - 2026-09-11
 
 Item 15 is implemented under the approved [redesign plan](commerce-redesign-plan.md),

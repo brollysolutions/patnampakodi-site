@@ -30,6 +30,7 @@ from app.commerce_schemas import (
     ActionResult,
     Approve,
     BusinessSettings,
+    CatalogDraft,
     ContentView,
     ContentWrite,
     EnquiryDetails,
@@ -518,6 +519,13 @@ async def recover_link(order_id: uuid.UUID, conn: DB, actor: Admin):
         access_token=await commerce.token_for(conn, order_id),
         status=order["status"],
     )
+
+
+@router.get("/admin/catalog-drafts", response_model=list[CatalogDraft])
+async def catalog_drafts(conn: DB, actor: Admin):
+    from app.catalog_drafts import pending_catalog
+
+    return await pending_catalog(conn)
 
 
 @router.get("/admin/variants", response_model=list[VariantView])

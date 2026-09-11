@@ -56,9 +56,9 @@ def main():
                 "pakodi-mvp-api:review", "python", "-m", *command)
         api_name = "pakodi-review-api-" + suffix
         run("run", "-d", "--name", api_name, "--network", network,
-            "-p", "127.0.0.1::8000", *environment, "pakodi-mvp-api:review", capture=True)
+            "-p", "127.0.0.1::8500", *environment, "pakodi-mvp-api:review", capture=True)
         containers.append(api_name)
-        address = run("port", api_name, "8000/tcp", capture=True).stdout.strip()
+        address = run("port", api_name, "8500/tcp", capture=True).stdout.strip()
         wait("http://" + address + "/health")
         worker = "pakodi-review-worker-" + suffix
         run("run", "-d", "--name", worker, "--network", network, *environment,
@@ -66,10 +66,10 @@ def main():
         containers.append(worker)
         web = "pakodi-review-web-" + suffix
         options = ["-e", "SITE_INDEXABLE=true", "-e", "DEPLOYMENT_ENV=test"] if args.lighthouse else []
-        run("run", "-d", "--name", web, "--network", network, "-p", "127.0.0.1::3000",
-            "-e", f"CONTENT_API_URL=http://{api_name}:8000", *options, "pakodi-mvp-web:review", capture=True)
+        run("run", "-d", "--name", web, "--network", network, "-p", "127.0.0.1::3500",
+            "-e", f"CONTENT_API_URL=http://{api_name}:8500", *options, "pakodi-mvp-web:review", capture=True)
         containers.append(web)
-        address = run("port", web, "3000/tcp", capture=True).stdout.strip()
+        address = run("port", web, "3500/tcp", capture=True).stdout.strip()
         response = wait("http://" + address + "/")
         noindex = "noindex" in response.headers.get("X-Robots-Tag", "")
         if noindex == args.lighthouse:
@@ -96,8 +96,8 @@ def main():
             proxy_config.parent.mkdir(parents=True, exist_ok=True)
             proxy_config.write_text(
                 "{\n admin off\n auto_https disable_redirects\n}\n" +
-                (ROOT / "infra/Caddyfile").read_text().replace("api:8000", api_name + ":8000")
-                .replace("web:3000", web + ":3000"), encoding="utf-8")
+                (ROOT / "infra/Caddyfile").read_text().replace("api:8500", api_name + ":8500")
+                .replace("web:3500", web + ":3500"), encoding="utf-8")
             proxy = "pakodi-review-proxy-" + suffix
             run("run", "-d", "--name", proxy, "--network", network,
                 "-p", "127.0.0.1::443", "-e", "PAKODI_HOST=localhost",

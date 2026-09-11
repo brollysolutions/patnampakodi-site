@@ -110,7 +110,7 @@ test("catalog discovery, original URLs and quantity cart work together", async (
     try {
       const withoutJS = await plain.newPage();
       await withoutJS.goto(
-        "http://127.0.0.1:3010/product-tag/fixture-pepper/?q=Fixture&category=fixture-mixes",
+        "http://127.0.0.1:3510/product-tag/fixture-pepper/?q=Fixture&category=fixture-mixes",
         { waitUntil: "domcontentloaded" },
       );
       await expect(

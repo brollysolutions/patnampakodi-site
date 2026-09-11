@@ -1,5 +1,61 @@
 # Implementation plan
 
+## Port migration and food catalogue preparation - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 16. Move local services to new ports and prepare the complete food catalogue | Implemented and locally verified; sales activation awaits approved data | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+The user requests new ports, including 8500 and 3500, and all referenced foods
+and flavours for a planned launch today. Continue on the instructed
+`feat/docker-staging` branch and update [PR #13](https://github.com/brollysolutions/patnampakodi-site/pull/13).
+Use Docker website 3500, native web 3501, API 8500, browser fixtures 3510/8510,
+local PostgreSQL 55450 and Redis 6450. Align server URLs, Origin checks, health
+checks, containers, test runners and current setup documentation. Preserve
+loopback bindings, private Docker networks, existing volumes and other projects.
+Database/Redis container protocol ports and public production HTTP/TLS ports
+remain standard; dynamic disposable ports remain allocated by the fixture.
+
+Catalogue scope: 51 saved menu items reconciled with the seven original product
+URLs yield 57 distinct entries: 53 fresh foods and four ready-mix flavours. The
+Pachi Mirchi menu flavour retains its original product URL. Reuse recorded names,
+categories and images through an authenticated admin setup endpoint and searchable
+Products list; existing variant records and stock must never be overwritten.
+Launch prices, portions/pack sizes, stock and complete food/tax details are not
+present in the saved sources; the user has been asked for those inputs. Prepare
+the catalogue without inventing those business facts or changing publication,
+payment or stock safeguards. No live deployment or provider activation is included.
+
+Acceptance: the preview loads on 3500, service and fixture URLs agree, no previous
+fixed local ports remain in active configuration, and source foods are ready for
+completion/publication using confirmed information. Verify workflow/port guards,
+API and generated contracts, browser/SEO, Docker checkout and retained data.
+Performance acceptance from item 15 remains open and PR #13 stays draft.
+
+Implementation evidence: 111 workflow tests, 97 API tests, five catalogue
+regressions after image curation, one migration head and fresh contracts pass.
+Web lint/format/types, 27 units and production build pass. The broad browser run
+passes 58 checks and skips two duplicate reflow projects; its three admin failures
+are the same dietary-select test locator. The semantic combobox correction passes
+all three affected admin/axe journeys. Technical SEO passes 13 routes. Source-photo
+review restricts automatic product artwork to the seven product-specific records;
+other prepared foods use neutral icons. Docker smoke and Caddy routing pass;
+18 Lighthouse reports complete with accessibility/best-practices/SEO 100, while
+the unchanged speed budgets fail on mobile and home desktop (see feature-status).
+Both disposable Docker acceptance tests and all five database invariants pass;
+the presentation fixture is cleaned up successfully. Manual review covers the
+setup list and product form at 1440, 768, 390 and 320px, range/name filtering,
+focus, sticky navigation and saving a synthetic unpublished product. Its stock
+remains zero, existing stock is unchanged, and the setup count falls from 57 to 56.
+The persistent preview is refreshed to port 3500 with web image `3838f013` and
+API image `aa6670ac`, preserving all four named volumes. Home, admin and the
+storefront API return 200 with noindex; the old port 3100 is no longer listening.
+No synthetic sale or admin records were inserted into the persistent preview.
+Native Safari, physical devices and manual browser zoom remain unverified.
+Delivery is through draft PR #13; final remote readback accompanies the handoff.
+Live business/provider/hosting and performance acceptance remain the next release
+priorities. See the updated [client presentation guide](../client-presentation.md).
+
 ## Classic ecommerce redesign - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |

@@ -21,6 +21,20 @@ separate status, customer/delivery details, totals and actions. Counts describe
 the current results page, never an invented business-wide dashboard. Storefront
 navigation is sticky, with focus and anchor offsets. No decorative animation.
 
+The food-catalogue follow-up adds a searchable preparation list inside Products,
+using the same admin panels, fonts, icons and buttons. Show six entries per page,
+filter fresh food and ready mixes, reuse saved food/pack images, and focus the
+product form immediately after selection. Unknown selling and food details stay
+blank for operator confirmation. Publication and stock remain explicit operations.
+No generated images or new animation are needed for these 57 referenced entries.
+Only the seven original product observations automatically supply photographs.
+Generic pakodi artwork repeated across the source menu must not become product
+photos for unrelated foods; use neutral icons and staff-selected Media instead.
+Final manual review covers the preparation list and form at 1440, 768, 390 and
+320px, retained sticky navigation, immediate focus and a persisted unpublished
+synthetic product. The three admin/axe journeys pass. Native Safari, physical
+devices and manual zoom remain unverified; the Lighthouse speed gate remains open.
+
 ## Superseding user correction - 2026-09-11
 
 Keep the original site's colors and fonts as well as its content and layout.

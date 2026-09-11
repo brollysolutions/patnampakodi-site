@@ -25,7 +25,7 @@ const directory = resolve(
 await mkdir(directory, { recursive: true });
 const results = [];
 const baseURL = new URL(
-  process.env.LIGHTHOUSE_BASE_URL ?? "http://127.0.0.1:3010",
+  process.env.LIGHTHOUSE_BASE_URL ?? "http://127.0.0.1:3510",
 );
 if (!["127.0.0.1", "localhost", "[::1]"].includes(baseURL.hostname))
   throw new Error("Performance verification requires a local fixture URL");
