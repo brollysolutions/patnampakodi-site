@@ -8,17 +8,39 @@ import "./reference.css";
 import { AnalyticsGate } from "@/components/AnalyticsGate";
 
 const display = localFont({
-  src: "../../node_modules/@fontsource/abril-fatface/files/abril-fatface-latin-400-normal.woff2",
+  src: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
   variable: "--font-display",
   display: "swap",
-  adjustFontFallback: "Times New Roman",
+  weight: "400 800",
+  preload: false,
+  adjustFontFallback: "Arial",
 });
 const body = localFont({
-  src: "../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2",
+  src: [
+    {
+      path: "../../node_modules/@fontsource/poppins/files/poppins-latin-400-normal.woff2",
+      weight: "400",
+    },
+    {
+      path: "../../node_modules/@fontsource/poppins/files/poppins-latin-500-normal.woff2",
+      weight: "500",
+    },
+    {
+      path: "../../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2",
+      weight: "600",
+    },
+    {
+      path: "../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2",
+      weight: "700",
+    },
+    {
+      path: "../../node_modules/@fontsource/poppins/files/poppins-latin-800-normal.woff2",
+      weight: "800",
+    },
+  ],
   variable: "--font-body",
   preload: true,
   display: "swap",
-  weight: "400 700",
   adjustFontFallback: "Arial",
 });
 

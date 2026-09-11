@@ -1,5 +1,20 @@
 # Patnam Pakodi website design direction
 
+## Superseding user correction - 2026-09-11
+
+Keep the original site's colors and fonts as well as its content and layout.
+The full ecommerce journey remains required. This replaces the earlier instruction
+to apply our fonts/colors and the historical locked identity below.
+Fresh browser computed styles on https://patnampakodi.com/ and /shop/ show:
+Poppins for body, controls and editorial headings; Inter for shop headings;
+peach `#FEF1E4`, body `#353535`, heading `#1C1C1C`, orange `#FF6210`,
+red `#C0392B`, gold `#F39C12` and white. Use locally served licensed fonts.
+Retain these colors while pairing orange/gold with dark text for accessible
+controls; the source's small white-on-orange/gold labels fail contrast.
+Taste: preserve source identity and composition. Impeccable: clear Shop/Cart
+entry points and legible responsive type. Kowalski: instant feedback, no added
+decorative motion. Verify through Apple guidance, browser/axe and SEO gates.
+
 ## Superseding instruction — 2026-09-10
 
 The user approved reproducing patnampakodi.com in Next.js, keeping its original
