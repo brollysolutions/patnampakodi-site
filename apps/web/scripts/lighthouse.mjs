@@ -1,11 +1,22 @@
-import { access, mkdir, writeFile } from "node:fs/promises";
+import { access, mkdir, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { chromium } from "@playwright/test";
 import { passesBudgets, summarizeRuns } from "./performance-policy.mjs";
+import { lighthouseChromeArgs } from "./lighthouse-launch.mjs";
 
 const chromePath = chromium.executablePath();
 await access(chromePath);
+
+// CI's Ubuntu AppArmor policy blocks the downloaded browser's user namespaces.
+// CI installs the pinned browser's companion helper with the required ownership.
+if (process.env.CHROME_DEVEL_SANDBOX) {
+  const helper = await stat(process.env.CHROME_DEVEL_SANDBOX);
+  if (!helper.isFile() || helper.uid !== 0 || (helper.mode & 0o7777) !== 0o4755)
+    throw new Error(
+      `Chrome sandbox helper must be root-owned mode 4755 (uid=${helper.uid}, mode=${(helper.mode & 0o7777).toString(8)})`,
+    );
+}
 
 const directory = resolve(
   "../../.agent-workflow/reports",
@@ -28,12 +39,11 @@ for (const route of ["/", "/menu/", "/contact/"]) {
       const args = [
         "node_modules/lighthouse/cli/index.js",
         new URL(route, baseURL).href,
-        "--quiet",
         "--save-assets",
         "--output=json",
         "--output=html",
         `--output-path=${file}`,
-        `--chrome-flags=--headless --disable-dev-shm-usage${baseURL.protocol === "https:" ? " --allow-insecure-localhost" : ""}`,
+        ...lighthouseChromeArgs(baseURL),
         "--only-categories=performance,accessibility,best-practices,seo",
       ];
       if (device === "desktop") args.push("--preset=desktop");

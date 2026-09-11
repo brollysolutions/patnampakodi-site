@@ -8,9 +8,11 @@ for (const route of routes) {
   test(`${route} is accessible, indexable and responsive`, async ({
     page,
   }, testInfo) => {
+    // The copied branch page includes several external maps, each audited by axe.
+    if (route === "/branches/") test.setTimeout(60_000);
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    const response = await page.goto(route);
+    const response = await page.goto(route, { waitUntil: "domcontentloaded" });
     expect(response?.status()).toBe(200);
     expect(response?.headers()["x-robots-tag"]).toBeUndefined();
     await expect(page.locator("h1")).toHaveCount(1);
@@ -49,13 +51,19 @@ test("menu search, categories, empty results and reset work without JavaScript",
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3010/menu/");
+  await page.goto("http://127.0.0.1:3010/menu/", {
+    waitUntil: "domcontentloaded",
+  });
   await expect(page.locator(".menu-item")).toHaveCount(51);
   await page.getByRole("button", { name: "Drinks", exact: true }).click();
   await expect(page.locator(".menu-item")).toHaveCount(11);
-  await page.getByLabel("Find your favourite").fill("Kaju");
+  await page.getByLabel("Find your favourite").fill("Junnu");
   await page.getByRole("button", { name: "Search", exact: true }).click();
   await expect(page.locator(".menu-item")).toHaveCount(1);
+  await expect(page).toHaveURL(/category=Drinks/);
+  await expect(
+    page.getByRole("heading", { name: "Junnu Pot", exact: true }),
+  ).toBeVisible();
   await page.getByLabel("Find your favourite").fill("nothingmatches123");
   await page.getByRole("button", { name: "Search", exact: true }).click();
   await expect(
@@ -69,7 +77,7 @@ test("menu search, categories, empty results and reset work without JavaScript",
 test("location search resolves a pincode and provides an honest empty state", async ({
   page,
 }) => {
-  await page.goto("/branches/");
+  await page.goto("/branches/", { waitUntil: "domcontentloaded" });
   await page.getByLabel("City, neighbourhood or pincode").fill("500081");
   await page.getByRole("button", { name: "Find a store" }).click();
   await expect(page.locator(".outlet-grid article")).toHaveCount(1);
@@ -88,7 +96,7 @@ test("contact opens email and shop exposes no draft product or checkout", async 
 }) => {
   await page.goto("/contact/");
   await expect(
-    page.locator('a[href="mailto:patnampakodi@gmail.com"]'),
+    page.locator('a[href="mailto:patnampakodi@gmail.com"]').first(),
   ).toBeVisible();
   await page.goto("/shop/");
   await expect(page.locator("main")).not.toContainText("unapproved-ready-mix");
@@ -134,7 +142,7 @@ test("keyboard skip link and mobile navigation work with reduced motion", async 
     page.getByRole("link", { name: "Skip to content" }),
   ).toBeFocused();
   if (testInfo.project.name === "mobile") {
-    await page.locator("summary").focus();
+    await page.locator(".mobile-nav summary").focus();
     await page.keyboard.press("Enter");
     await expect(page.locator(".mobile-nav nav")).toBeVisible();
     await page

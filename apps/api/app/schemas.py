@@ -1,8 +1,9 @@
 """Public wire models. Editorial provenance and publication flags stay private."""
 
 from typing import Literal
+from urllib.parse import urlsplit
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class PublicModel(BaseModel):
@@ -18,6 +19,43 @@ class Section(PublicModel):
     body: str = Field(min_length=1, max_length=20000)
 
 
+class ContentBlock(PublicModel):
+    """Semantic editorial content, never HTML, CSS or executable attributes."""
+
+    kind: Literal[
+        "group", "heading", "text", "image", "list", "link", "faq", "icon", "enquiry", "map"
+    ]
+    record_slug: str = Field(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=100)
+    text: str = Field(default="", max_length=20000)
+    title: str = Field(default="", max_length=300)
+    href: str = Field(default="", max_length=2000)
+    image: str = Field(default="", pattern=r"^(?:/images/live/[a-z0-9-]+\.webp)?$")
+    alt: str = Field(default="", max_length=300)
+    width: int = Field(default=800, ge=1, le=10000)
+    height: int = Field(default=600, ge=1, le=10000)
+    level: Literal[1, 2, 3, 4] = 2
+    layout: Literal["column", "row"] = "column"
+    tone: Literal["none", "cream", "white", "brown"] = "none"
+    card: bool = False
+    basis: int = Field(default=100, ge=10, le=100)
+    items: list[str] = Field(default_factory=list, max_length=100)
+    children: list["ContentBlock"] = Field(default_factory=list, max_length=100)
+
+    @field_validator("href")
+    @classmethod
+    def safe_href(cls, value):
+        if not value:
+            return value
+        if any(ord(c) < 32 for c in value) or "\\" in value:
+            raise ValueError("Invalid link")
+        parsed = urlsplit(value)
+        if value.startswith("/") and not value.startswith("//"):
+            return value
+        if parsed.scheme in {"https", "mailto", "tel"}:
+            return value
+        raise ValueError("Use a local, HTTPS, phone or email link")
+
+
 class Page(PublicModel):
     slug: str = Field(pattern=r"^(?:policies/)?[a-z0-9]+(?:-[a-z0-9]+)*$")
     title: str = Field(min_length=1, max_length=200)
@@ -25,6 +63,20 @@ class Page(PublicModel):
     heading: str = Field(min_length=1, max_length=200)
     intro: str = Field(min_length=1, max_length=20000)
     sections: list[Section] = Field(default_factory=list)
+    blocks: list[ContentBlock] = Field(default_factory=list, max_length=100)
+
+    @field_validator("blocks")
+    @classmethod
+    def bounded_blocks(cls, blocks):
+        pending = [(block, 1) for block in blocks]
+        count = 0
+        while pending:
+            block, depth = pending.pop()
+            count += 1
+            if depth > 16 or count > 2000:
+                raise ValueError("Page content exceeds the supported size")
+            pending.extend((child, depth + 1) for child in block.children)
+        return blocks
 
 
 class MenuItem(PublicModel):

@@ -1,0 +1,260 @@
+@layer components {
+  .reference-page {
+    background: var(--cream);
+  }
+  .reference-section {
+    padding-block: 24px;
+    max-width: 1140px;
+  }
+  .reference-section:first-child {
+    padding-top: 56px;
+  }
+  .reference-section:last-child {
+    padding-bottom: 64px;
+  }
+  .reference-group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .reference-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+  .reference-row > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .reference-row > .button {
+    flex: 0 1 auto;
+    align-self: center;
+  }
+  .reference-group > .button {
+    align-self: flex-start;
+    justify-self: start;
+  }
+  .reference-group h1 {
+    max-width: 16ch;
+    font-size: clamp(40px, 4.3vw, 64px);
+  }
+  .reference-page:not(.reference-page-home) h1 {
+    max-width: none;
+    font-size: clamp(34px, 3vw, 44px);
+  }
+  .reference-group h2 {
+    font-size: clamp(28px, 2.8vw, 40px);
+  }
+  .reference-group h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 1.3;
+  }
+  .reference-copy p + p {
+    margin-top: 14px;
+  }
+  .reference-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .reference-map {
+    width: 100%;
+    height: 360px;
+    border: 0;
+    border-radius: 16px;
+  }
+  .reference-card {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+  }
+  .reference-card .reference-image {
+    max-height: 340px;
+    object-fit: cover;
+  }
+  .reference-label {
+    display: flex;
+    align-self: flex-start;
+    justify-self: start;
+    list-style: none;
+    border: 1px solid var(--orange);
+    border-radius: 99px;
+    padding: 8px 16px;
+    font-weight: 600;
+    background: var(--white);
+  }
+  .reference-list {
+    padding-left: 22px;
+  }
+  .reference-list li {
+    margin-block: 8px;
+  }
+  .reference-list li::marker {
+    color: var(--brown);
+  }
+  .reference-faq {
+    border-bottom: 1px solid var(--line);
+    padding-block: 18px;
+  }
+  .reference-faq summary {
+    cursor: pointer;
+    padding: 8px;
+    font-weight: 600;
+  }
+  .reference-faq p {
+    padding: 14px 8px 6px;
+  }
+  .reference-icon {
+    color: var(--brown);
+    font-size: 28px;
+  }
+  .tone-white {
+    background: var(--white);
+  }
+  .reference-group.tone-white {
+    padding: 24px;
+    border-radius: 16px;
+  }
+  .tone-brown {
+    color: var(--white);
+    background: var(--brown);
+  }
+  .enquiry-dialog {
+    margin: auto;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 36px;
+    width: min(540px, calc(100% - 32px));
+    max-height: 90dvh;
+    overflow-y: auto;
+    color: var(--brown);
+    background: var(--cream);
+  }
+  .enquiry-dialog::backdrop {
+    background: rgb(43 20 6 / 45%);
+  }
+  .enquiry-dialog h2 {
+    font-size: 30px;
+    margin-bottom: 24px;
+    padding-right: 20px;
+  }
+  .dialog-close {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: 0;
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--brown);
+  }
+  .enquiry-privacy {
+    font-size: 14px;
+  }
+  .editor-section {
+    padding: 14px;
+    margin-block: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .editor-section summary {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .reference-logo {
+    width: 108px;
+    height: auto;
+  }
+  .reference-page-footer .reference-image {
+    width: 130px;
+  }
+  .reference-page-contact > .reference-section:first-child > .reference-row {
+    align-items: center;
+  }
+  .reference-page-contact
+    > .reference-section:first-child
+    > .reference-row
+    > .reference-group:last-child {
+    position: relative;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+  .reference-page-contact
+    > .reference-section:first-child
+    .reference-image:first-child {
+    max-height: none;
+    aspect-ratio: 1.39;
+    object-fit: cover;
+  }
+  .reference-page-contact
+    > .reference-section:first-child
+    .reference-image
+    + .reference-image {
+    position: absolute;
+    width: 70px;
+    height: auto;
+    left: 24px;
+    bottom: 12px;
+    object-fit: contain;
+  }
+  .site-header .desktop-nav {
+    gap: 24px;
+  }
+  .site-header .container {
+    max-width: 1200px;
+  }
+  .reference-page-menu .reference-row h3 {
+    font-size: 24px;
+  }
+  .reference-page-menu .reference-card {
+    padding: 22px;
+  }
+}
+@layer responsive {
+  @media (max-width: 1000px) {
+    .reference-row {
+      flex-wrap: wrap;
+    }
+    .reference-row > * {
+      flex-basis: calc(50% - 24px) !important;
+    }
+  }
+  @media (max-width: 767px) {
+    .reference-section {
+      padding-block: 18px;
+    }
+    .reference-section:first-child {
+      padding-top: 28px;
+    }
+    .reference-row {
+      flex-direction: column;
+    }
+    .reference-row > * {
+      flex-basis: auto !important;
+    }
+    .reference-group h1 {
+      max-width: none;
+    }
+    .reference-logo {
+      width: 76px;
+    }
+    .reference-card {
+      padding: 20px;
+    }
+    .enquiry-dialog {
+      padding: 28px 22px;
+    }
+  }
+}

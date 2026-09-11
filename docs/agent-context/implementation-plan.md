@@ -1,12 +1,59 @@
 # Implementation plan
 
+The installed helper exposed a second issue: chrome-launcher 1.2.1 implicitly disables the SUID sandbox on Linux. The runner now explicitly supplies its unchanged default flags while opting out of that implicit flag. A regression reproduces the old Linux flags and proves the corrected launch retains the sandbox and all other tool defaults. Runtime CI acceptance remains pending.
+
+
 Update this file and `feature-status.md` with product/workflow script changes.
 Record one in-progress item per task branch; independent contributors may each
 have a different task branch. Preserve the other contributor's records when
 resolving a conflict. Use the selected model; do not switch or delegate silently.
 
+## Approved four-PR delivery
+
+CI follow-up: Ubuntu AppArmor blocked the downloaded browser. Install the already-pinned Chromium companion SUID helper as root-owned mode 4755 on the ephemeral CI runner and validate those properties before launch. The sandbox and budgets remain enabled. Shell syntax passes; Linux runtime/performance verification is pending. OpenAPI generation now explicitly writes LF, avoiding Windows-only delivery-state churn.
+
+
+PR #8 follow-up: commit the commerce transaction before HTTP success becomes
+visible, proven by a failing-then-passing ASGI/independent-connection regression.
+Retain Lighthouse launch diagnostics for the unresolved Ubuntu execution error;
+the existing performance thresholds remain mandatory.
+
+Target: local Docker staging by **11 September 2026, 23:59 IST**. Preserve the
+live site's copy, images, layout and permanent URLs with our existing Abril
+Fatface/Archivo fonts and orange/brown/cream palette. Each PR includes its own
+verification, review and delivery records. Human review controls merging.
+
+1. **Public website and enquiries (item 10).** Reproduce all seven public entry
+   pages, original assets, footer, FAQs and testimonials; retain search and outlet
+   discovery; store phone-only enquiries once on retries; expose an approved PDF
+   download when configured; make copied content editable through admin.
+2. **Customer ecommerce (item 11).** Preserve original product/category/tag URLs;
+   add product search, categories and sorting; verify catalog, cart, guest request,
+   staff quote, private payment, expiry, cancellation, invoice and tracking flows.
+   Keep incomplete products unpublished and server-authoritative price/stock rules.
+3. **Admin completion (item 12).** Complete lead enrichment and safe enquiry CSV,
+   dated sales summaries, product/content/media management and existing order,
+   stock, fulfilment, refund, GST and messaging controls. Verify TOTP, CSRF, RLS,
+   audit trails and customer-data access on each affected path.
+4. **Docker staging acceptance (item 13).** Provide repeatable local startup and
+   provider fixtures, verify complete customer/admin journeys and durable recovery,
+   run synthetic backup/restore plus full browser/SEO/container/performance gates,
+   and document exact operator steps and outstanding real-business inputs.
+
+Only approved real business data may populate staging. Product food information,
+seller/tax details, policies and brochure remain required inputs; neither source
+prices alone nor automated-test fixtures authorize publication. Test fixtures use
+isolated disposable databases. Live money movement, customer messaging, production
+deployment, courier integration and customer accounts are outside this delivery.
+The existing approved 24-hour quote, 15-minute reservation, own-team dispatch,
+Razorpay, opt-in Meta WhatsApp and named TOTP-admin decisions remain in force.
+
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
+| 10. Live-site content and franchise entry points (PR 1/4) | In progress; implemented and functionally verified, draft PR #8 CI retry pending after DOM-ready no-JavaScript test correction | `gpt-6-astra` / High recommended | `gpt-6-astra` / High implementation and Extra High final security review recommended; selected settings preserved |
+| 11. Complete customer ecommerce (PR 2/4) | Planned; depends on item 10 | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended |
+| 12. Complete admin and reporting (PR 3/4) | Planned; depends on item 11 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
+| 13. Repeatable Docker staging acceptance (PR 4/4) | Planned; depends on item 12 | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended |
 | 9. Approved commerce MVP and Docker handoff | Delivered for review in [PR #7](https://github.com/brollysolutions/patnampakodi-site/pull/7); see approved-mvp-plan.md | `gpt-6-astra` / High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
 | 8. Build the first stored-content storefront | Source snapshot included in item 9; original `feat/pakodi-storefront` work preserved | `gpt-6-astra` / High recommended; selected settings preserved | `gpt-6-astra` / High recommended; selected settings preserved |
 | 1. Shared agent workflow and partner onboarding | Merged in [PR #1](https://github.com/brollysolutions/patnampakodi-site/pull/1); state verified 2026-09-07 | User-selected model; High recommended | User-selected model; High recommended |

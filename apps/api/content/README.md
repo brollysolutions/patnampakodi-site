@@ -1,5 +1,19 @@
 # Initial public content
 
+Update 2026-09-10: the user explicitly requested the existing public site's copy,
+images, page order and interactions with this project's fonts/colors. The page
+`blocks` now preserve that observed source copy, including its conflicting body
+and footer contact details. They supersede the earlier rewritten composition.
+The source facts are observational, not independent verification; no copied
+review/rating claims are promoted to aggregate-rating structured data. The
+publication gates for sellable products and approved seller settings remain.
+Original images are recorded under `apps/web/public/images/live/PROVENANCE.json`.
+Menu cards and branch sections bind to their published CMS records. The branch
+contact details displayed in the source are imported as editable editorial
+content; they do not establish verified locations and are not promoted to
+FoodEstablishment structured data. Earlier withholding notes below describe the
+initial MVP snapshot, before the user's exact-content instruction.
+
 `storefront.json` is the reviewed initial content input, not a runtime fallback.
 `python -m app.seed` validates it and inserts into PostgreSQL, preserving existing
 records. `--replace` explicitly overwrites the matching seed records. The web

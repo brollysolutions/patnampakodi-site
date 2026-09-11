@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { api, type Schema } from "@/lib/commerce";
 import { Field } from "./FormFields";
+import { BlockEditor, readBlocks } from "./BlockEditor";
 
 type Content = Schema["ContentView"];
 const fields: Record<Content["kind"], string[]> = {
@@ -94,7 +95,7 @@ export function ContentEditor({
           event.preventDefault();
           const data = new FormData(event.currentTarget);
           const slug = String(data.get("slug"));
-          const payload: Record<string, unknown> = {};
+          const payload: Record<string, unknown> = { ...selected?.payload };
           for (const key of fields[kind]) {
             const value = String(data.get(key) ?? "");
             payload[key] = numeric.includes(key)
@@ -106,6 +107,11 @@ export function ContentEditor({
                 : value;
           }
           if (["page", "menu", "outlet"].includes(kind)) payload.slug = slug;
+          if (kind === "page")
+            payload.blocks = readBlocks(
+              (selected?.payload.blocks ?? []) as Schema["ContentBlock"][],
+              data,
+            );
           if (kind === "menu") payload.featured = data.get("featured") === "on";
           if (kind === "page")
             payload.sections = Array.from({ length: sectionCount }, (_, i) => ({
@@ -198,6 +204,11 @@ export function ContentEditor({
         {kind === "page" && (
           <>
             <h3>Page sections</h3>
+            <BlockEditor
+              blocks={
+                (selected?.payload.blocks ?? []) as Schema["ContentBlock"][]
+              }
+            />
             {Array.from({ length: sectionCount }, (_, i) => (
               <div className="form-stack" key={i}>
                 <Field

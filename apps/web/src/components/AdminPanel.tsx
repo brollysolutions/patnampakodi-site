@@ -699,7 +699,7 @@ function Enquiries({ action }: { action: Action }) {
         <div className="product-grid">
           {data.map((item) => (
             <article className="panel form-stack" key={item.id}>
-              <h2>{item.details.name}</h2>
+              <h2>{item.details.name || item.details.phone}</h2>
               <p>
                 {item.details.phone}
                 <br />

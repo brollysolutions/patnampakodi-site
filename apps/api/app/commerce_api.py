@@ -36,6 +36,8 @@ from app.commerce_schemas import (
     OutboxView,
     PaymentCheckout,
     PaymentStart,
+    QuickEnquiry,
+    QuickEnquiryReceipt,
     RefundRequest,
     ReportRow,
     RequestReceipt,
@@ -67,7 +69,8 @@ from app.security import (
 )
 
 router = APIRouter(prefix="/v1")
-DB = Annotated[psycopg.AsyncConnection, Depends(database)]
+# Commit or roll back before exposing the response to a following customer/staff request.
+DB = Annotated[psycopg.AsyncConnection, Depends(database, scope="function")]
 Admin = Annotated[dict, Depends(admin)]
 
 
@@ -235,6 +238,39 @@ async def enquiry(payload: EnquiryInput, request: Request, conn: DB):
             )
     await commerce.audit(conn, "visitor", "enquiry.created", identifier, {})
     return ActionResult(detail="Your enquiry is saved. Our team will contact you.")
+
+
+@router.post("/enquiries/quick", response_model=QuickEnquiryReceipt, status_code=201)
+async def quick_enquiry(payload: QuickEnquiry, request: Request, conn: DB):
+    from app.enquiries import brochure_path, create_quick
+
+    same_origin(request)
+    await rate_request(request, "enquiry", 5, 3600)
+    await limit("enquiry-phone:" + payload.phone, 3, 3600)
+    if payload.website:
+        raise HTTPException(422, "Please check your enquiry details")
+    await create_quick(conn, payload)
+    available = payload.purpose == "brochure" and brochure_path() is not None
+    return QuickEnquiryReceipt(
+        detail="Your enquiry is saved. Our team will contact you.",
+        brochure_url="/api/v1/brochure" if available else None,
+    )
+
+
+@router.get(
+    "/brochure",
+    response_class=FileResponse,
+    responses={
+        200: {"content": {"application/pdf": {"schema": {"type": "string", "format": "binary"}}}}
+    },
+)
+async def download_brochure():
+    from app.enquiries import brochure_path
+
+    path = brochure_path()
+    if path is None:
+        raise HTTPException(404, "The approved brochure is not available yet")
+    return FileResponse(path, media_type="application/pdf", filename="patnam-pakodi-brochure.pdf")
 
 
 @router.post("/admin/login", response_model=SessionView)

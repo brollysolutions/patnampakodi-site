@@ -236,6 +236,158 @@
         "title": "CartLine",
         "type": "object"
       },
+      "ContentBlock": {
+        "additionalProperties": false,
+        "description": "Semantic editorial content, never HTML, CSS or executable attributes.",
+        "properties": {
+          "alt": {
+            "default": "",
+            "maxLength": 300,
+            "title": "Alt",
+            "type": "string"
+          },
+          "basis": {
+            "default": 100,
+            "maximum": 100.0,
+            "minimum": 10.0,
+            "title": "Basis",
+            "type": "integer"
+          },
+          "card": {
+            "default": false,
+            "title": "Card",
+            "type": "boolean"
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            },
+            "maxItems": 100,
+            "title": "Children",
+            "type": "array"
+          },
+          "height": {
+            "default": 600,
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Height",
+            "type": "integer"
+          },
+          "href": {
+            "default": "",
+            "maxLength": 2000,
+            "title": "Href",
+            "type": "string"
+          },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Items",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "group",
+              "heading",
+              "text",
+              "image",
+              "list",
+              "link",
+              "faq",
+              "icon",
+              "enquiry",
+              "map"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "layout": {
+            "default": "column",
+            "enum": [
+              "column",
+              "row"
+            ],
+            "title": "Layout",
+            "type": "string"
+          },
+          "level": {
+            "default": 2,
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "title": "Level",
+            "type": "integer"
+          },
+          "record_slug": {
+            "default": "",
+            "maxLength": 100,
+            "pattern": "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+            "title": "Record Slug",
+            "type": "string"
+          },
+          "text": {
+            "default": "",
+            "maxLength": 20000,
+            "title": "Text",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "maxLength": 300,
+            "title": "Title",
+            "type": "string"
+          },
+          "tone": {
+            "default": "none",
+            "enum": [
+              "none",
+              "cream",
+              "white",
+              "brown"
+            ],
+            "title": "Tone",
+            "type": "string"
+          },
+          "width": {
+            "default": 800,
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "record_slug",
+          "text",
+          "title",
+          "href",
+          "image",
+          "alt",
+          "width",
+          "height",
+          "level",
+          "layout",
+          "tone",
+          "card",
+          "basis",
+          "items",
+          "children"
+        ],
+        "title": "ContentBlock",
+        "type": "object"
+      },
       "ContentView": {
         "additionalProperties": false,
         "properties": {
@@ -1000,6 +1152,14 @@
       "Page": {
         "additionalProperties": false,
         "properties": {
+          "blocks": {
+            "items": {
+              "$ref": "#/components/schemas/ContentBlock"
+            },
+            "maxItems": 100,
+            "title": "Blocks",
+            "type": "array"
+          },
           "description": {
             "maxLength": 500,
             "minLength": 1,
@@ -1043,7 +1203,8 @@
           "description",
           "heading",
           "intro",
-          "sections"
+          "sections",
+          "blocks"
         ],
         "title": "Page",
         "type": "object"
@@ -1179,6 +1340,87 @@
           "consumer_care"
         ],
         "title": "Product",
+        "type": "object"
+      },
+      "QuickEnquiry": {
+        "additionalProperties": false,
+        "properties": {
+          "campaign": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Campaign",
+            "type": "string"
+          },
+          "medium": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Medium",
+            "type": "string"
+          },
+          "phone": {
+            "pattern": "^\\+91[6-9][0-9]{9}$",
+            "title": "Phone",
+            "type": "string"
+          },
+          "purpose": {
+            "default": "franchise",
+            "enum": [
+              "franchise",
+              "brochure",
+              "contact"
+            ],
+            "title": "Purpose",
+            "type": "string"
+          },
+          "request_key": {
+            "format": "uuid",
+            "title": "Request Key",
+            "type": "string"
+          },
+          "source": {
+            "default": "direct",
+            "maxLength": 100,
+            "title": "Source",
+            "type": "string"
+          },
+          "website": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Website",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_key",
+          "phone"
+        ],
+        "title": "QuickEnquiry",
+        "type": "object"
+      },
+      "QuickEnquiryReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "brochure_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brochure Url"
+          },
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "detail",
+          "brochure_url"
+        ],
+        "title": "QuickEnquiryReceipt",
         "type": "object"
       },
       "QuoteLine": {
@@ -2865,6 +3107,25 @@
         "summary": "Stock"
       }
     },
+    "/v1/brochure": {
+      "get": {
+        "operationId": "download_brochure_v1_brochure_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Download Brochure"
+      }
+    },
     "/v1/catalog": {
       "get": {
         "operationId": "catalog_v1_catalog_get",
@@ -2923,6 +3184,44 @@
           }
         },
         "summary": "Enquiry"
+      }
+    },
+    "/v1/enquiries/quick": {
+      "post": {
+        "operationId": "quick_enquiry_v1_enquiries_quick_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuickEnquiry"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuickEnquiryReceipt"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Quick Enquiry"
       }
     },
     "/v1/media/{identifier}": {

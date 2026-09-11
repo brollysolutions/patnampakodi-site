@@ -2,7 +2,6 @@ import { SiteLink } from "@/components/SiteLink";
 import { notFound } from "next/navigation";
 import { getStorefront } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
-import { JsonLd } from "@/components/JsonLd";
 type Props = { params: Promise<{ outlet: string }> };
 export const dynamic = "force-dynamic";
 async function find(props: Props) {
@@ -22,6 +21,7 @@ export async function generateMetadata(props: Props) {
     heading: outlet.name,
     intro: "",
     sections: [],
+    blocks: [],
   });
 }
 export default async function OutletPage(props: Props) {
@@ -55,23 +55,6 @@ export default async function OutletPage(props: Props) {
           Open outlet map
         </a>
       </div>
-      {outlet.address && (
-        <JsonLd
-          value={{
-            "@context": "https://schema.org",
-            "@type": "FoodEstablishment",
-            name: `Patnam Pakodi ${outlet.name}`,
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: outlet.address,
-              addressLocality: outlet.city,
-              postalCode: outlet.pincode,
-              addressCountry: "IN",
-            },
-            ...(outlet.phone ? { telephone: outlet.phone } : {}),
-          }}
-        />
-      )}
     </section>
   );
 }

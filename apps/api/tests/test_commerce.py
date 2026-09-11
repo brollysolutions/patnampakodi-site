@@ -480,3 +480,59 @@ def test_worker_failure_is_durable(staff, monkeypatch):
     assert result[0]["status"] == "pending"
     assert result[0]["last_error"] == "RuntimeError"
     assert "private-provider" not in json.dumps(result)
+
+
+def test_phone_first_enquiry_retry_conflict_and_attribution(staff):
+    payload = {
+        "request_key": str(uuid.uuid4()),
+        "phone": CUSTOMER["phone"],
+        "purpose": "brochure",
+        "campaign": "source-campaign",
+    }
+    first = staff.post("/v1/enquiries/quick", json=payload)
+    assert first.status_code == 201
+    assert first.json()["brochure_url"] is None
+    assert staff.post("/v1/enquiries/quick", json=payload).status_code == 201
+    assert (
+        staff.post("/v1/enquiries/quick", json={**payload, "purpose": "franchise"}).status_code
+        == 409
+    )
+    leads = staff.get("/v1/admin/enquiries").json()
+    assert len(leads) == 1
+    assert leads[0]["details"] == {"phone": CUSTOMER["phone"], "purpose": "brochure"}
+    assert leads[0]["attribution"]["campaign"] == "source-campaign"
+    with psycopg.connect(OWNER) as conn:
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM audit_events WHERE action='enquiry.created'"
+            ).fetchone()[0]
+            == 1
+        )
+
+
+def test_phone_first_origin_honeypot_and_invalid_phone(api):
+    payload = {"request_key": str(uuid.uuid4()), "phone": CUSTOMER["phone"]}
+    assert (
+        api.post(
+            "/v1/enquiries/quick", json=payload, headers={"origin": "https://attacker.invalid"}
+        ).status_code
+        == 403
+    )
+    assert api.post("/v1/enquiries/quick", json={**payload, "website": "bot"}).status_code == 422
+    assert api.post("/v1/enquiries/quick", json={**payload, "phone": "123"}).status_code == 422
+    with psycopg.connect(OWNER) as conn:
+        assert conn.execute("SELECT count(*) FROM enquiries").fetchone()[0] == 0
+
+
+def test_brochure_requires_explicit_pdf_and_never_reads_request_path(api, monkeypatch, tmp_path):
+    monkeypatch.delenv("BROCHURE_PATH", raising=False)
+    assert api.get("/v1/brochure").status_code == 404
+    path = tmp_path / "reviewed.pdf"
+    path.write_bytes(b"%PDF-1.4\n% synthetic test-only brochure\n%%EOF")
+    monkeypatch.setenv("BROCHURE_PATH", str(path))
+    response = api.get("/v1/brochure?path=/unrelated-file")
+    assert response.status_code == 200
+    assert response.content == path.read_bytes()
+    assert "attachment" in response.headers["content-disposition"]
+    path.write_bytes(b"<html>not a PDF</html>")
+    assert api.get("/v1/brochure").status_code == 404

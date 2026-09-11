@@ -171,6 +171,20 @@ class EnquiryView(PublicModel):
     created_at: datetime
 
 
+class QuickEnquiry(PublicModel):
+    request_key: UUID
+    phone: str = Field(pattern=r"^\+91[6-9][0-9]{9}$")
+    purpose: Literal["franchise", "brochure", "contact"] = "franchise"
+    source: str = Field(default="direct", max_length=100)
+    campaign: str = Field(default="", max_length=100)
+    medium: str = Field(default="", max_length=100)
+    website: str = Field(default="", max_length=100)
+
+
+class QuickEnquiryReceipt(ActionResult):
+    brochure_url: str | None = None
+
+
 class EnquiryStatus(PublicModel):
     status: Literal["new", "contacted", "qualified", "won", "lost"]
 
