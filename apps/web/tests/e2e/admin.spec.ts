@@ -47,8 +47,30 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
     await page.getByRole("button", { name: "Sign in", exact: true }).click();
     const navigation = page.getByRole("navigation", { name: "Administration" });
     await navigation
+      .getByRole("button", { name: "Products", exact: true })
+      .click();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page
+      .getByRole("button", { name: "Save product", exact: true })
+      .scrollIntoViewIfNeeded();
+    // Long forms must leave store navigation reachable at every supported width.
+    const topbar = await page.locator(".admin-topbar").boundingBox();
+    const navBounds = await navigation.boundingBox();
+    expect(topbar!.y).toBe(0);
+    expect(navBounds!.y).toBeGreaterThanOrEqual(topbar!.height);
+    expect(navBounds!.y + navBounds!.height).toBeLessThanOrEqual(
+      page.viewportSize()!.height,
+    );
+    await navigation
       .getByRole("button", { name: "Enquiries", exact: true })
       .click();
+    await expect(
+      page.getByRole("heading", { name: "Enquiries", exact: true }),
+    ).toBeFocused();
     await page.getByText("Edit enquiry details", { exact: true }).click();
     await page
       .getByLabel("Contact name", { exact: true })

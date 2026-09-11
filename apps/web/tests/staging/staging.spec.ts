@@ -44,18 +44,21 @@ test("Docker checkout, signed replay, worker recovery, delivery and partial refu
   );
   await page.getByRole("button", { name: "Add to cart", exact: true }).click();
   await page.getByRole("link", { name: "View cart", exact: true }).click();
+  await page.getByRole("link", { name: "Continue to checkout" }).click();
   await page.getByLabel("Full name").fill("Synthetic Staging Buyer");
-  await page.getByLabel("Phone including +91").fill("+919876543210");
+  await page.getByLabel("Phone number", { exact: true }).fill("+919876543210");
   await page.getByLabel("Street address").fill("10 Synthetic Fixture Street");
   await page.getByLabel("City", { exact: true }).fill("Fixture City");
   await page
     .getByRole("combobox", { name: "State", exact: true })
     .selectOption("36");
-  await page.getByLabel("Pincode", { exact: true }).fill("500001");
+  await page.getByLabel("PIN code", { exact: true }).fill("500001");
   await page.getByLabel(/WhatsApp/).check();
-  await page
-    .getByRole("button", { name: "Request delivery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Review order", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Everything look good?" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /Continue to payment/ }).click();
   await expect(page).toHaveURL(/\/track\/#access=/);
   const token = new URLSearchParams(new URL(page.url()).hash.slice(1)).get(
     "access",
@@ -81,8 +84,9 @@ test("Docker checkout, signed replay, worker recovery, delivery and partial refu
   await expect(
     admin.getByRole("heading", { name: order.reference }),
   ).toBeVisible();
-  await admin.getByLabel(/Delivery fee/).fill("20");
-  await admin.getByRole("button", { name: "Confirm delivery & quote" }).click();
+  await expect(
+    admin.getByRole("button", { name: "Confirm delivery & quote" }),
+  ).toHaveCount(0);
   await expect(
     admin.getByText("Ready for payment", { exact: true }),
   ).toBeVisible();
@@ -122,6 +126,15 @@ test("Docker checkout, signed replay, worker recovery, delivery and partial refu
   await expect(
     page.getByRole("button", { name: "Download invoice" }),
   ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem("pakodi-shopping-v2")!).carts.packaged
+            .length,
+      ),
+    )
+    .toBe(0);
   const invoice = await page.request.get("/api/v1/order/invoice", {
     headers: auth,
   });
@@ -212,6 +225,144 @@ test("Docker checkout, signed replay, worker recovery, delivery and partial refu
     path: info.outputPath("docker-sales-report.png"),
     fullPage: true,
   });
+
+  await admin
+    .getByRole("navigation", { name: "Administration" })
+    .getByRole("button", { name: "Delivery", exact: true })
+    .click();
+  await expect(
+    admin.getByRole("heading", { name: "Delivery & fresh food" }),
+  ).toBeVisible();
+  await admin.getByLabel("Pause new fresh orders").check();
+  await admin
+    .getByRole("button", { name: "Save delivery settings", exact: true })
+    .click();
+  await expect(
+    admin.getByRole("status").filter({ hasText: "Delivery settings saved" }),
+  ).toBeVisible();
+  expect(
+    (
+      await (
+        await page.request.get(
+          "/api/v1/serviceability?mode=fresh&pincode=500001",
+        )
+      ).json()
+    ).available,
+  ).toBe(false);
+  await admin.getByLabel("Pause new fresh orders").uncheck();
+  await admin
+    .getByRole("button", { name: "Save delivery settings", exact: true })
+    .click();
+  await expect(
+    admin.getByRole("status").filter({ hasText: "Delivery settings saved" }),
+  ).toBeVisible();
+  expect(
+    (
+      await (
+        await page.request.get(
+          "/api/v1/serviceability?mode=fresh&pincode=500001",
+        )
+      ).json()
+    ).available,
+  ).toBe(true);
+  expect(
+    (
+      await new AxeBuilder({ page: admin })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+  await admin.screenshot({
+    path: info.outputPath("docker-delivery-settings.png"),
+    fullPage: true,
+  });
+
+  const variant = (
+    await (await admin.request.get("/api/v1/admin/variants")).json()
+  ).find((item: { id: string }) => item.id === data.variant);
+  const csrf = (await context.cookies()).find(
+    (cookie) => cookie.name === "pakodi_csrf",
+  )!.value;
+  const productInput = {
+    sku: variant.sku,
+    product: variant.product,
+    gst_bps: variant.gst_bps,
+    hsn: variant.hsn,
+    published: variant.published,
+    media_id: variant.media_id,
+  };
+  const productHeaders = { Origin: origin, "X-CSRF-Token": csrf };
+  try {
+    expect(
+      (
+        await admin.request.put(`/api/v1/admin/variants/${data.variant}`, {
+          headers: productHeaders,
+          data: {
+            ...productInput,
+            product: { ...variant.product, image: "" },
+            media_id: null,
+          },
+        })
+      ).status(),
+    ).toBe(200);
+    await page.goto("/product/staging-fixture-mix/");
+    await expect(
+      page.locator(".product-detail-image .product-image-placeholder"),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", {
+        name: "Save Staging Fixture Mix to favourites",
+      }),
+    ).toBeVisible();
+    await page.screenshot({
+      path: info.outputPath("docker-product-without-photo.png"),
+      fullPage: true,
+    });
+  } finally {
+    expect(
+      (
+        await admin.request.put(`/api/v1/admin/variants/${data.variant}`, {
+          headers: productHeaders,
+          data: productInput,
+        })
+      ).status(),
+    ).toBe(200);
+  }
   expect(externalPayments).toEqual([]);
   await context.close();
+});
+
+test("a public content outage shows a recoverable error without stale content", async ({
+  page,
+}, info) => {
+  test.setTimeout(90_000);
+  await page.goto("/contact/");
+  const heading = await page.locator("main h1").innerText();
+  const title = await page.title();
+  try {
+    compose("stop", "api");
+    const failed = await page.reload();
+    expect(failed?.status()).toBe(500);
+    await expect(
+      page.getByRole("heading", { name: "We couldn’t load this page" }),
+    ).toBeVisible();
+    await expect(page).toHaveTitle("Page unavailable | Patnam Pakodi");
+    await expect(page.locator("main h1")).not.toHaveText(heading);
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+    await page.screenshot({
+      path: info.outputPath("docker-content-unavailable.png"),
+      fullPage: true,
+    });
+  } finally {
+    compose("up", "-d", "--wait", "api");
+  }
+  await page.getByRole("button", { name: "Try again", exact: true }).click();
+  await expect(page.locator("main h1")).toHaveText(heading);
+  await expect(page).toHaveTitle(title);
 });

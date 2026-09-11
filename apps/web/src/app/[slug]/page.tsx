@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { CatalogBrowser } from "@/components/CatalogBrowser";
+import { getCatalog } from "@/lib/catalog";
 import { StructuredPage } from "@/components/StructuredPage";
 import { ReferenceDiscovery } from "@/components/ReferenceDiscovery";
 import { notFound } from "next/navigation";
@@ -41,6 +43,19 @@ export default async function PublicPage({ params, searchParams }: Props) {
   if (page.blocks.length && !["menu", "branches"].includes(slug))
     return <StructuredPage blocks={page.blocks} slug={slug} />;
   const query = await searchParams;
+  if (slug === "menu" && (await getCatalog({ mode: "fresh" })).length)
+    return (
+      <CatalogBrowser
+        query={{
+          ...query,
+          category:
+            typeof query.category === "string"
+              ? query.category.toLowerCase()
+              : undefined,
+        }}
+        mode="fresh"
+      />
+    );
   const FranchiseForm =
     slug === "franchise"
       ? (await import("@/components/FranchiseForm")).FranchiseForm

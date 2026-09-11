@@ -109,6 +109,8 @@ class FranchiseModel(PublicModel):
 
 
 class Product(PublicModel):
+    mode: Literal["packaged", "fresh"] = "packaged"
+    outlet_slug: str = Field(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=100)
     # Optional discovery metadata never substitutes for the required food facts.
     category: str = Field(default="", pattern=r"^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", max_length=80)
     tags: list[Annotated[str, Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$", max_length=80)]] = Field(
@@ -126,6 +128,12 @@ class Product(PublicModel):
             raise ValueError("Original price must be at least the current price")
         if len(set(self.tags)) != len(self.tags):
             raise ValueError("Product tags must be unique")
+        if self.mode == "packaged" and (not self.shelf_life or not self.manufacturer):
+            raise ValueError("Packaged products require shelf life and manufacturer")
+        if self.mode == "fresh" and not self.outlet_slug:
+            raise ValueError("Fresh products require a fulfilment outlet")
+        if self.mode == "packaged" and self.outlet_slug:
+            raise ValueError("Packaged products use the central stock location")
         return self
 
     # Every food/identity field is required before publication.
@@ -138,8 +146,8 @@ class Product(PublicModel):
     allergens: str = Field(min_length=1)
     nutrition: str = Field(min_length=1)
     net_quantity: str = Field(min_length=1)
-    shelf_life: str = Field(min_length=1)
-    manufacturer: str = Field(min_length=1)
+    shelf_life: str = ""
+    manufacturer: str = ""
     consumer_care: str = Field(min_length=1)
 
 

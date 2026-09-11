@@ -26,43 +26,27 @@ test("customer request, staff approval, private access and cancellation", async 
   test.setTimeout(60_000);
   const data = JSON.parse(fixture("prepare"));
   try {
-    await page.goto("/shop/fixture-mix/");
-    await expect(
-      page.getByRole("heading", { name: "Fixture Mix", exact: true }),
-    ).toBeVisible();
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      "href",
-      "https://patnampakodi.com/product/fixture-mix/",
-    );
-    expect(
-      (
-        await new AxeBuilder({ page })
-          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-          .analyze()
-      ).violations,
-    ).toEqual([]);
-    await page
-      .getByRole("button", { name: "Add to cart", exact: true })
-      .click();
-    await page.getByRole("link", { name: "View cart", exact: true }).click();
-    await page.getByLabel("Full name").fill("Browser Fixture Buyer");
-    await page.getByLabel("Phone including +91").fill("+919876543210");
-    await page.getByLabel("Street address").fill("10 Synthetic Test Street");
-    await page.getByLabel("City", { exact: true }).fill("Test City");
-    await page
-      .getByRole("combobox", { name: "State", exact: true })
-      .selectOption("36");
-    await page.getByLabel("Pincode", { exact: true }).fill("500001");
-    expect(
-      (
-        await new AxeBuilder({ page })
-          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-          .analyze()
-      ).violations,
-    ).toEqual([]);
-    await page
-      .getByRole("button", { name: "Request delivery", exact: true })
-      .click();
+    // Legacy staff quotes remain manageable through existing private order links.
+    const submitted = await page.request.post("/api/v1/orders", {
+      headers: { Origin: "http://127.0.0.1:3010" },
+      data: {
+        request_key: crypto.randomUUID(),
+        customer: {
+          name: "Browser Fixture Buyer",
+          phone: "+919876543210",
+          address: "10 Synthetic Test Street",
+          city: "Test City",
+          state_code: "36",
+          pincode: "500001",
+        },
+        lines: [{ variant_id: data.variant, quantity: 1 }],
+        whatsapp_consent: false,
+      },
+    });
+    expect(submitted.status()).toBe(201);
+    const receipt = await submitted.json();
+    await page.goto("/track/#access=" + receipt.access_token);
+
     await expect(page).toHaveURL(/\/track\/#access=/);
     await expect(
       page.getByRole("button", { name: "Refresh status" }),

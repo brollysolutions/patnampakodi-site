@@ -76,16 +76,22 @@ def api(database, monkeypatch):
         conn.execute("""
 TRUNCATE
 admins,sessions,variants,orders,order_tokens,payments,refunds,provider_events,
-outbox,enquiries,media,settings,invoice_counters,audit_events,settlements,message_receipts
+outbox,enquiries,media,settings,fulfilment_settings,invoice_counters,audit_events,settlements,message_receipts
 RESTART IDENTITY CASCADE
 """)
-        conn.execute("DELETE FROM content_records WHERE kind='product' AND slug LIKE 'fixture-%'")
+        conn.execute(
+            "DELETE FROM content_records WHERE (kind='product' AND slug LIKE 'fixture-%') "
+            "OR (kind='outlet' AND slug='fixture-pilot')"
+        )
     Redis.from_url("redis://127.0.0.1:63799/15").flushdb()
     with TestClient(app, backend_options={"loop_factory": asyncio.SelectorEventLoop}) as client:
         client.headers["origin"] = ORIGIN
         yield client
     with psycopg.connect(OWNER) as conn:
-        conn.execute("DELETE FROM content_records WHERE kind='product' AND slug LIKE 'fixture-%'")
+        conn.execute(
+            "DELETE FROM content_records WHERE (kind='product' AND slug LIKE 'fixture-%') "
+            "OR (kind='outlet' AND slug='fixture-pilot')"
+        )
 
 
 @pytest.fixture

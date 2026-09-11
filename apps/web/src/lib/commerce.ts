@@ -11,6 +11,7 @@ export const statusLabel = (status: string) =>
     approved: "Ready for payment",
     payment_pending: "Payment confirmation pending",
     paid: "Payment confirmed",
+    preparing: "Preparing your food",
     dispatched: "Dispatched",
     delivered: "Delivered",
     delivery_issue: "Delivery needs attention",

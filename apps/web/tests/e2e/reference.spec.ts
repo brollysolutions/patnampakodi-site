@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 test("original identity and shopping navigation survive responsive layouts", async ({
   page,
-}) => {
+}, info) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator("html")).toHaveCSS(
@@ -11,32 +11,28 @@ test("original identity and shopping navigation survive responsive layouts", asy
     "rgb(254, 241, 228)",
   );
   await expect(page.locator("body")).toHaveCSS("color", "rgb(53, 53, 53)");
-  await expect(page.locator("h1")).toHaveCSS("font-weight", "800");
+  await expect(page.locator("h1 span")).toHaveCSS("font-weight", "800");
   const typography = await page.evaluate(() => ({
     body: getComputedStyle(document.body).fontFamily,
     heading: getComputedStyle(document.querySelector("h1")!).fontFamily,
   }));
   expect(typography.heading).toBe(typography.body);
-  const navigation = page.locator(".desktop-nav");
-  if (!(await navigation.isVisible())) {
-    await page.locator(".mobile-nav summary").click();
-  }
-  const visibleNavigation = page.locator("header nav:visible");
-  await visibleNavigation
-    .getByRole("link", { name: "Shop", exact: true })
-    .click();
+  if (info.project.name === "mobile")
+    await page
+      .locator(".mobile-bottom-nav")
+      .getByRole("link", { name: "Shop", exact: true })
+      .click();
+  else
+    await page
+      .getByRole("navigation", { name: "Shopping modes" })
+      .getByRole("link", { name: "Shop packaged" })
+      .click();
   await expect(page).toHaveURL(/\/shop\/$/);
-  if (
-    !(await navigation.isVisible()) &&
-    !(await page.locator(".mobile-nav nav").isVisible())
-  ) {
-    await page.locator(".mobile-nav summary").click();
-  }
   await page
-    .locator("header nav:visible")
-    .getByRole("link", { name: "Cart", exact: true })
+    .locator(".store-tools")
+    .getByRole("link", { name: "Cart, 0 items" })
     .click();
-  await expect(page).toHaveURL(/\/cart\/$/);
+  await expect(page).toHaveURL(/\/cart\/\?mode=packaged$/);
   await expect(
     page.getByRole("heading", { name: "Your cart is empty" }),
   ).toBeVisible();
@@ -47,16 +43,22 @@ test("original homepage content, local assets and phone-first lead dialog", asyn
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "Patnam Pakodi", exact: true }),
+    page.getByRole("heading", { name: /Patnam Pakodi.*Made for/, level: 1 }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Proprietary Chef-Less SOP Model" }),
+    page.getByRole("heading", { name: "What are you craving?" }),
   ).toBeVisible();
   await expect(
     page.locator('header img[src*="656da99ddfd65b8a"]'),
   ).toBeVisible();
+  await expect(
+    page.getByRole("img", { name: "Kaju Chicken Pakodi", exact: true }),
+  ).toHaveAttribute("src", /672607b47463342a/);
+  await expect(
+    page.getByRole("img", { name: "Kothimeera Chicken Pakodi", exact: true }),
+  ).toHaveAttribute("src", /1d5b2efa231d50d8/);
   const trigger = page
-    .getByRole("button", { name: "Become Franchise Partner", exact: true })
+    .getByRole("button", { name: "Download brochure", exact: true })
     .first();
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Franchise enquiry" });
@@ -100,7 +102,7 @@ test("public source FAQ remains available without JavaScript", async ({
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:3010/", { waitUntil: "domcontentloaded" });
-  const faq = page.locator("details.reference-faq").first();
+  const faq = page.locator(".home-faq details").first();
   await faq.locator("summary").click();
   await expect(faq.locator("p")).toContainText("Display Model");
   await context.close();

@@ -1,5 +1,8 @@
 # Agent context index
 
+- [Client presentation](../client-presentation.md): repeatable disposable checkout
+  demo, ten-minute customer/operator walkthrough and live activation inputs.
+
 ## Workflow setup request — 2026-09-07
 
 Authority: user instruction. Install the supplied agent-workflow-kit for this
@@ -30,6 +33,7 @@ current feature status and verification record describe this delivery.
 
 | Reference | Source / as of | Authority | Affected paths | Known differences |
 | --- | --- | --- | --- | --- |
+| [Classic ecommerce redesign](commerce-redesign-plan.md) | User planning answers and implementation instruction, 2026-09-11 | Approved current design and new-purchase behaviour | Full web/admin, commerce, additive schema/contracts | Two modes, immediate checkout, PIN fees, one fresh pilot; original identity and conditional reference-based image generation; live inputs remain separate |
 | [Original identity correction](website-design-decisions.md) | Explicit user correction and homepage/shop browser inspection, 2026-09-11 | Preserve original fonts and colors; supersedes replacement brand direction | Shared web layout, fonts, palette, shopping navigation and sharing image | Poppins editorial/body and Inter commerce headings; accessible accent/text pairings; live sales still require approved catalog/provider inputs |
 | [Local Docker staging](../local-staging.md) | User-approved local fixture environment, 2026-09-11 | Local operator and isolated acceptance procedure; live deployment remains separate | Docker, provider adapters, private checkout, acceptance tests | Persistent staging requires approved products, seller, policies, brochure and operator-created named admin |
 | [MVP verification](mvp-verification.md) | Fresh local tests and self-review, 2026-09-10 | Point-in-time evidence; final gate and remote delivery readback recorded separately | Application, contracts, containers, public/private UI | Live providers, approved business inputs and production host acceptance remain separate |

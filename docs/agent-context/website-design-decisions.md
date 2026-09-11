@@ -1,5 +1,26 @@
 # Patnam Pakodi website design direction
 
+## Approved classic ecommerce redesign - 2026-09-11
+
+The user approved shopping-first composition with fresh and packaged modes equally
+visible, original Poppins/Inter/colors/logo, refined factual copy, original imagery
+first and conditional reference-based ChatGPT image generation. This supersedes
+the source-layout preservation rule below. Every public/admin section is in scope;
+see [approved plan](commerce-redesign-plan.md) for behaviour and verification.
+Use a 1280px container, peach/white surfaces, restrained borders, coherent native
+SVG icons, accessible dark text on orange/gold, and complete responsive states.
+Taste defines composition, Impeccable structure, Kowalski purposeful short CSS
+feedback, Apple verifies accessibility/continuity. No decorative motion dependency.
+
+Later user correction: remove website content management from the admin panel.
+The remaining navigation is Orders, Products, Enquiries, Messages, Reports,
+Delivery, Settings and Media. Keep the existing admin visual system.
+The next instruction requests an admin UI upgrade and sticky navigation. Admin
+uses a compact branded header, desktop sidebar and mobile tabs; order cards
+separate status, customer/delivery details, totals and actions. Counts describe
+the current results page, never an invented business-wide dashboard. Storefront
+navigation is sticky, with focus and anchor offsets. No decorative animation.
+
 ## Superseding user correction - 2026-09-11
 
 Keep the original site's colors and fonts as well as its content and layout.

@@ -5,308 +5,14 @@ import { BrowserReady } from "./BrowserReady";
 import { useEffect, useState, type FormEvent } from "react";
 import { api, jsonPost, money, statusLabel, type Schema } from "@/lib/commerce";
 
-type Cart = Schema["CartLine"][];
-const CART_KEY = "pakodi-cart-v1";
-function loadCart(): Cart {
-  try {
-    const data: unknown = JSON.parse(localStorage.getItem(CART_KEY) ?? "[]");
-    return Array.isArray(data)
-      ? data
-          .filter(
-            (item) =>
-              typeof item?.variant_id === "string" &&
-              Number.isInteger(item.quantity) &&
-              item.quantity > 0 &&
-              item.quantity <= 100,
-          )
-          .slice(0, 50)
-      : [];
-  } catch {
-    return [];
-  }
-}
-function saveCart(cart: Cart) {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
-}
-export { Field, Notice } from "./FormFields";
+export { AddToCart } from "./ProductActions";
 import { Field, Notice } from "./FormFields";
-export function AddToCart({
-  variant,
-  quantityInput = false,
-}: {
-  variant: Schema["VariantView"];
-  quantityInput?: boolean;
-}) {
-  const [quantity, setQuantity] = useState("1");
-  const [message, setMessage] = useState("");
-  return (
-    <>
-      {quantityInput && (
-        <label className="field">
-          Quantity
-          <input
-            type="number"
-            min={1}
-            max={100}
-            step={1}
-            value={quantity}
-            onChange={(event) => setQuantity(event.target.value)}
-          />
-        </label>
-      )}
-      <button
-        className="button"
-        disabled={variant.stock <= variant.reserved}
-        onClick={() => {
-          try {
-            const cart = loadCart();
-            const existing = cart.find(
-              (line) => line.variant_id === variant.id,
-            );
-            const count = quantityInput ? Number(quantity) : 1;
-            if (!Number.isInteger(count) || count < 1 || count > 100) {
-              setMessage("Choose a quantity from 1 to 100.");
-              return;
-            }
-            if (
-              (existing?.quantity ?? 0) + count > 100 ||
-              (!existing && cart.length >= 50)
-            ) {
-              setMessage(
-                "Cart limit reached. Adjust the quantities in your cart.",
-              );
-              return;
-            }
-            if (existing) existing.quantity += count;
-            else cart.push({ variant_id: variant.id, quantity: count });
-            saveCart(cart);
-            setMessage("Added to your cart.");
-          } catch {
-            setMessage("Allow browser storage to use the cart.");
-          }
-        }}
-      >
-        {variant.stock <= variant.reserved
-          ? "Currently unavailable"
-          : "Add to cart"}
-      </button>
-      <Notice message={message} />
-    </>
-  );
-}
+import { ReorderButton } from "./ProductActions";
+import { updateShopping } from "@/lib/shopping";
+import { removePurchased } from "@/lib/shopping-state.mjs";
+import { OrderTimeline } from "./OrderTimeline";
 
-export function CartForm({ catalog }: { catalog: Schema["VariantView"][] }) {
-  return (
-    <BrowserReady>
-      <LoadedCart catalog={catalog} />
-    </BrowserReady>
-  );
-}
-function LoadedCart({ catalog }: { catalog: Schema["VariantView"][] }) {
-  const [cart, setCart] = useState<Cart>(loadCart);
-  const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [requestKey] = useState(() => crypto.randomUUID());
-  function change(next: Cart) {
-    setCart(next);
-    try {
-      saveCart(next);
-    } catch {
-      setMessage("Your browser could not save the cart.");
-    }
-  }
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!cart?.length || busy) return;
-    const form = new FormData(event.currentTarget);
-    const customer = Object.fromEntries(
-      ["name", "phone", "address", "city", "state_code", "pincode"].map(
-        (key) => [key, String(form.get(key) ?? "")],
-      ),
-    ) as Schema["Address"];
-    setBusy(true);
-    setMessage("Saving your request…");
-    try {
-      const result = await api<Schema["RequestReceipt"]>(
-        "orders",
-        jsonPost({
-          request_key: requestKey,
-          customer,
-          lines: cart,
-          whatsapp_consent: form.get("consent") === "on",
-        } satisfies Schema["OrderRequest"]),
-      );
-      change([]);
-      window.location.assign("/track/#access=" + result.access_token);
-    } catch (error) {
-      setMessage((error as Error).message);
-      setBusy(false);
-    }
-  }
-  if (cart === null) return <Notice message="Loading your cart…" />;
-  if (!cart.length)
-    return (
-      <div className="panel">
-        <h2>Your cart is empty</h2>
-        <p>Explore our packaged products to get started.</p>
-        <SiteLink className="button" href="/shop/">
-          Browse the shop
-        </SiteLink>
-      </div>
-    );
-  const unavailable = cart.some(
-    (line) => !catalog.find((item) => item.id === line.variant_id),
-  );
-  return (
-    <form onSubmit={submit} className="commerce-grid">
-      <div className="panel">
-        <h2>Your products</h2>
-        {cart.map((line) => {
-          const item = catalog.find(
-            (variant) => variant.id === line.variant_id,
-          );
-          return (
-            <div className="cart-row" key={line.variant_id}>
-              <div>
-                <h3>{item?.product.name ?? "Unavailable product"}</h3>
-                <p>
-                  {item
-                    ? money(item.product.price_paise)
-                    : "Remove this item to continue."}
-                </p>
-              </div>
-              <Field
-                name={line.variant_id}
-                label={`Quantity for ${item?.product.name ?? "unavailable product"}`}
-                type="number"
-                min={1}
-                max={100}
-                value={line.quantity}
-                onChange={(event) =>
-                  change(
-                    cart.map((entry) =>
-                      entry.variant_id === line.variant_id
-                        ? {
-                            ...entry,
-                            quantity: Math.max(
-                              1,
-                              Math.min(100, Number(event.target.value)),
-                            ),
-                          }
-                        : entry,
-                    ),
-                  )
-                }
-              />
-              <button
-                type="button"
-                className="button button-small"
-                onClick={() =>
-                  change(
-                    cart.filter(
-                      (entry) => entry.variant_id !== line.variant_id,
-                    ),
-                  )
-                }
-              >
-                Remove
-              </button>
-            </div>
-          );
-        })}
-        <p>
-          Product subtotal:{" "}
-          <strong>
-            {money(
-              cart.reduce(
-                (sum, line) =>
-                  sum +
-                  (catalog.find((item) => item.id === line.variant_id)?.product
-                    .price_paise ?? 0) *
-                    line.quantity,
-                0,
-              ),
-            )}
-          </strong>
-        </p>
-        <p>Delivery fee: confirmed by our team before payment.</p>
-      </div>
-      <div className="panel form-stack">
-        <h2>Delivery request</h2>
-        <p>
-          We will confirm delivery availability and the final total. You pay
-          only after approval.
-        </p>
-        <Field
-          name="name"
-          label="Full name"
-          autoComplete="name"
-          minLength={2}
-          maxLength={100}
-        />
-        <Field
-          name="phone"
-          label="Phone including +91"
-          type="tel"
-          autoComplete="tel"
-          pattern="\+91[6-9][0-9]{9}"
-          placeholder="+919876543210"
-        />
-        <Field
-          name="address"
-          label="Street address"
-          autoComplete="street-address"
-          minLength={10}
-          maxLength={500}
-        />
-        <Field
-          name="city"
-          label="City"
-          autoComplete="address-level2"
-          minLength={2}
-          maxLength={100}
-        />
-        <label className="field">
-          State
-          <select name="state_code" required defaultValue="">
-            <option value="" disabled>
-              Select state
-            </option>
-            {Object.entries(STATES)
-              .sort((a, b) => a[1].localeCompare(b[1]))
-              .map(([code, name]) => (
-                <option value={code} key={code}>
-                  {name}
-                </option>
-              ))}
-          </select>
-        </label>
-        <Field
-          name="pincode"
-          label="Pincode"
-          autoComplete="postal-code"
-          inputMode="numeric"
-          pattern="[1-9][0-9]{5}"
-        />
-        <label className="checkbox">
-          <input type="checkbox" name="consent" />
-          Send order updates on WhatsApp to this number. I can stop them at any
-          time.
-        </label>
-        <p className="small">
-          Without WhatsApp updates, save your private order link to check
-          approval and pay.
-        </p>
-        <button className="button" disabled={busy || unavailable}>
-          {busy ? "Saving…" : "Request delivery"}
-        </button>
-        <Notice message={message} />
-      </div>
-    </form>
-  );
-}
-
-const STATES: Record<string, string> = {
+export const STATES: Record<string, string> = {
   "01": "Jammu and Kashmir",
   "02": "Himachal Pradesh",
   "03": "Punjab",
@@ -384,6 +90,33 @@ function LoadedOrder({ nonce }: { nonce: string }) {
         .then(setOrder)
         .catch((error) => setMessage(error.message));
   }, [token]);
+  useEffect(() => {
+    if (!order || !order.invoice_number) return;
+    try {
+      const pending = JSON.parse(
+        sessionStorage.getItem("pakodi-pending-checkout") ?? "null",
+      );
+      if (
+        pending?.reference !== order.reference ||
+        pending.mode !== order.shopping_mode ||
+        !Array.isArray(pending.lines)
+      )
+        return;
+      updateShopping((state) => ({
+        ...state,
+        carts: {
+          ...state.carts,
+          [order.shopping_mode]: removePurchased(
+            state.carts[order.shopping_mode],
+            pending.lines,
+          ),
+        },
+      }));
+      sessionStorage.removeItem("pakodi-pending-checkout");
+    } catch {
+      /* Keep the paid order usable even if storage is disabled. */
+    }
+  }, [order]);
   const auth = { Authorization: "Bearer " + token };
   async function refresh() {
     try {
@@ -559,6 +292,15 @@ function LoadedOrder({ nonce }: { nonce: string }) {
           <section className="panel form-stack">
             <p className="eyebrow">{order.reference}</p>
             <h2>{statusLabel(order.status)}</h2>
+            <OrderTimeline order={order} />
+            {order.shopping_mode === "fresh" && (
+              <p>
+                {String(order.fulfilment.outlet_name ?? "")}
+                {order.fulfilment.preparation_minutes
+                  ? ` · About ${order.fulfilment.preparation_minutes} minutes to prepare`
+                  : ""}
+              </p>
+            )}
             <p>Save this private link. Anyone with it can manage this order.</p>
             <div className="actions">
               <button
@@ -586,6 +328,15 @@ function LoadedOrder({ nonce }: { nonce: string }) {
               {order.customer.city}, {order.customer.pincode}
             </p>
             {order.note && <p>{order.note}</p>}
+            {["preparing", "dispatched", "delivery_issue"].includes(
+              order.status,
+            ) && (
+              <p>
+                Need help with this order?{" "}
+                <SiteLink href="/contact/">Contact our team</SiteLink>.
+              </p>
+            )}
+            <ReorderButton order={order} />
             {order.consent && (
               <button
                 className="button button-small"
@@ -630,12 +381,13 @@ function LoadedOrder({ nonce }: { nonce: string }) {
                 <strong className="amount">{money(order.total_paise)}</strong>
               </p>
             )}
-            {order.quote_expires_at && (
-              <p className="small">
-                Quote valid until{" "}
-                {new Date(order.quote_expires_at).toLocaleString("en-IN")}.
-              </p>
-            )}
+            {order.quote_expires_at &&
+              ["approved", "payment_pending"].includes(order.status) && (
+                <p className="small">
+                  Quote valid until{" "}
+                  {new Date(order.quote_expires_at).toLocaleString("en-IN")}.
+                </p>
+              )}
             {["approved", "payment_pending"].includes(order.status) && (
               <button className="button" disabled={busy} onClick={pay}>
                 {busy ? "Preparing payment…" : "Pay securely"}
@@ -683,8 +435,10 @@ function LoadedOrder({ nonce }: { nonce: string }) {
               (confirmCancel ? (
                 <div className="notice">
                   <p>
-                    Cancel this order? Any captured payment will be refunded
-                    before dispatch.
+                    Cancel this order? Any captured payment will be refunded.{" "}
+                    {order.shopping_mode === "fresh"
+                      ? "Cancellation is available until preparation starts."
+                      : "Cancellation is available before dispatch."}
                   </p>
                   <div className="actions">
                     <button

@@ -56,6 +56,9 @@ class OrderView(PublicModel):
     created_at: datetime
     updated_at: datetime
     consent: bool
+    shopping_mode: Literal["packaged", "fresh"] = "packaged"
+    checkout_kind: Literal["staff", "instant"] = "staff"
+    fulfilment: dict[str, str | int] = Field(default_factory=dict)
 
 
 class RequestReceipt(PublicModel):
@@ -69,7 +72,7 @@ class Approve(PublicModel):
 
 
 class StatusChange(PublicModel):
-    status: Literal["declined", "dispatched", "delivered", "delivery_issue"]
+    status: Literal["declined", "preparing", "dispatched", "delivered", "delivery_issue"]
     note: str = Field(default="", max_length=500)
 
 

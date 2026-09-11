@@ -80,7 +80,7 @@ def test_catalog_metadata_survives_csv_roundtrip_and_legacy_import(staff):
     legacy = [
         key
         for key in reader.fieldnames
-        if key not in {"category", "tags", "compare_at_price_paise", "image"}
+        if key not in {"category", "tags", "compare_at_price_paise", "image", "mode", "outlet_slug"}
     ]
     output = io.StringIO()
     writer = csv.DictWriter(output, legacy, extrasaction="ignore")

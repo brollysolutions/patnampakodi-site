@@ -5,6 +5,7 @@ import { indexable, SITE_URL } from "@/lib/policy.mjs";
 import "./globals.css";
 import "./commerce.css";
 import "./reference.css";
+import "./store.css";
 import { AnalyticsGate } from "@/components/AnalyticsGate";
 
 const display = localFont({

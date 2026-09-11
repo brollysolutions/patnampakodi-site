@@ -13,6 +13,7 @@ export const PRIVATE_PREFIXES = [
   "account",
   "cart",
   "checkout",
+  "favourites",
   "track",
   "api",
   "preview",

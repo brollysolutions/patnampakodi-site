@@ -2,7 +2,10 @@ import { SiteLink } from "@/components/SiteLink";
 import { notFound } from "next/navigation";
 import { getCatalog } from "@/lib/catalog";
 import { money } from "@/lib/commerce";
-import { AddToCart } from "@/components/CommerceForms";
+import { AddToCart, FavouriteButton } from "@/components/ProductActions";
+import { DeliveryCheck } from "@/components/DeliveryCheck";
+import { ProductCard } from "@/components/ProductCard";
+import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { pageMetadata } from "@/lib/seo";
 import { ProductImage } from "@/components/ProductImage";
@@ -32,19 +35,29 @@ export async function generateMetadata(props: Props) {
 export default async function ProductPage(props: Props) {
   const item = await find(props);
   const product = item.product;
+  const related = (await getCatalog({ mode: product.mode }))
+    .filter((entry) => entry.id !== item.id)
+    .slice(0, 4);
   return (
     <section className="container section">
-      <nav aria-label="Breadcrumb">
+      <nav className="store-breadcrumb" aria-label="Breadcrumb">
         <SiteLink href="/">Home</SiteLink> /{" "}
-        <SiteLink href="/shop/">Shop</SiteLink> / {product.name}
+        <SiteLink href={product.mode === "fresh" ? "/menu/" : "/shop/"}>
+          {product.mode === "fresh" ? "Order fresh" : "Shop"}
+        </SiteLink>{" "}
+        / {product.name}
       </nav>
       <div className="product-detail-grid">
-        {(item.media_id || product.image) && (
-          <div>
-            <ProductImage variant={item} priority />
-          </div>
-        )}
+        <div className="product-detail-image">
+          <ProductImage variant={item} priority />
+          <FavouriteButton variant={item} />
+        </div>
         <div className="form-stack">
+          <p className="eyebrow">
+            {product.mode === "fresh"
+              ? "Fresh from our kitchen"
+              : "Patnam Pakodi at home"}
+          </p>
           <h1>{product.name}</h1>
           <p>{product.description}</p>
           <p>
@@ -61,12 +74,19 @@ export default async function ProductPage(props: Props) {
               </>
             ) : null}
             <strong>{money(product.price_paise)}</strong> including applicable
-            tax. Delivery is quoted before payment.
+            tax. Delivery is calculated at checkout.
           </p>
           <AddToCart variant={item} quantityInput />
-          <SiteLink className="button button-small" href="/cart/">
+          <SiteLink
+            className="button button-small button-outline"
+            href={`/cart/?mode=${product.mode}`}
+          >
             View cart
           </SiteLink>
+          <DeliveryCheck mode={product.mode} />
+          <p className="summary-note">
+            <Icon name="shield" /> Guest checkout · Secure payment
+          </p>
           {product.category && (
             <p>
               Category:{" "}
@@ -100,13 +120,34 @@ export default async function ProductPage(props: Props) {
             "manufacturer",
             "consumer_care",
           ] as const
-        ).map((field) => (
-          <div key={field}>
-            <dt>{field.replaceAll("_", " ")}</dt>
-            <dd>{product[field]}</dd>
-          </div>
-        ))}
+        )
+          .filter((field) => product[field])
+          .map((field) => (
+            <div key={field}>
+              <dt>{field.replaceAll("_", " ")}</dt>
+              <dd>{product[field]}</dd>
+            </div>
+          ))}
       </dl>
+      {related.length > 0 && (
+        <section className="store-section">
+          <div className="store-section-heading">
+            <h2>Make room for one more</h2>
+            <SiteLink
+              className="text-link"
+              href={product.mode === "fresh" ? "/menu/" : "/shop/"}
+            >
+              Explore the range
+              <Icon name="arrow" />
+            </SiteLink>
+          </div>
+          <div className="store-product-grid">
+            {related.map((entry) => (
+              <ProductCard key={entry.id} item={entry} />
+            ))}
+          </div>
+        </section>
+      )}
       <JsonLd
         value={{
           "@context": "https://schema.org",

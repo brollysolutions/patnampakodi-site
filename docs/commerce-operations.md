@@ -1,10 +1,14 @@
 # Commerce operations and Docker handoff
 
-The approved flow is request, staff delivery quote, Razorpay payment, then manual
-dispatch and delivery. Quotes last 24 hours. Payment initiation reserves stock
-for 15 minutes in PostgreSQL. Only verified captures mark an order paid; browser
-checkout callbacks are provisional. A late/extra capture is reconciled and,
-when fulfillment is unavailable, refunded against that exact payment.
+New purchases use immediate guest checkout: the server checks the selected mode,
+stock, approved seller details and the PIN/state delivery rule, then returns the
+full total for review. Reviews last 15 minutes. Fresh orders are ASAP from one
+configured pilot outlet during its weekly IST hours; staff can pause new orders.
+Packaged and fresh carts stay separate. Legacy requests retain their staff delivery
+quote and 24-hour quote lifetime. Payment initiation reserves stock for 15 minutes.
+Only verified captures mark an order paid; browser callbacks remain provisional.
+A late or extra capture is reconciled and, when fulfilment is unavailable,
+refunded against that exact payment.
 
 ## Local use
 
@@ -21,21 +25,34 @@ factors and revokes existing sessions after the operator verifies identity.
 In admin, configure verified seller details, GSTIN/state, invoice prefix and the
 delivery tax rate. Add one SKU per sellable pack/variant, complete all food facts,
 upload an image and record initial stock with a reason. Publish only approved
-records. Menu/outlet/franchise/page content is editable in Content. Policy slugs
+records. Website content management is excluded from the admin panel at the user's
+request. Coordinate approved page, outlet and policy updates with the development
+team. Policy slugs
 are `policies/shipping`, `policies/returns`, `policies/refunds`, `policies/privacy`
 and `policies/terms`; they are added to the footer/sitemap only after publication.
 
-Review requests, confirm delivery to the supplied Indian address, and enter the
+Configure the Delivery tab with approved PIN codes, states and fixed fees. For fresh food,
+select the pilot outlet, preparation estimate and weekly hours. An enabled flag alone
+does not bypass seller, stock, PIN or opening checks. Product mode and outlet are
+immutable after creation. New orders reach payment without a staff quote.
+
+For historical staff requests, confirm delivery to the supplied Indian address, and enter the
 tax-inclusive delivery fee. Customers keep their private link; WhatsApp is
 optional. Public order-number/phone lookup deliberately returns only status.
 Use replacement-link recovery only after independently verifying identity; it
 revokes every old link. Never put a private link into analytics, logs or tickets.
 
-Pre-dispatch customer cancellation restores physical stock once and requests
-the remaining captured balance, including delivery. Staff refunds do not return
+Customer cancellation ends when fresh preparation starts, or before dispatch for
+packaged orders. Preparation and cancellation hold the same order lock. Cancellation
+before preparation restores physical stock once and requests the remaining captured
+balance, including delivery. Staff can stop a fresh order during preparation after
+confirming with the kitchen; that action refunds the remaining balance and does not
+return the food to sellable stock. Dispatch prevents cancellation in either flow.
+Staff refunds do not return
 physical stock. Record a separate stock adjustment only for an actual return.
 Even a full staff refund preserves delivery progress. Cancel an unshipped order
-separately to return stock; cancellation recognizes an already processed refund
+separately to close it; only cancellation before preparation returns stock.
+Cancellation recognizes an already processed refund
 and never submits the same money again. Orders, enquiries and provider jobs have
 page controls so older records remain accessible.
 The invoice/CSV ledger is based on the paid snapshot. CSV order-level totals
