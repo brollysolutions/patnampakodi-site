@@ -41,9 +41,8 @@ $env:COMPOSE_DISABLE_ENV_FILE = '1'
 docker compose -f compose.staging.yaml -p pakodi-stage exec api python -m app.admin_cli create your.name
 ```
 
-Enter the password at its prompt, add the displayed setup key to an
-authenticator and save recovery codes in a password manager. Complete the first
-login at `/admin/` with the authenticator code. Do not put these credentials in
+Enter the password at its prompt and sign in at `/admin/` with the username and
+password. Do not put these credentials in
 the repository, chat, scripts or screenshots.
 
 In Settings, enter the approved seller name/address, GSTIN/state, invoice prefix

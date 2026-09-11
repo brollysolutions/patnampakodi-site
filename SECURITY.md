@@ -13,11 +13,11 @@ append-only audit permissions. Owner credentials are limited to migration and
 operator provisioning. Real secrets are supplied through restricted runtime
 files; local Docker passwords are synthetic and production startup rejects them.
 
-Passwords use Argon2; TOTP secrets, queued private links and raw webhook payloads
-are encrypted. Sessions, recovery codes and management tokens are stored hashed.
-Admins require password plus replay-resistant TOTP or an enrolled single-use
-recovery code. Sessions are HttpOnly/SameSite Strict with server-side CSRF and
-Origin checks on writes; production cookies require HTTPS. Management tokens
+Passwords use Argon2; queued private links and raw webhook payloads are encrypted.
+Sessions and management tokens are stored hashed. Admins require a username and
+password, with per-IP/per-username rate limits. Sessions are HttpOnly/SameSite
+Strict with server-side CSRF and Origin checks on writes; production cookies
+require HTTPS. Management tokens
 authorize only their order. Phone/reference lookup returns minimal status with
 distributed rate limits, which fail closed if Redis is unavailable.
 
@@ -48,7 +48,7 @@ is defense in depth and is not permission to introduce raw HTML/script rendering
 The production API trusts only the fixed edge proxy, which overwrites forwarding
 headers. Development BFF requests share loopback limits. The host must protect
 database/media disks and encrypted backups. Test fixtures are fixed to loopback
-55450, `pakodi_mvp_test`, and Redis 6450 DB 15. Never run them against a configured
+5434, `pakodi_mvp_test`, and Redis 6450 DB 15. Never run them against a configured
 or production database. Provider calls are mocked in regression tests; live
 capture/refund/template acceptance is unverified until performed with approved
 accounts. Dependency vulnerability reports are point-in-time evidence.

@@ -6,12 +6,11 @@ import getpass
 import re
 import uuid
 
-import pyotp
 from psycopg.types.json import Jsonb
 
 from app.commerce import audit
 from app.config import BRAND
-from app.security import PASSWORDS, connection, digest, one, random_token, seal
+from app.security import PASSWORDS, connection, one, seal
 
 
 async def provision(username, password, recover=False):
@@ -19,8 +18,6 @@ async def provision(username, password, recover=False):
         raise ValueError("Use 3-64 letters, digits, dots, underscores or hyphens for the username")
     if not 12 <= len(password) <= 200:
         raise ValueError("Password must contain 12-200 characters")
-    secret = pyotp.random_base32()
-    recovery_codes = [random_token() for _ in range(10)]
     async with connection() as conn:
         existing = await one(
             conn, "SELECT id FROM admins WHERE username=%s FOR UPDATE", (username.lower(),)
@@ -30,6 +27,8 @@ async def provision(username, password, recover=False):
         if recover and not existing:
             raise ValueError("Account does not exist")
         identifier = existing["id"] if existing else uuid.uuid4()
+        # Keep the immutable legacy columns inert; password-only accounts have
+        # no authenticator enrollment or recovery credentials to issue.
         await conn.execute(
             """
 INSERT INTO
@@ -43,15 +42,14 @@ totp_secret=excluded.totp_secret,recovery_hashes=excluded.recovery_hashes,enroll
                 BRAND,
                 username.lower(),
                 PASSWORDS.hash(password),
-                seal(secret),
-                Jsonb([digest(code) for code in recovery_codes]),
+                seal(""),
+                Jsonb([]),
             ),
         )
         await conn.execute("UPDATE sessions SET revoked=true WHERE admin_id=%s", (identifier,))
         await audit(
             conn, "operator", "admin.recovered" if recover else "admin.created", identifier, {}
         )
-    return secret, recovery_codes
 
 
 def main():
@@ -63,11 +61,8 @@ def main():
     if not 12 <= len(password) <= 200 or password != getpass.getpass("Repeat password: "):
         raise SystemExit("Passwords did not match or were too short")
     with asyncio.Runner(loop_factory=asyncio.SelectorEventLoop) as runner:
-        secret, codes = runner.run(provision(args.username, password, args.action == "recover"))
-    print("Enter this setup key in your authenticator app:", secret)
-    print("Save these single-use recovery codes in your password manager:")
-    print("\n".join(codes))
-    print("Sign in with the password and authenticator code to finish enrollment.")
+        runner.run(provision(args.username, password, args.action == "recover"))
+    print("Administrator account updated. Sign in with the username and password.")
 
 
 if __name__ == "__main__":

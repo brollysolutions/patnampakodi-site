@@ -22,7 +22,7 @@ def setting(name: str, local: str = "") -> str:
 
 def app_database_url():
     return setting(
-        "COMMERCE_DATABASE_URL", "postgresql://pakodi_app:local-app-only@127.0.0.1:55450/pakodi"
+        "COMMERCE_DATABASE_URL", "postgresql://pakodi_app:local-app-only@127.0.0.1:5434/pakodi"
     )
 
 

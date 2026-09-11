@@ -6,22 +6,20 @@ import hmac
 import json
 import uuid
 from concurrent.futures import ThreadPoolExecutor
-from types import SimpleNamespace
 
 import psycopg
-import pyotp
 import pytest
 from conftest import OWNER, READER
 from fastapi.testclient import TestClient
 from redis import Redis
 
-from app import commerce, jobs, providers, security
+from app import commerce, jobs, providers
 from app.admin_cli import provision
 from app.main import app
 from app.security import connection
 
 ORIGIN = "http://127.0.0.1:3501"
-APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:55450/pakodi_mvp_test"
+APP_DB = "postgresql://pakodi_app:local-app-only@127.0.0.1:5434/pakodi_mvp_test"
 CUSTOMER = {
     "name": "Fixture Buyer",
     "phone": "+919876543210",
@@ -96,19 +94,16 @@ RESTART IDENTITY CASCADE
 
 @pytest.fixture
 def staff(api):
-    secret, recovery = run(provision("fixture-admin", "a-strong-fixture-password"))
+    run(provision("fixture-admin", "a-strong-fixture-password"))
     response = api.post(
         "/v1/admin/login",
         json={
             "username": "fixture-admin",
             "password": "a-strong-fixture-password",
-            "code": pyotp.TOTP(secret).now(),
         },
     )
     assert response.status_code == 200, response.text
     api.headers["x-csrf-token"] = response.json()["csrf_token"]
-    api.recovery_codes = recovery
-    api.totp_secret = secret
     assert api.put("/v1/admin/settings", json=BUSINESS).status_code == 200
     return api
 
@@ -374,7 +369,7 @@ def test_refund_processed_before_pending_does_not_reverse(staff):
     assert staff.get("/v1/order", headers=headers).json()["status"] == "refunded"
 
 
-def test_admin_csrf_totp_replay_and_recovery_code(staff, monkeypatch):
+def test_admin_csrf_and_password_only_login(staff):
     response = staff.put("/v1/admin/settings", headers={"x-csrf-token": "wrong"}, json=BUSINESS)
     assert response.status_code == 403
     assert (
@@ -383,21 +378,25 @@ def test_admin_csrf_totp_replay_and_recovery_code(staff, monkeypatch):
         ).status_code
         == 403
     )
-    with psycopg.connect(OWNER) as conn:
-        consumed_step = conn.execute("SELECT last_totp FROM admins").fetchone()[0]
-    # Cross a TOTP window without sleeping. A new code is not a replay.
-    next_window = (consumed_step + 1) * 30
-    monkeypatch.setattr(security, "time", SimpleNamespace(time=lambda: next_window))
-    monkeypatch.setattr(pyotp.TOTP, "now", lambda self: self.at(next_window))
     payload = {
         "username": "fixture-admin",
         "password": "a-strong-fixture-password",
-        "code": pyotp.TOTP(staff.totp_secret).at(consumed_step * 30),
     }
-    assert staff.post("/v1/admin/login", json=payload).status_code == 401
-    payload["code"] = staff.recovery_codes[0]
     assert staff.post("/v1/admin/login", json=payload).status_code == 200
+    assert staff.post("/v1/admin/login", json={**payload, "code": "unused"}).status_code == 422
+    run(provision("fixture-admin", "a-replaced-fixture-password", recover=True))
+    assert staff.get("/v1/admin/session").status_code == 401
     assert staff.post("/v1/admin/login", json=payload).status_code == 401
+    with psycopg.connect(OWNER) as conn:
+        conn.execute("UPDATE admins SET enrolled=false WHERE username='fixture-admin'")
+    assert (
+        staff.post(
+            "/v1/admin/login",
+            json={"username": "fixture-admin", "password": "a-replaced-fixture-password"},
+        ).status_code
+        == 200
+    )
+    assert staff.get("/v1/admin/session").status_code == 200
 
 
 @pytest.mark.parametrize(

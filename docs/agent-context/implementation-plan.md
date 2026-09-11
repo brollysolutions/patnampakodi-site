@@ -1,5 +1,46 @@
 # Implementation plan
 
+## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 17. Move local PostgreSQL to available port 5434 and use password-only admin sign-in | Implemented; authentication and port checks pass, performance acceptance remains open | `gpt-6-astra` / Extra High recommended | `gpt-6-astra` / Extra High recommended; selected settings preserved |
+
+Change only the loopback PostgreSQL mapping and the local URLs that consume it:
+`127.0.0.1:5434` maps to the existing container port `5432`. The user authorized
+an alternative because another project owns 5433. Production remains
+private at `postgres:5432`; it must not publish PostgreSQL. Simplify admin sign-in
+to username and password only, while retaining Argon2 password verification,
+per-IP/per-username rate limits, server-side sessions, CSRF checks, strict cookies,
+account disablement, session revocation on password reset, audit logging and RLS.
+The legacy migration is immutable, so unused TOTP/recovery columns remain for
+compatibility rather than being rewritten or exposed.
+
+Acceptance: local development and verification connect through port 5434; no
+active source still directs local PostgreSQL clients to 55450; the API contract and
+admin form accept only username/password; password resets revoke sessions; and
+anonymous, invalid-password, CSRF and cross-origin requests remain denied.
+Non-goals: changing the in-container PostgreSQL port, publishing PostgreSQL in
+production, changing customer/order authentication, or altering financial flows.
+Fresh verification passes 112 workflow tests, 104 API tests, contract generation,
+one migration head, web lint/format/types, 27 unit tests and the production build.
+The broad browser run has 60 passes and two intentional skips; its one checkout
+navigation timeout passes an unchanged focused rerun. All three admin/axe journeys
+and 13 technical SEO routes pass. Container smoke and Caddy HTTPS checks pass;
+the 18-report Lighthouse audit fails unchanged speed budgets (mobile medians
+54/58/70, desktop 92/92/85 for home/menu/contact). Accessibility, best practices
+and SEO score 100. Keep delivery in draft while performance acceptance remains
+open. Docker staging passes two browser tests and five database invariants; its
+optional presentation prompt ends with EOF after successful acceptance. Persistent
+preview refresh and four-width login accessibility/keyboard/error checks pass.
+The user-requested local account is provisioned and its login/session/logout are
+verified without storing credentials in repository artifacts. Next priority is
+performance acceptance and approved launch data from item 16.
+Delivery: [draft PR #14](https://github.com/brollysolutions/patnampakodi-site/pull/14),
+from `vamshisaideep9:feat/docker-staging` to `brollysolutions:main`. Commit/push/PR
+delivery and the required pre-push gate exit 0; remote head readback is verified.
+PR #13 is already merged. Performance acceptance remains open.
+
 ## Port migration and food catalogue preparation - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |

@@ -1,5 +1,76 @@
 # Feature status
 
+## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
+
+Item 17 moves the local Docker PostgreSQL host mapping and every local consumer
+to `127.0.0.1:5434`, while preserving internal Docker PostgreSQL at `5432` and
+keeping production PostgreSQL unexposed. A regression test checks the compose
+mapping and all local API/test/verification URLs stay synchronized.
+
+Admin login now accepts only username and password. The OpenAPI contract and
+generated TypeScript client no longer include a TOTP/recovery-code field; the web
+form and disposable browser fixtures match it. Provisioning and password recovery
+keep session revocation and audit logging, while previous TOTP/recovery columns
+remain inert for immutable-migration compatibility. Argon2 verification,
+per-IP/per-username limits, disabled-account checks, HttpOnly/SameSite Strict
+cookies, CSRF/Origin checks, RLS and audit safeguards remain enforced. The direct
+security review found and corrected the legacy `enrolled` session guard that would
+otherwise reject sessions for password-only accounts. Login retains its account
+row lock through session creation so a concurrent password reset cannot leave a
+new session authenticated with the previous password.
+
+The user authorized another port because `client1-pgbouncer` owns 5433. Local
+PostgreSQL is healthy on 5434 with its existing volume; the other project remains
+running. Eight focused authentication tests pass against PostgreSQL/Redis,
+covering password-only login, invalid/unknown/disabled accounts, username-case
+throttling, Redis fail-closed behaviour, login/reset locking, reset revocation,
+legacy enrollment compatibility, CSRF/Origin and logout.
+
+Fresh full-gate evidence: 112 workflow tests and 22-skill parity, 104 API tests,
+lint/format, one migration head, regenerated contracts, web lint/format/types,
+27 web units and native production build pass. The broad browser run passes 60
+checks, intentionally skips two duplicate reflow projects and fails one desktop
+checkout five-second navigation assertion. That unchanged test passes a focused
+rerun; all three admin/axe journeys pass. Technical SEO passes 13 routes with
+13 existing fragment-link warnings. The original broad command remains failed.
+
+Container migration/seed, API/web, private/indexing headers, worker heartbeat and
+Caddy local HTTPS/HTTP/2 routing pass. All 18 Lighthouse reports complete with
+accessibility, best practices and SEO 100. The command exits 1 because unchanged
+speed budgets fail; evidence is `lighthouse-1789142800448`.
+
+| Page/device | Median performance | LCP (ms) | TBT (ms) | Budget |
+| --- | ---: | ---: | ---: | --- |
+| Home/mobile | 54 | 3961 | 2193 | Fail |
+| Menu/mobile | 58 | 3449 | 1618 | Fail |
+| Contact/mobile | 70 | 3291 | 903 | Fail |
+| Home/desktop | 92 | 993 | 130 | Pass |
+| Menu/desktop | 92 | 1185 | 120 | Pass |
+| Contact/desktop | 85 | 1127 | 157 | Fail |
+
+Docker staging acceptance passes both browser tests and all five database
+invariants. Its first attempt stopped during PostgreSQL initialization; the
+unchanged rerun completed acceptance and cleaned its disposable resources, then
+reported EOF at the optional presentation prompt. This is not a zero-exit full
+command. The persistent preview refresh exits 0 and preserves its volumes.
+Anonymous login review passes keyboard order, generic errors, no overflow and
+WCAG axe checks at 1440/768/390/320px; screenshots were inspected at desktop and
+320px. A newly provisioned local named account passes login, session, logout and
+revocation verification. Credentials are excluded from tracked/private artifacts.
+Native Safari, physical devices and manual browser zoom remain unverified.
+
+Security and code review find no remaining actionable defects in this change.
+Removing the second factor is the user's explicit tradeoff. API and web must
+roll out together; rolling back to an MFA release requires operator recovery
+for accounts created/reset after this change. No schema migration or new
+dependency is introduced. Production/provider acceptance remains unverified.
+Delivered in [draft PR #14](https://github.com/brollysolutions/patnampakodi-site/pull/14),
+from `vamshisaideep9:feat/docker-staging` to `brollysolutions:main`. The delivery
+helper and required pre-push gate exit 0, with clean Git status, synchronized
+origin tracking and verified remote PR head. PR #13 is already merged. PR #14
+remains draft for performance acceptance. Next priority: speed budgets and the
+approved launch product, food/tax and stock inputs recorded under item 16.
+
 ## Port migration and food catalogue preparation - 2026-09-11
 
 Item 16 is implemented and locally verified on `feat/docker-staging` for

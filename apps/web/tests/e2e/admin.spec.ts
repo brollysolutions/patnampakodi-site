@@ -26,7 +26,7 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
   page,
 }, info) => {
   test.setTimeout(90_000);
-  const data = JSON.parse(fixture("prepare"));
+  fixture("prepare");
   try {
     const lead = await page.request.post("/api/v1/enquiries/quick", {
       headers: { Origin: "http://127.0.0.1:3510" },
@@ -39,11 +39,11 @@ test("staff enriches a lead, exports CSV, reports sales and selects draft media"
     });
     expect(lead.status()).toBe(201);
     await page.goto("/admin/");
+    await expect(page.locator('input[name="code"]')).toHaveCount(0);
     await page.getByLabel("Username", { exact: true }).fill("browser-admin");
     await page
       .getByLabel("Password", { exact: true })
       .fill("a-strong-browser-fixture-password");
-    await page.getByLabel("Authenticator or recovery code").fill(data.recovery);
     await page.getByRole("button", { name: "Sign in", exact: true }).click();
     const navigation = page.getByRole("navigation", { name: "Administration" });
     await navigation
