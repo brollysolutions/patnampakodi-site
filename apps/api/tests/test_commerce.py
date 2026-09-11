@@ -6,6 +6,7 @@ import hmac
 import json
 import uuid
 from concurrent.futures import ThreadPoolExecutor
+from types import SimpleNamespace
 
 import psycopg
 import pyotp
@@ -14,7 +15,7 @@ from conftest import OWNER, READER
 from fastapi.testclient import TestClient
 from redis import Redis
 
-from app import commerce, jobs, providers
+from app import commerce, jobs, providers, security
 from app.admin_cli import provision
 from app.main import app
 from app.security import connection
@@ -367,7 +368,7 @@ def test_refund_processed_before_pending_does_not_reverse(staff):
     assert staff.get("/v1/order", headers=headers).json()["status"] == "refunded"
 
 
-def test_admin_csrf_totp_replay_and_recovery_code(staff):
+def test_admin_csrf_totp_replay_and_recovery_code(staff, monkeypatch):
     response = staff.put("/v1/admin/settings", headers={"x-csrf-token": "wrong"}, json=BUSINESS)
     assert response.status_code == 403
     assert (
@@ -376,10 +377,16 @@ def test_admin_csrf_totp_replay_and_recovery_code(staff):
         ).status_code
         == 403
     )
+    with psycopg.connect(OWNER) as conn:
+        consumed_step = conn.execute("SELECT last_totp FROM admins").fetchone()[0]
+    # Cross a TOTP window without sleeping. A new code is not a replay.
+    next_window = (consumed_step + 1) * 30
+    monkeypatch.setattr(security, "time", SimpleNamespace(time=lambda: next_window))
+    monkeypatch.setattr(pyotp.TOTP, "now", lambda self: self.at(next_window))
     payload = {
         "username": "fixture-admin",
         "password": "a-strong-fixture-password",
-        "code": pyotp.TOTP(staff.totp_secret).now(),
+        "code": pyotp.TOTP(staff.totp_secret).at(consumed_step * 30),
     }
     assert staff.post("/v1/admin/login", json=payload).status_code == 401
     payload["code"] = staff.recovery_codes[0]

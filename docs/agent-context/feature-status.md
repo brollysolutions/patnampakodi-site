@@ -1,5 +1,97 @@
 # Feature status
 
+## PR #10 upstream integration - 2026-09-11
+
+PR #9 is merged into upstream/main at 1544478, following PR #8. Item 12
+conflicts are resolved in the existing [PR #10](https://github.com/brollysolutions/patnampakodi-site/pull/10).
+Only the two implementation records conflict; application code, tests, contracts,
+migrations and CI merge without changing the previous admin head e6a4b2b.
+Preserve the TOTP boundary regression, transaction tests, reporting behaviour and
+all performance budgets. Acceptance: the current base is an ancestor, the same
+PR is updated normally and GitHub reports no conflicts. No new feature or PR.
+Planning/implementation recommendation: gpt-6-astra / High; selected settings
+remain unchanged. Fresh workflow verification passes 106 tests, 22-skill
+parity and shell syntax. Diff review confirms only these two records differ
+from e6a4b2b and no conflict markers remain. The delivery hooks run the API/web
+fast gate; browser/Lighthouse acceptance remains a separate CI check.
+Next priority: review the updated PR #10 while retaining its performance gate.
+
+The PR remains draft: previous-head Linux CI 34542851812 passed functional
+checks but failed home/contact mobile performance. This integration does not
+resolve that separate failure. Earlier draft/pending statements below are
+historical checkpoints; current upstream state supersedes them.
+
+
+## TOTP test boundary correction - 2026-09-11
+
+Three controlled rendering experiments were rejected: replacing Next Link,
+using mobile grid rows and deferring off-screen sections did not consistently
+improve the failing pages; the layout experiments also changed section heights.
+No experimental runtime code is retained. The original public layout, navigation,
+fonts, colours, timing budgets and throttling remain unchanged. The TOTP test
+correction passes all 74 admin-branch API tests, lint/format, migration-head and
+contract checks. Fresh Linux checks on the corrected commits remain required.
+
+The pre-push TOTP replay test had a reproduced 30-second boundary race:
+calling TOTP.now() after fixture login sometimes generates a genuinely new,
+valid code. A controlled next-window clock reproduced HTTP 200 versus the old
+401 expectation. The test now reconstructs the exact consumed step and checks
+its rejection while it remains in the valid time window, then checks recovery
+code single use. The deterministic reproduction fails before the correction and
+passes after it. Authentication code, accepted skew and rate limits are unchanged.
+Planning/implementation recommendation for this bounded correction: gpt-6-astra /
+High; the selected session settings remain unchanged.
+
+
+## Current Linux performance diagnosis - 2026-09-11
+
+The pinned Chromium sandbox now launches successfully. Fork CI run
+34535340526 passes functional/browser/SEO/container checks but fails the unchanged
+mobile performance budgets: home performance 93 / TBT 265.5 ms; contact 91 /
+LCP 2579 ms / TBT 281.5 ms. Desktop medians are 100. Public rendering files
+are identical to the passing ecommerce head 000f945. That rules out a public
+source difference, but does not establish runner variation as the cause.
+The Lighthouse log now retains its CPU benchmark and, for failed observations,
+main-thread categories, script bootup and long tasks. It changes no measurement,
+budget, throttling or sandbox option. Fresh syntax and five launcher/budget tests
+pass. This diagnostic update remains draft until Linux acceptance is verified.
+
+
+CI correction: chrome-launcher 1.2.1 implicitly disabled the Linux SUID sandbox. Lighthouse now supplies every pinned default explicitly while avoiding that implicit flag, so the installed companion helper can be used. The regression reproduces the old Linux flags and verifies retained sandbox/defaults. No budgets or throttling changed; new Linux runtime/performance acceptance is pending.
+
+
+## Admin completion — 2026-09-11
+
+Item 12 is prepared for draft PR #10 on `feat/admin-completion`, stacked on PR #9. Acceptance:
+staff can enrich a phone-first enquiry without changing its source/purpose,
+export an inclusive India-date/status CSV safely, review invoiced gross/refunded/
+net sales and select or preview an uploaded draft image. Existing product,
+content, stock, order, fulfilment, GST, messaging and named-admin controls remain
+the foundation. Reports must respect request-scoped authorization and brand RLS;
+extra captures cannot inflate sales or reduce the invoice cohort's net totals.
+
+Planning recommendation: gpt-6-astra / High; implementation and final security
+review: gpt-6-astra / Extra High. Selected settings are unchanged. This slice
+adds no live provider calls, synthetic persistent business data or dependencies.
+Fresh checks pass 74 API tests, one migration head, generated contracts, 106 workflow tests, 22-skill parity, lint/format/types, 19 web unit tests and production build. All 51 browser/axe tests and 13 technical SEO routes pass (13 intentional fragment warnings). Container migration, seed, API/web/indexing and worker heartbeat pass. All 18 Lighthouse runs completed: desktop performance medians 94/96/97 pass; mobile 65/74/67 fail unchanged LCP/TBT budgets. Accessibility, best-practices and SEO score 100 throughout. Reports: `lighthouse-1789073180159`. Full gate fails on performance; Linux runtime/performance acceptance remains pending.
+
+The shared commerce dependency now commits before exposing HTTP success. Its
+ASGI regression first observed an old `requested` status at HTTP 200, then reads
+`approved` with function scope. A commit-failure regression returns 503 and proves
+rollback. Both tests pass. Mobile axe found an inaccessible horizontal GST table;
+GST and daily-sales scroll regions now have keyboard focus and accessible names.
+The corrected mobile report is included in the passing browser run.
+
+Ubuntu Lighthouse diagnosis: the downloaded Chromium could not start its sandbox
+under AppArmor. The preinstalled helper failed its ownership/permissions check.
+CI now installs the companion helper from pinned Chromium 1243 as root-owned
+mode 4755 on the ephemeral runner and validates those properties before launch.
+Sandbox and budgets stay enabled; Bash syntax passes and Linux runtime evidence
+is pending. OpenAPI now explicitly writes LF; Windows generation was checked for
+stable LF bytes after a CRLF-only delivery-state mismatch on the catalog branch.
+
+## Earlier upstream integration history
+
 ## PR #9 upstream integration - 2026-09-11
 
 PR #8 was merged into upstream/main at d5ab5c5. Item 11 conflicts are resolved in the existing [PR #9](https://github.com/brollysolutions/patnampakodi-site/pull/9).
@@ -68,6 +160,7 @@ change, new package or performance-budget change is introduced. Bash syntax
 passes; Linux execution remains pending. Both transaction boundary/rollback tests
 pass locally. OpenAPI generation now explicitly writes LF, verified on Windows,
 to avoid generated-file line-ending changes during delivery.
+
 
 ## Ecommerce completion ? 2026-09-11
 

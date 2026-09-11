@@ -4,6 +4,13 @@ import { useEffect, useState, type FormEvent } from "react";
 import { api, jsonPost, money, statusLabel, type Schema } from "@/lib/commerce";
 import { ContentEditor } from "./ContentEditor";
 import { Field, Notice } from "./FormFields";
+import Image from "next/image";
+import {
+  EnquiryExport,
+  LeadDetails,
+  SalesReport,
+  MediaSelect,
+} from "./AdminExtras";
 
 const tabs = [
   "Orders",
@@ -687,12 +694,7 @@ function Products({ action }: { action: Action }) {
           pattern="[0-9]{4,8}"
           defaultValue={editing?.hsn}
         />
-        <Field
-          name="media"
-          label="Image ID from media library (optional)"
-          required={false}
-          defaultValue={editing?.media_id ?? ""}
-        />
+        <MediaSelect selected={editing?.media_id ?? null} />
         <label className="checkbox">
           <input
             type="checkbox"
@@ -723,6 +725,7 @@ function Enquiries({ action }: { action: Action }) {
   );
   return (
     <>
+      <EnquiryExport />
       <Pagination
         offset={offset}
         count={data?.length ?? 0}
@@ -744,12 +747,23 @@ function Enquiries({ action }: { action: Action }) {
                 <br />
                 {item.details.city}
               </p>
+              {item.details.purpose && (
+                <p>Interest: {sentence(item.details.purpose)}</p>
+              )}
+              {(item.details.preferred_model || item.details.budget) && (
+                <p>
+                  {[item.details.preferred_model, item.details.budget]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              )}
               <p>
-                {item.details.preferred_model} · {item.details.budget}
+                Source:{" "}
+                {[item.attribution.source, item.attribution.campaign]
+                  .filter(Boolean)
+                  .join(" · ")}
               </p>
-              <p>
-                Source: {item.attribution.source} · {item.attribution.campaign}
-              </p>
+              <LeadDetails item={item} action={action} />
               <form
                 className="form-stack"
                 onSubmit={(event) => {
@@ -971,6 +985,8 @@ function Reports() {
   const [download, setDownload] = useState("");
   return (
     <>
+      <SalesReport />
+      <h2>GST invoice ledger</h2>
       <form
         className="actions"
         onSubmit={async (event) => {
@@ -1001,7 +1017,12 @@ function Reports() {
         CSV order totals repeat on each product row. Review invoices, refunds
         and credit notes with your accountant before filing.
       </p>
-      <div className="table-scroll">
+      <div
+        className="table-scroll"
+        tabIndex={0}
+        role="region"
+        aria-label="GST invoice ledger"
+      >
         <table>
           <caption>Paid invoices and processed refunds</caption>
           <thead>
@@ -1071,6 +1092,14 @@ function Media({ action }: { action: Action }) {
         ) : (
           data.map((item) => (
             <div className="stock-row" key={item.id}>
+              <Image
+                src={`/api/v1/admin/media/${item.id}`}
+                alt={item.alt}
+                width={240}
+                height={240}
+                unoptimized
+                className="product-image"
+              />
               <p>{item.alt}</p>
               <label className="field">
                 Image ID

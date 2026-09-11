@@ -25,6 +25,7 @@ from app.commerce_schemas import (
     BusinessSettings,
     ContentView,
     ContentWrite,
+    EnquiryDetails,
     EnquiryInput,
     EnquiryStatus,
     EnquiryView,
@@ -41,6 +42,7 @@ from app.commerce_schemas import (
     RefundRequest,
     ReportRow,
     RequestReceipt,
+    SalesSummary,
     SessionView,
     StatusChange,
     StockChange,
@@ -1038,3 +1040,62 @@ WHERE message_receipts.status!='delivered'
 
         await apply_receipts(conn)
     return ActionResult(detail="Accepted")
+
+
+@router.put("/admin/enquiries/{identifier}", response_model=EnquiryView)
+async def update_enquiry(identifier: uuid.UUID, payload: EnquiryDetails, conn: DB, actor: Admin):
+    from app.admin_reporting import enrich_enquiry
+
+    return await enrich_enquiry(conn, identifier, payload, actor["id"])
+
+
+@router.get(
+    "/admin/enquiries.csv",
+    response_class=Response,
+    responses={200: {"content": {"text/csv": {"schema": {"type": "string", "format": "binary"}}}}},
+)
+async def export_enquiries(
+    conn: DB,
+    actor: Admin,
+    start: date,
+    end: date,
+    status: Literal["", "new", "contacted", "qualified", "won", "lost"] = "",
+):
+    from app.admin_reporting import enquiry_csv
+
+    content = await enquiry_csv(conn, start, end, status)
+    await commerce.audit(
+        conn,
+        actor["id"],
+        "enquiry.exported",
+        BRAND,
+        {"start": str(start), "end": str(end), "status": status},
+    )
+    return Response(
+        content,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="enquiries.csv"'},
+    )
+
+
+@router.get("/admin/sales-summary", response_model=SalesSummary)
+async def report_sales(conn: DB, actor: Admin, start: date, end: date):
+    from app.admin_reporting import sales_summary
+
+    return await sales_summary(conn, start, end)
+
+
+@router.get(
+    "/admin/media/{identifier}",
+    response_class=FileResponse,
+    responses={
+        200: {"content": {"image/webp": {"schema": {"type": "string", "format": "binary"}}}}
+    },
+)
+async def private_media(identifier: uuid.UUID, conn: DB, actor: Admin):
+    if not await one(conn, "SELECT id FROM media WHERE id=%s", (identifier,)):
+        raise HTTPException(404, "Image not found")
+    path = media_root() / (str(identifier) + ".webp")
+    if not path.is_file():
+        raise HTTPException(404, "Image not found")
+    return FileResponse(path, media_type="image/webp", headers={"Cache-Control": "no-store"})
