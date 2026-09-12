@@ -125,13 +125,20 @@ On the deployment server, from the checked-out repository, run:
 sudo python3 scripts/deploy.py
 ```
 
-Prerequisites: Python 3.11+, Docker Engine with the Compose plugin 2.20+,
+Prerequisites: Python 3.11+, Docker Engine with Compose 2.20 or newer,
 `iproute2`, DNS for `patnampakodi.com` pointing to this server, and inbound TCP
 80/443 available for this stack. The helper checks prerequisites; it does not
 install packages, change DNS/firewalls or stop another application's web server.
 If 80/443 already belong to your shared reverse proxy, an operator must integrate
 that proxy before using this standalone deployment. Application ports in other
 stacks do not identify their Docker subnet ranges.
+
+The helper prefers a supported `docker compose` plugin and automatically falls
+back to a modern `docker-compose` executable, including v5.1.2. It checks the
+version and uses the selected command throughout deployment. Compose v1 and
+versions below 2.20 are unsupported; the hyphenated command name alone does not
+mean the installed version is legacy. No plugin symlink or package change is
+needed when a supported standalone executable is already available to `sudo`.
 
 The command uses the fixed existing `pakodi` Compose project. It creates
 `runtime.env` in the repository root when absent, defaulting to

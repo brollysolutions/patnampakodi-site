@@ -1,5 +1,32 @@
 # Implementation plan
 
+## Modern standalone Compose compatibility - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 22. Accept modern `docker-compose` in server deployment | Implemented; targeted verification passed, PR delivery pending | `gpt-6-astra` / Medium recommended | `gpt-6-astra` / Medium recommended; selected settings preserved |
+
+Accept a working `docker compose` plugin or modern `docker-compose` executable
+(including the server's v5.1.2), requiring version 2.20.0 or newer. Select once
+before deployment mutations and reuse that command for every Compose operation.
+Verify preference, fallback, unsupported/missing versions, command propagation
+and retained local-engine checks. No package installation, dependency, application,
+schema, credential, network or data-policy changes. Delivery follows review and
+fresh targeted/workflow verification; server acceptance remains separate.
+
+Fresh evidence: 32/32 deployment tests pass in the pinned Linux Python container;
+Windows passes with three Linux-only skips. The workflow-only gate passes 144
+tests with three skips, 22-skill validation and shell checks. Ruff check/format
+passes, and the actual local standalone Compose v5.4.0 renders the production
+configuration through the helper with synthetic options. v5.1.2 selection is
+covered by regression fixtures; deployment on the user's server is unverified.
+The initial Windows test attempt was blocked by sandbox temporary-file access;
+the approved rerun passed. Code review found no outstanding defect; command
+arguments remain separate from the shell, and project/environment/local-engine
+guards are retained. No full application/browser/Lighthouse run is claimed for
+this CLI-only change. Next priority: merge the compatibility PR and retry setup
+on the prepared server. Delivery continues on `feat/docker-staging` after PR #18.
+
 ## One-command server deployment - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |
