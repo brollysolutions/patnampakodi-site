@@ -1,5 +1,52 @@
 # Feature status
 
+## One-command server deployment - 2026-09-12
+
+Item 21 adds `sudo python3 scripts/deploy.py` for the Linux deployment server.
+The command defaults to the owner's `patnampakodi.com`, creates or reuses the
+non-secret runtime options, checks Docker Compose and host web ports, chooses
+and persists a free subnet before creating a new network, and retains an
+existing Pakodi network. The reported pool overlap is an address-range conflict;
+the supplied host-port list cannot identify subnet availability.
+
+Fresh installations generate independent core secrets outside the checkout.
+Existing credentials and volumes are preserved; partial secrets or ambiguous
+database roles stop setup. Deployment is serialized, requires confirmed backups
+for updates, validates restricted database logins and Redis authentication,
+runs migrations and preserving content seeding, starts containers, and prompts
+for the first administrator in an interactive terminal. Runtime files are
+excluded from Git and Docker build contexts. No new dependencies or API/schema/UI
+changes are introduced.
+
+Fresh targeted verification: all 25 deployment tests pass in an isolated Linux
+container, including actual UID/GID 10001 secret access under umask 077,
+symlink rejection and lock contention/release. Windows passes 22 applicable
+tests and skips those three Linux-specific cases. Ruff check/format passes.
+The final workflow gate passes 137 tests (three Linux-only skips), 22-skill
+validation and shell checks. Production Compose rendering with helper-supplied
+options passes; the API image confirms UID/GID 10001. The full CI attempt passed
+112 API tests, migration/contract checks, web lint/format/types, 27 unit tests
+and the production build. Its additional browser run was deliberately stopped
+after 22 passing desktop tests because no UI changed; the command exited 1.
+The remaining browser cases, technical SEO and Lighthouse are unverified in
+this run; it is not a full release pass. Initial Windows sandbox attempts failed
+on temporary-directory access; approved explicit-exit reruns passed. A redirected
+PowerShell wrapper also returned 1 despite passing workflow output; the direct
+workflow rerun returned 0. Delivery linkage follows the fresh remote readback.
+
+A disposable Docker backend check also passes fresh setup and a second
+deployment through the helper's deployment stages using generated synthetic
+credentials. Restricted logins, Redis authentication, migrations, seed, API
+health, worker startup and admin creation succeed; edited content, the admin
+count and secret hashes are preserved. Its uniquely owned containers/volumes
+are cleaned up. Web/proxy and public TLS are outside that backend smoke check.
+
+Scope remains local code and synthetic verification. The helper does not
+install Docker, change DNS, integrate an existing shared reverse proxy, generate
+or verify backups, migrate legacy data-service ports, activate live providers,
+or claim public TLS/field SEO acceptance. Next priority: run the reviewed helper
+on the prepared server, then complete host/provider/release acceptance.
+
 ## Production Docker network overlap - 2026-09-12
 
 Item 20 fixes the hard-coded production network range. The operator's server

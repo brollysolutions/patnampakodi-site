@@ -5,6 +5,7 @@
 **/.pytest_cache
 **/.ruff_cache
 **/.env
+**/runtime.env
 **/.env.*
 **/*.pem
 **/*.key

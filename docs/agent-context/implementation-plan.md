@@ -1,5 +1,49 @@
 # Implementation plan
 
+## One-command server deployment - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 21. Provide one command for server setup and updates | Implemented; targeted verification passed, server acceptance unverified | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+Provide `sudo python3 scripts/deploy.py` for the Linux Docker server, defaulting
+to the owner's `patnampakodi.com`. Acceptance: create missing non-secret runtime
+options, check Compose before mutations, generate restricted first-install
+credentials only when no deployment data exists, avoid conflicting new subnets,
+preserve existing configuration and volumes, bootstrap only an empty database,
+and stop on failed setup or migrations. Existing deployments require a confirmed
+backup before service/database changes. Serialize deployments and test failure/retry paths with
+synthetic fixtures. No automatic Docker installation, DNS change, provider
+activation, secret rotation, volume deletion or live-host acceptance claim.
+Application routes, schemas, contracts and UI are outside this change.
+
+The helper creates/reuses ignored runtime options without requiring manual
+Compose flags. For a new network it replaces an overlapping configured prefix
+with an available private candidate and persists it; an existing Pakodi subnet
+is never silently changed. Checks cover Compose/local-engine availability,
+IPv4/IPv6 web-port conflicts, restricted core credential generation and reuse,
+role/Redis authentication, bootstrap versus migration, preserving seed behavior,
+failure propagation, first-admin prompts, and deployment lock/permissions.
+
+Fresh verification: all 25 deployment cases pass in a Linux container; the
+Windows workflow gate runs 137 tests with three Linux-specific skips and passes
+22-skill validation and shell checks. Ruff and production Compose rendering
+pass. The full CI attempt passes all 112 API tests, migration/contract parity,
+web lint/format/types, 27 units and the production build. Its additional browser
+run was intentionally stopped after 22 passing desktop tests (command exit 1);
+remaining browser/technical SEO/Lighthouse checks are unverified, not a full
+release pass. Security and code review find no unresolved defect. The branch
+continues `feat/docker-staging` after merged PR #17; delivery targets upstream
+`main`. Next priority is the prepared Linux server's setup and host/provider
+acceptance, including shared-proxy integration if another server owns 80/443.
+
+A separate uniquely named Docker fixture passes actual backend fresh setup and
+a second deployment with generated credentials: role bootstrap, restricted
+logins, Redis authentication, migration, seed, API health, worker startup and
+admin creation. Edited content, the admin count and secret hashes survive the
+second deployment. Only fixture-owned volumes are removed afterward. This
+check reuses the reviewed API image and excludes web/proxy/public TLS.
+
 ## Production Docker network overlap - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |

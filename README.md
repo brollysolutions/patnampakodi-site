@@ -9,6 +9,11 @@ See [commerce operations and Docker handoff](docs/commerce-operations.md).
 Hosting, approved business content and live provider acceptance remain release
 prerequisites; no production deployment is implied.
 
+On a prepared Linux Docker deployment server, run `sudo python3 scripts/deploy.py`
+from the repository root for guided setup or updates at `patnampakodi.com`.
+See [server setup](docs/commerce-operations.md#one-command-linux-server-setup) for
+prerequisites, existing-data preservation and release checks.
+
 See [local storefront setup](docs/storefront-development.md) to run the app.
 
 Start with the [partner workflow guide](docs/partner-workflow-guide.md) for
