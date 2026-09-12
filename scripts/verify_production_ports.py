@@ -1,6 +1,7 @@
 """Check production database/cache listeners in an isolated synthetic Docker project."""
 from __future__ import annotations
 
+import ipaddress
 import json
 import subprocess
 import time
@@ -44,10 +45,23 @@ def main():
             capture_output=True, text=True,
         )
 
-    rendered = json.loads(docker(
-        "compose", "-f", "compose.production.yaml", "--profile", "operations",
-        "config", "--format", "json",
-    ).stdout)
+    # Render only synthetic options; never inherit the operator's network choice.
+    rendered = None
+    for prefix, expected in ((None, "172.29.91"), ("", "172.29.91"), ("10.253.91", "10.253.91")):
+        env.pop("PAKODI_NETWORK_PREFIX", None)
+        if prefix is not None:
+            env["PAKODI_NETWORK_PREFIX"] = prefix
+        rendered = json.loads(docker(
+            "compose", "-f", "compose.production.yaml", "--profile", "operations",
+            "config", "--format", "json",
+        ).stdout)
+        subnet = rendered["networks"]["private"]["ipam"]["config"][0]["subnet"]
+        proxy = rendered["services"]["proxy"]["networks"]["private"]["ipv4_address"]
+        trusted = rendered["services"]["api"]["environment"]["TRUSTED_PROXY_IPS"]
+        assert subnet == expected + ".0/24", subnet
+        assert proxy == trusted == expected + ".10", (proxy, trusted)
+        assert ipaddress.ip_address(proxy) in ipaddress.ip_network(subnet)
+    print("Production network rendering passed: default, empty/custom prefixes; exact proxy trust.")
     published = {
         name: [(str(port["published"]), port["target"]) for port in service.get("ports", [])]
         for name, service in rendered["services"].items() if service.get("ports")
@@ -129,7 +143,8 @@ def main():
             "host_port_bindings": "none", "restart_persistence": "passed",
             "production_host_accessed": False,
         }, indent=2), encoding="utf-8")
-        print("Production port fixtures passed: PostgreSQL 5433, Redis 6380; private, authenticated and persistent.")
+        print("Production port fixtures passed: PostgreSQL 5433, Redis 6380; "
+              "private, authenticated and persistent.")
         print("Evidence: " + str(folder / "summary.json"))
     finally:
         # Only this generated project's resources may be removed, including after failure.

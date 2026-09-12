@@ -46,7 +46,7 @@ services:
     build: {context: ., dockerfile: apps/api/Dockerfile}
     environment:
       <<: *runtime
-      TRUSTED_PROXY_IPS: 172.29.91.10
+      TRUSTED_PROXY_IPS: ${PAKODI_NETWORK_PREFIX:-172.29.91}.10
     volumes:
       - media:/media
       - ${PAKODI_SECRETS_DIR}/api:/run/secrets:ro
@@ -121,11 +121,11 @@ services:
     restart: unless-stopped
     networks:
       private:
-        ipv4_address: 172.29.91.10
+        ipv4_address: ${PAKODI_NETWORK_PREFIX:-172.29.91}.10
 networks:
   private:
     ipam:
-      config: [{subnet: 172.29.91.0/24}]
+      config: [{subnet: '${PAKODI_NETWORK_PREFIX:-172.29.91}.0/24'}]
 volumes:
   postgres:
   redis:

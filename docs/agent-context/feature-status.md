@@ -1,5 +1,36 @@
 # Feature status
 
+## Production Docker network overlap - 2026-09-12
+
+Item 20 fixes the hard-coded production network range. The operator's server
+inventory confirms `brollyjuniors_default` owns `172.29.0.0/16`, containing the
+default `172.29.91.0/24`. The custom-prefix regression failed against the original
+Compose file. `PAKODI_NETWORK_PREFIX` now derives the /24, Caddy's .10 address and
+the API's exact trusted proxy together, retaining the default when unset/blank.
+The operations guide documents range selection and volume-preserving recovery.
+
+Fresh checks pass: default/blank/custom Compose rendering, disposable Docker
+overlap reproduction, successful alternative allocation and proxy runtime IP,
+PostgreSQL 5433/Redis 6380 authentication, private ports and restart persistence,
+112 workflow tests, 22-skill parity, shell checks and verifier Ruff. The local
+network harness initially failed on Docker host/none networks' null IPAM config;
+the corrected harness passed and removed only its owned fixture networks. Initial
+verifier lint failures were corrected; security and PR self-review found no
+actionable defect in proxy trust, published ports, fixture isolation or recovery.
+
+`10.253.91.0/24` avoids the supplied server Docker ranges and host/VPC routes;
+actual server startup remains unverified. No deployment server, operator secrets or
+production data were accessed. Browser/SEO/Lighthouse are not rerun for this
+network-only change; prior public performance acceptance remains open. Delivery
+continues `feat/docker-staging` after merged PR #16. Commit `6b04233` is pushed in
+open [PR #17](https://github.com/brollysolutions/patnampakodi-site/pull/17), with
+matching remote head verified. The first push failed with local database/cache
+fixtures stopped. After starting them, all 112 API tests, migration head and
+contract parity passed; the required fast push gate also passed web lint/format/
+types, units and build. That gate skips browser/performance/live SEO. Next priority:
+persist `PAKODI_NETWORK_PREFIX=10.253.91` in the server's non-secret runtime options
+and resume deployment. This documentation follow-up records the verified delivery.
+
 ## Production PostgreSQL and Redis ports - 2026-09-12
 
 Item 19 configures production PostgreSQL on 5433 and Redis on 6380, as requested.
