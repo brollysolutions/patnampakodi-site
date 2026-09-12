@@ -1,5 +1,32 @@
 # Feature status
 
+## Production PostgreSQL and Redis ports - 2026-09-12
+
+Item 19 configures production PostgreSQL on 5433 and Redis on 6380, as requested.
+Compose pins both private listeners, aligns PostgreSQL health checks and CLI
+defaults, and retains Redis's protected configuration while overriding its port.
+Only Caddy 80/443 is published. The operations guide specifies the three
+PostgreSQL URL files and Redis URL file that the operator must update together,
+plus maintenance, volume preservation and rollback requirements. Local
+development/staging ports, authentication, RLS and application contracts are
+unchanged. No schema migration or real secret-file edit is included.
+
+`scripts/verify_production_ports.py` renders production Compose with synthetic
+paths, then exercises only PostgreSQL and Redis in a unique, private Docker
+project. The check passes: PostgreSQL 5433 health and TCP/CLI connectivity,
+Redis 6380 authenticated access and denial without authentication, override of
+a legacy Redis 6379 setting, closed old listener ports, no host bindings, retained
+append-only/no-eviction settings and synthetic data persistence across restart.
+Cleanup is constrained to the generated project and verified container labels.
+All 112 workflow tests, 22-skill parity and verifier lint pass. The security/diff
+review found no new exposure, credential leak or application behavior change.
+
+Browser, SEO and Lighthouse are not rerun for this configuration-only change;
+the prior public speed acceptance remains open. A DigitalOcean host, operator
+connection files and production data were not accessed. Delivery follows merged
+PR #15 on `feat/docker-staging` against upstream `main`. Next priority: coordinate
+the operator's connection-file changes and complete live deployment acceptance.
+
 ## Saved product visibility and CRUD - 2026-09-11
 
 Item 18 makes the saved catalogue the first Products panel. Published products,

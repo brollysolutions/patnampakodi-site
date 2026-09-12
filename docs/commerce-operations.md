@@ -125,6 +125,14 @@ overwrites client-supplied forwarding headers. Adjust both network and trust
 configuration together if the chosen host already uses that subnet. Access logs
 are disabled; monitor status codes/health without request bodies or private URLs.
 
+For the DigitalOcean Droplet Docker deployment, Caddy publishes TCP 80/443.
+Inside Docker, web uses 3500, API uses 8500, PostgreSQL uses **5433** and Redis
+uses **6380**. PostgreSQL and Redis have no host port mappings. Their production
+listeners are pinned in Compose; PostgreSQL health checks and container CLI
+defaults also use 5433. Redis still loads the protected `redis.conf`; its command
+line selects 6380 while retaining authentication, persistence and eviction policy.
+Local development and local staging keep their separate existing port settings.
+
 Choose a host and DNS/TLS setup separately. Start from
 [`infra/runtime.env.example`](../infra/runtime.env.example) for **non-secret**
 options. An operator must prepare a restricted directory outside the checkout:
@@ -132,14 +140,14 @@ options. An operator must prepare a restricted directory outside the checkout:
 | File | Contents |
 | --- | --- |
 | `owner/postgres_password` | Strong PostgreSQL owner password |
-| `owner/migration_database_url` | Owner connection URL to `postgres:5432/pakodi` |
-| `api/database_url` | Restricted `pakodi_reader` connection URL |
-| `api/commerce_database_url` | Restricted `pakodi_app` connection URL |
-| `api/redis_url` | Authenticated URL to `redis:6379/0` |
+| `owner/migration_database_url` | Owner connection URL to `postgres:5433/pakodi` |
+| `api/database_url` | Restricted `pakodi_reader` connection URL to `postgres:5433/pakodi` |
+| `api/commerce_database_url` | Restricted `pakodi_app` connection URL to `postgres:5433/pakodi` |
+| `api/redis_url` | Authenticated URL to `redis:6380/0` |
 | `api/data_encryption_key` | Fernet key; retain securely for restoring encrypted records |
 | `api/razorpay_key_id`, `api/razorpay_key_secret`, `api/razorpay_webhook_secret` | Environment-specific Razorpay values |
 | `api/meta_access_token`, `api/meta_app_secret`, `api/meta_verify_token` | Environment-specific Meta values |
-| `redis.conf` | `appendonly yes`, `maxmemory-policy noeviction`, a strong `requirepass` |
+| `redis.conf` | `port 6380`, `appendonly yes`, `maxmemory-policy noeviction`, a strong `requirepass` |
 
 URL-encode database/Redis passwords in URLs. Runtime files must be readable by
 the container user and inaccessible to unrelated host users; never print them
@@ -169,6 +177,23 @@ allows it. Rotate compromised admin factors using the CLI; rotate provider
 secrets through provider consoles and the protected mounted files. Data-key
 rotation requires re-encryption of stored outbox/inbox records; do not simply
 replace that key and lose access to existing data.
+
+When upgrading an existing deployment from PostgreSQL 5432 / Redis 6379, use a
+maintenance window and a verified backup. Stop API and worker before changing
+listeners. The operator must update the port in the three database URL files and
+the Redis URL file listed above, preserving each role, password, database name
+and Redis database index. Recreate PostgreSQL and Redis with the new Compose
+configuration, then replace API/worker/web/proxy using the normal release steps.
+Keep the existing named volumes; do not run `down --volumes` or first-install
+role bootstrap. Rolling back these ports requires reverting both listeners and
+all four connection files together. No schema migration is required for this
+port change.
+
+Run `python scripts/verify_production_ports.py` locally to verify the rendered
+production listener commands, health check, authenticated connections, absence
+of published database/cache ports, and fixture persistence across restart. It
+uses a unique disposable Docker project and synthetic files; it does not access
+operator secrets, existing volumes or a DigitalOcean server.
 
 ## Backup, recovery and release gates
 

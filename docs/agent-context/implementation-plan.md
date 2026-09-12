@@ -1,5 +1,34 @@
 # Implementation plan
 
+## Production PostgreSQL and Redis ports - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 19. Use PostgreSQL 5433 and Redis 6380 in production | Implemented; disposable runtime checks pass, live deployment unverified | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+Pin production PostgreSQL to 5433 and Redis to 6380 on the Docker network, align
+PostgreSQL health/CLI defaults and document all operator-managed connection URL
+files. Keep only Caddy 80/443 public. Acceptance: rendered production commands
+start the new listeners; authenticated TCP clients connect; old listener ports
+are closed; PostgreSQL health passes; synthetic records survive restart; neither
+data service has host port bindings. Verify with disposable Docker containers and
+the applicable workflow/application gates, then security review and PR delivery.
+Non-goals: local development/staging port changes, public database exposure,
+schema/API/UI changes, credential rotation or accessing/deploying a live host.
+Rollout risk: server ports and all four connection files must change together;
+retain volumes and use a maintenance window. PR #15 is merged; this follow-up
+continues the instructed `feat/docker-staging` branch with a new upstream PR.
+
+Fresh verification: the rendered production configuration passes isolated Docker
+checks for PostgreSQL 5433 health/TCP/CLI connections, Redis 6380 authentication
+and legacy-config override, closed old ports, no published data-service ports,
+and PostgreSQL/Redis data preservation across restart. All 112 workflow tests,
+22-skill parity and the new verifier's Ruff check pass. No application source,
+contracts, schema or public assets change; browser/SEO/Lighthouse are not rerun
+for this deployment-only adjustment. Existing public performance acceptance is
+still open. Next priority: coordinate the operator's connection-file update and
+DigitalOcean release acceptance; no production files or host were accessed.
+
 ## Saved product visibility and CRUD - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |
