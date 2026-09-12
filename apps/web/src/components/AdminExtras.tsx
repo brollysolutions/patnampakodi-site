@@ -1,4 +1,6 @@
 "use client";
+
+import { HelpSelect } from "./FieldHelp";
 import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { api, money, type Schema } from "@/lib/commerce";
@@ -296,24 +298,23 @@ export function MediaSelect({ selected }: { selected: string | null }) {
   }, []);
   return (
     <div className="form-stack">
-      <label className="field">
-        Product image
-        <select
-          name="media"
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
-        >
-          <option value="">No uploaded image</option>
-          {value && !items?.some((item) => item.id === value) && (
-            <option value={value}>Current image</option>
-          )}
-          {items?.map((item) => (
-            <option value={item.id} key={item.id}>
-              {item.alt}
-            </option>
-          ))}
-        </select>
-      </label>
+      <HelpSelect
+        label="Product image"
+        help="Choose a photograph uploaded in Media. Selecting no uploaded image keeps any existing source image; uploading a photo does not publish the product."
+        name="media"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      >
+        <option value="">No uploaded image</option>
+        {value && !items?.some((item) => item.id === value) && (
+          <option value={value}>Current image</option>
+        )}
+        {items?.map((item) => (
+          <option value={item.id} key={item.id}>
+            {item.alt}
+          </option>
+        ))}
+      </HelpSelect>
       {!items && !message && <p>Loading media library…</p>}
       {items?.length === 0 && (
         <p>Upload an image in Media to choose it here.</p>

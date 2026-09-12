@@ -29,7 +29,20 @@ or reset after this change to provision authenticator credentials for that relea
 In admin, configure verified seller details, GSTIN/state, invoice prefix and the
 delivery tax rate. Add one SKU per sellable pack/variant, complete all food facts,
 upload an image and record initial stock with a reason. Publish only approved
-records. Website content management is excluded from the admin panel at the user's
+records. The Products screen lists saved records first, including drafts and
+zero-stock items, with name/SKU search, range/publication filters and pagination.
+Field information buttons explain every product-editor input. An unused product
+can be deleted after confirmation; the server prevents deletion of reserved
+products and any product referenced by an order, including historical orders.
+Unpublish those products to stop new orders. Deletion retains the unpublished
+content record, uploaded media and append-only audit history.
+
+Deploy migration `0007_product_deletion` before the updated API/web: it grants
+DELETE on variants only, retaining brand RLS and existing permissions on orders,
+content and audit data. Application rollback does not restore deleted unused
+products; restore data only through the approved backup procedure when required.
+
+Website content management is excluded from the admin panel at the user's
 request. Coordinate approved page, outlet and policy updates with the development
 team. Policy slugs
 are `policies/shipping`, `policies/returns`, `policies/refunds`, `policies/privacy`

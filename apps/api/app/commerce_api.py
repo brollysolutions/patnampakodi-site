@@ -45,6 +45,7 @@ from app.commerce_schemas import (
     OutboxView,
     PaymentCheckout,
     PaymentStart,
+    ProductPage,
     QuickEnquiry,
     QuickEnquiryReceipt,
     RefundRequest,
@@ -522,6 +523,32 @@ async def variants(conn: DB, actor: Admin):
     ]
 
 
+@router.get("/admin/products", response_model=ProductPage)
+async def product_catalog(
+    conn: DB,
+    actor: Admin,
+    q: str = Query("", max_length=100),
+    mode: Literal["", "fresh", "packaged"] = "",
+    status: Literal["", "published", "draft"] = "",
+    limit: int = Query(20, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+):
+    from app.product_admin import find_products
+
+    items, total = await find_products(
+        conn, q=q, mode=mode, status=status, limit=limit, offset=offset
+    )
+    return ProductPage(items=[variant_view(row) for row in items], total=total)
+
+
+@router.delete("/admin/variants/{identifier}", response_model=ActionResult)
+async def delete_variant(identifier: uuid.UUID, conn: DB, actor: Admin):
+    from app.product_admin import delete_product
+
+    await delete_product(conn, identifier, actor["id"])
+    return ActionResult(detail="Product deleted")
+
+
 async def save_variant(conn, identifier, payload, actor):
     if payload.media_id and not await one(
         conn, "SELECT id FROM media WHERE id=%s", (payload.media_id,)
@@ -598,7 +625,7 @@ async def create_variant(payload: VariantInput, conn: DB, actor: Admin):
 
 @router.put("/admin/variants/{identifier}", response_model=VariantView)
 async def update_variant(identifier: uuid.UUID, payload: VariantInput, conn: DB, actor: Admin):
-    if not await one(conn, "SELECT id FROM variants WHERE id=%s", (identifier,)):
+    if not await one(conn, "SELECT id FROM variants WHERE id=%s FOR UPDATE", (identifier,)):
         raise HTTPException(404, "Product not found")
     return await save_variant(conn, identifier, payload, actor["id"])
 
@@ -718,7 +745,9 @@ async def import_products(request: Request, conn: DB, actor: Admin):
                     else None
                 )
             existing = await one(
-                conn, "SELECT id,media_id,product FROM variants WHERE sku=%s", (row["sku"].strip(),)
+                conn,
+                "SELECT id,media_id,product FROM variants WHERE sku=%s FOR UPDATE",
+                (row["sku"].strip(),),
             )
             if existing and reader.fieldnames != CSV_FIELDS:
                 product = {**existing["product"], **product}

@@ -46,8 +46,15 @@ password. Do not put these credentials in
 the repository, chat, scripts or screenshots.
 
 In Settings, enter the approved seller name/address, GSTIN/state, invoice prefix
-and delivery tax rate before approving sales. In Products, choose from **Foods
-and flavours to set up**. The 57 entries cover 53 fresh foods and four ready mixes,
+and delivery tax rate before approving sales. In Products, **Saved products** comes
+first and includes published items, drafts and products with no stock. Search by
+name/SKU, filter by range/publication, or use the page controls. View details,
+Edit product, Publish/Unpublish and Adjust stock act on the selected saved item.
+Add product opens a blank editor; each editor field has an **i** button for help.
+The help also works with keyboard focus, Enter/Space and Escape.
+
+Expand **Choose a food from the menu** to use **Foods and flavours to set up**.
+The 57 entries cover 53 fresh foods and four ready mixes,
 using the saved menu and product references. Search by name or filter by range,
 then select **Enter details** to prefill the name, URL, category and available
 image. Confirm the description, dietary mark, portion/pack size, ingredients,
@@ -55,6 +62,12 @@ allergens, other food details, price and GST/HSN. Select a preparation outlet fo
 fresh food. Save the complete product, add stock and publish only when its
 information is approved. Existing product records and stock are preserved; a
 saved product disappears from the setup list.
+After saving, the catalogue searches for its SKU so the saved record is visible;
+Clear filters returns to the full list. CSV tools are under Import or export
+products CSV. Delete product asks for confirmation and permanently removes only
+an item with no order history or reserved stock. Its public content is unpublished;
+media and audit records are retained. Products with orders can be unpublished
+instead. Deletion is not reversible through the application.
 Only the seven original product references prefill a photo. Other foods use an
 icon because the saved menu repeats generic pakodi artwork for unrelated dishes.
 Choose an approved product photo from Media when completing these entries.

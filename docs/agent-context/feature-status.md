@@ -1,5 +1,61 @@
 # Feature status
 
+## Saved product visibility and CRUD - 2026-09-11
+
+Item 18 makes the saved catalogue the first Products panel. Published products,
+drafts and zero-stock items are visible with a count, name/SKU search, range and
+publication filters, pagination, details, create/edit, publication and stock
+controls. Menu suggestions and CSV tools remain available in collapsed panels.
+Every editor field has a labelled information button with field-specific help,
+44px targets and keyboard/Escape support. Publication changes from the saved list
+refresh the open editor's checkbox without discarding other field edits.
+
+The new authenticated product page endpoint returns a bounded, filtered
+`ProductPage`; the original variants list remains compatible. Confirmed deletion
+locks the product and rejects reservations or any order reference, including
+historical orders. It unpublishes the retained content record and preserves media,
+orders and audit history. Updates and CSV imports lock before saving to prevent a
+concurrent delete from being undone by an upsert. Additive migration
+`0007_product_deletion` grants DELETE only on variants under existing brand RLS.
+OpenAPI and TypeScript contracts were regenerated; the browser proxy forwards
+DELETE with its existing same-origin and CSRF protections.
+
+Fresh verification on 12 September: 112 workflow tests, 22-skill parity, 112 API
+tests (including eight product/RLS/locking regressions), one migration head,
+contract parity, web lint/format/types, 27 units and production build pass. The
+initial broad browser run passed 58, skipped two duplicate reflow projects and
+failed six admin assertions whose labels now also matched help buttons. After
+correcting those selectors and a renamed success-message expectation, all six
+admin journeys have fresh passing coverage across desktop, mobile and tablet.
+Product CRUD survives reload; every help control, publication synchronization,
+confirmed deletion, axe and 320px reflow pass. The original broad command remains
+failed. Technical SEO passes 13 routes with 13 existing fragment-link warnings.
+
+Local Docker staging was rebuilt and migration applied; all six services are
+healthy and `/admin/` returns 200. A read-only before/after product digest is
+identical: the existing published, zero-stock product was preserved. No test
+products or credentials were inserted into persistent staging. Browser images
+were reviewed at 1440px, 768px and 320px; no remaining product design or
+accessibility defect was found. Screen-reader speech and other browsers remain
+unverified. The refreshed catalogue service validates and returns the existing
+product through the new page response without changing its data.
+
+Container migration/seed, API/web, indexing/private headers, worker heartbeat
+and local Caddy HTTPS/HTTP/2 checks pass. All 18 Lighthouse reports complete with
+accessibility, best-practices and SEO scores of 100, but the unchanged public
+speed budgets fail: home/menu/contact performance medians are mobile 57/66/73
+and desktop 89/94/83. Container verification therefore exits 1; only desktop
+menu meets every budget. The reports also flag host CPU calibration. No budget
+or security gate was weakened. Keep the follow-up PR in draft. Production
+deployment, live providers and field vitals remain unverified.
+
+[PR #15](https://github.com/brollysolutions/patnampakodi-site/pull/15) delivers
+`vamshisaideep9:feat/docker-staging` against upstream `main`, following merged
+PR #14. Implementation commit `b923765` is pushed and its commit/push hooks pass;
+the remote PR head was verified before linking this evidence. The PR remains
+draft for the public speed failure. Next priority: meet the public speed budgets
+and finish operator-approved inventory and live-provider launch acceptance.
+
 ## Local PostgreSQL port and password-only admin sign-in - 2026-09-11
 
 Item 17 moves the local Docker PostgreSQL host mapping and every local consumer
