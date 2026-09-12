@@ -19,6 +19,21 @@ spec.loader.exec_module(deploy)
 
 
 class DeploymentTests(unittest.TestCase):
+    def test_modern_standalone_compose_is_accepted_when_plugin_is_missing(self):
+        with patch.object(
+            deploy,
+            "run",
+            side_effect=[deploy.DeploymentError("missing plugin"), "5.1.2\n"],
+        ) as command:
+            self.assertEqual(deploy.select_compose(), ("docker-compose",))
+        self.assertEqual(
+            [call.args[0] for call in command.call_args_list],
+            [
+                ["docker", "compose", "version", "--short"],
+                ["docker-compose", "version", "--short"],
+            ],
+        )
+
     def test_runtime_check_requires_matching_restricted_roles_and_authenticated_redis(
         self,
     ):
@@ -333,25 +348,129 @@ class DeploymentTests(unittest.TestCase):
             deploy.confirm_backup(False)
         deploy.confirm_backup(True)
 
+    def test_compose_selection_prefers_supported_plugin(self):
+        for version in ("v2.20.0", "2.40.3+ubuntu", "v5.1.2"):
+            with (
+                self.subTest(version=version),
+                patch.object(deploy, "run", return_value=version) as command,
+            ):
+                self.assertEqual(deploy.select_compose(), ("docker", "compose"))
+                command.assert_called_once_with(
+                    ["docker", "compose", "version", "--short"]
+                )
+
+    def test_compose_selection_falls_back_from_unusable_plugin(self):
+        for result in (FileNotFoundError(), "2.19.9", "unknown"):
+            with (
+                self.subTest(result=result),
+                patch.object(deploy, "run", side_effect=[result, "v5.1.2"]),
+            ):
+                self.assertEqual(deploy.select_compose(), ("docker-compose",))
+
+    def test_compose_selection_rejects_missing_legacy_and_malformed_versions(self):
+        for result in (
+            FileNotFoundError(),
+            deploy.DeploymentError("failed"),
+            "1.29.2",
+            "2.19.9",
+            "5.1",
+            "5.1.2 invalid",
+        ):
+            with (
+                self.subTest(result=result),
+                patch.object(deploy, "run", side_effect=[result, result]),
+                self.assertRaisesRegex(deploy.DeploymentError, "2.20.0"),
+            ):
+                deploy.select_compose()
+
+    def test_preflight_selection_is_reused_with_project_and_runtime_options(self):
+        for selected in (("docker", "compose"), ("docker-compose",)):
+            with (
+                self.subTest(selected=selected),
+                patch.object(deploy, "COMPOSE_COMMAND", ("docker", "compose")),
+                patch.object(deploy, "select_compose", return_value=selected) as select,
+                patch.object(
+                    deploy,
+                    "docker",
+                    side_effect=['"unix:///var/run/docker.sock"', "linux"],
+                ),
+                patch.object(deploy, "run", return_value="") as command,
+                patch.dict(
+                    os.environ, {"COMPOSE_PROJECT_NAME": "unrelated"}, clear=True
+                ),
+            ):
+                deploy.preflight()
+                for args in (
+                    ("config", "--quiet"),
+                    ("build",),
+                    ("up", "-d", "--wait"),
+                    ("exec", "api", "python"),
+                ):
+                    deploy.compose(deploy.DEFAULTS, *args, visible=True)
+                    invocation = command.call_args
+                    self.assertEqual(
+                        invocation.args[0],
+                        [
+                            *selected,
+                            "-p",
+                            "pakodi",
+                            "-f",
+                            str(deploy.ROOT / "compose.production.yaml"),
+                            "--profile",
+                            "operations",
+                            *args,
+                        ],
+                    )
+                    self.assertEqual(
+                        invocation.kwargs["env"]["PAKODI_HOST"], "patnampakodi.com"
+                    )
+                    self.assertEqual(
+                        invocation.kwargs["env"]["COMPOSE_DISABLE_ENV_FILE"], "1"
+                    )
+                    self.assertNotIn("COMPOSE_PROJECT_NAME", invocation.kwargs["env"])
+                    self.assertTrue(invocation.kwargs["visible"])
+                select.assert_called_once()
+
     def test_preflight_rejects_missing_old_and_remote_compose(self):
         with (
-            patch.object(deploy, "docker", side_effect=FileNotFoundError),
+            patch.object(deploy, "run", side_effect=FileNotFoundError),
             patch.dict(os.environ, {}, clear=True),
             self.assertRaisesRegex(deploy.DeploymentError, "Compose plugin"),
         ):
             deploy.preflight()
         with (
-            patch.object(deploy, "docker", return_value="1.29.2"),
+            patch.object(deploy, "run", return_value="1.29.2"),
             patch.dict(os.environ, {}, clear=True),
             self.assertRaisesRegex(deploy.DeploymentError, "2.20.0"),
         ):
             deploy.preflight()
         with (
-            patch.object(deploy, "docker", return_value="2.39.1"),
+            patch.object(deploy, "run", return_value="5.1.2"),
             patch.dict(os.environ, {"DOCKER_HOST": "ssh://remote"}, clear=True),
             self.assertRaisesRegex(deploy.DeploymentError, "local Docker socket"),
         ):
             deploy.preflight()
+
+    def test_standalone_compose_retains_context_and_linux_engine_guards(self):
+        for environment, engine, message in (
+            ({"DOCKER_CONTEXT": "remote"}, "linux", "Unset DOCKER_CONTEXT"),
+            ({"DOCKER_HOST": "tcp://remote:2375"}, "linux", "local Docker socket"),
+            (
+                {"DOCKER_HOST": "unix:///var/run/docker.sock"},
+                "windows",
+                "Linux Docker Engine",
+            ),
+        ):
+            with (
+                self.subTest(environment=environment, engine=engine),
+                patch.dict(os.environ, environment, clear=True),
+                patch.object(
+                    deploy, "select_compose", return_value=("docker-compose",)
+                ),
+                patch.object(deploy, "docker", return_value=engine),
+                self.assertRaisesRegex(deploy.DeploymentError, message),
+            ):
+                deploy.preflight()
 
     def test_overlapping_runtime_prefix_is_replaced_and_saved_for_retry(self):
         networks = [self.network("another-app", "172.29.0.0/16")]

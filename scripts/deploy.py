@@ -20,6 +20,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+COMPOSE_COMMAND = ("docker", "compose")
 DEFAULTS = {
     "PAKODI_HOST": "patnampakodi.com",
     "PAKODI_SECRETS_DIR": "/srv/pakodi-secrets",
@@ -114,11 +115,26 @@ def docker(*args):
     return run(["docker", *args])
 
 
+def select_compose():
+    for command in (("docker", "compose"), ("docker-compose",)):
+        try:
+            version = run([*command, "version", "--short"]).strip().lstrip("v")
+        except (DeploymentError, FileNotFoundError):
+            continue
+        match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)(?:[-+][\w.-]+)?", version)
+        if match and tuple(map(int, match.groups())) >= (2, 20, 0):
+            return command
+    raise DeploymentError(
+        "Docker Compose 2.20.0 or newer is required. Install the Compose plugin "
+        "('docker compose') or a modern 'docker-compose' executable; "
+        "Compose v1 is unsupported."
+    )
+
+
 def compose(options, *args, visible=False):
     return run(
         [
-            "docker",
-            "compose",
+            *COMPOSE_COMMAND,
             "-p",
             "pakodi",
             "-f",
@@ -133,20 +149,13 @@ def compose(options, *args, visible=False):
 
 
 def preflight():
+    global COMPOSE_COMMAND
+
     if os.environ.get("DOCKER_CONTEXT"):
         raise DeploymentError(
             "Unset DOCKER_CONTEXT and select the server's local Docker context explicitly."
         )
-    try:
-        version = docker("compose", "version", "--short").strip().lstrip("v")
-    except (DeploymentError, FileNotFoundError) as exc:
-        raise DeploymentError(
-            "Install Docker Engine and the Docker Compose plugin first. "
-            "The command 'docker compose version' must succeed; legacy docker-compose is unsupported."
-        ) from exc
-    match = re.match(r"(\d+)\.(\d+)\.(\d+)", version)
-    if not match or tuple(map(int, match.groups())) < (2, 20, 0):
-        raise DeploymentError("Docker Compose 2.20.0 or newer is required.")
+    command = select_compose()
     endpoint = os.environ.get("DOCKER_HOST") or json.loads(
         docker(
             "context",
@@ -161,6 +170,8 @@ def preflight():
         )
     if docker("info", "--format", "{{.OSType}}").strip() != "linux":
         raise DeploymentError("A running Linux Docker Engine is required.")
+    COMPOSE_COMMAND = command
+    print(f"Using {' '.join(command)} for deployment.", flush=True)
 
 
 def safe_path(path):

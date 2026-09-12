@@ -1,5 +1,33 @@
 # Feature status
 
+## Modern standalone Compose compatibility - 2026-09-12
+
+Item 22 fixes the deployment helper's rejection of a server with modern
+`docker-compose` v5.1.2 but no `docker compose` plugin. It prefers a supported
+plugin, falls back to the standalone executable, requires Compose >=2.20.0,
+and reuses the selected command for all deployment operations. It prints the
+selection and retains local-engine, fixed-project, runtime-environment and
+data-preservation checks. No package installation or plugin symlink is required.
+
+Fresh verification: all 32 deployment tests pass in the pinned Linux container;
+Windows passes with three Linux-only skips. The workflow-only gate passes 144
+tests with three skips, skill parity/validation and shell syntax checks. Ruff
+check/format passes. Actual standalone Compose v5.4.0 successfully renders the
+production configuration through the helper using synthetic options. Tests cover
+the reported v5.1.2, unsupported/malformed versions, missing executables, command
+propagation and local-engine guards. A Windows sandbox temporary-file failure
+was resolved by an approved rerun. Review found no unresolved correctness or
+security regression. Full application/browser/Lighthouse and live-server
+deployment remain outside this compatibility check's evidence.
+
+The delivery helper returned exit 0 and verified implementation commit `d8c6e67`
+in open [PR #19](https://github.com/brollysolutions/patnampakodi-site/pull/19),
+from the contributor's `feat/docker-staging` to upstream `main`. Mandatory commit
+checks and the fast application push gate passed, with matching remote head and
+a clean worktree. This documentation follow-up records that readback. Next
+priority: merge this fix, pull on the prepared server and rerun
+`sudo python3 scripts/deploy.py` for host acceptance.
+
 ## One-command server deployment - 2026-09-12
 
 Item 21 adds `sudo python3 scripts/deploy.py` for the Linux deployment server.

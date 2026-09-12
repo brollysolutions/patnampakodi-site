@@ -1,5 +1,38 @@
 # Implementation plan
 
+## Modern standalone Compose compatibility - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 22. Accept modern `docker-compose` in server deployment | Implemented; verified and delivered in PR #19, server acceptance unverified | `gpt-6-astra` / Medium recommended | `gpt-6-astra` / Medium recommended; selected settings preserved |
+
+Accept a working `docker compose` plugin or modern `docker-compose` executable
+(including the server's v5.1.2), requiring version 2.20.0 or newer. Select once
+before deployment mutations and reuse that command for every Compose operation.
+Verify preference, fallback, unsupported/missing versions, command propagation
+and retained local-engine checks. No package installation, dependency, application,
+schema, credential, network or data-policy changes. Delivery follows review and
+fresh targeted/workflow verification; server acceptance remains separate.
+
+Fresh evidence: 32/32 deployment tests pass in the pinned Linux Python container;
+Windows passes with three Linux-only skips. The workflow-only gate passes 144
+tests with three skips, 22-skill validation and shell checks. Ruff check/format
+passes, and the actual local standalone Compose v5.4.0 renders the production
+configuration through the helper with synthetic options. v5.1.2 selection is
+covered by regression fixtures; deployment on the user's server is unverified.
+The initial Windows test attempt was blocked by sandbox temporary-file access;
+the approved rerun passed. Code review found no outstanding defect; command
+arguments remain separate from the shell, and project/environment/local-engine
+guards are retained. No full application/browser/Lighthouse run is claimed for
+this CLI-only change. Next priority: merge the compatibility PR and retry setup
+on the prepared server. Delivery continues on `feat/docker-staging` after PR #18.
+
+The delivery helper returned exit 0 and verified implementation commit `d8c6e67`
+in open [PR #19](https://github.com/brollysolutions/patnampakodi-site/pull/19),
+from the contributor's `feat/docker-staging` to upstream `main`. Mandatory commit
+checks and the fast application push gate passed; the remote head matched and
+the worktree was clean. This documentation follow-up records that readback.
+
 ## One-command server deployment - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |
