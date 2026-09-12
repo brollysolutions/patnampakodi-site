@@ -378,6 +378,32 @@ class DeploymentTests(unittest.TestCase):
             deploy.prepare_options(path)
             self.assertEqual(path.read_bytes(), original)
 
+    def test_blank_runtime_prefix_is_saved_for_retry(self):
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch.object(deploy, "network_inventory", return_value=([], [])),
+            patch.dict(
+                deploy.DEFAULTS,
+                {
+                    "PAKODI_SECRETS_DIR": Path(tempfile.gettempdir()).as_posix()
+                    + "/synthetic-deploy-secrets"
+                },
+            ),
+        ):
+            path = Path(directory) / "runtime.env"
+            path.write_text(
+                "PAKODI_HOST=patnampakodi.com\nPAKODI_NETWORK_PREFIX=\n",
+                encoding="utf-8",
+            )
+            options = deploy.prepare_options(path)
+            self.assertEqual(options["PAKODI_NETWORK_PREFIX"], "10.253.91")
+            self.assertEqual(
+                deploy.read_options(path)["PAKODI_NETWORK_PREFIX"], "10.253.91"
+            )
+            original = path.read_bytes()
+            deploy.prepare_options(path)
+            self.assertEqual(path.read_bytes(), original)
+
     def test_exhausted_network_candidates_fail_without_deleting_networks(self):
         networks = [
             self.network("ten-range", "10.0.0.0/8"),

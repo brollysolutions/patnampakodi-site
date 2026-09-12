@@ -364,11 +364,12 @@ def prepare_options(path):
                 )
             )
     if (
-        values.get("PAKODI_NETWORK_PREFIX")
+        "PAKODI_NETWORK_PREFIX" in values
         and values["PAKODI_NETWORK_PREFIX"] != options["PAKODI_NETWORK_PREFIX"]
     ):
-        # Only reached when no Pakodi network exists. Preserve other options and
-        # comments, while replacing the overlapping subnet in one atomic rename.
+        # Save a chosen prefix even when the previous value was blank. A
+        # nonblank prefix can change only before creating a new Pakodi network.
+        # Preserve other options and comments using one atomic rename.
         revised = re.sub(
             r"(?m)^\s*PAKODI_NETWORK_PREFIX\s*=.*$",
             "PAKODI_NETWORK_PREFIX=" + options["PAKODI_NETWORK_PREFIX"],
@@ -378,7 +379,7 @@ def prepare_options(path):
         exclusive_write(temporary, revised)
         os.replace(temporary, path)
         print(
-            "Selected free private subnet "
+            "Saved private subnet "
             + options["PAKODI_NETWORK_PREFIX"]
             + ".0/24; saved runtime options.",
             flush=True,

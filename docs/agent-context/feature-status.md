@@ -18,11 +18,11 @@ for the first administrator in an interactive terminal. Runtime files are
 excluded from Git and Docker build contexts. No new dependencies or API/schema/UI
 changes are introduced.
 
-Fresh targeted verification: all 25 deployment tests pass in an isolated Linux
+Fresh targeted verification: all 26 deployment tests pass in an isolated Linux
 container, including actual UID/GID 10001 secret access under umask 077,
-symlink rejection and lock contention/release. Windows passes 22 applicable
+symlink rejection and lock contention/release. Windows passes 23 applicable
 tests and skips those three Linux-specific cases. Ruff check/format passes.
-The final workflow gate passes 137 tests (three Linux-only skips), 22-skill
+The final workflow gate passes 138 tests (three Linux-only skips), 22-skill
 validation and shell checks. Production Compose rendering with helper-supplied
 options passes; the API image confirms UID/GID 10001. The full CI attempt passed
 112 API tests, migration/contract checks, web lint/format/types, 27 unit tests
@@ -40,6 +40,14 @@ credentials. Restricted logins, Redis authentication, migrations, seed, API
 health, worker startup and admin creation succeed; edited content, the admin
 count and secret hashes are preserved. Its uniquely owned containers/volumes
 are cleaned up. Web/proxy and public TLS are outside that backend smoke check.
+
+Final review also reproduces and fixes an existing blank network prefix not
+being saved after range selection. The new regression fails against the initial
+implementation and passes after the correction, including a preserving retry.
+The initial delivery was interrupted with `90b40d6` committed locally; its
+terminal result was unavailable on resumption. Process inspection found no
+remaining delivery process and GitHub still held `594dc2f`, so no successful
+push is inferred from that attempt. Delivery is resumed serially.
 
 Scope remains local code and synthetic verification. The helper does not
 install Docker, change DNS, integrate an existing shared reverse proxy, generate

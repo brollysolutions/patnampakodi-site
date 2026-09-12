@@ -25,8 +25,8 @@ IPv4/IPv6 web-port conflicts, restricted core credential generation and reuse,
 role/Redis authentication, bootstrap versus migration, preserving seed behavior,
 failure propagation, first-admin prompts, and deployment lock/permissions.
 
-Fresh verification: all 25 deployment cases pass in a Linux container; the
-Windows workflow gate runs 137 tests with three Linux-specific skips and passes
+Fresh verification: all 26 deployment cases pass in a Linux container; the
+Windows workflow gate runs 138 tests with three Linux-specific skips and passes
 22-skill validation and shell checks. Ruff and production Compose rendering
 pass. The full CI attempt passes all 112 API tests, migration/contract parity,
 web lint/format/types, 27 units and the production build. Its additional browser
@@ -43,6 +43,14 @@ logins, Redis authentication, migration, seed, API health, worker startup and
 admin creation. Edited content, the admin count and secret hashes survive the
 second deployment. Only fixture-owned volumes are removed afterward. This
 check reuses the reviewed API image and excludes web/proxy/public TLS.
+
+Final review reproduced a blank-prefix persistence defect: the first run chose
+a free range but left an existing empty runtime entry unchanged. The regression
+failed against `90b40d6`; the correction saves that chosen range and preserves
+it on retry. The interrupted initial delivery left that implementation commit
+local only; process inspection and GitHub readback confirmed it was no longer
+running and the remote still held `594dc2f` before delivery resumed. Its missing
+terminal result is unverified, not a successful push.
 
 ## Production Docker network overlap - 2026-09-12
 
