@@ -47,6 +47,13 @@ is defense in depth and is not permission to introduce raw HTML/script rendering
 
 The production API trusts only the fixed edge proxy, which overwrites forwarding
 headers. Development BFF requests share loopback limits. The host must protect
+the host-Nginx mode's loopback upstream. In that mode Nginx terminates HTTPS and
+overwrites incoming forwarded addresses; internal Caddy trusts only the private
+bridge gateway and pins HTTPS/host headers before forwarding to the API/web.
+The API retains its exact Caddy trust address. Host-local processes and Docker
+administrators are trusted operators; unexpected existing gateways stop setup.
+Other websites' Nginx listeners/configuration are not changed by the deploy helper.
+The host must protect
 database/media disks and encrypted backups. Test fixtures are fixed to loopback
 5434, `pakodi_mvp_test`, and Redis 6450 DB 15. Never run them against a configured
 or production database. Provider calls are mocked in regression tests; live

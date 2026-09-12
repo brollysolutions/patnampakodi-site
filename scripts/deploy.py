@@ -29,6 +29,8 @@ DEFAULTS = {
     "META_PHONE_ID": "",
     "META_GRAPH_VERSION": "",
     "GA4_MEASUREMENT_ID": "",
+    "PAKODI_PROXY_MODE": "direct",
+    "PAKODI_PROXY_PORT": "3502",
 }
 KEYS = {*DEFAULTS, "PAKODI_NETWORK_PREFIX"}
 CORE_FILES = (
@@ -115,23 +117,28 @@ def docker(*args):
     return run(["docker", *args])
 
 
-def select_compose():
+def select_compose(minimum=(2, 20, 0)):
     for command in (("docker", "compose"), ("docker-compose",)):
         try:
             version = run([*command, "version", "--short"]).strip().lstrip("v")
         except (DeploymentError, FileNotFoundError):
             continue
         match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)(?:[-+][\w.-]+)?", version)
-        if match and tuple(map(int, match.groups())) >= (2, 20, 0):
+        if match and tuple(map(int, match.groups())) >= minimum:
             return command
     raise DeploymentError(
-        "Docker Compose 2.20.0 or newer is required. Install the Compose plugin "
+        f"Docker Compose {'.'.join(map(str, minimum))} or newer is required. Install the Compose plugin "
         "('docker compose') or a modern 'docker-compose' executable; "
         "Compose v1 is unsupported."
     )
 
 
 def compose(options, *args, visible=False):
+    overrides = (
+        ["-f", str(ROOT / "compose.nginx.yaml")]
+        if options.get("PAKODI_PROXY_MODE") == "nginx"
+        else []
+    )
     return run(
         [
             *COMPOSE_COMMAND,
@@ -139,6 +146,7 @@ def compose(options, *args, visible=False):
             "pakodi",
             "-f",
             str(ROOT / "compose.production.yaml"),
+            *overrides,
             "--profile",
             "operations",
             *args,
@@ -148,14 +156,14 @@ def compose(options, *args, visible=False):
     )
 
 
-def preflight():
+def preflight(proxy_mode="direct"):
     global COMPOSE_COMMAND
 
     if os.environ.get("DOCKER_CONTEXT"):
         raise DeploymentError(
             "Unset DOCKER_CONTEXT and select the server's local Docker context explicitly."
         )
-    command = select_compose()
+    command = select_compose((2, 24, 4)) if proxy_mode == "nginx" else select_compose()
     endpoint = os.environ.get("DOCKER_HOST") or json.loads(
         docker(
             "context",
@@ -282,8 +290,21 @@ def exclusive_write(path, value, mode=0o600):
         stream.write(value)
 
 
-def check_proxy_ports():
+def proxy_settings(options):
+    mode = options.get("PAKODI_PROXY_MODE", "direct")
+    port = options.get("PAKODI_PROXY_PORT", "3502")
+    if mode not in {"direct", "nginx"}:
+        raise DeploymentError("PAKODI_PROXY_MODE must be direct or nginx.")
+    if not re.fullmatch(r"[0-9]{4,5}", port) or not 1024 <= int(port) <= 65535:
+        raise DeploymentError(
+            "PAKODI_PROXY_PORT must be an unprivileged TCP port (1024-65535)."
+        )
+    return mode, int(port)
+
+
+def check_proxy_ports(options=None):
     """Fail before builds/stops when another web server owns a required port."""
+    mode, proxy_port = proxy_settings(options or {})
     own_ports = set()
     identifiers = docker(
         "ps",
@@ -302,11 +323,11 @@ def check_proxy_ports():
             for bindings in (ports or {}).values()
             for binding in bindings or []
         )
-    for port in (80, 443):
+    for port in (proxy_port,) if mode == "nginx" else (80, 443):
         if port in own_ports:
             continue
-        families = [(socket.AF_INET, "0.0.0.0")]
-        if socket.has_ipv6:
+        families = [(socket.AF_INET, "127.0.0.1" if mode == "nginx" else "0.0.0.0")]
+        if mode == "direct" and socket.has_ipv6:
             families.append((socket.AF_INET6, "::"))
         for family, address in families:
             try:
@@ -322,13 +343,18 @@ def check_proxy_ports():
                     continue
                 raise DeploymentError(
                     f"Host TCP port {port} is already in use. Keep the existing server running; "
-                    "this stack needs an operator-reviewed reverse-proxy integration before deployment."
+                    + (
+                        "choose a free PAKODI_PROXY_PORT in runtime.env."
+                        if mode == "nginx"
+                        else "for host Nginx, use --behind-nginx and the documented site integration."
+                    )
                 ) from exc
 
 
-def prepare_options(path):
+def prepare_options(path, overrides=None):
     values = read_options(path)
-    options = {**DEFAULTS, **values}
+    options = {**DEFAULTS, **values, **(overrides or {})}
+    proxy_settings(options)
     host = options["PAKODI_HOST"]
     if len(host) > 253 or not re.fullmatch(
         r"(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}", host
@@ -354,9 +380,23 @@ def prepare_options(path):
         raise DeploymentError(
             "Keep the secrets directory outside the checkout in a dedicated directory."
         )
+    networks, routes = network_inventory()
     options["PAKODI_NETWORK_PREFIX"] = choose_prefix(
-        values.get("PAKODI_NETWORK_PREFIX"), *network_inventory()
+        values.get("PAKODI_NETWORK_PREFIX"), networks, routes
     )
+    if options["PAKODI_PROXY_MODE"] == "nginx":
+        for network in networks:
+            if network["Name"] == "pakodi_private":
+                gateways = {
+                    config.get("Gateway")
+                    for config in network.get("IPAM", {}).get("Config") or []
+                    if ":" not in config.get("Subnet", "")
+                }
+                if gateways != {options["PAKODI_NETWORK_PREFIX"] + ".1"}:
+                    raise DeploymentError(
+                        "Existing Pakodi network has an unexpected gateway. "
+                        "Review host-Nginx proxy trust before deployment; the network was preserved."
+                    )
     if not path.exists():
         exclusive_write(
             path,
@@ -374,18 +414,22 @@ def prepare_options(path):
                     f"{key}={options[key]}\n" for key in options if key not in values
                 )
             )
-    if (
-        "PAKODI_NETWORK_PREFIX" in values
-        and values["PAKODI_NETWORK_PREFIX"] != options["PAKODI_NETWORK_PREFIX"]
-    ):
+    changed = {
+        key
+        for key in ("PAKODI_NETWORK_PREFIX", *(overrides or {}))
+        if key in values and values[key] != options[key]
+    }
+    if changed:
         # Save a chosen prefix even when the previous value was blank. A
         # nonblank prefix can change only before creating a new Pakodi network.
         # Preserve other options and comments using one atomic rename.
-        revised = re.sub(
-            r"(?m)^\s*PAKODI_NETWORK_PREFIX\s*=.*$",
-            "PAKODI_NETWORK_PREFIX=" + options["PAKODI_NETWORK_PREFIX"],
-            path.read_text(encoding="utf-8-sig"),
-        )
+        revised = path.read_text(encoding="utf-8-sig")
+        for key in changed:
+            revised = re.sub(
+                rf"(?m)^\s*{re.escape(key)}\s*=.*$",
+                key + "=" + options[key],
+                revised,
+            )
         temporary = path.with_name(path.name + "." + secrets.token_hex(6) + ".tmp")
         exclusive_write(temporary, revised)
         os.replace(temporary, path)
@@ -616,6 +660,11 @@ def deployment_lock(path="/var/lock/patnam-pakodi-deploy.lock"):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--behind-nginx",
+        action="store_true",
+        help="Persist host-Nginx mode: bind only loopback; host Nginx owns HTTPS",
+    )
+    parser.add_argument(
         "--runtime-file",
         type=Path,
         help="Existing non-secret options file; defaults to repository-root runtime.env",
@@ -634,8 +683,6 @@ def main(argv=None):
         return 1
     try:
         with deployment_lock():
-            preflight()
-            check_proxy_ports()
             path = args.runtime_file or ROOT / "runtime.env"
             if (
                 not args.runtime_file
@@ -643,6 +690,11 @@ def main(argv=None):
                 and (ROOT / "infra/runtime.env").exists()
             ):
                 path = ROOT / "infra/runtime.env"
+            overrides = {"PAKODI_PROXY_MODE": "nginx"} if args.behind_nginx else {}
+            preliminary = {**DEFAULTS, **read_options(path), **overrides}
+            mode, port = proxy_settings(preliminary)
+            preflight(mode)
+            check_proxy_ports(preliminary)
             # Do not silently abandon custom-project data or operator options.
             containers = docker(
                 "ps", "-a", "--filter", "label=com.docker.compose.project=pakodi", "-q"
@@ -661,9 +713,14 @@ def main(argv=None):
                     )
                 )
             )
-            options = prepare_options(path)
+            options = prepare_options(path, overrides)
             prepare_secrets(Path(options["PAKODI_SECRETS_DIR"]), data_exists)
             deploy(options, data_exists, args.backup_confirmed)
+            if mode == "nginx":
+                print(
+                    f"Host Nginx must route HTTPS for {options['PAKODI_HOST']} to "
+                    f"http://127.0.0.1:{port}. See docs/commerce-operations.md."
+                )
         return 0
     except (DeploymentError, OSError, ValueError, EOFError) as exc:
         message = (
