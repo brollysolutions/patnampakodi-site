@@ -52,6 +52,15 @@ local only; process inspection and GitHub readback confirmed it was no longer
 running and the remote still held `594dc2f` before delivery resumed. Its missing
 terminal result is unverified, not a successful push.
 
+Delivery resumed successfully: the helper returned exit 0, pushed implementation
+head `0476c4b`, and verified open
+[PR #18](https://github.com/brollysolutions/patnampakodi-site/pull/18) from the
+contributor's `feat/docker-staging` to shared `main`, with matching remote head
+and a clean worktree. The mandatory fast push gate passed. This documentation
+follow-up records that observed delivery; current remote state is read again
+after publication. Live server and full browser/Lighthouse acceptance remain
+outside the verified outcome above.
+
 ## Production Docker network overlap - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |

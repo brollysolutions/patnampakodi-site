@@ -49,6 +49,13 @@ terminal result was unavailable on resumption. Process inspection found no
 remaining delivery process and GitHub still held `594dc2f`, so no successful
 push is inferred from that attempt. Delivery is resumed serially.
 
+The resumed helper returned exit 0 and verified implementation head `0476c4b`
+pushed in open [PR #18](https://github.com/brollysolutions/patnampakodi-site/pull/18),
+targeting `brollysolutions/patnampakodi-site:main` from the contributor's
+`feat/docker-staging`. Remote head, tracking and clean-worktree checks passed,
+as did the mandatory fast push gate. This follow-up records that initial
+delivery; the final documentation head requires a fresh remote readback.
+
 Scope remains local code and synthetic verification. The helper does not
 install Docker, change DNS, integrate an existing shared reverse proxy, generate
 or verify backups, migrate legacy data-service ports, activate live providers,
