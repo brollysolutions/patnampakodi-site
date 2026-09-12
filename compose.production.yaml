@@ -18,7 +18,9 @@ x-runtime: &runtime
 services:
   postgres:
     image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    command: [postgres, -p, '5433']
     environment:
+      PGPORT: '5433'
       POSTGRES_USER: pakodi_owner
       POSTGRES_DB: pakodi
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
@@ -27,14 +29,14 @@ services:
       - ${PAKODI_SECRETS_DIR:?Set PAKODI_SECRETS_DIR}/owner/postgres_password:/run/secrets/postgres_password:ro
     restart: unless-stopped
     healthcheck:
-      test: [CMD-SHELL, pg_isready -U pakodi_owner -d pakodi]
+      test: [CMD, pg_isready, -h, 127.0.0.1, -p, '5433', -U, pakodi_owner, -d, pakodi]
       interval: 10s
       timeout: 3s
       retries: 10
     networks: [private]
   redis:
     image: redis:8.2-alpine@sha256:30abb90e62f14b737010746def3ba99cc79fe19dcdb3d37b41f21fc62e7da19d
-    command: [redis-server, /run/secrets/redis.conf]
+    command: [redis-server, /run/secrets/redis.conf, --port, '6380']
     volumes:
       - redis:/data
       - ${PAKODI_SECRETS_DIR}/redis.conf:/run/secrets/redis.conf:ro
