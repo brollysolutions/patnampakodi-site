@@ -8,6 +8,7 @@
 
 http://{$PAKODI_HOST}:80 {
   encode zstd gzip
+  header Strict-Transport-Security "max-age=31536000"
   request_body {
     max_size 5MB
   }

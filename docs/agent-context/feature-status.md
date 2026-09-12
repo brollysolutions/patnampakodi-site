@@ -32,6 +32,17 @@ browser/Lighthouse acceptance are unverified. The proxy fixture simulates the
 trusted upstream address. Next: publish the task PR, review the existing Nginx
 application routes, merge, deploy and perform server-side Nginx/TLS acceptance.
 
+The delivery helper returned exit 0 and verified implementation commit `d858ef0`
+in open [PR #20](https://github.com/brollysolutions/patnampakodi-site/pull/20),
+targeting upstream `main` from the contributor's `feat/docker-staging`. Mandatory
+commit/fast push gates passed, with a matching remote head and clean worktree.
+A final response-header comparison found missing HSTS in the internal mode.
+The new assertion failed before the fix; the follow-up restores the original
+`Strict-Transport-Security: max-age=31536000` response header. The final proxy
+verification returned exit 0 with HSTS, path handling, trusted/untrusted client
+addresses and HTTPS/host headers passing. Ruff and diff checks pass; final
+review has no unresolved finding. Remote readback follows publication.
+
 ## Modern standalone Compose compatibility - 2026-09-12
 
 Item 22 fixes the deployment helper's rejection of a server with modern

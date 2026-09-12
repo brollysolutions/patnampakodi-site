@@ -36,6 +36,7 @@ for path, upstream_path in (("/api/echo?sample=1", "/echo?sample=1"), ("/shop/",
     for attempt in range(30):
         try:
             with urlopen(Request("http://" + address + path, headers=headers), timeout=2) as response:
+                assert response.headers.get("Strict-Transport-Security") == "max-age=31536000"
                 result = json.load(response)
             break
         except OSError:

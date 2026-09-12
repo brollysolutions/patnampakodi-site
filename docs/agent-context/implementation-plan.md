@@ -4,7 +4,7 @@
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 23. Deploy behind host Nginx and exclude AI workflows from builds | Implemented; targeted verification passed, PR delivery pending | `gpt-6-astra` / High recommended for deployment/proxy work | `gpt-6-astra` / High recommended; selected settings preserved |
+| 23. Deploy behind host Nginx and exclude AI workflows from builds | Implemented and verified in PR #20; live host acceptance unverified | `gpt-6-astra` / High recommended for deployment/proxy work | `gpt-6-astra` / High recommended; selected settings preserved |
 
 Exclude Codex/Claude configuration, agent skills and instructions, MCP settings,
 Git/CI hooks and repository workflow tooling from Docker build contexts. Preserve
@@ -38,6 +38,18 @@ Full browser/Lighthouse and live deployment are not claimed. Next priority:
 review the existing site's routing, merge the PR, deploy with `--behind-nginx`,
 then validate/reload only the reviewed Nginx site integration. Development
 workflows remain tracked; only deployment build contexts/images exclude them.
+
+The delivery helper returned exit 0 and verified implementation commit `d858ef0`
+in open [PR #20](https://github.com/brollysolutions/patnampakodi-site/pull/20),
+from the contributor's `feat/docker-staging` to upstream `main`, with matching
+remote head and a clean worktree. Mandatory commit/fast push gates passed.
+Final header comparison found that the internal mode also needed the original
+HSTS response header. A new proxy assertion failed before restoring that header;
+the follow-up retains `max-age=31536000` for both API and web responses.
+The final disposable proxy run returned exit 0 with the HSTS assertion, trusted
+and untrusted clients, path handling and HTTPS/host headers all passing. Ruff
+and diff checks pass. Final review leaves no unresolved code finding; host
+Nginx/TLS acceptance remains separate from the simulated upstream fixture.
 
 ## Modern standalone Compose compatibility - 2026-09-12
 
