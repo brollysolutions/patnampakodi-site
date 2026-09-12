@@ -19,7 +19,7 @@ Compose file because the subnet stays at `172.29.91.0/24`.
 
 The operator's network inventory confirms `brollyjuniors_default` owns
 `172.29.0.0/16`, which contains Pakodi's default /24. `10.253.91.0/24` avoids all
-listed Docker ranges; host/VPC route checks remain an operator prerequisite.
+listed Docker ranges and the operator's subsequently supplied host/VPC routes.
 Default, blank and custom Compose rendering pass. A disposable local check
 reproduces Docker's overlap error, then allocates a free alternative and runs the
 proxy image at the exact trusted IP. PostgreSQL/Redis authentication, private
@@ -29,8 +29,14 @@ Application handlers, generated contracts, schema and UI are outside this change
 browser/SEO/Lighthouse and live deployment are not claimed as verified.
 
 Delivery continues `feat/docker-staging` against upstream `main` after merged
-PR #16. Next priority: confirm server routes, persist the chosen prefix in its
-non-secret runtime options and retry deployment without removing other networks.
+PR #16. Commit `6b04233` is pushed in open
+[PR #17](https://github.com/brollysolutions/patnampakodi-site/pull/17), with the
+remote head verified at that commit. The initial push failed when local test
+fixtures were stopped; after starting them, all 112 API tests and the required
+fast push gate passed, including web lint/format/types, units and production build.
+The fast gate skips browser/performance/live SEO; no full release claim is made.
+Next priority: persist `PAKODI_NETWORK_PREFIX=10.253.91` in the server's non-secret
+runtime options and retry deployment without removing other networks.
 
 ## Production PostgreSQL and Redis ports - 2026-09-12
 

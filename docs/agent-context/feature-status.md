@@ -18,12 +18,18 @@ the corrected harness passed and removed only its owned fixture networks. Initia
 verifier lint failures were corrected; security and PR self-review found no
 actionable defect in proxy trust, published ports, fixture isolation or recovery.
 
-`10.253.91.0/24` avoids the listed server Docker ranges; host/VPC routing and actual
-server startup remain unverified. No deployment server, operator secrets or
+`10.253.91.0/24` avoids the supplied server Docker ranges and host/VPC routes;
+actual server startup remains unverified. No deployment server, operator secrets or
 production data were accessed. Browser/SEO/Lighthouse are not rerun for this
 network-only change; prior public performance acceptance remains open. Delivery
-continues `feat/docker-staging` after merged PR #16. Next priority: confirm server
-routes, persist the prefix in non-secret runtime options and resume deployment.
+continues `feat/docker-staging` after merged PR #16. Commit `6b04233` is pushed in
+open [PR #17](https://github.com/brollysolutions/patnampakodi-site/pull/17), with
+matching remote head verified. The first push failed with local database/cache
+fixtures stopped. After starting them, all 112 API tests, migration head and
+contract parity passed; the required fast push gate also passed web lint/format/
+types, units and build. That gate skips browser/performance/live SEO. Next priority:
+persist `PAKODI_NETWORK_PREFIX=10.253.91` in the server's non-secret runtime options
+and resume deployment. This documentation follow-up records the verified delivery.
 
 ## Production PostgreSQL and Redis ports - 2026-09-12
 
