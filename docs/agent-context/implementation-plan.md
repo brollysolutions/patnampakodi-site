@@ -1,5 +1,37 @@
 # Implementation plan
 
+## Production Docker network overlap - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 20. Allow a deployment-specific private Docker subnet | Implemented; local configuration/runtime checks pass, server rollout unverified | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+The deployment server rejects `pakodi_private` because its fixed subnet overlaps
+an existing Docker pool. Add one non-secret IPv4 prefix option deriving the /24,
+Caddy's .10 address and the API's exact trusted proxy together. Preserve the
+default for existing deployments. Acceptance: default, blank and custom options
+render consistently; disposable Docker checks reproduce overlapping allocation
+and verify a free alternative with the fixed proxy address. Keep data-service
+ports private and volumes intact. Non-goals: remote host access, secret edits,
+network pruning, application/API/schema/UI changes or a live deployment claim.
+Regression: the custom-prefix rendering assertion fails against the original
+Compose file because the subnet stays at `172.29.91.0/24`.
+
+The operator's network inventory confirms `brollyjuniors_default` owns
+`172.29.0.0/16`, which contains Pakodi's default /24. `10.253.91.0/24` avoids all
+listed Docker ranges; host/VPC route checks remain an operator prerequisite.
+Default, blank and custom Compose rendering pass. A disposable local check
+reproduces Docker's overlap error, then allocates a free alternative and runs the
+proxy image at the exact trusted IP. PostgreSQL/Redis authentication, private
+ports and restart persistence pass; 112 workflow tests, 22-skill parity, shell
+checks and verifier Ruff pass. Security/PR review finds no actionable defect.
+Application handlers, generated contracts, schema and UI are outside this change;
+browser/SEO/Lighthouse and live deployment are not claimed as verified.
+
+Delivery continues `feat/docker-staging` against upstream `main` after merged
+PR #16. Next priority: confirm server routes, persist the chosen prefix in its
+non-secret runtime options and retry deployment without removing other networks.
+
 ## Production PostgreSQL and Redis ports - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |

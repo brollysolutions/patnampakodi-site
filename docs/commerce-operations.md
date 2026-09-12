@@ -120,9 +120,10 @@ The scheduler holds a PostgreSQL advisory lock to reject a second instance.
 `compose.production.yaml` packages web, API, worker, PostgreSQL, Redis and Caddy.
 Images are pinned by digest. Only Caddy exposes ports. API/worker run as UID 10001;
 web runs as `node`. Runtime database roles cannot bypass RLS or modify audit rows.
-The API trusts forwarded client IPs only from Caddy at `172.29.91.10`, which
-overwrites client-supplied forwarding headers. Adjust both network and trust
-configuration together if the chosen host already uses that subnet. Access logs
+The API trusts forwarded client IPs only from Caddy at `172.29.91.10` by default,
+which overwrites client-supplied forwarding headers. `PAKODI_NETWORK_PREFIX`
+sets the first three IPv4 octets: Compose derives the private `/24` subnet and
+both Caddy's `.10` address and the API's exact trusted address from it. Access logs
 are disabled; monitor status codes/health without request bodies or private URLs.
 
 For the DigitalOcean Droplet Docker deployment, Caddy publishes TCP 80/443.
@@ -194,6 +195,43 @@ production listener commands, health check, authenticated connections, absence
 of published database/cache ports, and fixture persistence across restart. It
 uses a unique disposable Docker project and synthetic files; it does not access
 operator secrets, existing volumes or a DigitalOcean server.
+
+### Docker address-pool overlap
+
+If startup reports `failed to create network pakodi_private` with `Pool overlaps`,
+inspect the deployment server's allocated Docker ranges and host routes:
+
+```sh
+docker network inspect $(docker network ls -q) --format '{{.Name}} {{range .IPAM.Config}}{{.Subnet}} {{end}}'
+ip -4 route
+```
+
+Choose a private `/24` that does not overlap any listed Docker, host, VPC or VPN
+range. A containing `/16` also conflicts: `172.29.0.0/16` includes the default
+`172.29.91.0/24`. Record the first three octets in the operator's non-secret
+runtime options. For example, **only if `10.253.91.0/24` is free on that server**:
+
+```sh
+export PAKODI_NETWORK_PREFIX=10.253.91
+docker compose -f compose.production.yaml config --quiet
+docker compose -f compose.production.yaml up -d --wait postgres redis
+```
+
+Retain the same host, secret-directory and `--env-file` options used for the
+original deployment on every command. Persist the prefix in those non-secret
+options so later deployments use the same network. Resume the appropriate
+first-install or upgrade steps above after PostgreSQL/Redis start; rebuilding
+images is unnecessary for this network-only setting.
+
+If an existing **Pakodi** network must change subnet, use a maintenance window:
+stop this stack with `docker compose -f compose.production.yaml down` (retain all
+original project/env options), then recreate it with the chosen prefix and the
+normal upgrade steps. Preserve named volumes: never add `--volumes`, prune Docker
+networks globally or delete another application's network to solve this conflict.
+Do not rerun first-install role bootstrap on an initialized database.
+
+The configuration uses Docker's documented [Compose interpolation](https://docs.docker.com/reference/compose-file/interpolation/)
+and [IPAM subnet settings](https://docs.docker.com/reference/compose-file/networks/#ipam).
 
 ## Backup, recovery and release gates
 
