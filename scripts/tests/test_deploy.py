@@ -19,6 +19,122 @@ spec.loader.exec_module(deploy)
 
 
 class DeploymentTests(unittest.TestCase):
+    def test_nginx_rejects_an_existing_network_with_unexpected_gateway(self):
+        network = self.network("pakodi_private", "10.253.91.0/24")
+        network["IPAM"]["Config"][0]["Gateway"] = "10.253.91.254"
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch.object(deploy, "network_inventory", return_value=([network], [])),
+            patch.dict(
+                deploy.DEFAULTS,
+                {
+                    "PAKODI_SECRETS_DIR": Path(tempfile.gettempdir()).as_posix()
+                    + "/synthetic-pakodi-secrets"
+                },
+            ),
+        ):
+            path = Path(directory) / "runtime.env"
+            with self.assertRaisesRegex(deploy.DeploymentError, "unexpected gateway"):
+                deploy.prepare_options(path, {"PAKODI_PROXY_MODE": "nginx"})
+            self.assertFalse(path.exists())
+            network["IPAM"]["Config"][0]["Gateway"] = "10.253.91.1"
+            self.assertEqual(
+                deploy.prepare_options(path, {"PAKODI_PROXY_MODE": "nginx"})[
+                    "PAKODI_NETWORK_PREFIX"
+                ],
+                "10.253.91",
+            )
+
+    def test_nginx_mode_checks_only_loopback_port_and_does_not_touch_nginx(self):
+        with (
+            patch.object(deploy, "docker", return_value="") as docker,
+            patch.object(deploy.socket, "socket") as socket,
+        ):
+            deploy.check_proxy_ports(
+                {"PAKODI_PROXY_MODE": "nginx", "PAKODI_PROXY_PORT": "3502"}
+            )
+        docker.assert_called_once()
+        socket.assert_called_once_with(deploy.socket.AF_INET, deploy.socket.SOCK_STREAM)
+        socket.return_value.__enter__.return_value.bind.assert_called_once_with(
+            ("127.0.0.1", 3502)
+        )
+
+    def test_nginx_mode_rejects_conflicting_port_and_invalid_settings(self):
+        with (
+            patch.object(deploy, "docker", return_value=""),
+            patch.object(deploy.socket, "socket") as socket,
+            self.assertRaisesRegex(deploy.DeploymentError, "PAKODI_PROXY_PORT"),
+        ):
+            socket.return_value.__enter__.return_value.bind.side_effect = OSError(
+                "occupied"
+            )
+            deploy.check_proxy_ports({"PAKODI_PROXY_MODE": "nginx"})
+        for settings in (
+            {"PAKODI_PROXY_MODE": "untrusted"},
+            *(
+                {"PAKODI_PROXY_PORT": value}
+                for value in ("80", "443", "65536", "3502:80", "", "-1")
+            ),
+        ):
+            with (
+                self.subTest(settings=settings),
+                self.assertRaises(deploy.DeploymentError),
+            ):
+                deploy.proxy_settings(settings)
+
+    def test_nginx_requires_compose_port_override_support(self):
+        with (
+            patch.dict(os.environ, {}, clear=True),
+            patch.object(deploy, "run", return_value="2.24.3"),
+            self.assertRaisesRegex(deploy.DeploymentError, "2.24.4"),
+        ):
+            deploy.preflight("nginx")
+        with patch.object(deploy, "run", return_value="5.1.2"):
+            self.assertEqual(deploy.select_compose((2, 24, 4)), ("docker", "compose"))
+
+    def test_nginx_compose_override_is_applied_to_all_operations(self):
+        with patch.object(deploy, "run") as command:
+            for operation in ("config", "build", "stop", "up", "run", "exec"):
+                deploy.compose(
+                    {**deploy.DEFAULTS, "PAKODI_PROXY_MODE": "nginx"}, operation
+                )
+                argv = command.call_args.args[0]
+                self.assertEqual(
+                    argv[argv.index("-f") : argv.index("--profile")],
+                    [
+                        "-f",
+                        str(deploy.ROOT / "compose.production.yaml"),
+                        "-f",
+                        str(deploy.ROOT / "compose.nginx.yaml"),
+                    ],
+                )
+                self.assertEqual(argv[-1], operation)
+
+    def test_nginx_mode_is_persisted_for_plain_command_retries(self):
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch.object(deploy, "network_inventory", return_value=([], [])),
+            patch.dict(
+                deploy.DEFAULTS,
+                {
+                    "PAKODI_SECRETS_DIR": Path(tempfile.gettempdir()).as_posix()
+                    + "/synthetic-pakodi-secrets"
+                },
+            ),
+        ):
+            path = Path(directory) / "runtime.env"
+            path.write_text(
+                "# retain\nPAKODI_HOST=patnampakodi.com\nPAKODI_PROXY_MODE=direct\n",
+                encoding="utf-8",
+            )
+            options = deploy.prepare_options(path, {"PAKODI_PROXY_MODE": "nginx"})
+            self.assertEqual(options["PAKODI_PROXY_MODE"], "nginx")
+            self.assertEqual(deploy.read_options(path)["PAKODI_PROXY_MODE"], "nginx")
+            original = path.read_bytes()
+            self.assertEqual(deploy.prepare_options(path)["PAKODI_PROXY_MODE"], "nginx")
+            self.assertEqual(path.read_bytes(), original)
+            self.assertTrue(path.read_text().startswith("# retain\n"))
+
     def test_modern_standalone_compose_is_accepted_when_plugin_is_missing(self):
         with patch.object(
             deploy,

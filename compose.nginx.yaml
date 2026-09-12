@@ -1,0 +1,9 @@
+# Host Nginx terminates HTTPS; replace, never append, the public port bindings.
+# Requires Compose 2.24.4+ (including modern standalone docker-compose).
+services:
+  proxy:
+    ports: !override ["127.0.0.1:${PAKODI_PROXY_PORT:-3502}:80"]
+    environment:
+      PAKODI_NETWORK_PREFIX: ${PAKODI_NETWORK_PREFIX:-172.29.91}
+    volumes:
+      - ./infra/Caddyfile.nginx:/etc/caddy/Caddyfile:ro

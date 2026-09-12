@@ -1,0 +1,28 @@
+{
+  auto_https off
+  servers {
+    trusted_proxies static {$PAKODI_NETWORK_PREFIX}.1
+    trusted_proxies_strict
+  }
+}
+
+http://{$PAKODI_HOST}:80 {
+  encode zstd gzip
+  request_body {
+    max_size 5MB
+  }
+  handle_path /api/* {
+    reverse_proxy api:8500 {
+      header_up X-Forwarded-For {client_ip}
+      header_up X-Forwarded-Proto https
+      header_up X-Forwarded-Host {$PAKODI_HOST}
+    }
+  }
+  handle {
+    reverse_proxy web:3500 {
+      header_up X-Forwarded-For {client_ip}
+      header_up X-Forwarded-Proto https
+      header_up X-Forwarded-Host {$PAKODI_HOST}
+    }
+  }
+}

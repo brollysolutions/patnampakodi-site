@@ -1,5 +1,37 @@
 # Feature status
 
+## Shared Nginx deployment and packaging - 2026-09-12
+
+Item 23 adds persisted `--behind-nginx` deployment mode for the server's existing
+Nginx on 80/443. Compose 2.24.4+ replaces public proxy ports with loopback 3502;
+API/web/database/cache remain private. The existing enabled `patnampakodi` site
+and its Certbot certificate paths are confirmed by operator output. The helper
+preserves host site configuration and certificates; a reviewed HTTPS-server
+snippet forwards application traffic to the loopback port. The API still trusts
+only internal Caddy, which trusts forwarded addresses only from the bridge
+gateway and pins the HTTPS scheme/domain. Unexpected gateways, invalid ports,
+occupied loopback ports and unsupported Compose versions stop setup.
+
+Docker build contexts now exclude Codex/Claude configuration, agent skills and
+instructions, MCP settings, private workflow state, Git/CI hooks and root
+workflow scripts/tools. Application build scripts remain. Runtime images do
+not invoke AI workflows; tracked files remain in development/server Git checkouts.
+
+Fresh verification: 38/38 deployment tests pass in Linux; the workflow-only gate
+passes 150 tests with three Linux-only skips, skill validation and shell checks.
+Ruff passes. The synthetic Docker context excludes 39 fixtures while retaining
+15 required inputs. Actual standalone Compose rendering confirms loopback-only
+publication, private services, correct Caddy config and API trust. Pinned Caddy
+validation and a disposable trusted/untrusted client test pass routing, API
+prefix stripping, HTTPS/domain forwarding and spoof rejection; fixture cleanup
+passes. Security/code review found no unresolved defect in the changed scope.
+
+Public HTTPS probes timed out and registry DNS prevented obtaining a Nginx test
+image. Host Nginx syntax/runtime, certificate validity, live deployment and full
+browser/Lighthouse acceptance are unverified. The proxy fixture simulates the
+trusted upstream address. Next: publish the task PR, review the existing Nginx
+application routes, merge, deploy and perform server-side Nginx/TLS acceptance.
+
 ## Modern standalone Compose compatibility - 2026-09-12
 
 Item 22 fixes the deployment helper's rejection of a server with modern

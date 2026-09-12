@@ -129,9 +129,8 @@ Prerequisites: Python 3.11+, Docker Engine with Compose 2.20 or newer,
 `iproute2`, DNS for `patnampakodi.com` pointing to this server, and inbound TCP
 80/443 available for this stack. The helper checks prerequisites; it does not
 install packages, change DNS/firewalls or stop another application's web server.
-If 80/443 already belong to your shared reverse proxy, an operator must integrate
-that proxy before using this standalone deployment. Application ports in other
-stacks do not identify their Docker subnet ranges.
+If 80/443 already belong to host Nginx, use the integration below. Application
+ports in other stacks do not identify their Docker subnet ranges.
 
 The helper prefers a supported `docker compose` plugin and automatically falls
 back to a modern `docker-compose` executable, including v5.1.2. It checks the
@@ -139,6 +138,81 @@ version and uses the selected command throughout deployment. Compose v1 and
 versions below 2.20 are unsupported; the hyphenated command name alone does not
 mean the installed version is legacy. No plugin symlink or package change is
 needed when a supported standalone executable is already available to `sudo`.
+
+Deployment builds exclude Codex/Claude configuration, agent skills and instruction
+files, MCP settings, private agent state, Git/CI hooks, and root workflow scripts
+and tools through `.dockerignore`. Required application scripts (such as the web
+image generator) remain build inputs. The runtime images copy only application
+artifacts and do not run agent workflows. These exclusions do not delete tracked
+files from a server Git checkout; the development workflow stays available in
+Git. Running `scripts/deploy.py` directly does not invoke that workflow.
+
+#### Existing host Nginx
+
+For this server, diagnostics show Nginx owns 80/443 and already has an enabled
+`/etc/nginx/sites-enabled/patnampakodi` site referencing a Certbot certificate.
+Keep its certificate and HTTP/HTTPS listeners. From the repository root, run:
+
+```sh
+sudo python3 scripts/deploy.py --behind-nginx
+```
+
+The flag persists `PAKODI_PROXY_MODE=nginx` in runtime options, so future updates
+can use the plain deployment command. Nginx mode requires Compose 2.24.4+ for
+the reviewed `!override` merge. `compose.nginx.yaml` replaces both public Docker
+bindings with **127.0.0.1:3502 -> proxy:80**. It does not claim 80/443, expose the
+API/database/cache, stop Nginx, install packages, or edit the host's site files.
+If 3502 is occupied, set a free `PAKODI_PROXY_PORT` in runtime options and update
+the Nginx upstream to the same port before routing traffic.
+
+Integrate the reviewed `infra/nginx/pakodi-proxy.inc` into the existing site's
+HTTPS `server` block. Replace its previous application `location` blocks with
+the include; more-specific old API/static locations would otherwise override
+the new route. Remove duplicate server-level `client_max_body_size` and
+`access_log` settings supplied by the snippet. Keep ACME challenge handling and
+existing HTTP-to-HTTPS redirects.
+The included fixed host is `patnampakodi.com`; use the existing site's canonical
+redirect for `www` if configured. For a different domain, adapt the fixed host
+headers to `PAKODI_HOST` as part of site review.
+
+After reviewing the existing routing and checking its certificate, these are
+the host-side preparation and validation commands (the backup is outside enabled
+Nginx directories and cannot be loaded as a duplicate site):
+
+```sh
+sudo cp -L --no-clobber /etc/nginx/sites-enabled/patnampakodi /root/patnampakodi-nginx.before-pakodi.conf
+sudo install -d -m 755 /etc/nginx/snippets
+sudo install -m 644 infra/nginx/pakodi-proxy.inc /etc/nginx/snippets/pakodi-proxy.conf
+sudoedit /etc/nginx/sites-enabled/patnampakodi
+# At HTTPS server scope, replace the old app locations with:
+# include /etc/nginx/snippets/pakodi-proxy.conf;
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Nginx overwrites `X-Forwarded-For` with its observed client address. Internal
+Caddy trusts only the Pakodi bridge gateway (`PAKODI_NETWORK_PREFIX.1`), forwards
+the parsed client address, and pins the upstream scheme/host to HTTPS and the
+configured domain. The API still trusts only Caddy (`PAKODI_NETWORK_PREFIX.10`).
+An existing network with a different gateway stops setup pending proxy review.
+Host Nginx must terminate public HTTPS; the internal HTTP port is loopback-only.
+Host-local processes and users with Docker control are inside this trust boundary.
+The snippet disables access logging to keep private order URLs out of access logs.
+Do not replace the fixed client-address header with an appended untrusted chain.
+
+After application startup and Nginx reload, verify the public domain, admin
+login, API routing and certificate validity on the server. Public HTTPS timed
+out from the development environment during this task; an enabled certificate
+path is not evidence of a valid certificate or successful public cutover.
+
+Verification tools use synthetic data:
+`python scripts/verify_deploy_context.py` checks Docker's actual context
+exclusions, and `python scripts/verify_nginx_proxy.py` exercises internal Caddy
+routing and trusted/untrusted forwarded addresses. The latter simulates the
+trusted upstream address; it does not certify the host's Nginx configuration.
+The configuration follows Docker's
+[override rules](https://docs.docker.com/reference/compose-file/merge/), Caddy's
+[proxy trust options](https://caddyserver.com/docs/caddyfile/options#trusted-proxies),
+and Nginx's [proxy header controls](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header).
 
 The command uses the fixed existing `pakodi` Compose project. It creates
 `runtime.env` in the repository root when absent, defaulting to

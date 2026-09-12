@@ -1,5 +1,44 @@
 # Implementation plan
 
+## Shared Nginx deployment and packaging - 2026-09-12
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 23. Deploy behind host Nginx and exclude AI workflows from builds | Implemented; targeted verification passed, PR delivery pending | `gpt-6-astra` / High recommended for deployment/proxy work | `gpt-6-astra` / High recommended; selected settings preserved |
+
+Exclude Codex/Claude configuration, agent skills and instructions, MCP settings,
+Git/CI hooks and repository workflow tooling from Docker build contexts. Preserve
+required web/API build inputs and development workflows in Git. Verify Docker's
+actual ignore behavior with synthetic files. This does not delete files from a
+server Git checkout. Server diagnostics identify host Nginx on 80/443 and an
+existing enabled `patnampakodi` site with Certbot certificate paths. Preserve
+those host settings and other sites. Add a persisted host-Nginx mode that replaces
+public Docker port bindings with loopback 3502, retains API trust in the internal
+Caddy address, and trusts forwarded client addresses only from the bridge gateway.
+Verify route handling, header spoof rejection, Compose merge behavior, port and
+version guards, and existing-network compatibility. Host edits, certificate
+validity and public TLS acceptance require server-side evidence.
+
+Fresh verification: 38 deployment tests pass in the pinned Linux container.
+The workflow-only gate passes 150 tests with three Linux-only skips, 22-skill
+validation and shell checks. Ruff check/format passes. A real Docker context
+build excludes 39 synthetic workflow/cache files and retains 15 required app
+inputs. Standalone Compose renders exactly one loopback proxy binding with
+private app/data services, the selected Caddyfile and unchanged API trust.
+The pinned Caddy image validates its configuration, and a disposable network
+test passes API prefix stripping, web routing, pinned HTTPS/host headers,
+trusted client forwarding and untrusted forwarded-address rejection. Its
+containers/network are removed afterward. Review found no unresolved defect.
+
+Public HTTPS timed out locally; sandbox DNS/network probes also failed. Pulling
+the official Nginx test image failed on Docker registry DNS, so actual Nginx
+syntax/runtime and host certificate acceptance remain unverified. The Caddy
+test simulates the trusted upstream address; it does not run host Nginx.
+Full browser/Lighthouse and live deployment are not claimed. Next priority:
+review the existing site's routing, merge the PR, deploy with `--behind-nginx`,
+then validate/reload only the reviewed Nginx site integration. Development
+workflows remain tracked; only deployment build contexts/images exclude them.
+
 ## Modern standalone Compose compatibility - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |
