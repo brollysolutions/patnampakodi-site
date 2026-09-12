@@ -29,6 +29,15 @@ for this deployment-only adjustment. Existing public performance acceptance is
 still open. Next priority: coordinate the operator's connection-file update and
 DigitalOcean release acceptance; no production files or host were accessed.
 
+Delivered implementation commit `5d6cb14` in
+[PR #16](https://github.com/brollysolutions/patnampakodi-site/pull/16), from
+`feat/docker-staging` to upstream `main`; fresh remote readback confirms the open
+PR at that commit. The required pre-push fast gate also passes API/RLS tests,
+one migration head, generated-contract parity, web lint/format/types, unit tests
+and the production build. That gate skips browser/performance/live SEO checks;
+it is not full release acceptance. This documentation follow-up records the
+verified delivery without changing runtime behavior.
+
 ## Saved product visibility and CRUD - 2026-09-11
 
 | Item | Status | Planning model / effort | Implementation model / effort |

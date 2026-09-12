@@ -27,6 +27,15 @@ connection files and production data were not accessed. Delivery follows merged
 PR #15 on `feat/docker-staging` against upstream `main`. Next priority: coordinate
 the operator's connection-file changes and complete live deployment acceptance.
 
+Implementation commit `5d6cb14` is pushed in open
+[PR #16](https://github.com/brollysolutions/patnampakodi-site/pull/16), targeting
+upstream `main` from `feat/docker-staging`; the remote PR head was verified at
+that commit. The required pre-push fast gate passes API/RLS tests, one migration
+head, generated-contract parity, web lint/format/types, unit tests and production
+build. Browser/performance/live SEO are explicitly skipped by that gate. This
+documentation follow-up adds the confirmed PR and fresh gate evidence; production
+deployment remains unverified.
+
 ## Saved product visibility and CRUD - 2026-09-11
 
 Item 18 makes the saved catalogue the first Products panel. Published products,
