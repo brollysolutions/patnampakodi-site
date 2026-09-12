@@ -117,6 +117,75 @@ The scheduler holds a PostgreSQL advisory lock to reject a second instance.
 
 ## Deployment preparation
 
+### One-command Linux server setup
+
+On the deployment server, from the checked-out repository, run:
+
+```sh
+sudo python3 scripts/deploy.py
+```
+
+Prerequisites: Python 3.11+, Docker Engine with the Compose plugin 2.20+,
+`iproute2`, DNS for `patnampakodi.com` pointing to this server, and inbound TCP
+80/443 available for this stack. The helper checks prerequisites; it does not
+install packages, change DNS/firewalls or stop another application's web server.
+If 80/443 already belong to your shared reverse proxy, an operator must integrate
+that proxy before using this standalone deployment. Application ports in other
+stacks do not identify their Docker subnet ranges.
+
+The command uses the fixed existing `pakodi` Compose project. It creates
+`runtime.env` in the repository root when absent, defaulting to
+`PAKODI_HOST=patnampakodi.com`. An existing root file is preserved; if only
+`infra/runtime.env` exists it is reused. Use `--runtime-file /absolute/path`
+for another non-secret options file. Files accept literal `KEY=value` entries
+for the keys in `infra/runtime.env.example`, with optional enclosing quotes;
+shell expressions and unknown keys are rejected. No real secrets belong in
+this file. Runtime files are ignored by Git and excluded from Docker builds.
+Ambient Compose options and `.env` files are not loaded; custom Compose project
+names are outside this helper's scope. It supplies parsed values directly to
+Compose, so there is no manual `--env-file` flag to place.
+
+Before allocating a new Pakodi network, the helper checks every Docker IPv4
+subnet and the host's IPv4 routing tables. If the configured prefix overlaps,
+it selects a free candidate and saves that prefix while preserving other
+runtime values. An existing Pakodi network retains its subnet; changing that
+network still requires the maintenance procedure below. Network allocation can
+still fail if another process claims a range after the check; retry after
+reviewing the new allocation. The helper never deletes networks or volumes.
+
+On a fresh server with no existing Pakodi containers or data volumes, missing
+core credentials are generated under `/srv/pakodi-secrets` with restricted
+permissions and container-readable mounts. The PostgreSQL role passwords,
+Redis password and Fernet key are independent random values. Provider files
+start blank, keeping real payments and messaging unavailable. Existing secrets
+are never replaced; an incomplete directory or missing secrets alongside
+existing data stops setup and requires operator recovery. Keep this directory
+backed up securely outside Git; it is required to recover encrypted records.
+
+The helper builds images, stops this stack's application services, starts
+PostgreSQL/Redis, inspects database initialization, provisions restricted roles
+only for an empty database, applies migrations, and seeds published source
+content without replacing existing records. It then starts API/worker/web/Caddy
+and prompts for the first administrator's username and password if none exists.
+Use an interactive terminal for first installation. No password is passed on
+the command line or stored in the repository. Default preview/noindex settings
+remain until the normal release gates are met.
+
+For subsequent releases, pull the reviewed changes and run the same command.
+Existing deployments require typing `BACKUP READY` after verifying a backup of
+database, media and secrets and arranging a maintenance window. Automation may
+pass `--backup-confirmed` only after that independent verification. The helper
+does not create or verify backups. It holds one host-wide deployment lock;
+failed commands stop the sequence and do not restart writers after a failed
+migration. There is no automatic rollback: inspect the failed stage and retry
+after resolving it. It does not automate the separate legacy 5432/6379 port
+migration described below; existing connection files must already use 5433/6380.
+
+Container startup is local process/health evidence, not proof of public TLS,
+provider readiness or field SEO. Complete the deployment and live sales gates
+below before enabling orders or indexability. Manual steps remain available
+for operator-controlled releases.
+
 `compose.production.yaml` packages web, API, worker, PostgreSQL, Redis and Caddy.
 Images are pinned by digest. Only Caddy exposes ports. API/worker run as UID 10001;
 web runs as `node`. Runtime database roles cannot bypass RLS or modify audit rows.
