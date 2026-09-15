@@ -40,8 +40,23 @@ and in the full 132-test API rerun without service changes. Evidence is retained
 in `editorial-application-full.log` and `editorial-web-full-3.log`. Code, security,
 design and SEO review have no unresolved finding. Native Safari, field vitals,
 production deployment, owner confirmation of branch details and exact flavour
-appearance remain unverified. Tracked delivery/PR linkage is being completed.
-Next priority: owner content confirmation and review of this expansion.
+appearance remain unverified.
+
+Implementation `f91ce5a` is pushed to origin and upstream in open
+[PR #23](https://github.com/brollysolutions/patnampakodi-site/pull/23), from
+`feat/kukatpally-site-expansion` into upstream `main`. Origin is an independent
+copy, so the PR uses the matching upstream feature branch while local tracking
+remains on origin. The helper's `state --remote` is unverified because it assumes
+a fork head; direct GitHub repository/base/head/SHA readback confirms the PR.
+No protected branch or verification guard was changed.
+
+Two initial push attempts failed during API checks, including an intermittent
+legacy order-helper failure. Additive local diagnostics preserved response and
+test behavior; the subsequent origin and upstream push gates passed all 132 API
+tests and remaining fast checks. The intermittent cause remains unverified; it
+was not represented as a fixed application defect. Logs are retained locally.
+The final documentation update does not change application code. Next priority:
+owner content confirmation and review of PR #23, which builds on open PR #22/#21.
 
 ## Four-flavour menu and ordering pause - 2026-09-15
 

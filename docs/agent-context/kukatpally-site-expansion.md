@@ -80,7 +80,8 @@ Implementation and review are complete. Fresh verification passes 132 API tests,
 Lighthouse medians in the final 18-run container batch. Workflow checks pass
 150 tests and 22-skill validation. Intentional skips: two browser viewport
 duplicates and three platform-specific workflow cases. See feature-status.md for
-the exact results, initial failures, retained outliers and final PR linkage.
+the exact results, initial failures and retained outliers. Implementation
+`f91ce5a` is in [PR #23](https://github.com/brollysolutions/patnampakodi-site/pull/23).
 
 Code/security/design review found no unresolved defect. Chromium review includes
 1440/768/390/320px, all food images, keyboard toggles and open no-JavaScript FAQs.

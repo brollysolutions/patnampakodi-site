@@ -4,7 +4,7 @@
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 26. Expand the public pages, refine the logo and show Kukatpally only | Implemented and verified; delivery in progress | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+| 26. Expand the public pages, refine the logo and show Kukatpally only | Implemented and verified in [PR #23](https://github.com/brollysolutions/patnampakodi-site/pull/23) | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
 
 Acceptance: richer Home, Menu, Our Story, Franchise, Branches, Contact and
 Kukatpally detail pages; the four current pakodis only; visible FAQ answers on
@@ -26,8 +26,11 @@ technical SEO, 150 workflow tests (three platform skips), and six passing
 Lighthouse medians across the final 18-run container batch. Native FAQs and all
 food images were also reviewed in Chromium at mobile/tablet/desktop widths.
 Earlier failed samples and corrections are retained in feature-status.md.
-No unresolved code/security/design finding. PR delivery is in progress; next
-priority is owner content confirmation and review. No deployment or merge.
+No unresolved code/security/design finding. Implementation `f91ce5a` is pushed
+to origin and upstream in PR #23 against upstream/main. The independent-copy
+remote layout and intermittent local verification failures are recorded in
+feature-status.md; subsequent push gates passed. Next priority is owner content
+confirmation and PR review. No deployment or merge.
 
 ## Four-flavour menu and ordering pause - 2026-09-15
 
