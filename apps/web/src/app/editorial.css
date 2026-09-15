@@ -1,0 +1,915 @@
+@layer store {
+  .editorial-brand {
+    width: max-content;
+    max-width: 100%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--heading);
+  }
+  .editorial-brand > span {
+    display: grid;
+    gap: 3px;
+    white-space: nowrap;
+  }
+  .editorial-brand strong {
+    font-size: 1.22rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .editorial-brand small {
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+  .menu-header .editorial-brand img,
+  .editorial-brand img {
+    width: 82px;
+    height: 82px;
+    object-fit: contain;
+  }
+  .menu-header-inner {
+    min-height: 108px;
+  }
+  .menu-desktop-nav {
+    gap: 28px;
+  }
+  .menu-desktop-nav a {
+    font-size: 0.84rem;
+  }
+  .store-announcement {
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+    color: var(--brown);
+  }
+  .store-announcement a {
+    color: var(--brown);
+  }
+  .store-header {
+    background: var(--cream);
+  }
+  .editorial-page {
+    --editorial-space: 104px;
+  }
+  .editorial-page h1,
+  .editorial-page h2,
+  .editorial-page h3 {
+    font-family: var(--font-body), Arial, sans-serif;
+  }
+  .editorial-page h1 {
+    font-size: clamp(2.6rem, 5.3vw, 4.8rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+  .editorial-page h2 {
+    font-size: clamp(1.85rem, 3.3vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+  }
+  .editorial-page h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .editorial-page p {
+    line-height: 1.85;
+  }
+  .editorial-page .button {
+    border-radius: 4px;
+    padding: 16px 24px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .editorial-page .text-link {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .editorial-section {
+    padding-block: var(--editorial-space);
+  }
+  .editorial-home-intro,
+  .editorial-intro > div {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .editorial-home-intro {
+    padding-block: 72px 56px;
+  }
+  .editorial-home-intro > div {
+    max-width: 465px;
+    justify-self: end;
+  }
+  .editorial-home-intro p {
+    font-size: 1rem;
+  }
+  .editorial-home-intro .actions {
+    margin-top: 28px;
+    gap: 24px;
+  }
+  .editorial-hero-photo {
+    margin: 0;
+  }
+  .editorial-hero-photo img {
+    width: 100%;
+    aspect-ratio: 2.3;
+    object-fit: cover;
+    height: auto;
+  }
+  .editorial-hero-photo figcaption,
+  .editorial-table-photo figcaption,
+  .editorial-food-portrait figcaption {
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+  .editorial-hero-photo figcaption {
+    text-align: right;
+  }
+  .editorial-section-heading {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 80px;
+    margin-bottom: 48px;
+  }
+  .editorial-section-heading > p,
+  .editorial-section-heading > div {
+    max-width: 530px;
+  }
+  .editorial-section-heading .text-link {
+    margin-top: 20px;
+  }
+  .editorial-page .signature-grid {
+    gap: 28px;
+  }
+  .editorial-page .signature-item > img {
+    border-radius: 2px;
+  }
+  .editorial-page .signature-item h2,
+  .editorial-page .signature-item h3 {
+    font-size: 1.13rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  .editorial-page .signature-item p {
+    font-size: 0.82rem;
+  }
+  .editorial-page .signature-item > div {
+    padding-top: 24px;
+  }
+  .editorial-home-story {
+    background: var(--white);
+  }
+  .editorial-home-story > div,
+  .editorial-story-opening {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 96px;
+  }
+  .editorial-home-story p {
+    margin-block: 24px;
+    max-width: 520px;
+  }
+  .editorial-food-portrait img {
+    width: 100%;
+    height: auto;
+  }
+  .editorial-visit-band {
+    border-block: 1px solid var(--line);
+  }
+  .editorial-visit-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    padding-block: 80px;
+  }
+  .editorial-visit-inner > div > p {
+    margin-block: 24px;
+    max-width: 460px;
+  }
+  .editorial-visit-details {
+    padding-left: 56px;
+    border-left: 1px solid var(--line);
+  }
+  .editorial-visit-details h3 {
+    margin-bottom: 28px;
+  }
+  .editorial-visit-inner .editorial-note,
+  .editorial-note {
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .editorial-franchise-invite {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .editorial-franchise-invite p {
+    margin-top: 24px;
+    max-width: 540px;
+  }
+  .editorial-invite-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    justify-self: center;
+  }
+  .editorial-invite-actions button.text-link {
+    background: none;
+    border: 0;
+    padding: 10px 0;
+    min-height: 44px;
+  }
+  .editorial-faq {
+    display: grid;
+    grid-template-columns: 0.85fr 1.4fr;
+    gap: 96px;
+    border-top: 1px solid var(--line);
+  }
+  .editorial-faq-intro p {
+    margin-block: 24px;
+  }
+  .editorial-faq-list details {
+    border-bottom: 1px solid var(--line);
+    padding-block: 24px;
+  }
+  .editorial-faq-list details:first-child {
+    padding-top: 0;
+  }
+  .editorial-faq summary,
+  .editorial-page .franchise-inclusions summary {
+    list-style: none;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 24px;
+    cursor: pointer;
+    min-height: 44px;
+    font-size: 0.96rem;
+    font-weight: 500;
+  }
+  .editorial-faq summary::-webkit-details-marker,
+  .editorial-page .franchise-inclusions summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-indicator {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .faq-indicator::before,
+  .faq-indicator::after {
+    content: "";
+    background: currentColor;
+    position: absolute;
+    inset: 9px 3px;
+    height: 1px;
+  }
+  .faq-indicator::after {
+    transform: rotate(90deg);
+  }
+  details[open] > summary .faq-indicator::after {
+    display: none;
+  }
+  .editorial-faq details > div {
+    padding-top: 12px;
+    padding-right: 40px;
+  }
+  .editorial-faq details p {
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+  .editorial-intro {
+    padding-block: 48px 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .editorial-intro .breadcrumb {
+    display: inline-flex;
+    margin-bottom: 32px;
+    min-height: 44px;
+    align-items: center;
+  }
+  .editorial-intro h1 {
+    font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+  }
+  .editorial-intro > div {
+    align-items: center;
+  }
+  .editorial-intro > div > p {
+    font-size: 1rem;
+  }
+  .editorial-menu {
+    padding-top: 64px;
+  }
+  .signature-grid-expanded {
+    display: block;
+  }
+  .signature-grid-expanded .signature-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: center;
+    padding-bottom: 72px;
+    margin-bottom: 72px;
+    border-bottom: 1px solid var(--line);
+  }
+  .signature-grid-expanded .signature-item:last-child {
+    margin-bottom: 0;
+  }
+  .signature-grid-expanded .signature-item:nth-child(even) > img {
+    order: 2;
+  }
+  .signature-grid-expanded .signature-item > div {
+    max-width: 475px;
+    padding-top: 0;
+  }
+  .editorial-page .signature-grid-expanded .signature-item h2 {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    margin-bottom: 24px;
+  }
+  .editorial-page .signature-grid-expanded .signature-item p {
+    font-size: 1rem;
+  }
+  .editorial-page .signature-grid-expanded .signature-item .flavour-visit {
+    font-size: 0.76rem;
+    color: var(--red);
+    margin-top: 32px;
+  }
+  .signature-grid-expanded .signature-item > img {
+    max-height: 510px;
+    object-fit: cover;
+  }
+  .editorial-page .menu-visit-note {
+    border-top: 0;
+    margin-top: 0;
+  }
+  .editorial-reading-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+  }
+  .editorial-reading-pair h2 {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+  .editorial-prose p + p {
+    margin-top: 24px;
+  }
+  .editorial-prose h2 {
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
+  .editorial-prose section + section {
+    margin-top: 40px;
+  }
+  .editorial-prose > .text-link {
+    margin-top: 28px;
+  }
+  .editorial-brand-line {
+    font-size: 1.45rem;
+    color: var(--red);
+    margin-top: 32px;
+  }
+  .editorial-story-statement {
+    padding-block: 88px;
+    background: var(--red);
+    color: var(--white);
+  }
+  .editorial-story-statement p {
+    font-size: clamp(2rem, 4.5vw, 4rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.035em;
+  }
+  .editorial-story-statement .text-link {
+    margin-top: 40px;
+    color: var(--white);
+  }
+  .editorial-story-statement a:focus-visible {
+    outline-color: var(--white);
+  }
+  .editorial-story-chapters article {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 96px;
+    padding-block: 48px;
+    border-bottom: 1px solid var(--line);
+  }
+  .editorial-story-chapters article:first-child {
+    padding-top: 0;
+  }
+  .editorial-story-chapters article:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .editorial-story-chapters h2 {
+    font-size: 1.85rem;
+  }
+  .editorial-story-chapters p + p {
+    margin-top: 24px;
+  }
+  .editorial-branch-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .editorial-page .outlet-grid {
+    display: block;
+  }
+  .editorial-branch-card {
+    background: var(--white);
+    padding: 40px;
+    border: 1px solid var(--line);
+  }
+  .branch-heading {
+    display: flex;
+    align-items: start;
+    gap: 16px;
+  }
+  .branch-heading > svg {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin-top: 6px;
+  }
+  .editorial-page .branch-heading h2 {
+    font-size: 1.5rem;
+  }
+  .branch-current {
+    color: var(--red);
+    font-size: 0.8rem;
+    margin-top: 12px;
+  }
+  .branch-facts {
+    margin: 32px 0 24px;
+  }
+  .branch-facts > div {
+    padding-block: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .branch-facts dt {
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .branch-facts dd {
+    margin: 0;
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+  .editorial-branch-card .actions {
+    margin-top: 24px;
+  }
+  .editorial-branch-card .button {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .editorial-location-story {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: center;
+    padding-bottom: 64px;
+  }
+  .editorial-location-story p {
+    margin-block: 24px;
+  }
+  .editorial-table-photo img {
+    width: 100%;
+    height: auto;
+  }
+  .editorial-formats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-block: 0 24px;
+    border-block: 1px solid var(--line);
+  }
+  .editorial-page .editorial-formats article {
+    border: 0;
+    border-right: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    padding: 32px 24px;
+  }
+  .editorial-page .editorial-formats article:first-child {
+    padding-left: 0;
+  }
+  .editorial-page .editorial-formats article:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+  .editorial-page .editorial-formats article > div {
+    padding: 0;
+  }
+  .editorial-page .editorial-formats .franchise-price {
+    font-size: 1.8rem;
+    margin-block: 20px;
+    font-weight: 500;
+  }
+  .editorial-formats article > div > p:last-child {
+    font-size: 0.84rem;
+  }
+  .editorial-formats ul {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+  }
+  .editorial-formats li {
+    font-size: 0.78rem;
+    line-height: 1.8;
+    padding-block: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .editorial-franchise-process {
+    background: var(--white);
+  }
+  .editorial-steps {
+    counter-reset: step;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 56px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .editorial-steps > li {
+    counter-increment: step;
+  }
+  .editorial-steps > li::before {
+    content: "0" counter(step);
+    display: block;
+    color: var(--red);
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+  }
+  .editorial-steps p {
+    font-size: 0.88rem;
+    margin-top: 16px;
+  }
+  .editorial-page .franchise-inclusions {
+    max-width: 1280px;
+    padding-top: var(--editorial-space);
+  }
+  .editorial-page .franchise-inclusions .editorial-section-heading {
+    margin-bottom: 24px;
+  }
+  .editorial-page .franchise-inclusions h2 {
+    margin-bottom: 0;
+  }
+  .editorial-page .franchise-inclusions details {
+    padding-block: 24px;
+  }
+  .editorial-page .franchise-inclusions details p {
+    max-width: 950px;
+    font-size: 0.88rem;
+    padding-right: 40px;
+  }
+  .editorial-page .franchise-inclusions > .editorial-note {
+    margin-top: 24px;
+    max-width: 900px;
+  }
+  .editorial-franchise-brief {
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .editorial-franchise-brief ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+  }
+  .editorial-franchise-brief li {
+    padding-block: 8px;
+    line-height: 1.8;
+  }
+  .editorial-page .franchise-enquiry-layout {
+    border-top: 1px solid var(--line);
+    gap: 80px;
+  }
+  .editorial-page .franchise-enquiry-layout .editorial-note {
+    margin-top: 40px;
+  }
+  .editorial-contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+  }
+  .editorial-contact-main {
+    min-width: 0;
+  }
+  .editorial-contact-main h2 {
+    font-size: 1.75rem;
+  }
+  .editorial-contact-main > p {
+    margin-block: 20px 32px;
+  }
+  .editorial-phone {
+    display: block;
+    font-size: clamp(1.5rem, 2.7vw, 2.4rem);
+    letter-spacing: -0.03em;
+    color: var(--red);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .editorial-contact-main > .contact-email {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .editorial-contact-main .actions {
+    flex-direction: column;
+    align-items: start;
+    margin-top: 32px;
+    gap: 20px;
+  }
+  .editorial-contact-topics {
+    background: var(--white);
+  }
+  .editorial-contact-topics h2 {
+    margin-bottom: 48px;
+  }
+  .editorial-contact-topics .container > div {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 56px;
+  }
+  .editorial-contact-topics p {
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+  .editorial-contact-visit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: center;
+  }
+  .editorial-contact-visit > div p {
+    margin-block: 24px;
+  }
+  .store-footer {
+    border-top: 1px solid var(--line);
+  }
+  .footer-brand .editorial-brand {
+    margin-bottom: 28px;
+  }
+  .footer-brand .editorial-brand img {
+    width: 96px;
+    height: 96px;
+  }
+  .footer-brand h2 {
+    font-weight: 500;
+  }
+  @media (max-width: 1100px) {
+    .editorial-home-intro,
+    .editorial-intro > div,
+    .editorial-section-heading,
+    .editorial-home-story > div,
+    .editorial-story-opening,
+    .editorial-visit-inner,
+    .editorial-franchise-invite,
+    .editorial-faq,
+    .editorial-reading-pair,
+    .editorial-story-chapters article,
+    .editorial-branch-layout,
+    .editorial-contact-layout,
+    .editorial-contact-visit,
+    .editorial-franchise-brief,
+    .editorial-page .franchise-enquiry-layout {
+      gap: 40px;
+    }
+    .signature-grid-expanded .signature-item {
+      gap: 48px;
+    }
+    .editorial-brand strong {
+      font-size: 1.05rem;
+    }
+    .menu-desktop-nav {
+      gap: 18px;
+    }
+    .menu-desktop-nav a {
+      font-size: 0.78rem;
+    }
+    .editorial-visit-details {
+      padding-left: 32px;
+    }
+    .editorial-steps {
+      gap: 32px;
+    }
+    .editorial-formats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .editorial-page .editorial-formats article {
+      padding: 32px;
+    }
+    .editorial-page .editorial-formats article:nth-child(even) {
+      border-right: 0;
+    }
+    .editorial-page .editorial-formats article:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+    }
+    .editorial-page .editorial-formats article:nth-child(odd) {
+      padding-left: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .editorial-page {
+      --editorial-space: 64px;
+    }
+    .menu-header-inner {
+      min-height: 88px;
+    }
+    .menu-header .editorial-brand img {
+      width: 64px;
+      height: 64px;
+    }
+    .editorial-brand strong {
+      font-size: 1.05rem;
+    }
+    .editorial-brand small {
+      font-size: 0.62rem;
+    }
+    .store-announcement {
+      padding-block: 8px;
+    }
+    .store-announcement > span {
+      display: none;
+    }
+    .store-announcement a {
+      display: inline-flex;
+      font-size: 0.68rem;
+    }
+    .editorial-home-intro,
+    .editorial-intro > div,
+    .editorial-section-heading,
+    .editorial-home-story > div,
+    .editorial-story-opening,
+    .editorial-visit-inner,
+    .editorial-franchise-invite,
+    .editorial-faq,
+    .editorial-reading-pair,
+    .editorial-story-chapters article,
+    .editorial-branch-layout,
+    .editorial-contact-layout,
+    .editorial-contact-visit,
+    .editorial-franchise-brief,
+    .editorial-location-story {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .editorial-home-intro {
+      padding-block: 40px 32px;
+    }
+    .editorial-home-intro > div {
+      max-width: none;
+      justify-self: start;
+    }
+    .editorial-home-intro p,
+    .editorial-intro > div > p {
+      font-size: 0.9rem;
+    }
+    .editorial-home-intro .actions {
+      margin-top: 24px;
+      gap: 20px;
+    }
+    .editorial-hero-photo img {
+      aspect-ratio: 1.25;
+    }
+    .editorial-hero-photo figcaption {
+      text-align: left;
+    }
+    .editorial-section-heading {
+      margin-bottom: 32px;
+    }
+    .editorial-page .signature-grid {
+      gap: 40px 20px;
+    }
+    .editorial-page .signature-item h3 {
+      font-size: 1.05rem;
+    }
+    .editorial-visit-inner {
+      padding-block: 56px;
+    }
+    .editorial-visit-details {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      padding-top: 32px;
+    }
+    .editorial-invite-actions {
+      justify-self: start;
+    }
+    .editorial-faq-list details:first-child {
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .editorial-faq details > div {
+      padding-right: 0;
+    }
+    .editorial-faq summary {
+      font-size: 0.91rem;
+    }
+    .editorial-intro {
+      padding-block: 24px 40px;
+    }
+    .editorial-intro .breadcrumb {
+      margin-bottom: 20px;
+    }
+    .editorial-menu {
+      padding-top: 40px;
+    }
+    .signature-grid-expanded .signature-item {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding-bottom: 40px;
+      margin-bottom: 40px;
+    }
+    .signature-grid-expanded .signature-item:nth-child(even) > img {
+      order: initial;
+    }
+    .editorial-page .signature-grid-expanded .signature-item h2 {
+      font-size: 1.8rem;
+    }
+    .editorial-page .signature-grid-expanded .signature-item p {
+      font-size: 0.92rem;
+    }
+    .editorial-story-statement {
+      padding-block: 56px;
+    }
+    .editorial-story-chapters article {
+      padding-block: 32px;
+    }
+    .editorial-branch-card {
+      padding: 28px;
+    }
+    .editorial-location-story {
+      padding-bottom: 0;
+    }
+    .editorial-page .editorial-formats article {
+      padding: 28px 20px;
+    }
+    .editorial-page .editorial-formats .franchise-price {
+      font-size: 1.45rem;
+    }
+    .editorial-steps {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .editorial-steps > li::before {
+      margin-bottom: 12px;
+    }
+    .editorial-page .franchise-inclusions details p {
+      padding-right: 0;
+    }
+    .editorial-contact-topics .container > div {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .editorial-contact-topics h2 {
+      margin-bottom: 32px;
+    }
+    .editorial-contact-visit > .editorial-branch-card {
+      margin-top: 8px;
+    }
+  }
+  @media (max-width: 480px) {
+    .editorial-formats {
+      grid-template-columns: 1fr;
+    }
+    .editorial-page .editorial-formats article {
+      padding: 28px 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .editorial-page .editorial-formats article:last-child {
+      border-bottom: 0;
+    }
+    .editorial-brand {
+      gap: 8px;
+    }
+    .editorial-brand strong {
+      font-size: 0.95rem;
+    }
+    .editorial-page .button {
+      padding-inline: 18px;
+    }
+    .editorial-branch-card {
+      padding: 24px;
+    }
+  }
+}

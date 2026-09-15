@@ -1,5 +1,21 @@
 # Initial public content
 
+## Current editorial update — 2026-09-15
+
+The owner now focuses on four dry chicken pakodi flavours and Kukatpally as the
+only serving branch. This supersedes the historical menu and six-branch notes
+below. The expanded pages and franchise inclusions use the live site and supplied
+brochure with conflicts recorded in
+[`kukatpally-site-expansion.md`](../../../docs/agent-context/kukatpally-site-expansion.md).
+
+For an existing database, run `python -m app.seed --site-expansion`. It validates
+and updates the 16 approved brand, page, menu, franchise and Kukatpally records,
+unpublishes other menu/outlet listings, and preserves historical payloads,
+products, stock, orders and legal content. Repeating it is safe. The general
+seed still preserves existing records unless an explicit update flag is used.
+
+## Historical source observations
+
 Update 2026-09-10: the user explicitly requested the existing public site's copy,
 images, page order and interactions with this project's fonts/colors. The page
 `blocks` now preserve that observed source copy, including its conflicting body

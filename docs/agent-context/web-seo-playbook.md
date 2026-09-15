@@ -205,6 +205,14 @@ python scripts/check_seo.py http://localhost:3501 / /services/ /contact/ \
 
 ## Approved four-flavour correction - 2026-09-15
 
+Later correction: premium editorial layouts and richer source-backed content;
+Kukatpally is the only current serving branch. FAQs are server-rendered and open
+by default. Historical branch URLs show a noindex current-service notice and
+link to Kukatpally; they are excluded from the sitemap. This preserves old links
+without claiming those branches serve. No unconfirmed local-business ratings,
+opening-hours schema or new addresses. The four food images are illustrative;
+the owner confirms dry pakodi. See kukatpally-site-expansion.md.
+
 The user-approved [four-flavour plan](four-flavour-menu.md) supersedes shopping-led
 public layouts. Keep Poppins/Inter and peach/orange, with four local food
 illustrations, generous spacing and no additional motion. The five navigation

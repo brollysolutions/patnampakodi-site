@@ -7,6 +7,7 @@ import "./commerce.css";
 import "./reference.css";
 import "./store.css";
 import "./menu.css";
+import "./editorial.css";
 import { AnalyticsGate } from "@/components/AnalyticsGate";
 
 const display = localFont({

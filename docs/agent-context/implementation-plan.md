@@ -1,5 +1,37 @@
 # Implementation plan
 
+## Kukatpally website expansion - 2026-09-15
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 26. Expand the public pages, refine the logo and show Kukatpally only | Implemented and verified in [PR #23](https://github.com/brollysolutions/patnampakodi-site/pull/23) | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+Acceptance: richer Home, Menu, Our Story, Franchise, Branches, Contact and
+Kukatpally detail pages; the four current pakodis only; visible FAQ answers on
+initial load and without JavaScript; source-backed brochure inclusions; refined
+existing logo; Kukatpally as the only serving branch in content, links and sitemap.
+Preserve older outlet records and return informative retired-location pages at
+their URLs without presenting them as serving. Keep ordering paused, existing
+private workflows, URLs, forms, fonts, palette and unchanged performance budgets.
+No production deployment, legal-policy rewrite, new dependency, invented founder,
+review, financial guarantee, recipe or branch photograph. Source conflicts and
+outstanding owner questions are recorded in kukatpally-site-expansion.md.
+Verify editorial update preservation, public API, open FAQs, no-JS navigation,
+responsive/axe, existing enquiries, technical SEO and production performance;
+finish with code/security/design review and a PR.
+
+Implementation meets the observable acceptance criteria. Fresh evidence: 132 API
+tests, 27 web unit tests, 76 browser tests (two viewport skips), seven-page
+technical SEO, 150 workflow tests (three platform skips), and six passing
+Lighthouse medians across the final 18-run container batch. Native FAQs and all
+food images were also reviewed in Chromium at mobile/tablet/desktop widths.
+Earlier failed samples and corrections are retained in feature-status.md.
+No unresolved code/security/design finding. Implementation `f91ce5a` is pushed
+to origin and upstream in PR #23 against upstream/main. The independent-copy
+remote layout and intermittent local verification failures are recorded in
+feature-status.md; subsequent push gates passed. Next priority is owner content
+confirmation and PR review. No deployment or merge.
+
 ## Four-flavour menu and ordering pause - 2026-09-15
 
 | Item | Status | Planning model / effort | Implementation model / effort |

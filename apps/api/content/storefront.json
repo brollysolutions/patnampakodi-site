@@ -18,12 +18,33 @@
     "published": true,
     "payload": {
       "slug": "home",
-      "title": "Patnam Pakodi | Four Signature Chicken Pakodi Flavours",
-      "description": "Meet four signature chicken pakodi flavours at Patnam Pakodi. Explore the menu, find a branch, and discover our franchise opportunities.",
-      "heading": "Patnam Pakodi",
-      "intro": "Four flavours. One love for pakodi.",
+      "title": "Patnam Pakodi | Chicken Pakodi in Kukatpally",
+      "description": "Discover four signature chicken pakodi flavours at Patnam Pakodi, Kukatpally. Explore our menu, story and brochure-backed franchise formats.",
+      "heading": "Chicken pakodi. Full of character.",
+      "intro": "Four signature flavours, one love for a proper pakodi break. Discover Patnam Pakodi, currently serving in Kukatpally, Hyderabad.",
       "sections": [],
-      "blocks": []
+      "blocks": [
+        {
+          "kind": "faq",
+          "title": "Where can I visit Patnam Pakodi?",
+          "text": "We are currently serving only at our Kukatpally branch in Hyderabad. Check the branch details and call before travelling for the latest opening hours and availability."
+        },
+        {
+          "kind": "faq",
+          "title": "Can I order on this website?",
+          "text": "Online ordering is currently paused. This website is here to help you explore our four flavours, plan a visit to Kukatpally and speak with our team."
+        },
+        {
+          "kind": "faq",
+          "title": "What are the four flavours?",
+          "text": "Erra Karam Kodi Pakodi, Pachi Mirchi Kodi Pakodi, Miriyala Kodi Pakodi and Chettinad Kodi Pakodi. All four are chicken pakodi, each with its own spice character."
+        },
+        {
+          "kind": "faq",
+          "title": "Can I explore a franchise opportunity?",
+          "text": "Yes. Our brochure describes Brand-Only, Cart, Cabin and Shop Setup formats. Explore the package details and contact our franchise team to discuss your location and plans."
+        }
+      ]
     }
   },
   {
@@ -33,12 +54,52 @@
     "published": true,
     "payload": {
       "slug": "menu",
-      "title": "Chicken Pakodi Menu | Patnam Pakodi",
-      "description": "Explore Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Discover four signature chicken pakodi flavours and find your nearest branch.",
-      "heading": "Four flavours of chicken pakodi.",
-      "intro": "Red chilli, green chilli, pepper and Chettinad spice. Get to know our four signature chicken pakodi flavours.",
-      "sections": [],
-      "blocks": []
+      "title": "Four Chicken Pakodi Flavours | Patnam Pakodi Menu",
+      "description": "Explore Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Find your flavour and visit our only serving branch in Kukatpally, Hyderabad.",
+      "heading": "Four flavours. Find your favourite.",
+      "intro": "A familiar crunch, with four different expressions of spice. Our current menu is dedicated to these four chicken pakodi flavours.",
+      "sections": [
+        {
+          "title": "A menu with a clear focus.",
+          "body": "Red chilli, green chilli, pepper and Chettinad spice give each pakodi its own character. Explore the descriptions, choose what appeals to you and let the Kukatpally team help with any questions."
+        },
+        {
+          "title": "Make a little time for pakodi.",
+          "body": "A catch-up with friends. A pause in a busy day. Something crisp to share. However you spend your snack break, there is a Patnam flavour to get to know."
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "faq",
+          "title": "What are the four flavours?",
+          "text": "Erra Karam Kodi Pakodi, Pachi Mirchi Kodi Pakodi, Miriyala Kodi Pakodi and Chettinad Kodi Pakodi. All four are chicken pakodi, each with its own spice character."
+        },
+        {
+          "kind": "faq",
+          "title": "How do I choose a flavour?",
+          "text": "Start with the flavour you enjoy: red chilli warmth, a green chilli kick, peppery character or Chettinad spice. Ask our Kukatpally team to help you choose when you visit."
+        },
+        {
+          "kind": "faq",
+          "title": "Where can I check ingredients and allergens?",
+          "text": "Please speak with our team about ingredients, preparation and allergens before choosing your food. The flavour descriptions are a guide to taste, not a complete ingredient list."
+        },
+        {
+          "kind": "faq",
+          "title": "Do the pictures show an exact serving?",
+          "text": "Our food images are representative illustrations. Presentation and portions may differ at the branch; please check with the team for current serving details."
+        },
+        {
+          "kind": "faq",
+          "title": "Where can I visit Patnam Pakodi?",
+          "text": "We are currently serving only at our Kukatpally branch in Hyderabad. Check the branch details and call before travelling for the latest opening hours and availability."
+        },
+        {
+          "kind": "faq",
+          "title": "Can I order on this website?",
+          "text": "Online ordering is currently paused. This website is here to help you explore our four flavours, plan a visit to Kukatpally and speak with our team."
+        }
+      ]
     }
   },
   {
@@ -48,21 +109,45 @@
     "published": true,
     "payload": {
       "slug": "about-us",
-      "title": "Our Story | Patnam Pakodi",
-      "description": "Get to know Patnam Pakodi, our love for crisp chicken pakodi and the four signature flavours at the heart of our menu.",
-      "heading": "The story behind Patnam Pakodi.",
-      "intro": "A familiar snack, a flavour worth sharing, and a reason to get together. That is the spirit of Patnam Pakodi.",
+      "title": "Our Story | Patnam Pakodi, Hyderabad",
+      "description": "Discover the Guntur-style inspiration behind Patnam Pakodi, our four chicken pakodi flavours and our current home in Kukatpally, Hyderabad.",
+      "heading": "A familiar snack. A story of our own.",
+      "intro": "Patnam Pakodi brings Guntur-style chicken pakodi into the everyday rhythm of Hyderabad: bold spice, a satisfying crunch and time spent together.",
       "sections": [
         {
-          "title": "Made for the moments in between.",
-          "body": "An evening catch-up. A snack with friends. A craving for something crisp and spicy. Patnam Pakodi brings a little flavour to these everyday moments."
+          "title": "It begins with a love for pakodi.",
+          "body": "Our story starts with a simple idea: bring the character of Guntur-style chicken pakodi to people who enjoy a good snack. The food, the spice and the moments around it are at the centre of Patnam Pakodi.\n\nA snack can be a small part of the day and still be the part you look forward to. That is the feeling behind our name and the promise in our familiar line: Life Lo Spice Undali."
         },
         {
-          "title": "Four ways to find your flavour.",
-          "body": "Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Our menu brings four signature chicken pakodi flavours together, each with its own character."
+          "title": "Four flavours, each with a point of view.",
+          "body": "Our current menu brings together Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Each starts with chicken pakodi and takes its flavour in a different direction.\n\nWe are giving these four flavours the spotlight. Explore the red chilli warmth, green chilli kick, peppery notes and Chettinad spice on our menu."
+        },
+        {
+          "title": "Our home, right now: Kukatpally.",
+          "body": "We are currently serving only in Kukatpally, Hyderabad. It is the place to get to know the food, ask our team about the flavours and make your next pakodi break a Patnam one.\n\nAs we explore franchise opportunities, our website will continue to show the branches that are actually serving. For today, that means Kukatpally."
+        },
+        {
+          "title": "The idea behind our franchise.",
+          "body": "The Patnam Pakodi franchise approach uses standard operating procedures: documented preparation steps and operator training. It is designed to reduce dependence on a specialist chef and give partners a clear operating process.\n\nOur brochure describes four setup formats, with equipment and brand materials tailored to each. Prospective partners can discuss training, location suitability and the current operating terms directly with our team."
         }
       ],
-      "blocks": []
+      "blocks": [
+        {
+          "kind": "faq",
+          "title": "What inspires Patnam Pakodi?",
+          "text": "Our brand story is rooted in Guntur-style chicken pakodi and the everyday food culture of Hyderabad. The current menu puts four chicken pakodi flavours at the centre of that story."
+        },
+        {
+          "kind": "faq",
+          "title": "Where can I visit Patnam Pakodi?",
+          "text": "We are currently serving only at our Kukatpally branch in Hyderabad. Check the branch details and call before travelling for the latest opening hours and availability."
+        },
+        {
+          "kind": "faq",
+          "title": "What does a chef-less operating model mean?",
+          "text": "It means the franchise approach relies on documented preparation steps and operator training, with less dependence on a specialist chef. Ask the franchise team about the current training and operating process for your chosen format."
+        }
+      ]
     }
   },
   {
@@ -91,1444 +176,40 @@
     "published": true,
     "payload": {
       "slug": "branches",
-      "title": "Find a Patnam Pakodi Store | Hyderabad Locations",
-      "description": "Find published Patnam Pakodi locations in Hyderabad. Search by neighbourhood, city or pincode, then check the map listing before planning your visit.",
-      "heading": "Find Your Nearest Patnam Pakodi Branch",
-      "intro": "Find a Patnam Pakodi in the neighbourhood. Search our locations and check the latest details on the map.",
-      "sections": [],
+      "title": "Kukatpally Branch | Patnam Pakodi Hyderabad",
+      "description": "Visit Patnam Pakodi in Kukatpally, our only serving branch. Check the listed address, opening hours and phone, and explore the four chicken pakodi flavours.",
+      "heading": "Your pakodi break starts in Kukatpally.",
+      "intro": "We are currently serving only at our Kukatpally branch in Hyderabad. Find the location, get to know our four flavours and plan your visit.",
+      "sections": [
+        {
+          "title": "Before you set out.",
+          "body": "Check the address and call the branch for current opening hours and flavour availability. If you need information about seating, parking or step-free access, ask the team before your visit."
+        },
+        {
+          "title": "Four reasons to make a flavour stop.",
+          "body": "Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi are our current menu. Browse the flavour guide before you visit, or speak with our team when you arrive."
+        }
+      ],
       "blocks": [
         {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Hyderabad's Crispiest Chicken Pakodi"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "Find Your Nearest Patnam Pakodi Branch",
-                  "level": 1
-                },
-                {
-                  "kind": "text",
-                  "text": "Serving authentic chicken pakodi across multiple locations with the same signature taste, quality, and freshness — freshly fried every single hour."
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "View All Branches",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Become a Franchise",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/4717f184276e3f89.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1280,
-                  "height": 1024
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
+          "kind": "faq",
+          "title": "Where can I visit Patnam Pakodi?",
+          "text": "We are currently serving only at our Kukatpally branch in Hyderabad. Check the branch details and call before travelling for the latest opening hours and availability."
         },
         {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "enquiry",
-                  "text": "Get Franchise Details"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
+          "kind": "faq",
+          "title": "Can I order on this website?",
+          "text": "Online ordering is currently paused. This website is here to help you explore our four flavours, plan a visit to Kukatpally and speak with our team."
         },
         {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "25+",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Branches"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "10+",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Cities"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "500 +",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Happy Customers"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "4.9★",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Average Rating"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
+          "kind": "faq",
+          "title": "Are the other locations on the older website serving?",
+          "text": "Our current serving location is Kukatpally only. Older branch listings do not reflect the current position. We will update the website when another branch is confirmed as serving."
         },
         {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Our Outlets"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Featured Branches",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Six premium locations across Hyderabad — same crispy pakodi, same signature spice."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – Kukatpally",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "Plot 42, KPHB Main Road, Kukatpally, Hyderabad - 500072",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66219",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:00 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=2nd Floor, D' Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "kukatpally"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Patnam Pakodi – Madhapur",
-              "level": 2
-            }
-          ],
-          "card": false,
-          "record_slug": "madhapur"
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – Madhapur",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "Ayyappa Society, Madhapur, Hyderabad - 500081",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66219",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:30 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=Ayyappa Society, Madhapur, Hyderabad - 500081&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "madhapur"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Patnam Pakodi – Miyapur",
-              "level": 2
-            }
-          ],
-          "card": false,
-          "record_slug": "miyapur"
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – Miyapur",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "Miyapur X Roads, Near Metro Station, Hyderabad - 500049",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66219",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:30 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=Ayyappa Society, Madhapur, Hyderabad - 500081&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "miyapur"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Patnam Pakodi – Gachibowli",
-              "level": 2
-            }
-          ],
-          "card": false,
-          "record_slug": "gachibowli"
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – Gachibowli",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "DLF Cyber City Road, Gachibowli, Hyderabad - 500032",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66222",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:30 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=DLF Cyber City Road, Gachibowli, Hyderabad - 500032&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "gachibowli"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Patnam Pakodi – Dilsukhnagar",
-              "level": 2
-            }
-          ],
-          "card": false,
-          "record_slug": "dilsukhnagar"
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – Dilsukhnagar",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "Chaitanyapuri X Roads, Dilsukhnagar, Hyderabad - 500060",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66222",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:00 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=Chaitanyapuri X Roads, Dilsukhnagar, Hyderabad - 500060&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "dilsukhnagar"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Patnam Pakodi – LB Nagar",
-              "level": 2
-            }
-          ],
-          "card": false,
-          "record_slug": "lb-nagar"
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/b7bae36b19454683.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": true,
-              "tone": "white"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi – LB Nagar",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "LB Nagar Ring Road, Near Metro Pillar 1580, Hyderabad - 500074",
-                      "href": ""
-                    },
-                    {
-                      "kind": "link",
-                      "text": "+91 90003 66222",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "11:00 AM – 11:00 PM",
-                      "href": ""
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Order Now",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Directions",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=Chaitanyapuri X Roads, Dilsukhnagar, Hyderabad - 500060&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false,
-          "record_slug": "lb-nagar"
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Why Visit"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Why Choose a Patnam Pakodi Branch",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Six reasons crores of pakodi-lovers keep coming back — every single week."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Freshly Prepared Every Day",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Small batches, fried to order, never sitting for hours."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "High Profit",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Premium pricing potential with strong unit economics."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Low Investment",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Start small from ₹69,000 and scale up as you grow."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chef-Less Standardized Process",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Proprietary SOP means the exact same taste, every branch."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Hygienic Kitchen",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "FSSAI-audited kitchens with strict cleanliness protocols."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Friendly Customer Service",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Warm, welcoming staff trained to make you smile."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Branch Gallery"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "A Peek Inside Our Outlets",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "From live frying counters to warm interiors — a glimpse of the Patnam Pakodi experience."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/1d9688b32c59624c.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1200,
-                  "height": 900
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/44860ed18e84007e.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 768
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/96a8865cb1117019.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/1f9c97dd07c6ffe9.webp",
-                  "alt": "",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/cb5ae1febb395e1d.webp",
-                  "alt": "",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/22b33848ef67e688.webp",
-                  "alt": "",
-                  "width": 1024,
-                  "height": 768
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Customer Love"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "What Our Guests Say",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Real reviews from real pakodi-lovers across Hyderabad."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“Best chicken pakodi in Hyderabad. Crispy, juicy and flavorful.”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Vivek G.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Kukatpally"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“Loved the taste and quick service. My go-to evening snack spot!”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Priya S.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Customer"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“One of the best snacks for evening cravings. Guntur pakodi is fire.”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Suresh M.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Franchise Owner · Warangal"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "row",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "list",
-                      "items": [
-                        "Customer Love"
-                      ]
-                    },
-                    {
-                      "kind": "heading",
-                      "text": "Open the Next Patnam Pakodi Branch in Your City",
-                      "level": 2
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Join India’s fastest-growing chicken pakodi franchise and build a profitable business with our proven chef-less model — starting from just ₹69,000."
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "row",
-                      "children": [
-                        {
-                          "kind": "enquiry",
-                          "text": "Apply for Franchise",
-                          "href": ""
-                        },
-                        {
-                          "kind": "enquiry",
-                          "text": "Contact Us",
-                          "href": ""
-                        }
-                      ],
-                      "card": false
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "layout": "column",
-                          "children": [
-                            {
-                              "kind": "heading",
-                              "text": "₹69K",
-                              "level": 3
-                            },
-                            {
-                              "kind": "text",
-                              "text": "Display Model"
-                            }
-                          ],
-                          "card": true
-                        },
-                        {
-                          "kind": "group",
-                          "layout": "column",
-                          "children": [
-                            {
-                              "kind": "heading",
-                              "text": "₹1.59L",
-                              "level": 3
-                            },
-                            {
-                              "kind": "text",
-                              "text": "Cabin Model"
-                            }
-                          ],
-                          "card": true
-                        }
-                      ],
-                      "card": false
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "layout": "column",
-                          "children": [
-                            {
-                              "kind": "heading",
-                              "text": "₹1.1L",
-                              "level": 3
-                            },
-                            {
-                              "kind": "text",
-                              "text": "Cart Model"
-                            }
-                          ],
-                          "card": true
-                        },
-                        {
-                          "kind": "group",
-                          "layout": "column",
-                          "children": [
-                            {
-                              "kind": "heading",
-                              "text": "₹2.5L",
-                              "level": 3
-                            },
-                            {
-                              "kind": "text",
-                              "text": "Premium Setup"
-                            }
-                          ],
-                          "card": true
-                        }
-                      ],
-                      "card": false
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Frequently Asked Questions",
-              "level": 2
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "faq",
-                      "title": "Which cities currently have branches?",
-                      "text": "We are actively serving across Hyderabad — Kukatpally, Madhapur, Miyapur, Gachibowli, Dilsukhnagar, LB Nagar and more — with new outlets opening in Vijayawada, Bangalore and Chennai soon."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How can I locate my nearest branch?",
-                      "text": "Use the search bar above or scroll to the map section. Enter your city or area and we’ll show you the closest Patnam Pakodi outlet with live directions."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "Do all branches have the same menu?",
-                      "text": "Yes. Every branch follows the same standardized menu and SOP — so the Guntur Pachi Mirchi Pakodi you love in Kukatpally tastes identical in LB Nagar."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "Can I order online?",
-                      "text": "Absolutely. All branches are live on Swiggy and Zomato, and you can also call the branch directly for pickup orders."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How do I apply for a franchise?",
-                      "text": "Tap the ‘Apply for Franchise’ button, fill in the short form, and our franchise team will call you within 24 hours to walk you through the display, cart, cabin and premium models."
-                    }
-                  ]
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Contact Details"
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Phone",
-                      "level": 3,
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "+91 90003 66219"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Email",
-                      "level": 3,
-                      "href": "mailto:patnampakodi@gmail.com"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "patnampakodi@gmail.com"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Instagram",
-                      "level": 3,
-                      "href": "https://www.instagram.com/patnampakodi"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "@patnampakodi"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Office",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "2nd Floor, D' Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=2nd Floor, D' Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
+          "kind": "faq",
+          "title": "Is this the franchise office address?",
+          "text": "The Kukatpally food branch and the central office listed in the franchise brochure have separate addresses. Use the branch details to plan a food visit and the Contact page for the central team."
         }
       ]
     }
@@ -1540,10 +221,10 @@
     "published": true,
     "payload": {
       "slug": "franchise",
-      "title": "Franchise Opportunities | Patnam Pakodi",
-      "description": "Explore Patnam Pakodi Brand-Only, Cart, Cabin and Shop Setup franchise formats. View package details, download the brochure and contact our team.",
-      "heading": "Bring Patnam Pakodi to your neighbourhood.",
-      "intro": "Choose your format, explore the inclusions, and talk through your plans with our franchise team.",
+      "title": "Chicken Pakodi Franchise | Patnam Pakodi",
+      "description": "Compare four Patnam Pakodi franchise formats from Rs 69,000. Explore brochure equipment, branding and setup details, then discuss your plans with our team.",
+      "heading": "A place for your next chapter.",
+      "intro": "Bring Patnam Pakodi to your neighbourhood. Explore four franchise formats, understand what each includes and start a conversation about your location.",
       "sections": [
         {
           "title": "Cart and Cabin: kitchen equipment",
@@ -1566,7 +247,95 @@
           "body": "20 kg masala, 150 branded packing boxes and 300 branded plates, plus kitchen items, LED boards and menu boards. Physical branding includes packing boxes, plates, T-shirts, caps, bottles and standing boards. Customized prices may change."
         }
       ],
-      "blocks": []
+      "blocks": [
+        {
+          "kind": "group",
+          "title": "Brand-Only",
+          "text": "A brand and starter-stock package for a setup discussed with our team.",
+          "items": [
+            "Kitchen items and brand kits",
+            "LED board and LED menu board",
+            "20 kg masala",
+            "150 branded packing boxes and 300 branded plates",
+            "Physical branding: boxes, plates, T-shirts, caps, bottles and standing boards"
+          ],
+          "record_slug": "display"
+        },
+        {
+          "kind": "group",
+          "title": "Cart Model",
+          "text": "A compact display stall with a 3 ft × 2.5 ft footprint.",
+          "items": [
+            "Storage and moveable wheels",
+            "Switchboard with two lights",
+            "2 ft × 1 ft branded LED board and 1 ft LED menu board",
+            "Kitchen equipment and welcome kit",
+            "Food licence and marketing support listed in the brochure"
+          ],
+          "record_slug": "cart"
+        },
+        {
+          "kind": "group",
+          "title": "Cabin Model",
+          "text": "A 5 ft × 3 ft open-door setup with four wheels.",
+          "items": [
+            "Storage facility and four LED lights",
+            "Kitchen equipment and welcome kit",
+            "Additional pans, SS clipper, oven and 6 litre cooling box",
+            "20 kg masala, branded packing boxes and plates",
+            "Food licence and marketing support listed in the brochure"
+          ],
+          "record_slug": "cabin"
+        },
+        {
+          "kind": "group",
+          "title": "Shop Setup",
+          "text": "A complete shop format with a seating and billing setup.",
+          "items": [
+            "Five seating tables and billing machine",
+            "Kitchen equipment including fryer and deep freezer",
+            "5 ft × 3 ft LED brand board and standing brand board",
+            "Three LED menu boards and welcome kit",
+            "20 kg masala, food licence, marketing support and online platform onboarding"
+          ],
+          "record_slug": "shop"
+        },
+        {
+          "kind": "faq",
+          "title": "What are the franchise package prices?",
+          "text": "The brochure lists Brand-Only at Rs 69,000, Cart at Rs 99,000, Cabin at Rs 1,50,000 and Shop Setup at Rs 3,00,000. Customized inclusions may change the price. Ask our team for a current written breakdown for your location."
+        },
+        {
+          "kind": "faq",
+          "title": "How do I decide which format is right for me?",
+          "text": "Compare your available space and the setup you need. The Cart is listed at 3 ft × 2.5 ft, the Cabin at 5 ft × 3 ft, and the Shop format includes seating. The Brand-Only package focuses on branding, kitchen items and starter stock. Discuss your location with the team before choosing."
+        },
+        {
+          "kind": "faq",
+          "title": "What equipment and brand materials are included?",
+          "text": "The brochure lists cooking and preparation equipment, measuring and storage items, signage and welcome kits by format. The sections above set out the differences; download the brochure for the complete package lists."
+        },
+        {
+          "kind": "faq",
+          "title": "Do I need a professional chef?",
+          "text": "The franchise approach uses documented preparation steps and operator training to reduce dependence on a specialist chef. Speak with the team about training, staffing and day-to-day responsibilities for your format."
+        },
+        {
+          "kind": "faq",
+          "title": "Does the brochure describe today's food menu?",
+          "text": "The brochure includes examples of broader food setups and branding. Our current customer menu focuses only on Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Confirm the menu for your proposed franchise with the team."
+        },
+        {
+          "kind": "faq",
+          "title": "What should I confirm before committing?",
+          "text": "Request the current package inclusions and a written cost breakdown. Discuss location approval, training, food-licence arrangements, ongoing supplies, operating costs, territory, royalty terms and launch timing with the team."
+        },
+        {
+          "kind": "faq",
+          "title": "Where can I experience the food?",
+          "text": "Our only serving branch is currently Kukatpally, Hyderabad. Check the branch details and call ahead before planning your visit."
+        }
+      ]
     }
   },
   {
@@ -1576,17 +345,58 @@
     "published": true,
     "payload": {
       "slug": "contact",
-      "title": "Contact Patnam Pakodi | Menu & Franchise Enquiries",
-      "description": "Contact Patnam Pakodi for menu questions and franchise opportunities. Call +91 90003 65219 or email patnampakodi@gmail.com.",
-      "heading": "Contact Patnam Pakodi.",
-      "intro": "For a question about our food, a franchise idea, or simply a hello.",
+      "title": "Contact Patnam Pakodi | Kukatpally & Franchise",
+      "description": "Speak with Patnam Pakodi about Kukatpally visits, the four-flavour menu or a franchise. Find branch contact details and the central office information.",
+      "heading": "Good conversations start here.",
+      "intro": "A question about a flavour, a visit to Kukatpally or a franchise idea. Find the right way to reach our team.",
       "sections": [
         {
-          "title": "Visit our office",
+          "title": "Central office & franchise team",
           "body": "3rd Floor, Dr Atmaram Estates, beside Sri Bhramaramba Theatre, Metro Pillar No. A689, near JNTU Metro Station, Nizampet X Roads, Hyderabad, Telangana 500072."
+        },
+        {
+          "title": "Planning a food visit?",
+          "body": "Our only serving branch is in Kukatpally. Use the branch page for its listed address, hours and contact number. The office address above is for central and franchise enquiries; call the team before arranging an office visit."
         }
       ],
-      "blocks": []
+      "blocks": [
+        {
+          "kind": "group",
+          "title": "Questions about the menu",
+          "text": "Mention the flavour you are interested in and any ingredient or allergen questions so the team can help you choose.",
+          "items": [],
+          "record_slug": ""
+        },
+        {
+          "kind": "group",
+          "title": "Planning your Kukatpally visit",
+          "text": "Ask about today's hours, flavour availability and any access requirements before travelling.",
+          "items": [],
+          "record_slug": ""
+        },
+        {
+          "kind": "group",
+          "title": "Thinking about a franchise",
+          "text": "Share your proposed area, the space you have in mind and the format you are considering. Our team can walk you through the brochure and next steps.",
+          "items": [],
+          "record_slug": ""
+        },
+        {
+          "kind": "faq",
+          "title": "Which number should I use?",
+          "text": "Use the Kukatpally branch contact for a food visit. For franchise and central enquiries, the brochure lists +91 90003 65219. Both are labelled on this page."
+        },
+        {
+          "kind": "faq",
+          "title": "What should I include in a franchise enquiry?",
+          "text": "Tell us your name, contact number, city or proposed location, preferred format and any questions about the setup. You can use the franchise enquiry form or speak with our team directly."
+        },
+        {
+          "kind": "faq",
+          "title": "Can I contact you on WhatsApp?",
+          "text": "Yes. The central contact listed in our brochure is available through the WhatsApp link on this page. Please avoid sending payment or sensitive personal information in a general enquiry."
+        }
+      ]
     }
   },
   {
@@ -2373,7 +1183,7 @@
     "kind": "outlet",
     "slug": "madhapur",
     "position": 60,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "madhapur",
       "name": "Madhapur",
@@ -2388,7 +1198,7 @@
     "kind": "outlet",
     "slug": "miyapur",
     "position": 61,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "miyapur",
       "name": "Miyapur",
@@ -2403,7 +1213,7 @@
     "kind": "outlet",
     "slug": "gachibowli",
     "position": 62,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "gachibowli",
       "name": "Gachibowli",
@@ -2418,7 +1228,7 @@
     "kind": "outlet",
     "slug": "dilsukhnagar",
     "position": 63,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "dilsukhnagar",
       "name": "Dilsukhnagar",
@@ -2433,7 +1243,7 @@
     "kind": "outlet",
     "slug": "lb-nagar",
     "position": 64,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "lb-nagar",
       "name": "LB Nagar",
@@ -2668,7 +1478,7 @@
       "slug": "erra-karam-kodi-pakodi",
       "name": "Erra Karam Kodi Pakodi",
       "category": "Dry",
-      "description": "Red chilli warmth, a crisp bite, and a little Patnam spice.",
+      "description": "Red chilli warmth, a crisp coating and a bold, savoury finish. A familiar pakodi flavour with plenty of character.",
       "dietary": "non-veg",
       "price_paise": null,
       "featured": true,
@@ -2684,7 +1494,7 @@
       "slug": "pachi-mirchi-kodi-pakodi",
       "name": "Pachi Mirchi Kodi Pakodi",
       "category": "Dry",
-      "description": "A green chilli kick for those who like their snack with a little heat.",
+      "description": "A green chilli kick gives this chicken pakodi its bright, lively character. Crisp bites for those who enjoy their spice up front.",
       "dietary": "non-veg",
       "price_paise": null,
       "featured": true,
@@ -2700,7 +1510,7 @@
       "slug": "mirayala-kodi-pakodi",
       "name": "Miriyala Kodi Pakodi",
       "category": "Dry",
-      "description": "Peppery warmth and a satisfying crunch in every bite.",
+      "description": "Pepper-led warmth and a savoury crunch. A flavour to explore when you enjoy the distinctive character of black pepper.",
       "dietary": "non-veg",
       "price_paise": null,
       "featured": true,
@@ -2716,7 +1526,7 @@
       "slug": "chettinad-kodi-pakodi",
       "name": "Chettinad Kodi Pakodi",
       "category": "Dry",
-      "description": "A bold, spiced take on chicken pakodi, inspired by Chettinad flavours.",
+      "description": "Aromatic Chettinad spice with a crisp pakodi finish. A layered, warming flavour with a character all its own.",
       "dietary": "non-veg",
       "price_paise": null,
       "featured": true,

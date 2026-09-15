@@ -1,5 +1,16 @@
 # Patnam Pakodi website design direction
 
+## Approved premium editorial expansion - 2026-09-15
+
+The owner selected Premium editorial: generous space, large food photography,
+intentional typography, varied page layouts and detailed content. Preserve the
+peach/orange palette and Poppins/Inter. Refine the existing rooster badge and use
+a legible horizontal brand lockup. All FAQs start open and operate independently
+without JavaScript. Only Kukatpally is serving. All four pakodis are dry; generated
+food artwork is illustrative, not verified product photography. See
+[the expansion record](kukatpally-site-expansion.md) for source conflicts and
+verification. No extra animation or dependency is needed.
+
 ## Approved classic ecommerce redesign - 2026-09-11
 
 The user approved shopping-first composition with fresh and packaged modes equally

@@ -149,3 +149,44 @@ def test_bundled_brochure_download_and_persisted_enquiry_work_while_paused(staff
     assert download.content.startswith(b"%PDF-") and len(download.content) < 5_000_000
     with psycopg.connect(OWNER) as conn:
         assert conn.execute("SELECT count(*) FROM enquiries").fetchone()[0] == 1
+
+
+def test_site_expansion_preserves_history_and_only_publishes_kukatpally(staff):
+    variant, order, _, _ = approved(staff)
+    records = json.loads(SOURCE.read_text(encoding="utf-8"))
+    with psycopg.connect(OWNER) as conn:
+        conn.execute("UPDATE content_records SET published=true WHERE kind='outlet'")
+        outlets = conn.execute(
+            "SELECT slug,payload FROM content_records WHERE kind='outlet' ORDER BY slug"
+        ).fetchall()
+        before = conn.execute(
+            "SELECT id,product,stock,reserved FROM variants WHERE id=%s", (variant,)
+        ).fetchone()
+        for _ in range(2):
+            assert apply_records(conn, records, site_expansion=True) == 16
+        assert conn.execute(
+            "SELECT slug FROM content_records WHERE kind='outlet' AND published"
+        ).fetchall() == [("kukatpally",)]
+        assert (
+            conn.execute(
+                "SELECT slug,payload FROM content_records WHERE kind='outlet' ORDER BY slug"
+            ).fetchall()
+            == outlets
+        )
+        assert (
+            conn.execute(
+                "SELECT id,product,stock,reserved FROM variants WHERE id=%s", (variant,)
+            ).fetchone()
+            == before
+        )
+        assert (
+            conn.execute("SELECT status FROM orders WHERE id=%s", (order["id"],)).fetchone()[0]
+            == "approved"
+        )
+        assert (
+            conn.execute(
+                "SELECT payload->>'heading' FROM content_records "
+                "WHERE kind='page' AND slug='branches'"
+            ).fetchone()[0]
+            == "Your pakodi break starts in Kukatpally."
+        )

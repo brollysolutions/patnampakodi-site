@@ -11,7 +11,7 @@ test("original identity and informational navigation survive responsive layouts"
     "rgb(254, 241, 228)",
   );
   await expect(page.locator("body")).toHaveCSS("color", "rgb(53, 53, 53)");
-  await expect(page.locator("h1 span")).toHaveCSS("font-weight", "800");
+  await expect(page.locator("h1")).toHaveCSS("font-weight", "500");
   const typography = await page.evaluate(() => ({
     body: getComputedStyle(document.body).fontFamily,
     heading: getComputedStyle(document.querySelector("h1")!).fontFamily,
@@ -34,15 +34,15 @@ test("original homepage content, local assets and phone-first lead dialog", asyn
   await page.goto("/");
   await expect(
     page.getByRole("heading", {
-      name: /Patnam Pakodi.*Four flavours/,
+      name: /Chicken pakodi.*Full of character/,
       level: 1,
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "A flavour for your kind of spice." }),
+    page.getByRole("heading", { name: /A flavour for.*your kind of spice/ }),
   ).toBeVisible();
   await expect(
-    page.locator('header img[src*="656da99ddfd65b8a"]'),
+    page.locator('header img[src*="patnam-logo-refined"]'),
   ).toBeVisible();
   await expect(
     page.getByRole("img", {
@@ -104,7 +104,11 @@ test("franchise inclusions remain available without JavaScript", async ({
     waitUntil: "domcontentloaded",
   });
   const faq = page.locator(".franchise-inclusions details").first();
-  await faq.locator("summary").click();
+  await expect(faq).toHaveAttribute("open", "");
   await expect(faq.locator("p")).toContainText("electric fryer");
+  await faq.locator("summary").click();
+  await expect(faq).not.toHaveAttribute("open", "");
+  await faq.locator("summary").click();
+  await expect(faq.locator("p")).toBeVisible();
   await context.close();
 });

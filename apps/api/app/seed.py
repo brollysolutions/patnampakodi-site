@@ -19,6 +19,7 @@ MODELS = {
 }
 SOURCE = Path(__file__).resolve().parents[1] / "content" / "storefront.json"
 LAUNCH_PAGES = {"home", "menu", "about-us", "franchise", "contact"}
+EXPANSION_PAGES = LAUNCH_PAGES | {"branches"}
 
 
 def launch_records(records: list[dict]) -> list[dict]:
@@ -32,20 +33,39 @@ def launch_records(records: list[dict]) -> list[dict]:
     ]
 
 
-def apply_records(connection, records: list[dict], *, replace=False, menu_launch=False):
-    selected = launch_records(records) if menu_launch else records
+def apply_records(
+    connection, records: list[dict], *, replace=False, menu_launch=False, site_expansion=False
+):
+    if site_expansion:
+        selected = [
+            row
+            for row in records
+            if row["kind"] in {"brand", "franchise"}
+            or (row["kind"] == "page" and row["slug"] in EXPANSION_PAGES)
+            or (row["kind"] == "menu" and row["published"])
+            or (row["kind"] == "outlet" and row["slug"] == "kukatpally")
+        ]
+    else:
+        selected = launch_records(records) if menu_launch else records
     for record in selected:
         validate_record(record)
     # Transactional and repeatable. Retain old menu payloads and every commerce record.
-    if menu_launch:
+    if menu_launch or site_expansion:
         connection.execute(
             "UPDATE content_records SET published=false WHERE brand_id=%s AND kind='menu'",
             ("patnam-pakodi",),
         )
+    if site_expansion:
+        # Retain historical payloads and all order/stock associations.
+        connection.execute(
+            "UPDATE content_records SET published=false "
+            "WHERE brand_id=%s AND kind='outlet' AND slug<>%s",
+            ("patnam-pakodi", "kukatpally"),
+        )
     conflict = (
         "DO UPDATE SET payload = EXCLUDED.payload, published = EXCLUDED.published, "
         "position = EXCLUDED.position"
-        if replace or menu_launch
+        if replace or menu_launch or site_expansion
         else "DO NOTHING"
     )
     for record in selected:
@@ -80,16 +100,33 @@ def main() -> None:
     parser.add_argument(
         "--published-only", action="store_true", help="Load only published source records"
     )
+    parser.add_argument(
+        "--site-expansion",
+        action="store_true",
+        help=(
+            "Apply the approved editorial expansion and publish Kukatpally only; preserve commerce"
+        ),
+    )
     args = parser.parse_args()
     records = json.loads(SOURCE.read_text(encoding="utf-8"))
     if args.published_only:
         records = [record for record in records if record["published"]]
     with psycopg.connect(migration_url(), connect_timeout=3) as connection:
         count = apply_records(
-            connection, records, replace=args.replace, menu_launch=args.menu_launch
+            connection,
+            records,
+            replace=args.replace,
+            menu_launch=args.menu_launch,
+            site_expansion=args.site_expansion,
         )
     action = (
-        "menu launch applied" if args.menu_launch else "replaced" if args.replace else "preserved"
+        "site expansion applied"
+        if args.site_expansion
+        else "menu launch applied"
+        if args.menu_launch
+        else "replaced"
+        if args.replace
+        else "preserved"
     )
     print(f"Validated and seeded {count} records; existing content {action}.")
 
