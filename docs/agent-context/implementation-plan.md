@@ -4,7 +4,7 @@
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 25. Launch the four-flavour menu and pause online ordering | In progress | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+| 25. Launch the four-flavour menu and pause online ordering | Implemented and verified in PR #22 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
 
 User approved Menu, Our Story, Franchise, Branches and Contact navigation;
 Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi only, without food
@@ -21,9 +21,15 @@ Fresh verification passes 131 API tests, 27 web unit tests, 70 browser tests
 build. Technical SEO passes all 12 public URLs; all six Lighthouse medians pass
 across 18 runs. Mobile performance: 97/99/97; desktop: 100; accessibility/SEO: 100.
 The tablet hero minimum-height overflow was corrected and the full browser suite
-rerun. Code/security/design review has no unresolved finding. PR linkage follows
-delivery; full evidence and the retained performance outlier are in feature-status.md.
-Next priority: PR review and coordinated API/web rollout with --menu-launch.
+rerun. Code/security/design review has no unresolved finding. Implementation
+`df96f57` is published in [PR #22](https://github.com/brollysolutions/patnampakodi-site/pull/22),
+targeting upstream `main` from `feat/four-flavour-menu`. The same commit is pushed
+to origin. GitHub confirmed OPEN and the exact head SHA. Because origin is an
+independent copy, the helper's fork-only PR operation failed; the upstream feature
+branch was pushed with normal hooks and the PR was verified directly. Full
+verification and the retained performance outlier are in feature-status.md.
+Local preview and the targeted editorial update are verified. Next priority:
+review PR #21/#22, then coordinated API/web rollout with --menu-launch.
 
 ## Menu starting stock - 2026-09-15
 

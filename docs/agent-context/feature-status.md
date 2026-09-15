@@ -44,7 +44,20 @@ LCP 2642 ms) is retained; the median LCP is 2435 ms. Evidence is in this session
 Code/security review has no unresolved finding. Both isolated Docker staging
 browser tests and the database recovery invariants pass, including signed replay,
 provider/worker restart, invoice, delivery, partial refund and messaging fixtures.
-All temporary staging resources were removed. PR delivery is being finalized. Native Safari, production
+All temporary staging resources were removed. Implementation `df96f57` is pushed
+to origin and is in open [PR #22](https://github.com/brollysolutions/patnampakodi-site/pull/22),
+from upstream `feat/four-flavour-menu` into `main`; the PR head SHA was read back
+directly. Origin is an independent copy, so the helper's cross-repository PR
+operation failed. Normal upstream push hooks passed, and GitHub created the PR
+from the matching upstream feature branch. The helper's remote verifier assumes
+a fork head; direct GitHub repository/base/head/SHA readback supplies the delivery
+evidence for this layout. No protected branch, hook or gate was changed.
+
+The local targeted seed applied 14 approved records, preserving product, order
+and outlet counts. Managed API/web preview processes are healthy at ports
+8500/3501. Browser inspection confirms four named items, no shopping links,
+the corrected central phone and ordering disabled. Preview process sessions are
+intentionally running; they are not completed verification commands. Native Safari, production
 rollout, live providers and field vitals remain unverified. The branch preserves
 the existing unmerged menu-stock commits from PR #21. Next priority is PR review,
 then coordinated API/web deployment with the targeted seed and ordering paused.
