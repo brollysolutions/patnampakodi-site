@@ -1,5 +1,48 @@
 # Feature status
 
+## Kukatpally website expansion - 2026-09-15
+
+Item 26 implements the approved Premium editorial expansion across Home, Menu,
+Our Story, Franchise, Branches, Contact and Kukatpally details. The refined rooster
+logo, large dry-pakodi artwork and varied page layouts retain Poppins/Inter and
+the peach/orange palette. FAQs start open and remain operable without JavaScript.
+Only Kukatpally is published; five older branch URLs show noindex notices linking
+to the current branch. Source facts, brochure inclusions and artwork provenance
+are recorded in [kukatpally-site-expansion.md](kukatpally-site-expansion.md).
+
+The explicit `--site-expansion` seed validates and updates 16 approved records,
+preserving historical payloads, products, stock, orders and legal content. Its
+repeatability/preservation regression passes. No migration, contract, dependency,
+authentication or financial-transition change. Ordering remains paused.
+
+Fresh verification: 132 API tests, one migration head, unchanged generated
+contracts, web lint/format/types, 27 unit tests and production build pass. Browser
+verification passes 58 public and 18 retained commerce/admin tests with two
+existing viewport skips. Native open FAQs, no-JavaScript navigation, enquiries,
+keyboard/reduced motion, 320px/200% reflow and axe are covered. Technical SEO
+passes on all seven current URLs; seven intentional skip-link warnings remain.
+Additional current/retired branch axe checks pass at 320px and 1440px. Food images
+decode and layouts were visually reviewed at 1440/768/390/320px. Workflow checks
+pass 150 tests with three platform skips and validate 22 mirrored skills.
+
+Container migration, seed, API/web, indexing/private headers and worker heartbeat
+pass. All six Lighthouse medians pass the unchanged budgets in the final 18-run
+batch: mobile performance 95/98/98 for home/menu/contact; desktop 100 throughout.
+Accessibility, SEO and best practices are 100. Home mobile median LCP is 2493 ms,
+close to the 2500 ms limit. Two individual outliers are retained. The initial
+batch's home mobile median failed during low machine benchmarks; the unchanged
+build passed the complete repeat. Reports: `lighthouse-1789474485133` and
+`lighthouse-1789474992681`, plus `editorial-performance-repeat.log`.
+
+Initial formatting, brochure-link redirects and source-coupled legacy unit
+fixtures were corrected. One checkout test returned 503, then passed in isolation
+and in the full 132-test API rerun without service changes. Evidence is retained
+in `editorial-application-full.log` and `editorial-web-full-3.log`. Code, security,
+design and SEO review have no unresolved finding. Native Safari, field vitals,
+production deployment, owner confirmation of branch details and exact flavour
+appearance remain unverified. Tracked delivery/PR linkage is being completed.
+Next priority: owner content confirmation and review of this expansion.
+
 ## Four-flavour menu and ordering pause - 2026-09-15
 
 Item 25 implements the approved four-flavour informational launch. Public

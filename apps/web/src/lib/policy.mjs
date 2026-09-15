@@ -20,6 +20,14 @@ export const SIGNATURE_SLUGS = [
   "mirayala-kodi-pakodi",
   "chettinad-kodi-pakodi",
 ];
+// Previously public URLs remain reachable with a truthful current-service notice.
+export const RETIRED_OUTLETS = {
+  madhapur: "Madhapur",
+  miyapur: "Miyapur",
+  gachibowli: "Gachibowli",
+  dilsukhnagar: "Dilsukhnagar",
+  "lb-nagar": "LB Nagar",
+};
 export const PRIVATE_PREFIXES = [
   "admin",
   "account",

@@ -16,7 +16,7 @@ def test_published_storefront_excludes_drafts_and_other_brands(client, insert_re
     data = response.json()
     assert len(data["pages"]) == 8  # Seven public pages and reusable footer content.
     assert len(data["menu"]) == 4
-    assert len(data["outlets"]) == 6
+    assert [outlet["slug"] for outlet in data["outlets"]] == ["kukatpally"]
     assert data["products"] == []
     assert "PRIVATE MARKER" not in response.text
     assert '"published":' not in response.text
@@ -34,7 +34,7 @@ def test_reader_has_no_unscoped_access_and_cannot_write():
     with psycopg.connect(READER, connect_timeout=3) as conn:
         assert conn.execute("SELECT count(*) FROM content_records").fetchone()[0] == 0
         conn.execute("SELECT set_config('app.brand_id', 'patnam-pakodi', true)")
-        assert conn.execute("SELECT count(*) FROM content_records").fetchone()[0] == 23
+        assert conn.execute("SELECT count(*) FROM content_records").fetchone()[0] == 18
         conn.commit()
         assert conn.execute("SELECT count(*) FROM content_records").fetchone()[0] == 0
         with pytest.raises(psycopg.errors.InsufficientPrivilege):

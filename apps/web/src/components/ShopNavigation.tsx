@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { SiteLink } from "./SiteLink";
 import { Icon } from "./Icon";
 import { NAVIGATION } from "@/lib/policy.mjs";
+import { BrandMark } from "./BrandMark";
 
 export function ShopNavigation() {
   const path = usePathname();
@@ -44,26 +45,14 @@ export function ShopNavigation() {
   return (
     <>
       <aside className="store-announcement" aria-label="Brand information">
-        <span>Life Lo Spice Undali.</span>
+        <span>Four flavours. One home in Hyderabad.</span>
         <SiteLink href="/branches/">
-          Find your nearest Patnam Pakodi <Icon name="arrow" />
+          Currently serving in Kukatpally <Icon name="arrow" />
         </SiteLink>
       </aside>
       <header className="store-header menu-header">
         <div className="container menu-header-inner">
-          <SiteLink
-            className="store-logo"
-            href="/"
-            aria-label="Patnam Pakodi home"
-          >
-            <Image
-              src="/images/live/656da99ddfd65b8a.webp"
-              width={70}
-              height={68}
-              alt="Patnam Pakodi"
-              priority
-            />
-          </SiteLink>
+          <BrandMark priority />
           <nav className="menu-desktop-nav" aria-label="Main navigation">
             {NAVIGATION.map(([label, href]) => (
               <SiteLink

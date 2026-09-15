@@ -81,7 +81,10 @@ test("branch listings and central contact links remain reachable", async ({
   page,
 }) => {
   await page.goto("/branches/");
-  await expect(page.locator(".outlet-grid article")).toHaveCount(6);
+  await expect(page.locator(".outlet-grid article")).toHaveCount(1);
+  await expect(page.locator(".outlet-grid article")).toContainText(
+    "Kukatpally",
+  );
   await expect(page.getByRole("searchbox")).toHaveCount(0);
   await page
     .locator(".outlet-grid article")
@@ -107,7 +110,7 @@ test("sitemap contains only public routes; private and missing routes are noinde
   const xml = await sitemap.text();
   for (const route of routes)
     expect(xml).toContain(`<loc>https://patnampakodi.com${route}</loc>`);
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(12);
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(7);
   const robots = await request.get("/robots.txt");
   expect(await robots.text()).toContain("Disallow: /checkout/");
   for (const route of [

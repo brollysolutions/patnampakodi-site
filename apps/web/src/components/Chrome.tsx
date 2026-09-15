@@ -1,19 +1,10 @@
-import Image from "next/image";
 import { getStorefront } from "@/lib/content";
 import { SiteLink } from "./SiteLink";
 import { ShopNavigation } from "./ShopNavigation";
 import { Icon } from "./Icon";
+import { BrandMark } from "./BrandMark";
 export function Wordmark() {
-  return (
-    <SiteLink href="/" className="store-logo" aria-label="Patnam Pakodi home">
-      <Image
-        src="/images/live/656da99ddfd65b8a.webp"
-        alt="Patnam Pakodi"
-        width={86}
-        height={84}
-      />
-    </SiteLink>
-  );
+  return <BrandMark />;
 }
 export function Header() {
   return <ShopNavigation />;
@@ -29,19 +20,22 @@ export async function Footer() {
             A little spice.
             <br />A lot of good company.
           </h2>
-          <p>Life Lo Spice Undali.</p>
+          <p>
+            Four dry chicken pakodi flavours. Currently serving only in
+            Kukatpally, Hyderabad.
+          </p>
         </div>
         <nav aria-label="Discover Patnam Pakodi">
           <h3>Get to know us</h3>
           <SiteLink href="/menu/">Our menu</SiteLink>
           <SiteLink href="/about-us/">Our story</SiteLink>
-          <SiteLink href="/branches/">Find a branch</SiteLink>
+          <SiteLink href="/branches/">Visit Kukatpally</SiteLink>
           <SiteLink href="/franchise/">Become a franchise partner</SiteLink>
           <SiteLink href="/contact/">Contact us</SiteLink>
         </nav>
         <div className="footer-contact">
           <h3>Let’s talk</h3>
-          <p>For our food, our branches, or your next big idea.</p>
+          <p>Central contact for brand and franchise enquiries.</p>
           {content?.contact_phone && (
             <a href={`tel:${content.contact_phone}`}>
               <Icon name="phone" />
