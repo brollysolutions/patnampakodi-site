@@ -1,5 +1,67 @@
 # Feature status
 
+## Four-flavour menu and ordering pause - 2026-09-15
+
+Item 25 implements the approved four-flavour informational launch. Public
+navigation is Menu, Our Story, Franchise, Branches and Contact. PIN checking,
+search, favourites, cart, shopping and order navigation are removed. Four locally
+optimized food illustrations accompany the menu without food prices. Franchise
+packages and central contact details follow the supplied ten-page brochure,
+now bundled as a complete 2.2 MB download. Source and artwork provenance are in
+[four-flavour-menu.md](four-flavour-menu.md).
+
+Ordering defaults to disabled in the API. Direct quote/order/revision/payment
+entry points reject new purchases before side effects; old shopping URLs return
+307 to Menu. Existing private history, cancellation, invoices, signed callbacks,
+refunds and staff workflows remain available. The targeted `--menu-launch` seed
+preserves commerce/outlets while replacing only approved editorial records and
+unpublishing the previous menu. No migration; contracts regenerated.
+
+Fresh verification: 131 API tests, one migration head, contracts, lint/format/types,
+27 web unit tests and production build pass. The complete browser continuation
+passes 52 paused-site and 18 explicitly enabled commerce tests (two existing
+viewport skips). Axe, keyboard/reduced-motion, 320px/200% reflow, no-JavaScript
+content/navigation and technical SEO on all 12 public URLs pass. SEO warnings
+are the 12 intentional skip links. Workflow verification passes 150 tests with
+three platform skips and validates 22 mirrored skills. Existing lint/deprecation
+warnings remain non-blocking; no security or performance gate was weakened.
+
+The initial full gate stopped on formatting, then the first browser run found a
+real tablet hero overflow and a navigation timeout. The inherited 390px minimum
+image height forced an 813px page at a 768px viewport. Removing that constraint
+restored 768px reflow; the complete rerun passes without changing timeouts.
+Desktop/mobile/tablet screenshots and mobile navigation without JavaScript were
+reviewed against the approved identity and Apple accessibility/layout guidance.
+
+Container migration, seed, API/web, indexing/private headers and worker heartbeat
+pass. A fresh container serves exactly the four approved names with ordering
+false. All six Lighthouse medians pass the unchanged budgets across 18 runs:
+mobile performance 97/99/97 for home/menu/contact; desktop 100. Accessibility,
+SEO and best practices are 100 throughout. One homepage mobile outlier (94,
+LCP 2642 ms) is retained; the median LCP is 2435 ms. Evidence is in this session's
+`four-flavour-web-full.log` and `lighthouse-1789468333811` local reports.
+
+Code/security review has no unresolved finding. Both isolated Docker staging
+browser tests and the database recovery invariants pass, including signed replay,
+provider/worker restart, invoice, delivery, partial refund and messaging fixtures.
+All temporary staging resources were removed. Implementation `df96f57` is pushed
+to origin and is in open [PR #22](https://github.com/brollysolutions/patnampakodi-site/pull/22),
+from upstream `feat/four-flavour-menu` into `main`; the PR head SHA was read back
+directly. Origin is an independent copy, so the helper's cross-repository PR
+operation failed. Normal upstream push hooks passed, and GitHub created the PR
+from the matching upstream feature branch. The helper's remote verifier assumes
+a fork head; direct GitHub repository/base/head/SHA readback supplies the delivery
+evidence for this layout. No protected branch, hook or gate was changed.
+
+The local targeted seed applied 14 approved records, preserving product, order
+and outlet counts. Managed API/web preview processes are healthy at ports
+8500/3501. Browser inspection confirms four named items, no shopping links,
+the corrected central phone and ordering disabled. Preview process sessions are
+intentionally running; they are not completed verification commands. Native Safari, production
+rollout, live providers and field vitals remain unverified. The branch preserves
+the existing unmerged menu-stock commits from PR #21. Next priority is PR review,
+then coordinated API/web deployment with the targeted seed and ordering paused.
+
 ## Menu starting stock - 2026-09-15
 
 Item 24 fixes product creation leaving inventory at zero when an operator enters

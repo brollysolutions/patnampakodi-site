@@ -100,9 +100,8 @@ test("catalog discovery, original URLs and quantity cart work together", async (
     await expect(
       page.getByRole("heading", { name: "Fixture Mix", exact: true }),
     ).toBeVisible();
-    await expect(
-      page.locator(".store-tools").getByRole("link", { name: "Cart, 3 items" }),
-    ).toBeVisible();
+    await page.goto("/cart/");
+    await expect(page.locator("main")).toContainText("354.00");
     const plain = await browser.newContext({
       javaScriptEnabled: false,
       viewport: { width: 390, height: 844 },

@@ -1,3 +1,4 @@
+import { requireOrdering } from "@/lib/ordering";
 import { Favourites } from "@/components/Basket";
 import { getCatalog } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
@@ -6,6 +7,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 export default async function FavouritesPage() {
+  await requireOrdering();
   return (
     <section className="container section">
       <h1>Your favourites</h1>

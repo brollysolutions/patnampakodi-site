@@ -3,10 +3,22 @@ export const PUBLIC_SLUGS = [
   "home",
   "about-us",
   "menu",
-  "shop",
   "branches",
   "franchise",
   "contact",
+];
+export const NAVIGATION = [
+  ["Menu", "/menu/"],
+  ["Our Story", "/about-us/"],
+  ["Franchise", "/franchise/"],
+  ["Branches", "/branches/"],
+  ["Contact", "/contact/"],
+];
+export const SIGNATURE_SLUGS = [
+  "erra-karam-kodi-pakodi",
+  "pachi-mirchi-kodi-pakodi",
+  "mirayala-kodi-pakodi",
+  "chettinad-kodi-pakodi",
 ];
 export const PRIVATE_PREFIXES = [
   "admin",

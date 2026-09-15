@@ -1,3 +1,4 @@
+import { requireOrdering } from "@/lib/ordering";
 import { SiteLink } from "@/components/SiteLink";
 import { notFound } from "next/navigation";
 import { getCatalog } from "@/lib/catalog";
@@ -13,6 +14,7 @@ import { label } from "@/components/CatalogBrowser";
 type Props = { params: Promise<{ product: string }> };
 export const dynamic = "force-dynamic";
 async function find(props: Props) {
+  await requireOrdering();
   const { product } = await props.params;
   const item = (await getCatalog()).find(
     (item) => item.product.slug === product,

@@ -6,9 +6,9 @@
     "published": true,
     "payload": {
       "tagline": "Life Lo Spice Undali.",
-      "revision": "2026-09-10",
+      "revision": "2026-09-15",
       "contact_email": "patnampakodi@gmail.com",
-      "contact_phone": null
+      "contact_phone": "+919000365219"
     }
   },
   {
@@ -18,1522 +18,12 @@
     "published": true,
     "payload": {
       "slug": "home",
-      "title": "Patnam Pakodi | Chicken Pakodi, Menu & Franchise",
-      "description": "Meet Patnam Pakodi. Explore chicken pakodi, find a neighbourhood store, discover ready-mixes and start a conversation about your own franchise.",
+      "title": "Patnam Pakodi | Four Signature Chicken Pakodi Flavours",
+      "description": "Meet four signature chicken pakodi flavours at Patnam Pakodi. Explore the menu, find a branch, and discover our franchise opportunities.",
       "heading": "Patnam Pakodi",
-      "intro": "For the spice seekers and the one-more-bite people. Find your favourite pakodi, a cool drink and your next snack stop.",
-      "sections": [
-        {
-          "title": "Small bites.\nA big part of your day.",
-          "body": "An evening catch-up. A quick snack with friends. That familiar craving for something crisp and spicy. Patnam Pakodi is about making room for all of them, one flavourful bite at a time."
-        },
-        {
-          "title": "Bring the flavour home.",
-          "body": "A little of the Patnam Pakodi spirit, in your own kitchen. Our ready-mix shop is being prepared. In the meantime, explore the flavours on our menu."
-        },
-        {
-          "title": "In the neighbourhood?",
-          "body": "A pakodi break might be closer than you think. Browse our locations and look up your next snack stop."
-        },
-        {
-          "title": "Your neighbourhood.\nYour Patnam Pakodi.",
-          "body": "From a compact counter to a full shop, explore the franchise formats and talk through the possibilities with our team."
-        },
-        {
-          "title": "Find your kind\nof crunch.",
-          "body": "Familiar favourites. A little extra spice. Start with something that sounds like you."
-        }
-      ],
-      "blocks": [
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Spicy Food · Strong Brand · Successful You"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "Patnam Pakodi",
-                  "level": 1
-                },
-                {
-                  "kind": "heading",
-                  "text": "Life Lo Spice Undali",
-                  "level": 2
-                },
-                {
-                  "kind": "text",
-                  "text": "India’s fast growing chicken pakodi franchise opportunity — a Hyderabad-hatched, crunch-crazy brand built on chef-less consistency and owner-friendly operations."
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Become Franchise Partner",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Download Brochure",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "₹69K+",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Starting Plans"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "2 KM",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Area Protection"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "5-Step",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "SOP Model"
-                        }
-                      ]
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/956c6f3fefa9428c.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 800,
-                  "height": 800
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Brand Overview"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Crunchy Chicken Pakodi Franchise",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Patnam Pakodi is a Hyderabad based chicken pakodi franchise built on chef-less consistency, standardized taste, and owner-friendly operations."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Premium Low-Cost Business",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Focused on high-margin, high-value chicken pakodi segments."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Growing Brand Appeal",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Modern identity, strong branding and pure entrepreneurial start."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Consistent Quality",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Standardized recipes and centralized supply for the same taste every time."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Owner Friendly Operations",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Simple processes to run with easy day-to-day management and assisted growth."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Franchise Investment Plans"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Choose your Model",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Four flexible franchise formats — from a compact display counter to a full premium shop."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/447118e94d2c3a8d.webp",
-                  "alt": "Patnam Pakodi Franchise Display Model",
-                  "width": 768,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Display Model",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹69,000",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Display Unit",
-                    "Kitchen Items",
-                    "Branding",
-                    "Menu Board",
-                    "Training",
-                    "Marketing Kit"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Enquire Now →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/28373f96dd60d9fb.webp",
-                  "alt": "Patnam Pakodi Franchise Cart Model",
-                  "width": 768,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Cart Model",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹1,10,000",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Cart Setup",
-                    "Fabrication",
-                    "Branding",
-                    "Kitchen Items",
-                    "Training Support",
-                    "Local Marketing"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Enquire Now →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/34c06eb54864d6b8.webp",
-                  "alt": "Patnam Pakodi Franchise Cabin Model",
-                  "width": 771,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Cabin Model 4×6",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹1,59,000",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "4×6 Cabin",
-                    "Kitchen Setup",
-                    "Interior Branding",
-                    "Menu Boards",
-                    "Training",
-                    "Launch Marketing"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Enquire Now →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/da544b69ec3850f8.webp",
-                  "alt": "",
-                  "width": 819,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Premium Shop Setup",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹2,50,000",
-                  "level": 3
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Full Shop Interior",
-                    "Seating Setup",
-                    "Full Kitchen",
-                    "Digital Menu",
-                    "Complete Branding",
-                    "Grand Launch"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Enquire Now →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Franchise Investment Plans"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Choose your Model",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Four flexible franchise formats — from a compact display counter to a full premium shop."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Low Investment",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "High Returns"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chef-Less Business",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Easy to Operate"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Marketing",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Launch Support"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Exclusive 2 KM",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Area Protection"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Proven System",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "SOP Driven"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Easy Operations",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Owner Friendly"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Advantages"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Core Strategic Advantage",
-              "level": 2
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/e475923ba3b97617.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Chef-Less Model"
-                  ]
-                },
-                {
-                  "kind": "text",
-                  "text": "Standardized processes mean anyone can run the outlet — no dependency on skilled chefs required."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/96a8865cb1117019.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Consistent Taste"
-                  ]
-                },
-                {
-                  "kind": "text",
-                  "text": "Central marination and controlled recipes deliver the same signature crunch across every outlet."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/4acae447c22f17a3.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Portable Infrastructure"
-                  ]
-                },
-                {
-                  "kind": "text",
-                  "text": "Lightweight, scalable setup that can be deployed in kiosks, cabins, carts or full shop formats."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Proprietary System"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Proprietary Chef-Less SOP Model",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Patnam Pakodi eliminates chef dependency through a simple, standardized fry-and-serve process."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Source Fresh Chicken",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Daily procurement of quality chicken."
-                }
-              ]
-            },
-            {
-              "kind": "group",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Standardized Marination",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Mixed with our proprietary marinade — no skilled chef required."
-                }
-              ]
-            },
-            {
-              "kind": "group",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Controlled Frying",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Precise temperature and timing for consistent quality every time."
-                }
-              ]
-            },
-            {
-              "kind": "group",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Branded Serving",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Served in Patnam Pakodi packaging for a premium customer experience."
-                }
-              ]
-            },
-            {
-              "kind": "group",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "6-Month Shelf-Life Masala",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Proprietary spice blends reduce waste and inventory risk."
-                }
-              ]
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Kitchen Items"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Everything you need to launch",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "A complete equipment and packaging kit — ready to fry, plate, and serve from day one."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Kitchen Equipment"
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "list",
-                      "items": [
-                        "Electric Fry",
-                        "LED Board",
-                        "Switch Board",
-                        "Water Dipping",
-                        "Steel Trays",
-                        "Masala Storage Boxes",
-                        "Small Big Boxes"
-                      ]
-                    },
-                    {
-                      "kind": "list",
-                      "items": [
-                        "Fan",
-                        "Deep Freezer",
-                        "Powder Dipping Tubs",
-                        "Strainer",
-                        "MCB",
-                        "Weight Machine",
-                        "Masala Spoons"
-                      ]
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Packaging Items"
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "list",
-                      "items": [
-                        "Masala Boxes",
-                        "Packing Covers",
-                        "LED Lights",
-                        "Plates",
-                        "Hand Caps",
-                        "Knifes",
-                        "Chairs"
-                      ]
-                    },
-                    {
-                      "kind": "list",
-                      "items": [
-                        "Big Masala Boxes",
-                        "Menu Cards",
-                        "Packing Covers",
-                        "Steel Hand Gloves",
-                        "Vacuum Clothes",
-                        "Dust Bin",
-                        "Interior — Seating Tables — Bill Machine"
-                      ]
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Menu Architecture & Regional Appeal"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Standardized Menu, 50+ Variations",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Our standardized preparation system enables 50+ menu variations using the same operational basics — including wings, strips, lollipops, and popcorn chicken."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Best Seller",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Guntur Pachi Mirchi Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Signature Spicy Bestseller"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/1d5b2efa231d50d8.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Best Seller",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Kothimeera Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Aromatic Coriander-Infused Flavor"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/672607b47463342a.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Best Seller",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Kaju Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Premium Variant · Higher Margins"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Kitchen Items"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "From Enquiry to Launch in 6 Steps",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "A complete equipment and packaging kit — ready to fry, plate, and serve from day one."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 1",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Submit Enquiry",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Fill our short franchise interest form."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 2",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Discussion",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "One-on-one call to align expectations."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 3",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Investment Plan",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Choose the model that fits your city and budget."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 4",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Outlet Setup",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Location, branding, kitchen and interior setup."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 5",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Training",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Full SOP, operations and menu training."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "heading",
-                  "text": "Step 6",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "Launch",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Grand launch with marketing support."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Testimonials"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Loved by Owners and Customers",
-              "level": 2
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“The chef-less SOP made it easy for me to run the outlet even without any kitchen background. Break-even was faster than I expected.”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Ramesh K.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Franchise Owner · Hyderabad"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“The Guntur Pachi Mirchi pakodi is addictive — crunchy, spicy, and consistent every single time I order.”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Priya S.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Customer"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "text",
-                  "text": "Rated 5 out of 5"
-                },
-                {
-                  "kind": "text",
-                  "text": "“Marketing support and training during the launch phase were fantastic. Real hand-holding, not just paperwork.”"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Suresh M.",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Franchise Owner · Warangal"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Frequently Asked Questions",
-              "level": 2
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "faq",
-                      "title": "What is the minimum investment to start a Patnam Pakodi franchise?",
-                      "text": "Our smallest Display Model starts at ₹69,000. Cart, Cabin (4×6) and Premium Shop setups are available at ₹1,10,000, ₹1,59,000 and ₹2,50,000 respectively."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "Do I need cooking experience or a chef?",
-                      "text": "No. Our proprietary chef-less SOP model uses standardized marination and controlled frying so any trained operator can deliver the same signature taste."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How does area protection work?",
-                      "text": "Each franchise partner gets an exclusive 2 KM protected area so no other Patnam Pakodi outlet operates in your zone."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "What kind of support do I get during launch?",
-                      "text": "Complete outlet setup, kitchen kit, staff training on our SOP, branding, packaging, menu boards and grand-launch marketing support."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How many menu variants can I offer?",
-                      "text": "Our standardized system supports 50+ menu variations including wings, strips, lollipops, popcorn chicken and signature pakodi variants."
-                    }
-                  ]
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Join the Patnam Pakodi Revolution",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Become our franchise partner today. Start your highly lucrative Patnam Pakodi franchise journey."
-            },
-            {
-              "kind": "group",
-              "layout": "row",
-              "children": [
-                {
-                  "kind": "link",
-                  "text": "Call Now",
-                  "href": "tel:+919000366219"
-                },
-                {
-                  "kind": "link",
-                  "text": "WhatsApp Now",
-                  "href": "https://wa.me/919000366219"
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Download Brochure",
-                  "href": ""
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Contact Details"
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Phone",
-                      "level": 3,
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "+91 90003 66219"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Email",
-                      "level": 3,
-                      "href": "mailto:patnampakodi@gmail.com"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "patnampakodi@gmail.com"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Instagram",
-                      "level": 3,
-                      "href": "https://www.instagram.com/patnampakodi"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "@patnampakodi"
-                    }
-                  ]
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Office",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "2nd Floor, D' Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "map",
-                  "title": "Find us on the map",
-                  "href": "https://maps.google.com/maps?q=2nd Floor, D' Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072&t=m&z=10&output=embed&iwloc=near"
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        }
-      ]
+      "intro": "Four flavours. One love for pakodi.",
+      "sections": [],
+      "blocks": []
     }
   },
   {
@@ -1544,2056 +34,11 @@
     "payload": {
       "slug": "menu",
       "title": "Chicken Pakodi Menu | Patnam Pakodi",
-      "description": "Explore the Patnam Pakodi menu, from pachi mirchi chicken and kothimeera pakodi to bowls, dips and cool drinks. Find your next favourite bite.",
-      "heading": "Dry Items",
-      "intro": "From the first crunch to the last sip. Explore our published menu and find something worth getting together for.",
+      "description": "Explore Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Discover four signature chicken pakodi flavours and find your nearest branch.",
+      "heading": "Four flavours of chicken pakodi.",
+      "intro": "Red chilli, green chilli, pepper and Chettinad spice. Get to know our four signature chicken pakodi flavours.",
       "sections": [],
-      "blocks": [
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Dry Items"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Dry Items",
-              "level": 1
-            },
-            {
-              "kind": "text",
-              "text": "Crackling golden bites, fried to a perfect crunch."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Pakodi Bone",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Marinated bone-in bites, twice fried for extra crunch."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-pakodi-bone"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Pakodi Boneless",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Juicy boneless morsels in a crisp spiced coat."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-pakodi-boneless"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Kaju Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Buttery cashew tossed with signature pakodi."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "kaju-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Kothimeera Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Fragrant coriander crust over hot chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "kothimeera-chicken-pakodi"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Pachi Mirchi Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Fresh green-chili heat with a smoky finish."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "pachi-mirchi-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Tandoori Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Charred tandoori spice on crisp bites."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "tandoori-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Peri Peri Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "African peri peri fire, unforgettable."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "peri-peri-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Leg Piece",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Whole crispy leg, marinated 12 hours."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "leg-piece"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Wings",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Golden wings glazed in house spice."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "wings"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Lollipops",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Frenched drumettes, classic party favorite."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "lollipops"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Popcorn",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Bite-size crunch, addictive by the bucket."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-popcorn"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Strips",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Tender fillet strips in crisp breading."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-strips"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Chips",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Wafer-thin crisp shards of chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-chips"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Thokku Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Tangy thokku masala, deep-fried finish."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-thokku-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Balls",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Herbed minced chicken, golden fried."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-balls"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Rolls",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Flaky rolls stuffed with spiced chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-rolls"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Burger",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Crispy fillet, brioche bun, house sauce."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-burger"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Sandwich",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Toasted layers with juicy chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-sandwich"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Bun",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Soft glazed bun packed with chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-bun"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Crispy Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Extra-crisp house classic."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "crispy-chicken-pakodi"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Crispy Wings",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Shatteringly crisp jumbo wings."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "crispy-wings"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Crispy Legs",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Double-battered crunch on the bone."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "crispy-legs"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Crispy Strips",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Golden strips, gloriously crunchy."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "crispy-strips"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Wet Items"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Wet Items",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Rich, creamy, saucy — spooned over rice or scooped with naan."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chilli Chicken",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Indo-Chinese classic tossed in fiery sauce."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chilli-chicken"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Majestic Chicken",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Hyderabad street favorite, curry-leaf tempered."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "majestic-chicken"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Creamy Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Crisp pakodi bathed in silky cream sauce."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "creamy-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Creamy Kothimeera Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Coriander cream, herby and vibrant."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "creamy-kothimeera-chicken-pakodi"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Creamy Pachi Mirchi Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Green chili cream — bright and bold."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "creamy-pachi-mirchi-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Creamy Tandoori Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Smoky tandoori in a velvety gravy."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "creamy-tandoori-chicken-pakodi"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Creamy Peri Peri Chicken Pakodi",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Peri peri warmth swirled with cream."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "creamy-peri-peri-chicken-pakodi"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Wet Items"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Wet Items",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Rich, creamy, saucy — spooned over rice or scooped with naan."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Bowl with Fries",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Crispy chicken, seasoned fries, house sauce."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-bowl-with-fries"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Bowl with Nachos",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Crunchy nachos, cheese, jalapeños, chicken."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-bowl-with-nachos"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chicken Bowl with Salads",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Fresh greens, crisp chicken, zesty dressing."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "chicken-bowl-with-salads"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Dips & Sauces"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Dips & Sauces",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "House-made dips and sauces to pair with every bite."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Garlic Dip",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Roasted garlic, whipped smooth."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "garlic-dip"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Cheese Dip",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Molten cheddar, deeply savory."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "cheese-dip"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Peri Peri Dip",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Smoky African chili heat."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "peri-peri-dip"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Spicy Mayo",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Silky mayo with a chili kick."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "spicy-mayo"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Mint Dip",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Cool mint-yogurt refresher."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "mint-dip"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Tomato Sauce",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Classic tangy tomato ketchup."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "tomato-sauce"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Special House Sauce",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Our secret signature blend."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "special-house-sauce"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Refreshing Drinks"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Refreshing Drinks",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Ice-cold mojitos and coolers to balance the heat."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Junnu Pot",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Traditional milk pudding in a clay pot."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "junnu-pot"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/ca1606394fd31bc7.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 900,
-                      "height": 1350
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Classic Lemon Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Lime, mint, soda — pure refreshment."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "classic-lemon-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Mint Lime Cooler",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Muddled mint over crushed ice."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "mint-lime-cooler"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6d4471ae4fce222a.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 900,
-                      "height": 1350
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Sweet & Salt Lime",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Nostalgic sweet-salt lime soda."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "sweet-salt-lime"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/1ad4ceb27f56fff1.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 900,
-                      "height": 1107
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Strawberry Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Fresh strawberry, mint, fizz."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "strawberry-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/be28ddaba940d33c.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 900,
-                      "height": 1350
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Mango Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Ripe mango pulp, mint, lime."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "mango-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/a28e0e379eece602.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 900,
-                      "height": 675
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Orange Mint Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Bright orange with cool mint."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "orange-mint-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Pineapple Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Tropical pineapple splash."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "pineapple-mojito"
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Blue Lagoon Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Electric blue, citrus punch."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "blue-lagoon-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/6f1bdd1fba1068ad.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1154,
-                      "height": 1154
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Green Apple Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Tart green apple, mint chill."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "green-apple-mojito"
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "image",
-                      "image": "/images/live/822655cabe9a63a6.webp",
-                      "alt": "Patnam Pakodi",
-                      "width": 1024,
-                      "height": 1024
-                    }
-                  ],
-                  "card": true
-                },
-                {
-                  "kind": "heading",
-                  "text": "Watermelon Mojito",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Juicy watermelon over ice."
-                },
-                {
-                  "kind": "heading",
-                  "text": "Signature →",
-                  "level": 3
-                }
-              ],
-              "card": true,
-              "record_slug": "watermelon-mojito"
-            }
-          ],
-          "card": false
-        }
-      ]
+      "blocks": []
     }
   },
   {
@@ -3604,231 +49,20 @@
     "payload": {
       "slug": "about-us",
       "title": "Our Story | Patnam Pakodi",
-      "description": "Get to know Patnam Pakodi, the chicken pakodi brand behind a menu of familiar flavours, neighbourhood snack stops and franchise opportunities.",
-      "heading": "About Patnam Pakodii",
-      "intro": "Some of the best plans begin with a snack. Ours begins with chicken pakodi and the people who gather around it.",
+      "description": "Get to know Patnam Pakodi, our love for crisp chicken pakodi and the four signature flavours at the heart of our menu.",
+      "heading": "The story behind Patnam Pakodi.",
+      "intro": "A familiar snack, a flavour worth sharing, and a reason to get together. That is the spirit of Patnam Pakodi.",
       "sections": [
         {
-          "title": "The familiar, with a kick.",
-          "body": "Pachi mirchi. Kothimeera. Kaju chicken. Our menu brings together chicken pakodi flavours, saucy favourites, bowls and a little something to cool things down."
+          "title": "Made for the moments in between.",
+          "body": "An evening catch-up. A snack with friends. A craving for something crisp and spicy. Patnam Pakodi brings a little flavour to these everyday moments."
         },
         {
-          "title": "A place in your day.",
-          "body": "Drop in for an evening bite, make a plan with friends or find a flavour you have not tried before. Explore the menu, then find a Patnam Pakodi in your neighbourhood."
-        },
-        {
-          "title": "Make it your own.",
-          "body": "Interested in bringing Patnam Pakodi to your neighbourhood? Explore our display, cart, cabin and shop formats, and speak with the team about what fits your plans."
+          "title": "Four ways to find your flavour.",
+          "body": "Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi. Our menu brings four signature chicken pakodi flavours together, each with its own character."
         }
       ],
-      "blocks": [
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Every Bite Tells Our Story"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "About Patnam Pakodii",
-                  "level": 1
-                },
-                {
-                  "kind": "text",
-                  "text": "Patnam Pakodi is one of India’s fastest-growing chicken pakodi franchise brands, serving crispy, flavorful, and hygienically prepared chicken snacks using our unique chef-less SOP system. Our mission is to make premium chicken pakodi accessible everywhere through profitable and easy-to-operate franchise outlets."
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Become Franchise Partner",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Download Brochure",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/81a0b6d1f2b105fa.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 1024
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/81a0b6d1f2b105fa.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1024,
-                  "height": 1024
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Our Story"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "Our Journey",
-                  "level": 2
-                },
-                {
-                  "kind": "text",
-                  "text": "Patnam Pakodi started with one simple vision — to bring authentic Guntur-style chicken pakodi to every food lover while creating profitable business opportunities for entrepreneurs. Traditional recipes, standardized preparation methods, and premium ingredients helped us create a franchise model that anyone can operate successfully without requiring professional chefs. Today, Patnam Pakodi continues to expand with a strong focus on taste, quality, consistency, and customer satisfaction."
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Purpose"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Vision & Mission",
-              "level": 2
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Our Vision",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "To become India’s most trusted chicken pakodi franchise brand by delivering authentic taste, operational excellence, and profitable business opportunities across every city."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Our Mission",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "To empower entrepreneurs through a chef-less franchise model that guarantees quality, consistency, affordability, and customer satisfaction."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Become a Part of India's Fast-Growing Chicken Pakodi Franchise",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Start your successful food business journey with Patnam Pakodi today."
-            },
-            {
-              "kind": "group",
-              "layout": "row",
-              "children": [
-                {
-                  "kind": "link",
-                  "text": "Call Now",
-                  "href": "tel:+919000366219"
-                },
-                {
-                  "kind": "link",
-                  "text": "WhatsApp Now",
-                  "href": "https://wa.me/919000366219"
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Download Brochure",
-                  "href": ""
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        }
-      ]
+      "blocks": []
     }
   },
   {
@@ -5307,1131 +1541,32 @@
     "payload": {
       "slug": "franchise",
       "title": "Franchise Opportunities | Patnam Pakodi",
-      "description": "Explore Patnam Pakodi franchise formats: display, cart, cabin and shop. Contact the team for current investment, inclusions and location requirements.",
-      "heading": "Own India's Fastest Growing Chicken Pakodi Franchise",
-      "intro": "A display, a cart, a cabin, a shop. Find the format that fits your idea, then build the conversation from there.",
+      "description": "Explore Patnam Pakodi Brand-Only, Cart, Cabin and Shop Setup franchise formats. View package details, download the brochure and contact our team.",
+      "heading": "Bring Patnam Pakodi to your neighbourhood.",
+      "intro": "Choose your format, explore the inclusions, and talk through your plans with our franchise team.",
       "sections": [
         {
-          "title": "Let’s start with\nyour idea.",
-          "body": "Tell the team where you would like to open, which format interests you and what you have in mind. Ask for the current investment, inclusions and operating terms before making a commitment."
+          "title": "Cart and Cabin: kitchen equipment",
+          "body": "An electric fryer (2 x 6 litres), LED board, food-grade chopping board, knife, oil drainer bowl, digital weighing machine, four marination powder boxes, four measuring spoons, four measuring cups, four stainless-steel mixing bowls, drinking-water setup with tap and table, drinking glasses, cleaning cloths, four masala topping containers and ten sauce bottles."
+        },
+        {
+          "title": "Cart and Cabin: welcome and branding kit",
+          "body": "Tissue papers, toothpicks, disposable forks, three menu cards, hand gloves, head caps, dustbin, a 5 ft by 3 ft brand standing board, two branded T-shirts and two branded caps."
+        },
+        {
+          "title": "Cabin: additional equipment",
+          "body": "Chaat pan, Chinese starter pan, SS clipper, oven and a 6 litre cooling box. The package also includes 20 kg masala, branded packing boxes and branded plates."
+        },
+        {
+          "title": "Shop Setup: food, equipment and branding",
+          "body": "Waffle machines, burger and sandwich setups, oven, deep freezer, chaat pan, Chinese starter pan, fryer, preparation equipment and cooling box. Branding includes a 5 ft by 3 ft LED brand board, a 5 ft by 3 ft standing brand board and three LED menu boards. The brochure includes the full equipment and welcome-kit list."
+        },
+        {
+          "title": "Brand-Only: starter stock and branding",
+          "body": "20 kg masala, 150 branded packing boxes and 300 branded plates, plus kitchen items, LED boards and menu boards. Physical branding includes packing boxes, plates, T-shirts, caps, bottles and standing boards. Customized prices may change."
         }
       ],
-      "blocks": [
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "OFFICIAL FRANCHISE PORTAL"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "Own India's Fastest Growing Chicken Pakodi Franchise",
-                  "level": 1
-                },
-                {
-                  "kind": "heading",
-                  "text": "Experience the Future of Street Food",
-                  "level": 2
-                },
-                {
-                  "kind": "text",
-                  "text": "India’s fast growing chicken pakodi franchise opportunity — a Hyderabad-hatched, crunch-crazy brand built on chef-less consistency and owner-friendly operations."
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "enquiry",
-                      "text": "Become Franchise Partner",
-                      "href": ""
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Download Brochure",
-                      "href": ""
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/7a129345246fabcf.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 854,
-                  "height": 854
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "4",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Franchise Models"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "2 KM",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Exclusive Territory"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "100%",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Chef-less SOP"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "60+",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Menu Variations"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Brand Overview"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Why Patnam Pakodi?",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Hyderabad’s authentic chicken pakodi, engineered as a scalable street-food franchise."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/8d2d4fb74e296f90.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1154,
-                  "height": 1154
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "icon",
-                          "text": "✦"
-                        },
-                        {
-                          "kind": "heading",
-                          "text": "Premium Non-Veg Snack Brand",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Focused on the high-demand ready-to-eat chicken segment."
-                        }
-                      ],
-                      "card": true
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "icon",
-                          "text": "✦"
-                        },
-                        {
-                          "kind": "heading",
-                          "text": "Straightforward Layout",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Iconic, playful branding, colors, and elements at the core."
-                        }
-                      ],
-                      "card": true
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "icon",
-                          "text": "✦"
-                        },
-                        {
-                          "kind": "heading",
-                          "text": "Consistent Quality",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Focused on the high-demand ready-to-eat chicken segment."
-                        }
-                      ],
-                      "card": true
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "icon",
-                          "text": "✦"
-                        },
-                        {
-                          "kind": "heading",
-                          "text": "Owner-Friendly Operations",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Iconic, playful branding, colors, and elements at the core."
-                        }
-                      ],
-                      "card": true
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Why Partner With Us"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Built to Make You Successful",
-              "level": 2
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chef-less Model",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Anyone can help run your outlet. Our SOPs ensure any trained personnel can produce the same taste — no chef dependency."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Low Investment, High Returns",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Start from just ₹69,000. Ready-to-eat non-veg snacking with strong daily footfall economics."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Market & Launch Support",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "End-to-end launch, branding, and marketing playbook — from setup to your grand opening day."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Exclusive 2 KM Territory",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Protected zone around every outlet. Your investment stays defended from brand cannibalization."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Franchise Investment Plans"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Choose Your Franchise Model",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Four proven formats designed for every location, budget, and ambition."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/447118e94d2c3a8d.webp",
-                  "alt": "Patnam Pakodi Franchise Display Model",
-                  "width": 768,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Display Model",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹69,000",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Best for: Malls, food courts, high-footfall counters"
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Display Unit",
-                    "Kitchen Items",
-                    "Grand Launch",
-                    "Free Training",
-                    "No Royalty"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Book This Model →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/28373f96dd60d9fb.webp",
-                  "alt": "Patnam Pakodi Franchise Cart Model",
-                  "width": 768,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Cart Model",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹1,10,000",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Best for: Streets, tech parks, standalone locations"
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Cart Unit",
-                    "Full Kitchen",
-                    "Kit + Setup",
-                    "Free Training",
-                    "Branding Package"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Book This Model →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/34c06eb54864d6b8.webp",
-                  "alt": "Patnam Pakodi Franchise Cabin Model",
-                  "width": 771,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Cabin Model (6x6)",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹1,59,000",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Best for: High-street kiosks with quick service flow"
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Cabin Structure",
-                    "Full Kitchen",
-                    "Branding & Marketing",
-                    "Chef-less SOP",
-                    "Grand Launch"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Book This Model →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/da544b69ec3850f8.webp",
-                  "alt": "",
-                  "width": 819,
-                  "height": 1024
-                },
-                {
-                  "kind": "heading",
-                  "text": "Premium Shop Setup",
-                  "level": 3
-                },
-                {
-                  "kind": "heading",
-                  "text": "₹2,50,000",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Best for: Full-scale QSR with seating"
-                },
-                {
-                  "kind": "list",
-                  "items": [
-                    "Full Shop Interior",
-                    "Complete Kitchen",
-                    "Branding Suite",
-                    "Team Training",
-                    "Marketing Launch"
-                  ]
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Book This Model →",
-                  "href": ""
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "text",
-              "text": "Compare all four models side-by-side."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Franchise Benefits"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Everything You Need to Win",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "A complete equipment and packaging kit — ready to fry, plate, and serve from day one."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Chef-less SOP",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Standardized fry-and-serve process. Anyone can execute perfectly."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "High Profit",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Premium pricing potential with strong unit economics."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Low Investment",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Start small from ₹69,000 and scale up as you grow."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Easy Operations",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Owner-friendly management with clear daily playbooks."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Marketing Support",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Grand launch, digital marketing kit, and ongoing brand support."
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Exclusive Territory",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Protected 2 KM zone keeps your outlet the only Patnam Pakodi nearby."
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Proprietary System"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Proprietary Chef-Less SOP Model",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Patnam Pakodi eliminates chef dependency through a simple, standardized fry-and-serve process."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "text",
-              "text": "Explore models, territories, and expected ROI with our franchise team.\n\nWe assess and approve your proposed location for footfall and viability.\n\nSign the franchise agreement and receive your complete setup kit.\n\nFull training on our proprietary chef-less SOP model.\n\nMarketing-supported grand opening to build momentum from day one."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Brand Overview"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "Why Patnam Pakodi?",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Hyderabad’s authentic chicken pakodi, engineered as a scalable street-food franchise."
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/96a8865cb1117019.webp",
-                  "alt": "",
-                  "width": 1024,
-                  "height": 1024
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Electric Fry, Fan, Led Board, Deep Freezer, Switch Board"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Powder Dipping Tubs, Water Dipping, Strainer, Steel Trays, MCB"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Masala Storage Boxes, Weight Machine, Small Big Boxes, Masala Spoons"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Masala Boxes, Big Msg Boxes, Packing Covers, Menu Cards, Led Lights"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Packing Covers, Packing Boxes, Plates, Steel Hand Gloves, Head Caps"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    },
-                    {
-                      "kind": "group",
-                      "layout": "column",
-                      "children": [
-                        {
-                          "kind": "group",
-                          "children": [
-                            {
-                              "kind": "text",
-                              "text": "Woven Clothes, Knives, Dust Bin, Chairs, Interior Seating Tables, Bill Machine"
-                            }
-                          ]
-                        }
-                      ],
-                      "card": true
-                    }
-                  ],
-                  "card": false
-                },
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Menu Architecture & Regional Appeal",
-                      "level": 3
-                    },
-                    {
-                      "kind": "text",
-                      "text": "Our standardized preparation system enables 60+ menu variations using the same operational base, including wings, strips, lollipops, and popcorn chicken."
-                    },
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "Guntur Pachi Mirchi Chicken Pakoda",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Signature spicy bestseller"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "Kathimeera Chicken Pakoda",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Aromatic coriander-infused flavor"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "group",
-                      "children": [
-                        {
-                          "kind": "heading",
-                          "text": "Kaju Chicken Pakoda",
-                          "level": 3
-                        },
-                        {
-                          "kind": "text",
-                          "text": "Premium variant with higher margins and pricing potential"
-                        }
-                      ]
-                    }
-                  ],
-                  "card": true
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Join the Patnam Pakodi Revolution",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Become our franchise partner today. Start your highly lucrative Patnam Pakodi franchise journey."
-            },
-            {
-              "kind": "group",
-              "layout": "row",
-              "children": [
-                {
-                  "kind": "link",
-                  "text": "Call Now",
-                  "href": "tel:+919000366219"
-                },
-                {
-                  "kind": "link",
-                  "text": "WhatsApp Now",
-                  "href": "https://wa.me/"
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Download Brochure",
-                  "href": ""
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Frequently Asked Questions",
-              "level": 2
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "faq",
-                      "title": "What is the minimum investment to start a Patnam Pakodi franchise?",
-                      "text": "You can start from ₹69,000 with the Display Model. Larger formats — Cart (₹1,10,000), Cabin (₹1,59,000), and Premium Shop (₹2,50,000) — are also available."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "Do I need a chef to operate the outlet?",
-                      "text": "No. Our proprietary chef-less SOP model lets any trained personnel run the outlet while delivering consistent taste and quality."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How does area protection work?",
-                      "text": "Yes. Every franchise partner gets an exclusive 2 KM protected zone around their outlet."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "What kind of training and support do you provide?",
-                      "text": "Free operational training, chef-less SOP training for staff, marketing kits, and grand launch support are included with every franchise."
-                    },
-                    {
-                      "kind": "faq",
-                      "title": "How long does it take to launch an outlet?",
-                      "text": "From consultation to grand launch, most outlets are up and running within 3 to 6 weeks based on location and model."
-                    }
-                  ]
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        }
-      ]
+      "blocks": []
     }
   },
   {
@@ -6441,286 +1576,24 @@
     "published": true,
     "payload": {
       "slug": "contact",
-      "title": "Contact the Team | Patnam Pakodi",
-      "description": "Get in touch with Patnam Pakodi for franchise opportunities, product questions and menu enquiries, or find a nearby store for your next snack stop.",
-      "heading": "Contact Patnam Pakodi We'd Love to Hear From You",
-      "intro": "A question, an idea, a neighbourhood you have in mind. We would love to hear from you.",
-      "sections": [],
-      "blocks": [
+      "title": "Contact Patnam Pakodi | Menu & Franchise Enquiries",
+      "description": "Contact Patnam Pakodi for menu questions and franchise opportunities. Call +91 90003 65219 or email patnampakodi@gmail.com.",
+      "heading": "Contact Patnam Pakodi.",
+      "intro": "For a question about our food, a franchise idea, or simply a hello.",
+      "sections": [
         {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "list",
-                  "items": [
-                    "Contact Us"
-                  ]
-                },
-                {
-                  "kind": "heading",
-                  "text": "Contact Patnam Pakodi We'd Love to Hear From You",
-                  "level": 1
-                },
-                {
-                  "kind": "text",
-                  "text": "Whether you’re craving our signature Chicken Pakodi, looking for franchise opportunities, or have any questions — our team is here to help you."
-                },
-                {
-                  "kind": "group",
-                  "layout": "row",
-                  "children": [
-                    {
-                      "kind": "link",
-                      "text": "Call Now",
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "link",
-                      "text": "WhatsApp Us",
-                      "href": "https://wa.me/919000366219"
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/92a8e1273620d860.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 1104,
-                  "height": 1104
-                },
-                {
-                  "kind": "image",
-                  "image": "/images/live/f890b2a59809ffb0.webp",
-                  "alt": "",
-                  "width": 768,
-                  "height": 768
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "list",
-              "items": [
-                "Get in Touch"
-              ]
-            },
-            {
-              "kind": "heading",
-              "text": "How to Reach Us",
-              "level": 2
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Visit Us",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "2nd Floor, D’ Almaran Kollam, Beside Sri Bhramaramba Theater, Metro Pillar No. 6329, Near JNTU, Metro Station, Nizampet X Road, Hyderabad, Telangana 500072"
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Phone",
-                      "level": 3,
-                      "href": "tel:+919000366219"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "+91 90003 66219"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "group",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Email",
-                      "level": 3,
-                      "href": "mailto:patnampakodi@gmail.com"
-                    },
-                    {
-                      "kind": "text",
-                      "text": "patnampakodi@gmail.com"
-                    }
-                  ]
-                }
-              ],
-              "card": true
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "icon",
-                  "text": "✦"
-                },
-                {
-                  "kind": "heading",
-                  "text": "Business Hours",
-                  "level": 3
-                },
-                {
-                  "kind": "text",
-                  "text": "Monday – Sunday\n\n11:00 AM – 11:00 PM"
-                }
-              ],
-              "card": true
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "row",
-          "children": [
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "image",
-                  "image": "/images/live/956c6f3fefa9428c.webp",
-                  "alt": "Patnam Pakodi",
-                  "width": 800,
-                  "height": 800
-                }
-              ],
-              "card": false
-            },
-            {
-              "kind": "group",
-              "layout": "column",
-              "children": [
-                {
-                  "kind": "group",
-                  "layout": "column",
-                  "children": [
-                    {
-                      "kind": "heading",
-                      "text": "Become a Patnam Pakodi Franchise Partner",
-                      "level": 2
-                    },
-                    {
-                      "kind": "enquiry",
-                      "text": "Get Franchise Details"
-                    }
-                  ],
-                  "card": false
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
-        },
-        {
-          "kind": "group",
-          "layout": "column",
-          "children": [
-            {
-              "kind": "heading",
-              "text": "Become a Part of India's Fast-Growing Chicken Pakodi Franchise",
-              "level": 2
-            },
-            {
-              "kind": "text",
-              "text": "Start your successful food business journey with Patnam Pakodi today."
-            },
-            {
-              "kind": "group",
-              "layout": "row",
-              "children": [
-                {
-                  "kind": "link",
-                  "text": "Call Now",
-                  "href": "tel:+919000366219"
-                },
-                {
-                  "kind": "link",
-                  "text": "WhatsApp Now",
-                  "href": "https://wa.me/919000366219"
-                },
-                {
-                  "kind": "enquiry",
-                  "text": "Download Brochure",
-                  "href": ""
-                }
-              ],
-              "card": false
-            }
-          ],
-          "card": false
+          "title": "Visit our office",
+          "body": "3rd Floor, Dr Atmaram Estates, beside Sri Bhramaramba Theatre, Metro Pillar No. A689, near JNTU Metro Station, Nizampet X Roads, Hyderabad, Telangana 500072."
         }
-      ]
+      ],
+      "blocks": []
     }
   },
   {
     "kind": "menu",
     "slug": "chicken-pakodi-bone",
     "position": 8,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-pakodi-bone",
       "name": "Chicken Pakodi Bone",
@@ -6735,7 +1608,7 @@
     "kind": "menu",
     "slug": "chicken-pakodi-boneless",
     "position": 9,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-pakodi-boneless",
       "name": "Chicken Pakodi Boneless",
@@ -6750,7 +1623,7 @@
     "kind": "menu",
     "slug": "kaju-chicken-pakodi",
     "position": 10,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "kaju-chicken-pakodi",
       "name": "Kaju Chicken Pakodi",
@@ -6765,7 +1638,7 @@
     "kind": "menu",
     "slug": "kothimeera-chicken-pakodi",
     "position": 11,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "kothimeera-chicken-pakodi",
       "name": "Kothimeera Chicken Pakodi",
@@ -6780,7 +1653,7 @@
     "kind": "menu",
     "slug": "pachi-mirchi-chicken-pakodi",
     "position": 12,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "pachi-mirchi-chicken-pakodi",
       "name": "Pachi Mirchi Chicken Pakodi",
@@ -6795,7 +1668,7 @@
     "kind": "menu",
     "slug": "tandoori-chicken-pakodi",
     "position": 13,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "tandoori-chicken-pakodi",
       "name": "Tandoori Chicken Pakodi",
@@ -6810,7 +1683,7 @@
     "kind": "menu",
     "slug": "peri-peri-chicken-pakodi",
     "position": 14,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "peri-peri-chicken-pakodi",
       "name": "Peri Peri Chicken Pakodi",
@@ -6825,7 +1698,7 @@
     "kind": "menu",
     "slug": "leg-piece",
     "position": 15,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "leg-piece",
       "name": "Leg Piece",
@@ -6840,7 +1713,7 @@
     "kind": "menu",
     "slug": "wings",
     "position": 16,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "wings",
       "name": "Wings",
@@ -6855,7 +1728,7 @@
     "kind": "menu",
     "slug": "lollipops",
     "position": 17,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "lollipops",
       "name": "Lollipops",
@@ -6870,7 +1743,7 @@
     "kind": "menu",
     "slug": "chicken-popcorn",
     "position": 18,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-popcorn",
       "name": "Chicken Popcorn",
@@ -6885,7 +1758,7 @@
     "kind": "menu",
     "slug": "chicken-strips",
     "position": 19,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-strips",
       "name": "Chicken Strips",
@@ -6900,7 +1773,7 @@
     "kind": "menu",
     "slug": "chicken-chips",
     "position": 20,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-chips",
       "name": "Chicken Chips",
@@ -6915,7 +1788,7 @@
     "kind": "menu",
     "slug": "chicken-thokku-pakodi",
     "position": 21,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-thokku-pakodi",
       "name": "Chicken Thokku Pakodi",
@@ -6930,7 +1803,7 @@
     "kind": "menu",
     "slug": "chicken-balls",
     "position": 22,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-balls",
       "name": "Chicken Balls",
@@ -6945,7 +1818,7 @@
     "kind": "menu",
     "slug": "chicken-rolls",
     "position": 23,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-rolls",
       "name": "Chicken Rolls",
@@ -6960,7 +1833,7 @@
     "kind": "menu",
     "slug": "chicken-burger",
     "position": 24,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-burger",
       "name": "Chicken Burger",
@@ -6975,7 +1848,7 @@
     "kind": "menu",
     "slug": "chicken-sandwich",
     "position": 25,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-sandwich",
       "name": "Chicken Sandwich",
@@ -6990,7 +1863,7 @@
     "kind": "menu",
     "slug": "chicken-bun",
     "position": 26,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-bun",
       "name": "Chicken Bun",
@@ -7005,7 +1878,7 @@
     "kind": "menu",
     "slug": "crispy-chicken-pakodi",
     "position": 27,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "crispy-chicken-pakodi",
       "name": "Crispy Chicken Pakodi",
@@ -7020,7 +1893,7 @@
     "kind": "menu",
     "slug": "crispy-wings",
     "position": 28,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "crispy-wings",
       "name": "Crispy Wings",
@@ -7035,7 +1908,7 @@
     "kind": "menu",
     "slug": "crispy-legs",
     "position": 29,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "crispy-legs",
       "name": "Crispy Legs",
@@ -7050,7 +1923,7 @@
     "kind": "menu",
     "slug": "crispy-strips",
     "position": 30,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "crispy-strips",
       "name": "Crispy Strips",
@@ -7065,7 +1938,7 @@
     "kind": "menu",
     "slug": "chilli-chicken",
     "position": 31,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chilli-chicken",
       "name": "Chilli Chicken",
@@ -7080,7 +1953,7 @@
     "kind": "menu",
     "slug": "majestic-chicken",
     "position": 32,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "majestic-chicken",
       "name": "Majestic Chicken",
@@ -7095,7 +1968,7 @@
     "kind": "menu",
     "slug": "creamy-chicken-pakodi",
     "position": 33,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "creamy-chicken-pakodi",
       "name": "Creamy Chicken Pakodi",
@@ -7110,7 +1983,7 @@
     "kind": "menu",
     "slug": "creamy-kothimeera-chicken-pakodi",
     "position": 34,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "creamy-kothimeera-chicken-pakodi",
       "name": "Creamy Kothimeera Chicken Pakodi",
@@ -7125,7 +1998,7 @@
     "kind": "menu",
     "slug": "creamy-pachi-mirchi-chicken-pakodi",
     "position": 35,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "creamy-pachi-mirchi-chicken-pakodi",
       "name": "Creamy Pachi Mirchi Chicken Pakodi",
@@ -7140,7 +2013,7 @@
     "kind": "menu",
     "slug": "creamy-tandoori-chicken-pakodi",
     "position": 36,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "creamy-tandoori-chicken-pakodi",
       "name": "Creamy Tandoori Chicken Pakodi",
@@ -7155,7 +2028,7 @@
     "kind": "menu",
     "slug": "creamy-peri-peri-chicken-pakodi",
     "position": 37,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "creamy-peri-peri-chicken-pakodi",
       "name": "Creamy Peri Peri Chicken Pakodi",
@@ -7170,7 +2043,7 @@
     "kind": "menu",
     "slug": "chicken-bowl-with-fries",
     "position": 38,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-bowl-with-fries",
       "name": "Chicken Bowl with Fries",
@@ -7185,7 +2058,7 @@
     "kind": "menu",
     "slug": "chicken-bowl-with-nachos",
     "position": 39,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-bowl-with-nachos",
       "name": "Chicken Bowl with Nachos",
@@ -7200,7 +2073,7 @@
     "kind": "menu",
     "slug": "chicken-bowl-with-salads",
     "position": 40,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "chicken-bowl-with-salads",
       "name": "Chicken Bowl with Salads",
@@ -7215,7 +2088,7 @@
     "kind": "menu",
     "slug": "garlic-dip",
     "position": 41,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "garlic-dip",
       "name": "Garlic Dip",
@@ -7230,7 +2103,7 @@
     "kind": "menu",
     "slug": "cheese-dip",
     "position": 42,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "cheese-dip",
       "name": "Cheese Dip",
@@ -7245,7 +2118,7 @@
     "kind": "menu",
     "slug": "peri-peri-dip",
     "position": 43,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "peri-peri-dip",
       "name": "Peri Peri Dip",
@@ -7260,7 +2133,7 @@
     "kind": "menu",
     "slug": "spicy-mayo",
     "position": 44,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "spicy-mayo",
       "name": "Spicy Mayo",
@@ -7275,7 +2148,7 @@
     "kind": "menu",
     "slug": "mint-dip",
     "position": 45,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "mint-dip",
       "name": "Mint Dip",
@@ -7290,7 +2163,7 @@
     "kind": "menu",
     "slug": "tomato-sauce",
     "position": 46,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "tomato-sauce",
       "name": "Tomato Sauce",
@@ -7305,7 +2178,7 @@
     "kind": "menu",
     "slug": "special-house-sauce",
     "position": 47,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "special-house-sauce",
       "name": "Special House Sauce",
@@ -7320,7 +2193,7 @@
     "kind": "menu",
     "slug": "junnu-pot",
     "position": 48,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "junnu-pot",
       "name": "Junnu Pot",
@@ -7335,7 +2208,7 @@
     "kind": "menu",
     "slug": "classic-lemon-mojito",
     "position": 49,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "classic-lemon-mojito",
       "name": "Classic Lemon Mojito",
@@ -7350,7 +2223,7 @@
     "kind": "menu",
     "slug": "mint-lime-cooler",
     "position": 50,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "mint-lime-cooler",
       "name": "Mint Lime Cooler",
@@ -7365,7 +2238,7 @@
     "kind": "menu",
     "slug": "sweet-salt-lime",
     "position": 51,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "sweet-salt-lime",
       "name": "Sweet & Salt Lime",
@@ -7380,7 +2253,7 @@
     "kind": "menu",
     "slug": "strawberry-mojito",
     "position": 52,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "strawberry-mojito",
       "name": "Strawberry Mojito",
@@ -7395,7 +2268,7 @@
     "kind": "menu",
     "slug": "mango-mojito",
     "position": 53,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "mango-mojito",
       "name": "Mango Mojito",
@@ -7410,7 +2283,7 @@
     "kind": "menu",
     "slug": "orange-mint-mojito",
     "position": 54,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "orange-mint-mojito",
       "name": "Orange Mint Mojito",
@@ -7425,7 +2298,7 @@
     "kind": "menu",
     "slug": "pineapple-mojito",
     "position": 55,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "pineapple-mojito",
       "name": "Pineapple Mojito",
@@ -7440,7 +2313,7 @@
     "kind": "menu",
     "slug": "blue-lagoon-mojito",
     "position": 56,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "blue-lagoon-mojito",
       "name": "Blue Lagoon Mojito",
@@ -7455,7 +2328,7 @@
     "kind": "menu",
     "slug": "green-apple-mojito",
     "position": 57,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "green-apple-mojito",
       "name": "Green Apple Mojito",
@@ -7470,7 +2343,7 @@
     "kind": "menu",
     "slug": "watermelon-mojito",
     "position": 58,
-    "published": true,
+    "published": false,
     "payload": {
       "slug": "watermelon-mojito",
       "name": "Watermelon Mojito",
@@ -7577,10 +2450,10 @@
     "position": 65,
     "published": true,
     "payload": {
-      "name": "Display model",
-      "description": "A compact counter for your pakodi idea.",
+      "name": "Brand-Only",
+      "description": "Brand identity and kitchen items with 20 kg masala, 150 packing boxes and 300 plates. Branding includes LED boards, menu boards and physical brand materials. Customized inclusions may change the price.",
       "image": "display",
-      "investment_paise": null
+      "investment_paise": 6900000
     }
   },
   {
@@ -7589,10 +2462,10 @@
     "position": 66,
     "published": true,
     "payload": {
-      "name": "Cart model",
-      "description": "A standalone cart format with a small footprint.",
+      "name": "Cart Model",
+      "description": "A 3 ft × 2.5 ft display stall with storage, wheels, lights and branded LED boards. Includes kitchen equipment, branding kit, food licence and marketing support.",
       "image": "cart",
-      "investment_paise": null
+      "investment_paise": 9900000
     }
   },
   {
@@ -7601,10 +2474,10 @@
     "position": 67,
     "published": true,
     "payload": {
-      "name": "Cabin model",
-      "description": "A dedicated cabin for a neighbourhood snack stop.",
+      "name": "Cabin Model",
+      "description": "A 5 ft × 3 ft open-door setup with storage, four wheels and four LED lights. Includes kitchen equipment, branding kit, 20 kg masala, packing boxes, plates, food licence and marketing support.",
       "image": "cabin",
-      "investment_paise": null
+      "investment_paise": 15000000
     }
   },
   {
@@ -7613,10 +2486,10 @@
     "position": 68,
     "published": true,
     "payload": {
-      "name": "Premium shop",
-      "description": "A full shop format for your Patnam Pakodi plans.",
+      "name": "Shop Setup",
+      "description": "Complete shop and seating setup with five tables, billing machine, kitchen equipment, branding kit, 20 kg masala, food licence, marketing support and online platform onboarding.",
       "image": "shop",
-      "investment_paise": null
+      "investment_paise": 30000000
     }
   },
   {
@@ -7784,6 +2657,70 @@
           "card": false
         }
       ]
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "erra-karam-kodi-pakodi",
+    "position": 0,
+    "published": true,
+    "payload": {
+      "slug": "erra-karam-kodi-pakodi",
+      "name": "Erra Karam Kodi Pakodi",
+      "category": "Dry",
+      "description": "Red chilli warmth, a crisp bite, and a little Patnam spice.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true,
+      "image": "/images/live/signature-erra-karam.webp"
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "pachi-mirchi-kodi-pakodi",
+    "position": 1,
+    "published": true,
+    "payload": {
+      "slug": "pachi-mirchi-kodi-pakodi",
+      "name": "Pachi Mirchi Kodi Pakodi",
+      "category": "Dry",
+      "description": "A green chilli kick for those who like their snack with a little heat.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true,
+      "image": "/images/live/signature-pachi-mirchi.webp"
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "mirayala-kodi-pakodi",
+    "position": 2,
+    "published": true,
+    "payload": {
+      "slug": "mirayala-kodi-pakodi",
+      "name": "Miriyala Kodi Pakodi",
+      "category": "Dry",
+      "description": "Peppery warmth and a satisfying crunch in every bite.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true,
+      "image": "/images/live/signature-miriyala.webp"
+    }
+  },
+  {
+    "kind": "menu",
+    "slug": "chettinad-kodi-pakodi",
+    "position": 3,
+    "published": true,
+    "payload": {
+      "slug": "chettinad-kodi-pakodi",
+      "name": "Chettinad Kodi Pakodi",
+      "category": "Dry",
+      "description": "A bold, spiced take on chicken pakodi, inspired by Chettinad flavours.",
+      "dietary": "non-veg",
+      "price_paise": null,
+      "featured": true,
+      "image": "/images/live/signature-chettinad.webp"
     }
   }
 ]

@@ -1,3 +1,4 @@
+import { requireOrdering } from "@/lib/ordering";
 import { notFound } from "next/navigation";
 import { getCatalog } from "@/lib/catalog";
 import { CatalogBrowser, label } from "@/components/CatalogBrowser";
@@ -8,6 +9,7 @@ type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 async function find(params: Props["params"]) {
+  await requireOrdering();
   const { slug } = await params;
   if (!(await getCatalog()).some((item) => item.product.tags?.includes(slug)))
     notFound();

@@ -1,3 +1,4 @@
+import { requireOrdering } from "@/lib/ordering";
 import { getStorefront } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
@@ -14,5 +15,6 @@ export default async function Shop({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  await requireOrdering();
   return <CatalogBrowser query={await searchParams} />;
 }

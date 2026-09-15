@@ -202,3 +202,13 @@ python scripts/check_seo.py http://localhost:3501 / /services/ /contact/ \
 - Google: Course structured data — https://developers.google.com/search/docs/appearance/structured-data/course
 - Google: fragments and content loading — https://developers.google.com/search/blog/2020/05/frequently-asked-questions-about
 - web.dev: `content-visibility` — https://web.dev/articles/content-visibility (a trial of `content-visibility: auto` broke offscreen disclosures without JavaScript and mobile axe checks; do not reintroduce it without verifying those journeys)
+
+## Approved four-flavour correction - 2026-09-15
+
+The user-approved [four-flavour plan](four-flavour-menu.md) supersedes shopping-led
+public layouts. Keep Poppins/Inter and peach/orange, with four local food
+illustrations, generous spacing and no additional motion. The five navigation
+links are Menu, Our Story, Franchise, Branches and Contact. There are no public
+shopping controls or food prices; franchise package prices are brochure facts.
+Old commerce URLs temporarily redirect to Menu while ordering is paused; retain
+private history and server enforcement. Evidence belongs in feature-status.md.

@@ -6,6 +6,11 @@ from pathlib import Path
 BRAND = "patnam-pakodi"
 
 
+def ordering_enabled() -> bool:
+    """New purchases are opt-in; missing or unrecognised values fail closed."""
+    return os.environ.get("ORDERING_ENABLED", "false").lower() == "true"
+
+
 def setting(name: str, local: str = "") -> str:
     secret_file = os.environ.get(name + "_FILE")
     if secret_file:

@@ -16,7 +16,8 @@ from app.checkout_schemas import (
     Serviceability,
 )
 from app.commerce_schemas import BusinessSettings, CartLine
-from app.config import BRAND
+from app.config import BRAND, ordering_enabled
+from app.ordering import PAUSED_MESSAGE, require_ordering
 from app.security import digest, one, seal, unseal
 
 
@@ -32,6 +33,8 @@ async def configuration(conn):
 
 
 async def availability(conn, mode, pincode="", *, now=None):
+    if not ordering_enabled():
+        return Serviceability(mode=mode, available=False, message=PAUSED_MESSAGE)
     settings = await configuration(conn)
     result = Serviceability(
         mode=mode, available=False, message="Online ordering is being prepared."
@@ -122,6 +125,7 @@ async def calculate(conn, payload):
 
 
 async def quote(conn, payload):
+    require_ordering()
     values, service = await calculate(conn, payload)
     expires = datetime.now(UTC) + timedelta(minutes=15)
     token = seal(
@@ -142,6 +146,7 @@ async def quote(conn, payload):
 
 
 async def create(conn, payload):
+    require_ordering()
     key = digest(str(payload.request_key))
     await conn.execute("SELECT pg_advisory_xact_lock(hashtextextended(%s,0))", (key,))
     existing = await one(conn, "SELECT * FROM orders WHERE request_key=%s FOR UPDATE", (key,))

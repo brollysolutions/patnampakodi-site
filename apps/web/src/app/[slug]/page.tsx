@@ -1,80 +1,33 @@
 import Image from "next/image";
-import { CatalogBrowser } from "@/components/CatalogBrowser";
-import { getCatalog } from "@/lib/catalog";
-import { StructuredPage } from "@/components/StructuredPage";
-import { ReferenceDiscovery } from "@/components/ReferenceDiscovery";
 import { notFound } from "next/navigation";
-import { HeroImage } from "@/components/HeroImage";
-import { SiteLink } from "@/components/SiteLink";
-import { JsonLd } from "@/components/JsonLd";
 import { getStorefront } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
-import {
-  filterMenu,
-  filterOutlets,
-  PUBLIC_SLUGS,
-  SITE_URL,
-  pathFor,
-} from "@/lib/policy.mjs";
+import { PUBLIC_SLUGS, SITE_URL, pathFor } from "@/lib/policy.mjs";
+import { SiteLink } from "@/components/SiteLink";
+import { MenuGrid } from "@/components/MenuGrid";
+import { JsonLd } from "@/components/JsonLd";
+import { Icon } from "@/components/Icon";
+import { FranchiseForm } from "@/components/FranchiseForm";
+import { EnquiryProvider } from "@/components/QuickEnquiry";
+import { money } from "@/lib/commerce";
 
 export const dynamic = "force-dynamic";
-type Props = {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
+type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   if (!PUBLIC_SLUGS.includes(slug) || slug === "home")
     return { robots: { index: false, follow: false } };
-  const content = await getStorefront();
-  const page = content.pages.find((item) => item.slug === slug);
+  const page = (await getStorefront()).pages.find((item) => item.slug === slug);
   return page
     ? pageMetadata(page)
     : { robots: { index: false, follow: false } };
 }
-
-export default async function PublicPage({ params, searchParams }: Props) {
+export default async function PublicPage({ params }: Props) {
   const { slug } = await params;
   if (!PUBLIC_SLUGS.includes(slug) || slug === "home") notFound();
   const content = await getStorefront();
   const page = content.pages.find((item) => item.slug === slug);
   if (!page) notFound();
-  if (page.blocks.length && !["menu", "branches"].includes(slug))
-    return <StructuredPage blocks={page.blocks} slug={slug} />;
-  const query = await searchParams;
-  if (slug === "menu" && (await getCatalog({ mode: "fresh" })).length)
-    return (
-      <CatalogBrowser
-        query={{
-          ...query,
-          category:
-            typeof query.category === "string"
-              ? query.category.toLowerCase()
-              : undefined,
-        }}
-        mode="fresh"
-      />
-    );
-  const FranchiseForm =
-    slug === "franchise"
-      ? (await import("@/components/FranchiseForm")).FranchiseForm
-      : null;
-  const q = typeof query.q === "string" ? query.q.slice(0, 100) : "";
-  const category = typeof query.category === "string" ? query.category : "";
-  if (page.blocks.length && ["menu", "branches"].includes(slug))
-    return (
-      <ReferenceDiscovery
-        blocks={page.blocks}
-        slug={slug}
-        q={q}
-        category={category}
-        outlets={content.outlets}
-        items={content.menu}
-      />
-    );
-  const menu = filterMenu(content.menu, category, q) as typeof content.menu;
-  const outlets = filterOutlets(content.outlets, q) as typeof content.outlets;
   return (
     <>
       <JsonLd
@@ -92,302 +45,206 @@ export default async function PublicPage({ params, searchParams }: Props) {
           ],
         }}
       />
-      <section
-        className={`container page-intro ${slug === "about-us" ? "about-intro" : ""}`}
-      >
+      <section className="container page-intro signature-intro">
         <div>
           <SiteLink href="/" className="breadcrumb">
-            Home <span aria-hidden="true">/</span>
+            Home /
           </SiteLink>
           <h1>{page.heading}</h1>
           <p>{page.intro}</p>
         </div>
-        {slug === "about-us" && <HeroImage priority />}
       </section>
       {slug === "menu" && (
-        <section className="container menu-section" aria-label="Our menu">
-          <form method="get" action="/menu/" className="filter-form">
-            <div className="search-field">
-              <label htmlFor="menu-search">Find your favourite</label>
-              <div>
-                <input
-                  id="menu-search"
-                  name="q"
-                  type="search"
-                  defaultValue={q}
-                  maxLength={100}
-                  placeholder="Try chicken, mirchi, or a cool drink"
-                />
-                <button className="button button-small" type="submit">
-                  Search <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
-            <fieldset className="category-tabs">
-              <legend className="sr-only">Menu category</legend>
-              {["", "Dry", "Wet", "Bowls", "Dips", "Drinks"].map((value) => (
-                <button
-                  key={value}
-                  type="submit"
-                  name="category"
-                  value={value}
-                  aria-pressed={category === value}
-                >
-                  {value || "All the good stuff"}
-                </button>
-              ))}
-            </fieldset>
-          </form>
-          <div className="results-line">
+        <section
+          className="container signature-menu"
+          aria-label="Our four signature flavours"
+        >
+          <MenuGrid items={content.menu} headingLevel={2} />
+          <div className="menu-visit-note">
             <p>
-              {menu.length} {menu.length === 1 ? "item" : "items"}
-              {category ? ` · ${category}` : " on the menu"}
+              All four flavours are chicken pakodi. Food illustrations are
+              representative. Please ask our team about ingredients and
+              allergens.
             </p>
-            {(q || category) && (
-              <SiteLink href="/menu/">Clear filters</SiteLink>
-            )}
+            <SiteLink className="button" href="/branches/">
+              Find a branch <Icon name="arrow" />
+            </SiteLink>
           </div>
-          {menu.length ? (
-            <div className="menu-grid">
-              {menu.map((item) => (
-                <article className="menu-item" key={item.slug}>
-                  <div>
-                    <span className="menu-category">
-                      {item.category === "Dry"
-                        ? "The crunch collection"
-                        : item.category}
-                    </span>
-                    <h2>{item.name}</h2>
-                    {item.description && <p>{item.description}</p>}
-                    <span className="dietary">
-                      {item.dietary === "non-veg" ? (
-                        <>
-                          <i aria-hidden="true" /> Non-vegetarian
-                        </>
-                      ) : item.dietary === "veg" ? (
-                        "Vegetarian"
-                      ) : (
-                        "Dietary information: ask in store"
-                      )}
-                    </span>
-                  </div>
-                  <span className="menu-price">
-                    {item.price_paise == null
-                      ? "Ask in store"
-                      : new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                        }).format(item.price_paise / 100)}
-                  </span>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state">
-              <h2>No bites found.</h2>
-              <p>Try another name or browse the full menu.</p>
-              <SiteLink className="button" href="/menu/">
-                Show the full menu
-              </SiteLink>
-            </div>
-          )}
-          <aside className="food-note">
-            <span aria-hidden="true">ⓘ</span>
-            <p>
-              Prices and availability are confirmed in store. Please ask the
-              team about ingredients and allergens before ordering.
-            </p>
-          </aside>
+        </section>
+      )}
+      {slug === "about-us" && (
+        <section className="container section signature-about">
+          <Image
+            src="/images/live/signature-pachi-mirchi.webp"
+            alt="Illustration of Pachi Mirchi chicken pakodi"
+            width={1024}
+            height={1024}
+            sizes="(max-width: 767px) 92vw, 45vw"
+          />
+          <div className="form-stack">
+            {page.sections.map((section) => (
+              <section key={section.title}>
+                <h2>{section.title}</h2>
+                <p>{section.body}</p>
+              </section>
+            ))}
+            <SiteLink className="text-link" href="/menu/">
+              Meet the four flavours <Icon name="arrow" />
+            </SiteLink>
+          </div>
         </section>
       )}
       {slug === "branches" && (
-        <section className="container section locator">
-          <form method="get" action="/branches/" className="filter-form">
-            <div className="search-field">
-              <label htmlFor="outlet-search">
-                City, neighbourhood or pincode
-              </label>
-              <div>
-                <input
-                  id="outlet-search"
-                  name="q"
-                  type="search"
-                  defaultValue={q}
-                  maxLength={100}
-                  placeholder="Try Hyderabad or Kukatpally"
-                />
-                <button type="submit" className="button button-small">
-                  Find a store <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
-          </form>
-          <div className="results-line">
-            <p>
-              {outlets.length} {outlets.length === 1 ? "location" : "locations"}
-            </p>
-            {q && <SiteLink href="/branches/">Clear search</SiteLink>}
-          </div>
+        <section className="container section">
           <div className="outlet-grid">
-            {outlets.map((outlet) => (
-              <article key={outlet.slug}>
-                <span className="location-icon" aria-hidden="true">
-                  ↗
-                </span>
+            {content.outlets.map((outlet) => (
+              <article className="panel form-stack" key={outlet.slug}>
+                <Icon name="pin" />
                 <h2>{outlet.name}</h2>
-                <a href={`/branches/${outlet.slug}/`}>Outlet details</a>
                 <p>
                   {outlet.city} · {outlet.pincode}
                 </p>
                 {outlet.address && <p>{outlet.address}</p>}
                 {outlet.hours && <p>{outlet.hours}</p>}
-                <a
+                <SiteLink
                   className="text-link"
+                  href={`/branches/${outlet.slug}/`}
+                >
+                  Branch details <Icon name="arrow" />
+                </SiteLink>
+                <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Patnam Pakodi ${outlet.name} ${outlet.city}`)}`}
                   target="_blank"
                   rel="noreferrer"
                 >
                   Look up on Google Maps{" "}
                   <span className="sr-only">(opens a new tab)</span>
-                  <span aria-hidden="true">↗</span>
                 </a>
               </article>
             ))}
           </div>
-          {outlets.length === 0 && (
-            <div className="empty-state">
-              <h2>Let’s try another neighbourhood.</h2>
-              <p>No locations match that search.</p>
-              <SiteLink className="button" href="/branches/">
-                Show all locations
-              </SiteLink>
-            </div>
+          {!content.outlets.length && (
+            <p>Contact our team for current branch locations.</p>
           )}
-          <aside className="food-note">
-            <p>
-              Check the current address and opening hours on the outlet’s map
-              listing before you travel.
-            </p>
-          </aside>
-        </section>
-      )}
-      {slug === "shop" && (
-        <section className="container section shop-intro">
-          <div className="type-art" aria-hidden="true">
-            A little spice.
-            <br />
-            <span>At your place.</span>
-            <span className="art-star">✳</span>
-          </div>
-          <div>
-            <h2>{page.sections[0]?.title}</h2>
-            <p>{page.sections[0]?.body}</p>
-            <SiteLink className="button" href="/menu/">
-              Explore the menu <span aria-hidden="true">↗</span>
-            </SiteLink>
-          </div>
+          <p className="model-note">
+            Check the current address and opening hours on the branch’s map
+            listing before you travel.
+          </p>
         </section>
       )}
       {slug === "franchise" && (
         <>
-          <section className="container section">
-            {FranchiseForm && <FranchiseForm />}
-          </section>
           <section className="container section franchise-models">
-            <div className="section-heading">
-              <h2>
-                Four ways to
-                <br />
-                make it yours.
-              </h2>
-              <p>
-                Start with the format.
-                <br />
-                Talk through the details with our team.
-              </p>
-            </div>
-            <div className="model-grid">
-              {content.franchise_models.map((model) => (
+            <h2>Choose your format.</h2>
+            <div className="model-grid signature-models">
+              {content.franchise_models.map((model, index) => (
                 <article key={model.name}>
-                  <div className="model-image">
-                    <Image
-                      src={`/images/franchise-${model.image}.png`}
-                      width={768}
-                      height={1024}
-                      alt={`${model.name} as shown on the existing Patnam Pakodi website`}
-                      sizes="(max-width: 700px) 44vw, (max-width: 1100px) 45vw, 290px"
-                    />
+                  <div>
+                    <span className="franchise-number" aria-hidden="true">
+                      0{index + 1}
+                    </span>
+                    <h3>{model.name}</h3>
+                    {model.investment_paise != null && (
+                      <p className="franchise-price">
+                        {money(model.investment_paise)}
+                      </p>
+                    )}
+                    <p>{model.description}</p>
                   </div>
-                  <h3>{model.name}</h3>
-                  <p>{model.description}</p>
-                  <SiteLink className="text-link" href="/contact/">
-                    Discuss this format <span aria-hidden="true">↗</span>
-                  </SiteLink>
                 </article>
               ))}
             </div>
             <p className="model-note">
-              Request the current investment, inclusions, royalty terms and
-              location requirements directly from the franchise team.
+              Package details are from our franchise brochure. Customized
+              inclusions may change the price. Discuss the location, inclusions
+              and operating terms with our team.
             </p>
           </section>
-          <section className="story-band">
-            <div className="container story-grid">
-              <h2>{page.sections[0]?.title}</h2>
-              <div>
-                <p>{page.sections[0]?.body}</p>
-                <SiteLink className="button button-primary" href="/contact/">
-                  Start a conversation <span aria-hidden="true">↗</span>
-                </SiteLink>
-              </div>
+          <section className="container section franchise-inclusions">
+            <h2>What comes with your setup?</h2>
+            {page.sections.map((section) => (
+              <details key={section.title}>
+                <summary>{section.title}</summary>
+                <p>{section.body}</p>
+              </details>
+            ))}
+            <EnquiryProvider>
+              <button
+                className="button button-outline"
+                data-enquiry="Download Brochure"
+              >
+                Download brochure <Icon name="arrow" />
+              </button>
+            </EnquiryProvider>
+          </section>
+          <section className="container section franchise-enquiry-layout">
+            <div>
+              <h2>Let’s shape your next step.</h2>
+              <p>
+                Tell us where you would like to open and which format interests
+                you. Our team will help you explore the details.
+              </p>
+              {content.contact_phone && (
+                <a className="text-link" href={`tel:${content.contact_phone}`}>
+                  Call our franchise team <Icon name="phone" />
+                </a>
+              )}
             </div>
+            <FranchiseForm />
           </section>
         </>
       )}
-      {slug === "about-us" && (
-        <section className="container section prose-sections">
-          {page.sections.map((section) => (
-            <section key={section.title}>
-              <h2>{section.title}</h2>
-              <p>{section.body}</p>
-            </section>
-          ))}
-          <SiteLink className="button button-primary" href="/menu/">
-            Find your favourite <span aria-hidden="true">↗</span>
-          </SiteLink>
-        </section>
-      )}
       {slug === "contact" && (
         <section className="container section contact-grid">
-          <div className="contact-card">
-            <h2>
-              A good conversation
-              <br />
-              starts here.
-            </h2>
-            <p>For franchise opportunities, menu questions or a hello.</p>
-            {content.contact_email ? (
+          <div className="contact-card form-stack">
+            <h2>A good conversation starts here.</h2>
+            {content.contact_phone && (
+              <a className="text-link" href={`tel:${content.contact_phone}`}>
+                <Icon name="phone" />
+                +91 90003 65219
+              </a>
+            )}
+            {content.contact_email && (
               <a
                 className="contact-email"
                 href={`mailto:${content.contact_email}`}
               >
-                {content.contact_email} <span aria-hidden="true">↗</span>
+                {content.contact_email}
               </a>
-            ) : (
-              <p>Contact details will be available shortly.</p>
             )}
-            <p className="small">
-              Your email app opens when you select the address.
-            </p>
+            {content.contact_phone && (
+              <a
+                className="button"
+                href={`https://wa.me/${content.contact_phone.replace("+", "")}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Contact on WhatsApp{" "}
+                <span className="sr-only">(opens a new tab)</span>
+                <Icon name="arrow" />
+              </a>
+            )}
+            <a
+              href="https://www.instagram.com/patnampakodi/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram: @patnampakodi{" "}
+              <span className="sr-only">(opens a new tab)</span>
+            </a>
           </div>
-          <div className="contact-directions">
-            <h2>Looking for a snack?</h2>
-            <p>
-              Browse our locations and look up your nearest Patnam Pakodi on the
-              map.
-            </p>
-            <SiteLink className="button" href="/branches/">
-              Find a store <span aria-hidden="true">↗</span>
+          <div className="contact-directions form-stack">
+            {page.sections.map((section) => (
+              <section key={section.title}>
+                <h2>{section.title}</h2>
+                <p>{section.body}</p>
+              </section>
+            ))}
+            <SiteLink className="text-link" href="/branches/">
+              Looking for a snack? Find a branch <Icon name="arrow" />
+            </SiteLink>
+            <SiteLink className="text-link" href="/franchise/">
+              Explore franchise formats <Icon name="arrow" />
             </SiteLink>
           </div>
         </section>

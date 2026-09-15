@@ -1197,6 +1197,12 @@
             "title": "Featured",
             "type": "boolean"
           },
+          "image": {
+            "default": "",
+            "pattern": "^(?:/images/live/[a-z0-9-]+\\.webp)?$",
+            "title": "Image",
+            "type": "string"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -1225,7 +1231,8 @@
           "description",
           "dietary",
           "price_paise",
-          "featured"
+          "featured",
+          "image"
         ],
         "title": "MenuItem",
         "type": "object"
@@ -2639,6 +2646,11 @@
             "title": "Menu",
             "type": "array"
           },
+          "ordering_enabled": {
+            "default": false,
+            "title": "Ordering Enabled",
+            "type": "boolean"
+          },
           "outlets": {
             "items": {
               "$ref": "#/components/schemas/Outlet"
@@ -2679,7 +2691,8 @@
           "franchise_models",
           "products",
           "contact_email",
-          "contact_phone"
+          "contact_phone",
+          "ordering_enabled"
         ],
         "title": "Storefront",
         "type": "object"

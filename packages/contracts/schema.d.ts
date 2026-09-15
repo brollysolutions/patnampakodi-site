@@ -1446,6 +1446,11 @@ export interface components {
              * @default false
              */
             featured: boolean;
+            /**
+             * Image
+             * @default
+             */
+            image: string;
             /** Name */
             name: string;
             /** Price Paise */
@@ -2018,6 +2023,11 @@ export interface components {
             franchise_models: components["schemas"]["FranchiseModel"][];
             /** Menu */
             menu: components["schemas"]["MenuItem"][];
+            /**
+             * Ordering Enabled
+             * @default false
+             */
+            ordering_enabled: boolean;
             /** Outlets */
             outlets: components["schemas"]["Outlet"][];
             /** Pages */

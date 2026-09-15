@@ -18,7 +18,8 @@ def source_catalog() -> list[CatalogDraft]:
     # the product-specific source inventory supplies automatic product images.
     drafts = {}
     for row in records:
-        if row["kind"] != "menu" or not row["published"]:
+        # These are private source observations, including the retired public menu.
+        if row["kind"] != "menu":
             continue
         item = row["payload"]
         slug = PRODUCT_SLUGS.get(item["slug"], item["slug"])

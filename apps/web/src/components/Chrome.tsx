@@ -31,16 +31,9 @@ export async function Footer() {
           </h2>
           <p>Life Lo Spice Undali.</p>
         </div>
-        <nav aria-label="Shop and orders">
-          <h3>Something delicious</h3>
-          <SiteLink href="/menu/">Order fresh</SiteLink>
-          <SiteLink href="/shop/">Shop packaged</SiteLink>
-          <SiteLink href="/favourites/">Your favourites</SiteLink>
-          <SiteLink href="/cart/">Your cart</SiteLink>
-          <SiteLink href="/track/">Track your order</SiteLink>
-        </nav>
         <nav aria-label="Discover Patnam Pakodi">
           <h3>Get to know us</h3>
+          <SiteLink href="/menu/">Our menu</SiteLink>
           <SiteLink href="/about-us/">Our story</SiteLink>
           <SiteLink href="/branches/">Find a branch</SiteLink>
           <SiteLink href="/franchise/">Become a franchise partner</SiteLink>
@@ -48,7 +41,7 @@ export async function Footer() {
         </nav>
         <div className="footer-contact">
           <h3>Let’s talk</h3>
-          <p>For your order, our food, or your next big idea.</p>
+          <p>For our food, our branches, or your next big idea.</p>
           {content?.contact_phone && (
             <a href={`tel:${content.contact_phone}`}>
               <Icon name="phone" />

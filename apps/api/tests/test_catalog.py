@@ -19,11 +19,11 @@ def test_source_catalog_is_complete_private_and_keeps_sale_data_unset(staff):
 
     with TestClient(app, backend_options={"loop_factory": asyncio.SelectorEventLoop}) as anonymous:
         assert anonymous.get("/v1/admin/catalog-drafts").status_code == 401
-    assert len(source_catalog()) == 57
+    assert len(source_catalog()) == 58
     drafts = staff.get("/v1/admin/catalog-drafts").json()
-    assert len(drafts) == 57
+    assert len(drafts) == 58
     assert sum(item["mode"] == "packaged" for item in drafts) == 4
-    assert sum(item["mode"] == "fresh" for item in drafts) == 53
+    assert sum(item["mode"] == "fresh" for item in drafts) == 54
     assert len({item["sku"] for item in drafts}) == len(drafts)
     assert len({item["slug"] for item in drafts}) == len(drafts)
     assert "pachi-mirchi-kodi-pakodi" in {item["slug"] for item in drafts}

@@ -62,14 +62,15 @@ type RazorpayWindow = Window & {
     modal: { ondismiss: () => void };
   }) => { open: () => void };
 };
-export function OrderManager({ nonce }: { nonce: string }) {
+type OrderManagerProps = { nonce: string; orderingEnabled: boolean };
+export function OrderManager({ nonce, orderingEnabled }: OrderManagerProps) {
   return (
     <BrowserReady>
-      <LoadedOrder nonce={nonce} />
+      <LoadedOrder nonce={nonce} orderingEnabled={orderingEnabled} />
     </BrowserReady>
   );
 }
-function LoadedOrder({ nonce }: { nonce: string }) {
+function LoadedOrder({ nonce, orderingEnabled }: OrderManagerProps) {
   const [token] = useState(
     () =>
       new URLSearchParams(window.location.hash.slice(1)).get("access") ?? "",
@@ -336,7 +337,7 @@ function LoadedOrder({ nonce }: { nonce: string }) {
                 <SiteLink href="/contact/">Contact our team</SiteLink>.
               </p>
             )}
-            <ReorderButton order={order} />
+            {orderingEnabled && <ReorderButton order={order} />}
             {order.consent && (
               <button
                 className="button button-small"
@@ -388,12 +389,14 @@ function LoadedOrder({ nonce }: { nonce: string }) {
                   {new Date(order.quote_expires_at).toLocaleString("en-IN")}.
                 </p>
               )}
-            {["approved", "payment_pending"].includes(order.status) && (
-              <button className="button" disabled={busy} onClick={pay}>
-                {busy ? "Preparing payment…" : "Pay securely"}
-              </button>
-            )}
-            {fixtureQuote === order.quote_version &&
+            {orderingEnabled &&
+              ["approved", "payment_pending"].includes(order.status) && (
+                <button className="button" disabled={busy} onClick={pay}>
+                  {busy ? "Preparing payment…" : "Pay securely"}
+                </button>
+              )}
+            {orderingEnabled &&
+              fixtureQuote === order.quote_version &&
               ["approved", "payment_pending"].includes(order.status) && (
                 <section
                   className="notice form-stack"

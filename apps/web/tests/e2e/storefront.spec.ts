@@ -47,83 +47,56 @@ for (const route of routes) {
       await page.locator("footer").scrollIntoViewIfNeeded();
       const header = await page.locator(".store-header").boundingBox();
       expect(header!.y).toBe(0);
-      await page
-        .getByRole("search")
-        .getByRole("button", { name: "Search", exact: true })
-        .focus();
-      await expect(
-        page
-          .getByRole("search")
-          .getByRole("button", { name: "Search", exact: true }),
-      ).toBeInViewport();
+      const navTrigger =
+        testInfo.project.name === "mobile"
+          ? page.getByRole("button", { name: "Open menu" })
+          : page
+              .getByRole("navigation", { name: "Main navigation", exact: true })
+              .getByRole("link", { name: "Menu", exact: true });
+      await navTrigger.focus();
+      await expect(navTrigger).toBeInViewport();
     }
   });
 }
 
-test("menu search, categories, empty results and reset work without JavaScript", async ({
+test("four-flavour menu and navigation work without JavaScript", async ({
   browser,
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:3510/menu/", {
-    waitUntil: "domcontentloaded",
-  });
-  await expect(page.locator(".menu-item")).toHaveCount(51);
-  await page.getByRole("button", { name: "Drinks", exact: true }).click();
-  await expect(page.locator(".menu-item")).toHaveCount(11);
-  await page.getByLabel("Find your favourite").fill("Junnu");
-  await page
-    .locator("main")
-    .getByRole("button", { name: "Search", exact: true })
-    .click();
-  await expect(page.locator(".menu-item")).toHaveCount(1);
-  await expect(page).toHaveURL(/category=Drinks/);
-  await expect(
-    page.getByRole("heading", { name: "Junnu Pot", exact: true }),
-  ).toBeVisible();
-  await page.getByLabel("Find your favourite").fill("nothingmatches123");
-  await page
-    .locator("main")
-    .getByRole("button", { name: "Search", exact: true })
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "No bites found." }),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Show the full menu" }).click();
-  await expect(page.locator(".menu-item")).toHaveCount(51);
+  await page.goto("http://127.0.0.1:3510/menu/?category=Drinks&q=anything");
+  await expect(page.locator(".signature-item")).toHaveCount(4);
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+  await expect(page.locator("main")).not.toContainText(/\u20b9/);
+  for (const name of ["Erra Karam", "Pachi Mirchi", "Miriyala", "Chettinad"])
+    await expect(
+      page
+        .locator(".signature-item")
+        .getByRole("heading", { name: new RegExp(name) }),
+    ).toBeVisible();
   await context.close();
 });
 
-test("location search resolves a pincode and provides an honest empty state", async ({
+test("branch listings and central contact links remain reachable", async ({
   page,
 }) => {
-  await page.goto("/branches/", { waitUntil: "domcontentloaded" });
-  await page.getByLabel("City, neighbourhood or pincode").fill("500081");
-  await page.getByRole("button", { name: "Find a store" }).click();
-  await expect(page.locator(".outlet-grid article")).toHaveCount(1);
+  await page.goto("/branches/");
+  await expect(page.locator(".outlet-grid article")).toHaveCount(6);
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+  await page
+    .locator(".outlet-grid article")
+    .first()
+    .getByRole("link", { name: "Branch details" })
+    .click();
   await expect(
-    page.getByRole("heading", { name: "Madhapur", exact: true }),
+    page.getByRole("link", { name: "Open outlet map" }),
   ).toBeVisible();
-  await page.getByLabel("City, neighbourhood or pincode").fill("000000");
-  await page.getByRole("button", { name: "Find a store" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Let’s try another neighbourhood." }),
-  ).toBeVisible();
-});
-
-test("contact opens email and shop exposes no draft product or checkout", async ({
-  page,
-}) => {
   await page.goto("/contact/");
+  await expect(page.locator('main a[href="tel:+919000365219"]')).toBeVisible();
   await expect(
-    page.locator('a[href="mailto:patnampakodi@gmail.com"]').first(),
+    page.locator('main a[href="mailto:patnampakodi@gmail.com"]'),
   ).toBeVisible();
-  await page.goto("/shop/");
-  await expect(page.locator("main")).not.toContainText("unapproved-ready-mix");
-  await expect(page.locator('a[href*="checkout"]')).toHaveCount(0);
-  await expect(page.locator("main")).toContainText(
-    /not available|not open|not yet|preparing/i,
-  );
+  await expect(page.locator("main")).toContainText("Dr Atmaram Estates");
 });
 
 test("sitemap contains only public routes; private and missing routes are noindex", async ({
@@ -134,19 +107,19 @@ test("sitemap contains only public routes; private and missing routes are noinde
   const xml = await sitemap.text();
   for (const route of routes)
     expect(xml).toContain(`<loc>https://patnampakodi.com${route}</loc>`);
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(13);
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(12);
   const robots = await request.get("/robots.txt");
   expect(await robots.text()).toContain("Disallow: /checkout/");
   for (const route of [
     "/admin/",
     "/account/",
-    "/checkout/",
+    "/track/",
     "/missing-page/",
     "/home/",
   ]) {
     const response = await request.get(route);
     expect(response.status()).toBe(
-      ["/admin/", "/checkout/"].includes(route) ? 200 : 404,
+      ["/admin/", "/track/"].includes(route) ? 200 : 404,
     );
     expect(await response.text()).toContain("noindex");
     if (route !== "/missing-page/" && route !== "/home/")
@@ -171,7 +144,7 @@ test("keyboard skip link and mobile navigation work with reduced motion", async 
     await expect(page.locator(".store-drawer[open] nav")).toBeVisible();
     await page
       .locator(".store-drawer")
-      .getByRole("link", { name: "Order fresh", exact: true })
+      .getByRole("link", { name: "Menu", exact: true })
       .click();
     await expect(page).toHaveURL(/\/menu\/$/);
   }

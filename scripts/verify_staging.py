@@ -49,6 +49,8 @@ def main():
         values = service.get("environment", {})
         if "APP_ENV" in values:
             values["APP_ENV"] = "test"
+            # This unique synthetic fixture exercises retained commerce, never live sales.
+            values["ORDERING_ENABLED"] = "true"
         if "PUBLIC_ORIGIN" in values:
             values["PUBLIC_ORIGIN"] = origin
         for key in ["DATABASE_URL", "COMMERCE_DATABASE_URL", "MIGRATION_DATABASE_URL"]:

@@ -1,0 +1,313 @@
+@layer store {
+  html {
+    scroll-padding-block-start: 112px;
+  }
+  body {
+    padding-bottom: 0;
+  }
+  .menu-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    min-height: 96px;
+  }
+  .menu-header .store-logo {
+    flex: 0 0 auto;
+  }
+  .menu-header .store-logo img {
+    width: 70px;
+    height: auto;
+  }
+  .menu-desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .menu-desktop-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .menu-desktop-nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+  }
+  .menu-toggle {
+    display: none;
+  }
+  .menu-nojs-nav {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+  .menu-nojs-nav a {
+    padding-block: 12px;
+  }
+  .signature-hero {
+    padding-block: 48px 64px;
+  }
+  .signature-hero .store-hero-copy p {
+    max-width: 560px;
+  }
+  .signature-hero-image {
+    aspect-ratio: 1;
+    background: var(--cream);
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    align-self: center;
+  }
+  .signature-hero-image > img {
+    height: 100%;
+    object-fit: cover;
+  }
+  .signature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .signature-item {
+    min-width: 0;
+  }
+  .signature-item > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: 16px;
+  }
+  .signature-item > div {
+    padding-top: 20px;
+  }
+  .signature-item h2,
+  .signature-item h3 {
+    font-family: var(--font-body), Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .signature-item p {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .signature-story {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+    padding-block: 64px;
+  }
+  .signature-story-inner,
+  .signature-about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 64px;
+  }
+  .signature-story-inner p {
+    margin-bottom: 24px;
+  }
+  .signature-visit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+  }
+  .signature-visit p {
+    margin-top: 16px;
+  }
+  .signature-intro {
+    padding-block: 56px 40px;
+  }
+  .signature-intro h1 {
+    max-width: 950px;
+    font-family: var(--font-body), Arial, sans-serif;
+  }
+  .signature-intro p {
+    max-width: 720px;
+  }
+  .signature-menu {
+    padding-bottom: 80px;
+  }
+  .menu-visit-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding-top: 40px;
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .menu-visit-note p {
+    max-width: 700px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .menu-visit-note .button {
+    flex-shrink: 0;
+  }
+  .signature-about > img {
+    border-radius: 16px;
+  }
+  .signature-about h2 {
+    font-size: 1.65rem;
+    margin-bottom: 20px;
+  }
+  .signature-about section + section {
+    margin-top: 24px;
+  }
+  .signature-models {
+    margin-top: 32px;
+  }
+  .signature-models article {
+    padding: 0;
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .franchise-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 32px;
+  }
+  .signature-models article > div {
+    padding: 24px;
+  }
+  .signature-models .franchise-price {
+    margin: 12px 0;
+    color: var(--heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .franchise-inclusions {
+    max-width: 960px;
+    padding-top: 0;
+  }
+  .franchise-inclusions h2 {
+    margin-bottom: 24px;
+  }
+  .franchise-inclusions details {
+    border-bottom: 1px solid var(--line);
+    padding-block: 20px;
+  }
+  .franchise-inclusions summary {
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .franchise-inclusions details p {
+    padding-block: 12px;
+  }
+  .franchise-inclusions .button {
+    margin-top: 32px;
+  }
+  .franchise-enquiry-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .franchise-enquiry-layout > div p {
+    margin-block: 24px;
+  }
+  .outlet-grid article > svg {
+    width: 24px;
+    height: 24px;
+  }
+  .store-footer .footer-top {
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+  .contact-card a,
+  .footer-contact a {
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 1000px) {
+    .signature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 40px 24px;
+    }
+    .menu-desktop-nav {
+      gap: 24px;
+    }
+    .signature-story-inner,
+    .signature-about,
+    .franchise-enquiry-layout {
+      gap: 32px;
+    }
+  }
+  @media (max-width: 767px) {
+    html {
+      scroll-padding-block-start: 92px;
+    }
+    .menu-header-inner {
+      min-height: 80px;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-block: 8px;
+    }
+    .menu-header .store-logo img {
+      width: 60px;
+    }
+    .menu-desktop-nav {
+      display: none;
+    }
+    .menu-toggle {
+      display: inline-flex;
+    }
+    .menu-nojs-nav {
+      display: flex;
+    }
+    .menu-header:has(.menu-nojs-nav) .menu-toggle {
+      display: none;
+    }
+    .signature-hero {
+      padding-block: 32px 48px;
+    }
+    .signature-hero-image {
+      max-height: 480px;
+    }
+    .signature-story-inner,
+    .signature-about,
+    .franchise-enquiry-layout {
+      grid-template-columns: 1fr;
+    }
+    .signature-story {
+      padding-block: 48px;
+    }
+    .signature-visit,
+    .menu-visit-note {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .signature-intro {
+      padding-block: 40px 32px;
+    }
+    .store-footer .footer-top {
+      grid-template-columns: 1fr;
+    }
+    .menu-visit-note {
+      gap: 24px;
+    }
+  }
+  @media (max-width: 599px) {
+    .signature-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .signature-item > img {
+      max-height: 420px;
+      object-fit: cover;
+    }
+    .signature-models {
+      grid-template-columns: 1fr;
+    }
+  }
+}

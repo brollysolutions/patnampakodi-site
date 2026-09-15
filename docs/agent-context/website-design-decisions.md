@@ -174,3 +174,13 @@ The implementation must go through `design-review` with the installed Apple
 Design skill, keyboard/touch/no-JS/axe checks and the existing SEO/performance
 budgets. Apple/browser/device checks are **not run** for this proposal; no
 rendered interface exists. This is a direction for approval, not verified UI.
+
+## Approved four-flavour correction - 2026-09-15
+
+The user-approved [four-flavour plan](four-flavour-menu.md) supersedes shopping-led
+public layouts. Keep Poppins/Inter and peach/orange, with four local food
+illustrations, generous spacing and no additional motion. The five navigation
+links are Menu, Our Story, Franchise, Branches and Contact. There are no public
+shopping controls or food prices; franchise package prices are brochure facts.
+Old commerce URLs temporarily redirect to Menu while ordering is paused; retain
+private history and server enforcement. Evidence belongs in feature-status.md.

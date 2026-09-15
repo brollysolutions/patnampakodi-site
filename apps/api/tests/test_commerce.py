@@ -63,6 +63,8 @@ def run(awaitable):
 @pytest.fixture
 def api(database, monkeypatch):
     monkeypatch.setenv("APP_ENV", "test")
+    # Existing financial journeys explicitly opt in; launch/pause tests override this.
+    monkeypatch.setenv("ORDERING_ENABLED", "true")
     monkeypatch.setenv("COMMERCE_DATABASE_URL", APP_DB)
     monkeypatch.setenv("DATABASE_URL", READER)
     monkeypatch.setenv("REDIS_URL", "redis://127.0.0.1:6450/15")
@@ -321,9 +323,11 @@ minute',reserved_until=now()-interval '1 minute'
     )
 
 
-def test_raw_webhook_signature_and_duplicate_event(staff):
+@pytest.mark.parametrize("ordering", ["true", "false"])
+def test_raw_webhook_signature_and_duplicate_event(staff, monkeypatch, ordering):
     _, order, headers, _ = approved(staff)
     entity = start_payment(staff, order, headers)
+    monkeypatch.setenv("ORDERING_ENABLED", ordering)
     raw = json.dumps(
         {"event": "payment.captured", "payload": {"payment": {"entity": entity}}}
     ).encode()
@@ -503,7 +507,7 @@ def test_phone_first_enquiry_retry_conflict_and_attribution(staff):
     }
     first = staff.post("/v1/enquiries/quick", json=payload)
     assert first.status_code == 201
-    assert first.json()["brochure_url"] is None
+    assert first.json()["brochure_url"] == "/api/v1/brochure"
     assert staff.post("/v1/enquiries/quick", json=payload).status_code == 201
     assert (
         staff.post("/v1/enquiries/quick", json={**payload, "purpose": "franchise"}).status_code
@@ -536,8 +540,8 @@ def test_phone_first_origin_honeypot_and_invalid_phone(api):
         assert conn.execute("SELECT count(*) FROM enquiries").fetchone()[0] == 0
 
 
-def test_brochure_requires_explicit_pdf_and_never_reads_request_path(api, monkeypatch, tmp_path):
-    monkeypatch.delenv("BROCHURE_PATH", raising=False)
+def test_brochure_override_requires_pdf_and_never_reads_request_path(api, monkeypatch, tmp_path):
+    monkeypatch.setenv("BROCHURE_PATH", str(tmp_path / "missing.pdf"))
     assert api.get("/v1/brochure").status_code == 404
     path = tmp_path / "reviewed.pdf"
     path.write_bytes(b"%PDF-1.4\n% synthetic test-only brochure\n%%EOF")

@@ -26,7 +26,8 @@ ENV = {**os.environ, "NEXT_TELEMETRY_DISABLED": "1", "SITE_INDEXABLE": "true",
        "MIGRATION_DATABASE_URL": OWNER, "CONTENT_API_URL": "http://127.0.0.1:8510",
        "COMMERCE_DATABASE_URL": OWNER.replace("pakodi_owner:local-owner-only", "pakodi_app:local-app-only"),
        "REDIS_URL": "redis://127.0.0.1:6450/15", "PUBLIC_ORIGIN": "http://127.0.0.1:3510",
-       "API_HOST": "127.0.0.1", "API_PORT": "8510"}
+       "API_HOST": "127.0.0.1", "API_PORT": "8510",
+       "ORDERING_ENABLED": "false", "PAKODI_BROWSER_PROFILE": "menu"}
 REPORTS = ROOT / ".agent-workflow/reports"
 
 
@@ -124,10 +125,20 @@ def web_checks(mode, browsers_only=False):
         })
         run([sys.executable, "scripts/check_seo.py", "http://127.0.0.1:3510", *routes,
              "--canonical-origin", "https://patnampakodi.com", "--json", str(REPORTS / "seo.json")])
+        # Keep all historical commerce/staff journeys covered with an explicit opt-in.
+        # Both profiles share one fixture database and therefore run strictly serially.
+        stop(*api)
+        ENV["ORDERING_ENABLED"] = "true"
+        ENV["PAKODI_BROWSER_PROFILE"] = "commerce"
+        api = start([str(PYTHON), "-m", "app.serve"], API,
+                    "http://127.0.0.1:8510/health", "api-commerce.log")
+        run([NPM, "run", "test:e2e"], WEB)
     finally:
         if web:
             stop(*web)
         stop(*api)
+        ENV["ORDERING_ENABLED"] = "false"
+        ENV["PAKODI_BROWSER_PROFILE"] = "menu"
     # Measure the pinned Linux standalone images delivered to the operator.
     # Native browser/SEO results above remain separate from container/Lighthouse evidence.
     run([sys.executable, "scripts/verify_containers.py", "--lighthouse"])

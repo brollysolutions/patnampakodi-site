@@ -1,3 +1,4 @@
+import { requireOrdering } from "@/lib/ordering";
 import { Basket } from "@/components/Basket";
 import { getCatalog } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
@@ -10,6 +11,7 @@ export default async function CheckoutPage({
 }: {
   searchParams: Promise<{ mode?: string }>;
 }) {
+  await requireOrdering();
   const query = await searchParams;
   return (
     <section className="container section">

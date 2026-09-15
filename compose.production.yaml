@@ -2,6 +2,7 @@
 name: pakodi
 x-runtime: &runtime
   APP_ENV: production
+  ORDERING_ENABLED: ${ORDERING_ENABLED:-false}
   PUBLIC_ORIGIN: https://${PAKODI_HOST:?Set PAKODI_HOST}
   DATABASE_URL_FILE: /run/secrets/database_url
   COMMERCE_DATABASE_URL_FILE: /run/secrets/commerce_database_url

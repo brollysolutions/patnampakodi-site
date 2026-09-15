@@ -62,6 +62,7 @@ from app.commerce_schemas import (
     VariantView,
 )
 from app.config import BRAND, fixture_mode, media_root, origin, setting
+from app.ordering import require_ordering
 from app.schemas import FranchiseModel, MenuItem, Outlet, Page, Product
 from app.security import (
     DUMMY_PASSWORD_HASH,
@@ -212,6 +213,7 @@ async def get_order(request: Request, conn: DB):
 @router.put("/order", response_model=OrderView)
 async def revise_order(payload: OrderRequest, request: Request, conn: DB):
     order = await private_order(request, conn, True)
+    require_ordering()
     if order["checkout_kind"] == "instant":
         raise HTTPException(409, "Return to your cart to review a new checkout")
     if order["status"] not in {"requested", "approved"}:
@@ -234,6 +236,7 @@ updated_at=now() WHERE id=%s RETURNING *
 
 @router.post("/order/payment", response_model=PaymentCheckout)
 async def pay(payload: PaymentStart, request: Request, conn: DB):
+    require_ordering()
     simulated = fixture_mode()
     if not simulated and not setting("RAZORPAY_KEY_ID"):
         raise HTTPException(503, "Payments are not yet available. Your request is saved.")

@@ -1,5 +1,40 @@
 # Commerce operations and Docker handoff
 
+## Four-flavour launch: ordering paused
+
+The approved September 2026 launch is informational. `ORDERING_ENABLED` defaults
+to `false`; only an explicit `true` enables purchase entry points. Set it on the
+API process (the production Compose runtime forwards it). The web server reads
+the effective value from `/v1/storefront`; no browser flag can override the API.
+Deploy the API and web together and restart API processes when changing the flag.
+Existing payment captures, refunds, invoices, cancellation, opt-out, reconciliation
+jobs and staff order management continue while new quotes, orders, revisions and
+payment sessions return HTTP 409. Keep the worker running for those obligations.
+
+For an existing installation, apply the reviewed editorial update with the new
+image, using the existing operator migration service:
+
+```sh
+docker compose -f compose.production.yaml run --rm migrate python -m app.seed --menu-launch
+```
+
+For local development run `uv run --frozen python -m app.seed --menu-launch` from
+`apps/api`. This transactional, repeatable update changes only brand/contact,
+five approved pages, four franchise formats and four published menu records.
+It unpublishes older menu records while preserving their payloads, products,
+variants, stock, orders, outlets, policies and other editorial records. Do not use
+`--replace` for this rollout. No database migration is introduced.
+
+The bundled ten-page brochure is served by the existing PDF endpoint, below its
+5 MB limit. An explicit `BROCHURE_PATH` override retains the same PDF validation.
+The quick enquiry remains persisted before its download link is returned.
+Old shopping URLs temporarily redirect to `/menu/`; historical private order
+links remain usable with payment and reorder controls suppressed.
+
+The procedures below document the retained commerce implementation. Reopening
+sales requires a separate business decision and its existing live acceptance;
+changing the flag does not restore the former homepage or shopping navigation.
+
 New purchases use immediate guest checkout: the server checks the selected mode,
 stock, approved seller details and the PIN/state delivery rule, then returns the
 full total for review. Reviews last 15 minutes. Fresh orders are ASAP from one

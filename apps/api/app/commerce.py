@@ -11,6 +11,7 @@ from psycopg.types.json import Jsonb
 
 from app.commerce_schemas import BusinessSettings, OrderView, QuoteLine
 from app.config import BRAND
+from app.ordering import require_ordering
 from app.security import digest, one, random_token, seal
 
 
@@ -123,6 +124,7 @@ async def snapshot(conn, requested, *, mode="packaged", outlet_slug="", check_st
 
 
 async def create_request(conn, payload, *, shopping_mode="packaged", outlet_slug="", instant=False):
+    require_ordering()
     data = payload.model_dump(mode="json")
     request_hash = digest(json.dumps(data, sort_keys=True))
     key = digest(str(payload.request_key))
@@ -267,6 +269,7 @@ minutes' WHERE id=%s
 
 
 async def begin_payment(conn, order, version):
+    require_ordering()
     if order["status"] == "payment_pending":
         pending = await one(
             conn,
