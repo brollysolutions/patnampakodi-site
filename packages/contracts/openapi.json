@@ -2770,6 +2770,62 @@
         "title": "ValidationError",
         "type": "object"
       },
+      "VariantCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "gst_bps": {
+            "maximum": 4000.0,
+            "minimum": 0.0,
+            "title": "Gst Bps",
+            "type": "integer"
+          },
+          "hsn": {
+            "pattern": "^[0-9]{4,8}$",
+            "title": "Hsn",
+            "type": "string"
+          },
+          "initial_stock": {
+            "default": 0,
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Initial Stock",
+            "type": "integer"
+          },
+          "media_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Id"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product-Input"
+          },
+          "published": {
+            "default": false,
+            "title": "Published",
+            "type": "boolean"
+          },
+          "sku": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Sku",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sku",
+          "product",
+          "gst_bps",
+          "hsn"
+        ],
+        "title": "VariantCreate",
+        "type": "object"
+      },
       "VariantInput": {
         "additionalProperties": false,
         "properties": {
@@ -4230,7 +4286,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/VariantInput"
+                "$ref": "#/components/schemas/VariantCreate"
               }
             }
           },

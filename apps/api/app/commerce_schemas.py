@@ -130,6 +130,10 @@ class VariantInput(PublicModel):
     media_id: UUID | None = None
 
 
+class VariantCreate(VariantInput):
+    initial_stock: int = Field(default=0, strict=True, ge=0, le=1000000)
+
+
 class VariantView(VariantInput):
     id: UUID
     stock: int
