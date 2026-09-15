@@ -57,6 +57,7 @@ from app.commerce_schemas import (
     StockChange,
     TrackingRequest,
     TrackingStatus,
+    VariantCreate,
     VariantInput,
     VariantView,
 )
@@ -549,7 +550,7 @@ async def delete_variant(identifier: uuid.UUID, conn: DB, actor: Admin):
     return ActionResult(detail="Product deleted")
 
 
-async def save_variant(conn, identifier, payload, actor):
+async def save_variant(conn, identifier, payload, actor, *, initial_stock=0):
     if payload.media_id and not await one(
         conn, "SELECT id FROM media WHERE id=%s", (payload.media_id,)
     ):
@@ -576,8 +577,8 @@ async def save_variant(conn, identifier, payload, actor):
         conn,
         """
 INSERT INTO
-variants(id,brand_id,sku,slug,product,price_paise,gst_bps,hsn,published,media_id)
-VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(id) DO UPDATE SET
+variants(id,brand_id,sku,slug,product,price_paise,gst_bps,hsn,published,media_id,stock)
+VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(id) DO UPDATE SET
 sku=excluded.sku,
 product=excluded.product,price_paise=excluded.price_paise,gst_bps=excluded.gst_bps,hsn=excluded.hsn,
 published=excluded.published,media_id=excluded.media_id RETURNING *
@@ -593,6 +594,7 @@ published=excluded.published,media_id=excluded.media_id RETURNING *
             payload.hsn,
             payload.published,
             payload.media_id,
+            initial_stock,
         ),
     )
     await conn.execute(
@@ -615,12 +617,22 @@ published=excluded.published,payload=excluded.payload
             "price_after": payload.product.price_paise,
         },
     )
+    if not previous and initial_stock:
+        await commerce.audit(
+            conn,
+            actor,
+            "stock.adjusted",
+            identifier,
+            {"before": 0, "after": initial_stock, "reason": "Initial stock at product creation"},
+        )
     return variant_view(record)
 
 
 @router.post("/admin/variants", response_model=VariantView, status_code=201)
-async def create_variant(payload: VariantInput, conn: DB, actor: Admin):
-    return await save_variant(conn, uuid.uuid4(), payload, actor["id"])
+async def create_variant(payload: VariantCreate, conn: DB, actor: Admin):
+    return await save_variant(
+        conn, uuid.uuid4(), payload, actor["id"], initial_stock=payload.initial_stock
+    )
 
 
 @router.put("/admin/variants/{identifier}", response_model=VariantView)

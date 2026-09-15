@@ -1,5 +1,50 @@
 # Feature status
 
+## Menu starting stock - 2026-09-15
+
+Item 24 fixes product creation leaving inventory at zero when an operator enters
+a portion/pack quantity. The form now separates **Starting stock** from **Portion
+or pack size**. A create-only, bounded integer field saves inventory and its audit
+event in the product transaction. Existing clients default to zero; edits cannot
+set starting stock or overwrite reservations. Further inventory changes retain
+the existing audited stock adjustment flow. No migration or public template change.
+
+Initial regression reproduced HTTP 422 for starting stock before implementation.
+Fresh native verification passes 123 API tests, 27 web unit tests, 64 browser
+tests (two existing project skips), lint/format/types/build, one migration head,
+contract regeneration and technical SEO on 13 pages. Workflow checks pass 150
+tests with three platform skips and validate 22 skills. The expanded browser
+test covers creation with five units, edits preserving inventory, publication,
+adding to cart and subsequent stock adjustment at desktop/mobile/tablet sizes.
+Keyboard help, axe and 320px reflow pass; reviewed desktop/mobile screenshots.
+
+The first full gate stopped at a running development server's locked Next.js
+library. After stopping those local processes, the next run found an ambiguous
+new test selector matching a related product too. Scoping it to the main product
+resolved all three browser failures on a fresh full browser run. No gate weakened.
+The browser/full continuation returned exit 0 with Docker migration, seed, API,
+web, private/indexing headers, worker heartbeat and all six Lighthouse medians
+passing. Eighteen runs cover home/menu/contact on mobile and desktop. Mobile
+performance medians are 96/98/98; desktop 100; accessibility, SEO and best
+practices 100 throughout. One homepage mobile LCP outlier (2686ms) remains in
+the report; its three-run median is 2466ms and passes the unchanged budget.
+Security/design/code review found no unresolved defect. Native Safari and live
+deployment remain unverified.
+
+Implementation `66d6ade` was pushed to origin and is in open
+[PR #21](https://github.com/brollysolutions/patnampakodi-site/pull/21), with an
+exact SHA readback. GitHub reports origin as an independent repository, so the
+delivery helper's fork PR failed after its successful commit/push. With existing
+upstream write access, the same commit was pushed through normal hooks to
+`brollysolutions:fix/tejal-menu-starting-stock` and the PR targets its `main`.
+Direct GitHub metadata verifies this topology; the helper's assumed origin-head
+repository/branch does not fit it. No workflow checks were bypassed.
+
+The local web/API services were restored. The reported bowl item has five units
+through its audited adjustment; a browser check confirms Add to cart works on
+the user's local product page. Next priority: review PR #21 and separately plan
+live rollout. The repository-map assumption can be addressed as a workflow task.
+
 ## Shared Nginx deployment and packaging - 2026-09-12
 
 Item 23 adds persisted `--behind-nginx` deployment mode for the server's existing

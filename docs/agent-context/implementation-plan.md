@@ -1,5 +1,41 @@
 # Implementation plan
 
+## Menu starting stock - 2026-09-15
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 24. Save starting stock when creating a product | Implemented and verified in PR #21 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+The local published fresh item has net quantity `5` but stock `0`. Add an
+explicit starting-stock count to creation, distinct from portion/pack size.
+Save it atomically with the product and audit it. Existing product edits must
+preserve stock and reservations; subsequent changes use audited adjustments.
+Verify creation, validation, authorization, public availability and browser
+creation/editing. No migration, automatic inventory inference, delivery-policy
+change or live deployment is included.
+
+Fresh verification: 123 API tests; 27 web unit tests; 64 browser tests with two
+project skips; 150 workflow tests with three platform skips; 22 skills validated;
+lint/format/types/build, contract regeneration and one migration head pass.
+The full CI entrypoint exposed a local Next.js file lock, then a new ambiguous
+browser selector; both were resolved. The browser/full continuation returned
+exit 0, including all 13 SEO pages, Docker smoke checks and all six Lighthouse
+medians from 18 runs. Mobile performance medians are 96/98/98 and desktop 100;
+all accessibility, SEO and best-practice scores are 100. One homepage mobile
+outlier remains visible under the existing median policy. Security/design/code
+review found no unresolved defect; native Safari and live deployment unverified.
+Implementation `66d6ade` is published in
+[PR #21](https://github.com/brollysolutions/patnampakodi-site/pull/21), targeting
+upstream `main` from `fix/tejal-menu-starting-stock`. GitHub readback confirmed
+OPEN and the exact implementation SHA. The contributor origin is an independent
+copy (`fork=false`), so GitHub rejected the helper's cross-repository PR. The
+same commit was pushed to an upstream feature branch with the normal hooks;
+origin still tracks `fix/menu-starting-stock`. This layout requires direct PR
+readback because the helper assumes a fork head. No main branch or gate changed.
+Local API/web services are restored, and the reported item now has five units;
+its actual product-page Add to cart was verified. Next: review PR #21 and plan
+live rollout separately. Detailed verification is in feature-status.md.
+
 ## Shared Nginx deployment and packaging - 2026-09-12
 
 | Item | Status | Planning model / effort | Implementation model / effort |

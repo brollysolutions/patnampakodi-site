@@ -66,7 +66,7 @@ const FOOD_HELP: Record<(typeof FOOD_FIELDS)[number], string> = {
   nutrition:
     "Enter the verified nutrition information and its basis, such as per serving or per 100 g.",
   net_quantity:
-    "Describe the sellable portion or pack size, such as its confirmed weight or number of pieces.",
+    "Describe one portion or pack, such as 250 g or 6 pieces. This is not the number available to sell. Use Starting stock when creating a product, or Adjust stock after saving.",
   shelf_life:
     "Enter the confirmed shelf life and storage instructions. Required for packaged products; optional for fresh food.",
   manufacturer:
@@ -746,11 +746,17 @@ function Products({ action }: { action: Action }) {
     };
     await action(
       async () => {
+        const body = editing
+          ? payload
+          : ({
+              ...payload,
+              initial_stock: Number(form.get("initial_stock")),
+            } satisfies Schema["VariantCreate"]);
         const saved = await api<Schema["VariantView"]>(
           editing ? `admin/variants/${editing.id}` : "admin/variants",
           {
             method: editing ? "PUT" : "POST",
-            body: JSON.stringify(payload),
+            body: JSON.stringify(body),
           },
         );
         setEditing(saved);
@@ -1258,6 +1264,18 @@ function Products({ action }: { action: Action }) {
                 pattern="[a-z0-9]+(-[a-z0-9]+)*"
                 maxLength={80}
               />
+              {!editing && (
+                <HelpField
+                  name="initial_stock"
+                  label="Starting stock"
+                  help="How many portions or packs are available to sell? For example, enter 5 for five bowls. Enter 0 to keep the item unavailable. After saving, use Adjust stock in the saved product list."
+                  type="number"
+                  min={0}
+                  max={1000000}
+                  step={1}
+                  defaultValue={0}
+                />
+              )}
               <HelpField
                 name="tags"
                 label="Tag URL slugs, comma separated (optional)"
@@ -1300,7 +1318,11 @@ function Products({ action }: { action: Action }) {
                 <HelpField
                   key={key}
                   name={key}
-                  label={sentence(key)}
+                  label={
+                    key === "net_quantity"
+                      ? "Portion or pack size"
+                      : sentence(key)
+                  }
                   help={FOOD_HELP[key]}
                   required={
                     selectedMode === "packaged" ||

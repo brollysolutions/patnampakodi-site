@@ -9,6 +9,103 @@ from psycopg.types.json import Jsonb
 from test_commerce import APP_DB, PRODUCT, add_product, api, request_order, staff  # noqa: F401
 
 
+def starting_stock_payload(**overrides):
+    return {
+        "sku": "INITIAL-STOCK",
+        "product": {**PRODUCT, "net_quantity": "100 g"},
+        "gst_bps": 1800,
+        "hsn": "2106",
+        "published": True,
+        "initial_stock": 5,
+        **overrides,
+    }
+
+
+@pytest.mark.parametrize("mode", ["fresh", "packaged"])
+def test_starting_stock_is_available_immediately_and_edits_preserve_it(staff, mode):  # noqa: F811
+    payload = starting_stock_payload()
+    payload["product"]["mode"] = mode
+    if mode == "fresh":
+        with psycopg.connect(OWNER) as conn:
+            payload["product"]["outlet_slug"] = conn.execute(
+                "SELECT slug FROM content_records WHERE kind='outlet' AND published LIMIT 1"
+            ).fetchone()[0]
+    response = staff.post("/v1/admin/variants", json=payload)
+    assert response.status_code == 201, response.text
+    item = response.json()
+    assert (item["stock"], item["reserved"]) == (5, 0)
+    assert staff.get("/v1/catalog").json()[0]["stock"] == 5
+    identifier = item["id"]
+    with psycopg.connect(OWNER) as conn:
+        audit = conn.execute(
+            "SELECT changes FROM audit_events WHERE action='stock.adjusted' AND entity=%s",
+            (identifier,),
+        ).fetchone()[0]
+        assert audit == {"before": 0, "after": 5, "reason": "Initial stock at product creation"}
+        conn.execute("UPDATE variants SET reserved=2 WHERE id=%s", (identifier,))
+    assert staff.put(f"/v1/admin/variants/{identifier}", json=payload).status_code == 422
+    payload.pop("initial_stock")
+    payload["product"]["net_quantity"] = "200 g"
+    edited = staff.put(f"/v1/admin/variants/{identifier}", json=payload)
+    assert edited.status_code == 200
+    assert (edited.json()["stock"], edited.json()["reserved"]) == (5, 2)
+
+
+@pytest.mark.parametrize("count", [-1, 1.5, True, "5", 1000001])
+def test_invalid_starting_stock_does_not_create_a_product(staff, count):  # noqa: F811
+    response = staff.post("/v1/admin/variants", json=starting_stock_payload(initial_stock=count))
+    assert response.status_code == 422
+    assert staff.get("/v1/admin/products").json()["total"] == 0
+
+
+def test_starting_stock_requires_admin_origin_and_csrf(staff):  # noqa: F811
+    for headers in ({"origin": "https://attacker.invalid"}, {"x-csrf-token": "wrong"}):
+        assert (
+            staff.post(
+                "/v1/admin/variants", json=starting_stock_payload(), headers=headers
+            ).status_code
+            == 403
+        )
+    staff.cookies.clear()
+    assert staff.post("/v1/admin/variants", json=starting_stock_payload()).status_code == 401
+
+
+@pytest.mark.parametrize("explicit_zero", [False, True])
+def test_portion_size_never_becomes_stock_implicitly(staff, explicit_zero):  # noqa: F811
+    payload = starting_stock_payload(initial_stock=0)
+    payload["product"]["net_quantity"] = "5"
+    if not explicit_zero:
+        payload.pop("initial_stock")
+    response = staff.post("/v1/admin/variants", json=payload)
+    assert response.status_code == 201
+    assert response.json()["stock"] == 0
+
+
+def test_initial_stock_audit_failure_rolls_back_product_and_content(staff, monkeypatch):  # noqa: F811
+    from fastapi import HTTPException
+
+    from app import commerce
+
+    original = commerce.audit
+
+    async def fail_stock_audit(conn, actor, action, entity, changes):
+        if action == "stock.adjusted":
+            raise HTTPException(503, "Synthetic audit failure")
+        await original(conn, actor, action, entity, changes)
+
+    monkeypatch.setattr(commerce, "audit", fail_stock_audit)
+    assert staff.post("/v1/admin/variants", json=starting_stock_payload()).status_code == 503
+    assert staff.get("/v1/admin/products").json()["total"] == 0
+    with psycopg.connect(OWNER) as conn:
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM content_records WHERE kind='product' AND slug=%s",
+                (PRODUCT["slug"],),
+            ).fetchone()[0]
+            == 0
+        )
+
+
 def test_product_management_requires_login(api):  # noqa: F811
     assert api.get("/v1/admin/products").status_code == 401
     assert api.delete(f"/v1/admin/variants/{uuid.uuid4()}").status_code == 401

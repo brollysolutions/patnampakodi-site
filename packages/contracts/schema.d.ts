@@ -2061,6 +2061,28 @@ export interface components {
             /** Error Type */
             type: string;
         };
+        /** VariantCreate */
+        VariantCreate: {
+            /** Gst Bps */
+            gst_bps: number;
+            /** Hsn */
+            hsn: string;
+            /**
+             * Initial Stock
+             * @default 0
+             */
+            initial_stock: number;
+            /** Media Id */
+            media_id?: string | null;
+            product: components["schemas"]["Product-Input"];
+            /**
+             * Published
+             * @default false
+             */
+            published: boolean;
+            /** Sku */
+            sku: string;
+        };
         /** VariantInput */
         VariantInput: {
             /** Gst Bps */
@@ -3113,7 +3135,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["VariantInput"];
+                "application/json": components["schemas"]["VariantCreate"];
             };
         };
         responses: {

@@ -285,7 +285,8 @@ test("saved product CRUD and field help remain visible and usable", async ({
       Ingredients: "Synthetic ingredients",
       Allergens: "Synthetic allergen statement",
       Nutrition: "Synthetic nutrition per pack",
-      "Net quantity": "100 g test pack",
+      "Portion or pack size": "100 g test pack",
+      "Starting stock": "5",
       "Shelf life": "Synthetic storage guidance",
       Manufacturer: "Synthetic fixture manufacturer",
       "Consumer care": "fixture@example.invalid",
@@ -325,6 +326,7 @@ test("saved product CRUD and field help remain visible and usable", async ({
       .locator("article")
       .filter({ has: page.getByRole("heading", { name: /^Browser CRUD/ }) });
     await expect(row).toHaveCount(1);
+    await expect(row).toContainText("Stock 5");
     await row.getByText("View details", { exact: true }).click();
     await expect(
       row.getByText(fields.Description, { exact: true }),
@@ -335,6 +337,9 @@ test("saved product CRUD and field help remain visible and usable", async ({
     const editForm = page.locator("form").filter({
       has: page.getByRole("heading", { name: "Edit product", exact: true }),
     });
+    await expect(
+      editForm.getByLabel("Starting stock", { exact: true }),
+    ).toHaveCount(0);
     await editForm
       .getByLabel("Product name", { exact: true })
       .fill("Browser CRUD updated");
@@ -355,6 +360,27 @@ test("saved product CRUD and field help remain visible and usable", async ({
     await row.getByRole("button", { name: "Publish", exact: true }).click();
     await expect(row).toContainText("Published");
     await expect(publication).toBeChecked();
+    await expect(row).toContainText("Stock 5");
+    const storefront = await page.context().newPage();
+    try {
+      await storefront.goto(
+        `/product/${fields["Permanent product URL slug"]}/`,
+      );
+      const productAction = storefront.locator(".product-action").filter({
+        has: storefront.getByLabel("Quantity", { exact: true }),
+      });
+      const add = productAction.getByRole("button", {
+        name: "Add to cart",
+        exact: true,
+      });
+      await expect(add).toBeEnabled();
+      await add.click();
+      await expect(
+        storefront.getByText("Added to your cart.", { exact: true }),
+      ).toBeVisible();
+    } finally {
+      await storefront.close();
+    }
     await row
       .locator("summary")
       .filter({ hasText: /^Adjust stock$/ })
@@ -369,7 +395,7 @@ test("saved product CRUD and field help remain visible and usable", async ({
       .locator("form")
       .getByRole("button", { name: "Adjust stock", exact: true })
       .click();
-    await expect(row).toContainText("Stock 2");
+    await expect(row).toContainText("Stock 7");
     await expect(
       editForm.getByRole("button", {
         name: "Help for Product image",
