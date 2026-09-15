@@ -4,7 +4,7 @@
 
 | Item | Status | Planning model / effort | Implementation model / effort |
 | --- | --- | --- | --- |
-| 24. Save starting stock when creating a product | Implemented and verified; PR delivery pending | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+| 24. Save starting stock when creating a product | Implemented and verified in PR #21 | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
 
 The local published fresh item has net quantity `5` but stock `0`. Add an
 explicit starting-stock count to creation, distinct from portion/pack size.
@@ -24,8 +24,17 @@ medians from 18 runs. Mobile performance medians are 96/98/98 and desktop 100;
 all accessibility, SEO and best-practice scores are 100. One homepage mobile
 outlier remains visible under the existing median policy. Security/design/code
 review found no unresolved defect; native Safari and live deployment unverified.
-Next: publish the PR, restore the local review servers, and review live rollout
-separately. Detailed verification is in feature-status.md.
+Implementation `66d6ade` is published in
+[PR #21](https://github.com/brollysolutions/patnampakodi-site/pull/21), targeting
+upstream `main` from `fix/tejal-menu-starting-stock`. GitHub readback confirmed
+OPEN and the exact implementation SHA. The contributor origin is an independent
+copy (`fork=false`), so GitHub rejected the helper's cross-repository PR. The
+same commit was pushed to an upstream feature branch with the normal hooks;
+origin still tracks `fix/menu-starting-stock`. This layout requires direct PR
+readback because the helper assumes a fork head. No main branch or gate changed.
+Local API/web services are restored, and the reported item now has five units;
+its actual product-page Add to cart was verified. Next: review PR #21 and plan
+live rollout separately. Detailed verification is in feature-status.md.
 
 ## Shared Nginx deployment and packaging - 2026-09-12
 

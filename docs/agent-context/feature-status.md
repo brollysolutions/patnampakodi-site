@@ -29,8 +29,21 @@ performance medians are 96/98/98; desktop 100; accessibility, SEO and best
 practices 100 throughout. One homepage mobile LCP outlier (2686ms) remains in
 the report; its three-run median is 2466ms and passes the unchanged budget.
 Security/design/code review found no unresolved defect. Native Safari and live
-deployment remain unverified. Next: publish the PR and restore local services;
-live rollout remains a separate operator task.
+deployment remain unverified.
+
+Implementation `66d6ade` was pushed to origin and is in open
+[PR #21](https://github.com/brollysolutions/patnampakodi-site/pull/21), with an
+exact SHA readback. GitHub reports origin as an independent repository, so the
+delivery helper's fork PR failed after its successful commit/push. With existing
+upstream write access, the same commit was pushed through normal hooks to
+`brollysolutions:fix/tejal-menu-starting-stock` and the PR targets its `main`.
+Direct GitHub metadata verifies this topology; the helper's assumed origin-head
+repository/branch does not fit it. No workflow checks were bypassed.
+
+The local web/API services were restored. The reported bowl item has five units
+through its audited adjustment; a browser check confirms Add to cart works on
+the user's local product page. Next priority: review PR #21 and separately plan
+live rollout. The repository-map assumption can be addressed as a workflow task.
 
 ## Shared Nginx deployment and packaging - 2026-09-12
 
