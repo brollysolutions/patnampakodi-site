@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!indexable(process.env)) return [];
   const content = await getStorefront();
-  const catalog = await getCatalog();
+  const catalog = content.ordering_enabled ? await getCatalog() : [];
   return [
     ...content.pages.filter(
       (page) =>

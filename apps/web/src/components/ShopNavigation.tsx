@@ -4,40 +4,16 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { SiteLink } from "./SiteLink";
 import { Icon } from "./Icon";
-import { DeliveryDialog } from "./DeliveryDialog";
-import { useShopping, updateShopping, type ShoppingMode } from "@/lib/shopping";
+import { NAVIGATION } from "@/lib/policy.mjs";
+
 export function ShopNavigation() {
-  const path = usePathname(),
-    state = useShopping();
-  const mode: ShoppingMode = path.startsWith("/menu")
-    ? "fresh"
-    : path.startsWith("/shop")
-      ? "packaged"
-      : state.mode;
-  const count = state.carts[mode].reduce((sum, line) => sum + line.quantity, 0);
-  const drawer = useRef<HTMLDialogElement>(null),
-    trigger = useRef<HTMLButtonElement>(null);
-  const choose = (value: ShoppingMode) => {
-    try {
-      updateShopping((current) => ({ ...current, mode: value }));
-    } catch {
-      /* Navigation works without storage. */
-    }
-  };
+  const path = usePathname();
+  const drawer = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
   const close = () => {
     drawer.current?.close();
     trigger.current?.focus();
   };
-  const links = [
-    ["Home", "/"],
-    ["Order fresh", "/menu/"],
-    ["Shop", "/shop/"],
-    ["Our story", "/about-us/"],
-    ["Branches", "/branches/"],
-    ["Franchise", "/franchise/"],
-    ["Contact", "/contact/"],
-    ["Track order", "/track/"],
-  ] as const;
   if (path === "/admin" || path.startsWith("/admin/"))
     return (
       <header className="admin-topbar">
@@ -60,21 +36,21 @@ export function ShopNavigation() {
             </span>
           </SiteLink>
           <SiteLink href="/" className="admin-store-link">
-            View storefront <Icon name="arrow" />
+            View website <Icon name="arrow" />
           </SiteLink>
         </div>
       </header>
     );
   return (
     <>
-      <aside className="store-announcement" aria-label="Store information">
+      <aside className="store-announcement" aria-label="Brand information">
         <span>Life Lo Spice Undali.</span>
         <SiteLink href="/branches/">
           Find your nearest Patnam Pakodi <Icon name="arrow" />
         </SiteLink>
       </aside>
-      <header className="store-header">
-        <div className="container store-header-main">
+      <header className="store-header menu-header">
+        <div className="container menu-header-inner">
           <SiteLink
             className="store-logo"
             href="/"
@@ -82,119 +58,69 @@ export function ShopNavigation() {
           >
             <Image
               src="/images/live/656da99ddfd65b8a.webp"
-              width={86}
-              height={84}
+              width={70}
+              height={68}
               alt="Patnam Pakodi"
               priority
             />
           </SiteLink>
-          <DeliveryDialog mode={mode} />
-          <form
-            className="store-search"
-            action={mode === "fresh" ? "/menu/" : "/shop/"}
-            method="get"
-            role="search"
+          <nav className="menu-desktop-nav" aria-label="Main navigation">
+            {NAVIGATION.map(([label, href]) => (
+              <SiteLink
+                key={href}
+                href={href}
+                aria-current={
+                  path.replace(/\/$/, "") === href.replace(/\/$/, "")
+                    ? "page"
+                    : undefined
+                }
+              >
+                {label}
+              </SiteLink>
+            ))}
+          </nav>
+          <button
+            ref={trigger}
+            className="icon-button menu-toggle"
+            aria-label="Open menu"
+            aria-haspopup="dialog"
+            onClick={() => drawer.current?.showModal()}
           >
-            <label className="sr-only" htmlFor="site-search">
-              Search {mode === "fresh" ? "fresh food" : "packaged products"}
-            </label>
-            <input
-              id="site-search"
-              type="search"
-              name="q"
-              maxLength={100}
-              placeholder={
-                mode === "fresh"
-                  ? "Find your next favourite bite…"
-                  : "Search ready mixes & more…"
-              }
-            />
-            <button aria-label="Search">
-              <Icon name="search" />
-            </button>
-          </form>
-          <div className="store-tools">
-            <SiteLink
-              href="/favourites/"
-              className="store-tool"
-              aria-label="Favourites"
+            <Icon name="menu" />
+          </button>
+          <noscript>
+            <nav
+              className="menu-nojs-nav"
+              aria-label="Navigation without JavaScript"
             >
-              <Icon name="heart" />
-              <span>Favourites</span>
-            </SiteLink>
-            <SiteLink
-              href={`/cart/?mode=${mode}`}
-              className="store-tool"
-              aria-label={`Cart, ${count} items`}
-            >
-              <span className="cart-icon">
-                <Icon name="bag" />
-                <b>{count}</b>
-              </span>
-              <span>Cart</span>
-            </SiteLink>
-            <button
-              ref={trigger}
-              className="icon-button mobile-menu-button"
-              aria-label="Open menu"
-              onClick={() => drawer.current?.showModal()}
-            >
-              <Icon name="menu" />
-            </button>
-          </div>
-        </div>
-        <div className="store-nav-row">
-          <div className="container">
-            <nav className="shopping-modes" aria-label="Shopping modes">
-              <SiteLink
-                href="/menu/"
-                aria-current={path.startsWith("/menu") ? "page" : undefined}
-                onClick={() => choose("fresh")}
-              >
-                <Icon name="fresh" />
-                Order fresh
-              </SiteLink>
-              <SiteLink
-                href="/shop/"
-                aria-current={path.startsWith("/shop") ? "page" : undefined}
-                onClick={() => choose("packaged")}
-              >
-                <Icon name="box" />
-                Shop packaged
-              </SiteLink>
+              {NAVIGATION.map(([label, href]) => (
+                <SiteLink key={href} href={href}>
+                  {label}
+                </SiteLink>
+              ))}
             </nav>
-            <nav className="store-secondary-nav" aria-label="Main navigation">
-              {links
-                .filter(([, href]) => !["/", "/menu/", "/shop/"].includes(href))
-                .map(([label, href]) => (
-                  <SiteLink
-                    key={href}
-                    href={href}
-                    aria-current={path === href ? "page" : undefined}
-                  >
-                    {label}
-                  </SiteLink>
-                ))}
-            </nav>
-          </div>
+          </noscript>
         </div>
       </header>
       <dialog
         ref={drawer}
         className="store-drawer"
-        onClick={(event) => {
-          if (event.target === drawer.current) {
-            const bounds = event.currentTarget.getBoundingClientRect();
-            if (
-              event.clientX < bounds.left ||
-              event.clientX > bounds.right ||
-              event.clientY < bounds.top ||
-              event.clientY > bounds.bottom
-            )
-              close();
-          }
+        aria-label="Main menu"
+        onCancel={(event) => {
+          event.preventDefault();
+          close();
         }}
-        onCancel={close}
+        onClick={(event) => {
+          if (event.target !== drawer.current) return;
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
+          )
+            close();
+        }}
       >
         <div className="drawer-heading">
           <strong>Explore Patnam Pakodi</strong>
@@ -207,52 +133,14 @@ export function ShopNavigation() {
           </button>
         </div>
         <nav aria-label="Mobile navigation">
-          {links.map(([label, href]) => (
-            <SiteLink
-              key={href}
-              href={href}
-              onClick={() => {
-                if (href === "/menu/") choose("fresh");
-                if (href === "/shop/") choose("packaged");
-                close();
-              }}
-            >
+          {NAVIGATION.map(([label, href]) => (
+            <SiteLink key={href} href={href} onClick={close}>
               {label}
               <Icon name="chevron" />
             </SiteLink>
           ))}
         </nav>
       </dialog>
-      <nav className="mobile-bottom-nav" aria-label="Quick shopping navigation">
-        <SiteLink href="/" aria-current={path === "/" ? "page" : undefined}>
-          <Icon name="home" />
-          Home
-        </SiteLink>
-        <SiteLink
-          href="/menu/"
-          onClick={() => choose("fresh")}
-          aria-current={path === "/menu/" ? "page" : undefined}
-        >
-          <Icon name="fresh" />
-          Fresh
-        </SiteLink>
-        <SiteLink
-          href="/shop/"
-          onClick={() => choose("packaged")}
-          aria-current={path === "/shop/" ? "page" : undefined}
-        >
-          <Icon name="box" />
-          Shop
-        </SiteLink>
-        <SiteLink href="/favourites/">
-          <Icon name="heart" />
-          Saved
-        </SiteLink>
-        <SiteLink href={`/cart/?mode=${mode}`}>
-          <Icon name="bag" />
-          Cart ({count})
-        </SiteLink>
-      </nav>
     </>
   );
 }

@@ -94,7 +94,7 @@ The initial [content input](../apps/api/content/README.md) preserves existing
 database rows. `python -m app.seed --replace` explicitly replaces only matching
 seed keys; review that data before using it. Publication of packaged products
 requires complete food facts and a positive price. Products includes a searchable
-setup list of 57 source foods and ready mixes with their recorded names and
+setup list of 58 source foods and ready mixes with their recorded names and
 available product-specific artwork.
 The authenticated API derives these templates from the saved references; they are
 not purchasable variants. Confirm missing prices, food/tax details, stock and

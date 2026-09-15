@@ -87,6 +87,7 @@ class MenuItem(PublicModel):
     dietary: Literal["veg", "non-veg", "unconfirmed"] = "unconfirmed"
     price_paise: int | None = Field(default=None, ge=0)
     featured: bool = False
+    image: str = Field(default="", pattern=r"^(?:/images/live/[a-z0-9-]+\.webp)?$")
 
 
 class Outlet(PublicModel):
@@ -162,6 +163,7 @@ class Storefront(PublicModel):
     products: list[Product]
     contact_email: str | None = None
     contact_phone: str | None = None
+    ordering_enabled: bool = False
 
 
 class Health(PublicModel):

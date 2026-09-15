@@ -1,5 +1,30 @@
 # Implementation plan
 
+## Four-flavour menu and ordering pause - 2026-09-15
+
+| Item | Status | Planning model / effort | Implementation model / effort |
+| --- | --- | --- | --- |
+| 25. Launch the four-flavour menu and pause online ordering | In progress | `gpt-6-astra` / High recommended | `gpt-6-astra` / High recommended; selected settings preserved |
+
+User approved Menu, Our Story, Franchise, Branches and Contact navigation;
+Erra Karam, Pachi Mirchi, Miriyala and Chettinad Kodi Pakodi only, without food
+prices; existing identity; brochure-backed franchise/contact updates; generated
+food illustrations; and a complete pause of new online orders. Preserve existing
+orders, staff operations, callbacks/refunds and private management links.
+Acceptance includes server-side pause enforcement, four server-rendered items,
+removed shopping/PIN/search controls, temporary shopping redirects, accessible
+responsive pages, a working optimized brochure and unchanged SEO budgets.
+No live deployment, provider activation or destructive data migration is included.
+Fresh verification passes 131 API tests, 27 web unit tests, 70 browser tests
+(two viewport skips), two isolated Docker staging tests, 150 workflow tests
+(three platform skips), one migration head, generated contracts and production
+build. Technical SEO passes all 12 public URLs; all six Lighthouse medians pass
+across 18 runs. Mobile performance: 97/99/97; desktop: 100; accessibility/SEO: 100.
+The tablet hero minimum-height overflow was corrected and the full browser suite
+rerun. Code/security/design review has no unresolved finding. PR linkage follows
+delivery; full evidence and the retained performance outlier are in feature-status.md.
+Next priority: PR review and coordinated API/web rollout with --menu-launch.
+
 ## Menu starting stock - 2026-09-15
 
 | Item | Status | Planning model / effort | Implementation model / effort |

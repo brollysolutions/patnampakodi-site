@@ -3,6 +3,7 @@
 from fastapi import HTTPException
 from psycopg import AsyncConnection
 
+from app.config import ordering_enabled
 from app.schemas import FranchiseModel, MenuItem, Outlet, Page, Product, Storefront
 
 
@@ -21,6 +22,7 @@ async def storefront(connection: AsyncConnection) -> Storefront:
         raise HTTPException(503, "Content is temporarily unavailable")
     return Storefront(
         **brand[0],
+        ordering_enabled=ordering_enabled(),
         pages=[Page.model_validate(row) for row in by_kind.get("page", [])],
         menu=[MenuItem.model_validate(row) for row in by_kind.get("menu", [])],
         outlets=[Outlet.model_validate(row) for row in by_kind.get("outlet", [])],

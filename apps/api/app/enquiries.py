@@ -15,9 +15,11 @@ from app.security import digest, one
 
 def brochure_path():
     configured = setting("BROCHURE_PATH")
-    if not configured:
-        return None
-    path = Path(configured)
+    path = (
+        Path(configured)
+        if configured
+        else Path(__file__).resolve().parents[1] / "content" / "patnam-pakodi-brochure.pdf"
+    )
     if not path.is_file() or path.stat().st_size > 5_000_000:
         return None
     with path.open("rb") as file:

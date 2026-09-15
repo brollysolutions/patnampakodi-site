@@ -124,7 +124,33 @@ def main():
                     ),
                 ),
             )
-    print(json.dumps({"variant": str(identifier)}))
+    result = {"variant": str(identifier)}
+    if sys.argv[1] == "history":
+        from test_commerce import CUSTOMER
+
+        from app import commerce
+        from app.commerce_schemas import OrderRequest
+        from app.security import connection
+
+        # Only this isolated fixture process opts in, to simulate a pre-pause order.
+        os.environ["ORDERING_ENABLED"] = "true"
+
+        async def history():
+            async with connection() as conn:
+                order, token = await commerce.create_request(
+                    conn,
+                    OrderRequest(
+                        request_key=uuid.uuid4(),
+                        customer=CUSTOMER,
+                        lines=[{"variant_id": identifier, "quantity": 1}],
+                        whatsapp_consent=False,
+                    ),
+                )
+                await commerce.approve(conn, order["id"], 0, "fixture")
+                return token
+
+        result["token"] = run(history())
+    print(json.dumps(result))
 
 
 if __name__ == "__main__":
